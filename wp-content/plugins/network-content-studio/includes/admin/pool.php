@@ -278,6 +278,9 @@ function nwcs_render_pool_table( array $items, ?array $editing, array $categorie
 						</td>
 						<td>
 							<strong><?php echo esc_html( $product['title'] ); ?></strong>
+							<?php if ( ! empty( $product['video'] ) ) : ?>
+								<span class="nwcs-table__video" title="Videosu var">▶<span class="screen-reader-text"> Videosu var</span></span>
+							<?php endif; ?>
 							<?php $labels = array_column( (array) $product['details'], 'label' ); ?>
 							<?php if ( $labels ) : ?>
 								<span class="nwcs-table__spec"><?php echo esc_html( sprintf( '%d detay: %s%s', count( $labels ), implode( ', ', array_slice( $labels, 0, 3 ) ), count( $labels ) > 3 ? ', …' : '' ) ); ?></span>
@@ -375,6 +378,9 @@ function nwcs_render_pool_form( ?array $product, array $categories, bool $is_new
 					<?php endif; ?>
 					<?php if ( ! empty( $product['had_upload'] ) ) : ?>
 						Seçtiğiniz yeni görsel dosyalarını yeniden seçmeniz gerekiyor.
+					<?php endif; ?>
+					<?php if ( ! empty( $product['had_video'] ) ) : ?>
+						Video dosyasını yeniden seçmeniz gerekiyor.
 					<?php endif; ?>
 				</p>
 			</div>
@@ -479,6 +485,8 @@ function nwcs_render_pool_form( ?array $product, array $categories, bool $is_new
 				<label class="nwcs-sublabel" for="nwcs-p-upload">Yeni görsel yükle</label>
 				<input class="nwcs-file" type="file" id="nwcs-p-upload" name="gallery_upload[]" accept="image/*" multiple />
 			</div>
+
+			<?php nwcs_render_product_video_field( $product ); ?>
 
 			<div class="nwcs-field">
 				<label class="nwcs-field__label" for="nwcs-p-body">Ürün açıklaması (detay sayfası metni)</label>
@@ -710,6 +718,10 @@ function nwcs_render_pool_notices(): void {
 		'bulk'         => array( 'success', sprintf( '%d ürün güncellendi.', $count ) ),
 		'bulk_empty'   => array( 'error', 'Ürün seçilmedi ya da işlem seçilmedi.' ),
 		'upload'       => array( 'error', 'Görsel yüklenemedi.' ),
+		'video_size'   => array( 'error', sprintf( 'Kaydedilmedi: video %s sınırını aşıyor. Videoyu sıkıştırıp yeniden seçin.', size_format( nwcs_video_upload_limit() ) ) ),
+		'video_type'   => array( 'error', 'Kaydedilmedi: video MP4 olmalı.' ),
+		'video_upload' => array( 'error', 'Kaydedilmedi: video yüklenemedi. Dosyayı yeniden seçin.' ),
+		'video_failed' => array( 'error', 'Ürün kaydedildi ama video yüklenemedi; ürünün videosu değişmedi. Dosyayı yeniden seçip kaydedin.' ),
 		'title'        => array( 'error', 'Ürün adı boş olamaz.' ),
 		'code_taken'   => array( 'error', 'Bu ürün kodu başka bir üründe kullanılıyor. Farklı bir kod yazın.' ),
 		'code_empty'   => array( 'error', 'Kaydedilmedi: ürün kodu boş. Her ürünün kodu olmalı; fotoğraflar bu kodla eşleşir. Kodu yazıp yeniden kaydedin.' ),
@@ -750,6 +762,13 @@ function nwcs_handle_pool_save(): void {
 	// Kod zorunlu (otomatik kod verilmez): bos kodla hicbir sey yazilmaz, girilenler formda kalir.
 	if ( '' === $code ) {
 		nwcs_pool_keep_draft( $id, 'code_empty' );
+	}
+
+	// Video dosyasi da yazmadan once denetlenir: buyuk/MP4 olmayan dosyada urun degismez.
+	$video_error = nwcs_video_upload_error();
+
+	if ( '' !== $video_error ) {
+		nwcs_pool_keep_draft( $id, $video_error );
 	}
 
 	switch_to_blog( nwcs_pool_blog_id() );
@@ -858,6 +877,8 @@ function nwcs_handle_pool_save(): void {
 
 	nwcs_save_product_tables( $id );
 
+	$video_saved = nwcs_save_product_video( $id );
+
 	// One cikan gorsel, galerinin ilki (eski kodla uyum icin).
 	if ( $gallery ) {
 		set_post_thumbnail( $id, (int) $gallery[0] );
@@ -879,6 +900,10 @@ function nwcs_handle_pool_save(): void {
 
 	if ( null !== $sites ) {
 		nwcs_sync_apply_sites( array( $id => $sites ) );
+	}
+
+	if ( ! $video_saved ) {
+		nwcs_pool_redirect( 'video_failed', $id );
 	}
 
 	if ( $missing ) {
@@ -917,6 +942,8 @@ function nwcs_pool_keep_draft( int $id, string $error, string $taken_by = '' ): 
 		'sites'        => isset( $_POST['sites'] ) && is_array( $_POST['sites'] ) ? array_values( array_filter( array_map( 'absint', array_filter( $_POST['sites'], 'is_scalar' ) ) ) ) : array(),
 		'sites_before' => array_values( array_filter( array_map( 'absint', explode( ',', $field( 'sites_before' ) ) ) ) ),
 		'had_upload'   => ! empty( $_FILES['gallery_upload']['name'][0] ),
+		'video'        => absint( $field( 'video_id' ) ),
+		'had_video'    => ! empty( $_FILES['video_upload']['name'] ),
 		'taken_by'     => $taken_by,
 		'error'        => $error,
 	);
@@ -963,6 +990,8 @@ function nwcs_pool_take_draft( ?array $product ): ?array {
 		$images[] = array( 'id' => $image_id, 'url' => $src ? $src[0] : '' );
 	}
 
+	$video = nwcs_video_by_id( (int) ( $draft['video'] ?? 0 ) );
+
 	restore_current_blog();
 
 	return array_merge(
@@ -983,6 +1012,8 @@ function nwcs_pool_take_draft( ?array $product ): ?array {
 			'sites_before' => $draft['sites_before'] ?? array(),
 			'new_category' => $draft['new_category'],
 			'had_upload'   => $draft['had_upload'],
+			'video'        => $video,
+			'had_video'    => ! empty( $draft['had_video'] ),
 			'taken_by'     => $draft['taken_by'],
 			'error'        => (string) ( $draft['error'] ?? '' ),
 		)

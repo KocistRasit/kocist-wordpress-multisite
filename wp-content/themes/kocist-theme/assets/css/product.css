@@ -143,6 +143,96 @@
 	outline-offset: 2px;
 }
 
+/* ---------- Urun videosu (galerinin son karesi; assets/js/product.js) ---------- */
+/* Kucuk resim: ana fotograf, ustunde oynat isareti ve sure. */
+.k-product__thumb--video { position: relative; }
+.k-product__thumb--video img { filter: brightness(.72); }
+
+.k-product__play {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 26px;
+	height: 26px;
+	margin: -13px 0 0 -13px;
+	padding-left: 2px;
+	border-radius: 999px;
+	background: var(--leaf);
+	color: #fff;
+	box-shadow: 0 4px 10px rgba(15, 61, 33, .3);
+}
+
+.k-product__thumb-time {
+	position: absolute;
+	right: 3px;
+	bottom: 3px;
+	padding: 1px 5px;
+	border-radius: 999px;
+	background: rgba(15, 61, 33, .78);
+	color: #fff;
+	font-size: 10px;
+	font-weight: 700;
+	line-height: 1.4;
+	font-variant-numeric: tabular-nums;
+}
+
+/* Sahnede video: fotografin yerini tam kaplar; dikey sahnede yatay video ortalanir. */
+.k-product__video {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	display: none;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	background: var(--forest-3);
+}
+
+.k-product__stage.is-video .k-product__video { display: block; }
+.k-product__stage.is-video .k-zoom { display: none; }
+
+/* Sayac videonun denetim cubugunu ortmesin: video karesinde ustte. */
+.k-product__stage.is-video .k-product__counter { top: 12px; bottom: auto; }
+
+/* Fotografsiz urun: sahne koyu zemin ve buyuk oynat dugmesi. */
+.k-product__video-start {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 14px;
+	width: 100%;
+	height: 100%;
+	min-height: 320px;
+	padding: 24px;
+	border: 0;
+	background: var(--forest-3);
+	color: #fff;
+	font: inherit;
+	font-size: 15px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.k-product__video-start .k-product__play--big {
+	position: static;
+	width: 72px;
+	height: 72px;
+	margin: 0;
+	padding-left: 5px;
+	transition: transform .2s ease, background .2s ease;
+}
+
+.k-product__video-start:hover .k-product__play--big { background: var(--leaf-dark); transform: scale(1.06); }
+
+.k-product__video-start:focus-visible {
+	outline: 3px solid var(--leaf);
+	outline-offset: -3px;
+}
+
 /* ---------- Bilgiler ---------- */
 .k-product__category {
 	margin: 0 0 10px;

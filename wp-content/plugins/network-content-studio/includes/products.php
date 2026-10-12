@@ -79,7 +79,7 @@ function nwcs_register_product_type(): void {
 
 // Anahtar surumlu: urun verisinin sekli degistiginde eski onbellek kendiliginden
 // gecersiz olur, elle temizlemek gerekmez.
-const NWCS_POOL_CACHE_KEY = 'nwcs_pool_products_v4';
+const NWCS_POOL_CACHE_KEY = 'nwcs_pool_products_v5';
 
 /**
  * Havuz onbellegini temizler. Urun/gorsel degisikliklerinden sonra cagrilir.
@@ -340,6 +340,7 @@ function nwcs_pool_product_data( WP_Post $post ): array {
 		'images'      => $images,
 		'categories'  => $categories,
 		'tables'      => nwcs_sanitize_product_tables( (array) get_post_meta( $post->ID, '_nwcs_tables', true ) ),
+		'video'       => nwcs_video_by_id( (int) get_post_meta( $post->ID, '_nwcs_video', true ) ),
 		'order'       => (int) $post->menu_order,
 	);
 }
@@ -841,6 +842,7 @@ function nwcs_site_products( ?int $blog_id = null ): array {
 			'url'         => nwcs_product_url( $slug, $blog_id ),
 			'categories'  => $product['categories'],
 			'tables'      => $product['tables'] ?? array(),
+			'video'       => $product['video'] ?? array(),
 		);
 	}
 

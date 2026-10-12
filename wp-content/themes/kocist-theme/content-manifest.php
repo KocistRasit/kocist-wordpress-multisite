@@ -300,6 +300,9 @@ $manifest_data = array(
 	// Urun Havuzu'ndaki urun formunda "Ürün Tabloları" bolumu bu sitede
 	// gosterilen urunler icin acilir (bkz. kocist_product_tables()).
 	'product_tables' => true,
+	// Urun formunda "Ürün videosu" bu sitede gosterilen urunler icin
+	// listelenir; video urun sayfasindaki galerinin sonunda (product-detail.php).
+	'product_video'  => true,
 	// Aciklamasi (detay metni) olmayan havuz urununun sayfasi da acik kalir:
 	// ad, gorsel ve teknik detaylar gosterilir (eklenti: nwcs_product_has_page).
 	'product_page_always' => true,

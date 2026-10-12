@@ -327,6 +327,7 @@ function nwcs_seo_page_for_path( string $path ): string {
  *           'sku'         => 'W-ADR-FB01',  // istege bagli: urun kodu
  *           'price'       => 10250,         // istege bagli: sayi; varsa Offer uretilir
  *           'currency'    => 'TRY',
+ *           'video'       => $product['video'], // istege bagli: nwcs_video_by_id(); Product'a VideoObject eklenir
  *       );
  *       return $pages;
  *   } );
@@ -499,6 +500,7 @@ function nwcs_seo_context_extra( string $path, string $site, array $base ): arra
 			'sku'         => nwcs_seo_clean( (string) ( $page['sku'] ?? '' ) ),
 			'price'       => is_numeric( $page['price'] ?? null ) && (float) $page['price'] > 0 ? (float) $page['price'] : 0.0,
 			'currency'    => (string) ( $page['currency'] ?? 'TRY' ),
+			'video'       => is_array( $page['video'] ?? null ) ? $page['video'] : array(),
 		) + $base;
 	}
 
@@ -982,6 +984,34 @@ function nwcs_seo_product( array $context, string $org_id, string $page_id ): ar
 				'url'           => $context['url'],
 				'seller'        => array( '@id' => $org_id ),
 			) : array(),
+			'subjectOf'          => nwcs_seo_product_video( $context ),
+		)
+	);
+}
+
+/**
+ * Urun videosu (VideoObject). Google'in istedigi ad, kapak ve yukleme tarihi
+ * yoksa hic yazilmaz; kapak urunun gorselidir.
+ */
+function nwcs_seo_product_video( array $context ): array {
+	$video = (array) ( $context['video'] ?? array() );
+	$thumb = (string) ( $context['image']['url'] ?? '' );
+
+	if ( empty( $video['url'] ) || '' === $thumb || empty( $video['date'] ) ) {
+		return array();
+	}
+
+	$length = (int) ( $video['length'] ?? 0 );
+
+	return array_filter(
+		array(
+			'@type'        => 'VideoObject',
+			'name'         => $context['name'],
+			'description'  => '' !== $context['description'] ? $context['description'] : $context['name'],
+			'thumbnailUrl' => $thumb,
+			'contentUrl'   => (string) $video['url'],
+			'uploadDate'   => (string) $video['date'],
+			'duration'     => $length > 0 ? sprintf( 'PT%dM%dS', intdiv( $length, 60 ), $length % 60 ) : '',
 		)
 	);
 }

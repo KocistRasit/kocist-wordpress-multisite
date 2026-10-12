@@ -57,6 +57,7 @@ function nwcs_admin_assets( string $hook ): void {
 		wp_enqueue_script( 'nwcs-pool-details', NWCS_URL . 'assets/pool-details.js', array(), NWCS_VERSION, true );
 		wp_enqueue_script( 'nwcs-overrides', NWCS_URL . 'assets/overrides.js', array( 'nwcs-admin' ), NWCS_VERSION, true );
 		wp_enqueue_script( 'nwcs-pool-tables', NWCS_URL . 'assets/pool-tables.js', array(), NWCS_VERSION, true );
+		wp_enqueue_script( 'nwcs-pool-video', NWCS_URL . 'assets/pool-video.js', array(), NWCS_VERSION, true );
 	}
 
 	// Fotograf Kutusu yalnizca Kategoriler sayfasinda.

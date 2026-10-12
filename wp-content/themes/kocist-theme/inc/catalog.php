@@ -712,6 +712,8 @@ function kocist_catalog_seo_pages( array $pages ): array {
 			'currency'    => kocist_price_currency( (string) $product['price'] ),
 			// Sayfadaki Teknik Detaylar ile ayni kural (serbest not "Ölçü"; numarali aktarim artigi yok).
 			'properties'  => array_map( static fn( array $pair ): array => array( 'name' => $pair[0], 'value' => $pair[1] ), kocist_product_table_specs( $product ) ),
+			// Urun videosu: Product'a VideoObject olarak eklenir (sayfadaki galeriyle ayni video).
+			'video'       => (array) ( $product['video'] ?? array() ),
 		);
 	}
 

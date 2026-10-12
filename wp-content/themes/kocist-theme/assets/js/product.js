@@ -19,7 +19,9 @@
 
 	if ( lensStage && lensStage.querySelector( 'img.k-product__photo' ) ) {
 		var lens = function ( event ) {
-			if ( 'mouse' !== event.pointerType ) {
+			// Video oynarken buyutme yok.
+			if ( 'mouse' !== event.pointerType || lensStage.classList.contains( 'is-video' ) ) {
+				lensStage.classList.remove( 'is-lens' );
 				return;
 			}
 
@@ -55,6 +57,58 @@
 		var next    = gallery.querySelector( '[data-k-gallery-next]' );
 		var counter = gallery.querySelector( '[data-k-gallery-counter]' );
 
+		/*
+		 * Urun videosu: <template> icinde gelir; ilk secilisinde sahneye
+		 * eklenir (o ana kadar hicbir sey indirilmez). Baska kareye gecince durur.
+		 */
+		var videoTpl = gallery.querySelector( '[data-k-video-tpl]' );
+		var video    = null;
+
+		var startVideo = function () {
+			if ( ! stage || ! videoTpl || ! videoTpl.content.firstElementChild ) {
+				return;
+			}
+
+			if ( ! video ) {
+				video = videoTpl.content.firstElementChild.cloneNode( true );
+				stage.appendChild( video );
+			}
+
+			stage.classList.add( 'is-video' );
+			stage.classList.remove( 'is-lens' );
+
+			var playing = video.play();
+
+			// Tarayici sesli oynatmayi reddederse denetimler gorunur kalir; ziyaretci baslatir.
+			if ( playing && playing.catch ) {
+				playing.catch( function () {} );
+			}
+		};
+
+		var stopVideo = function () {
+			if ( video ) {
+				video.pause();
+			}
+
+			if ( stage ) {
+				stage.classList.remove( 'is-video' );
+			}
+		};
+
+		// Fotografsiz urun: sahne bir oynat dugmesi.
+		var videoStart = gallery.querySelector( '[data-k-video-start]' );
+
+		if ( videoStart ) {
+			videoStart.addEventListener( 'click', function () {
+				startVideo();
+				videoStart.hidden = true;
+
+				if ( video ) {
+					video.focus();
+				}
+			} );
+		}
+
 		// Yer tutucu basiliysa degistirilecek bir <img> yoktur.
 		if ( stage && photo && thumbs.length ) {
 			var current = 0;
@@ -64,11 +118,12 @@
 			 */
 			function show( index ) {
 				// Bas ve son arasinda dolanir: oklar hicbir zaman cikmaza girmez.
-				var target = ( index + thumbs.length ) % thumbs.length;
-				var thumb  = thumbs[ target ];
-				var full   = thumb.getAttribute( 'data-full' );
+				var target  = ( index + thumbs.length ) % thumbs.length;
+				var thumb   = thumbs[ target ];
+				var full    = thumb.getAttribute( 'data-full' );
+				var isVideo = thumb.hasAttribute( 'data-k-video-thumb' );
 
-				if ( ! full ) {
+				if ( ! full && ! isVideo ) {
 					return;
 				}
 
@@ -81,6 +136,13 @@
 				}
 
 				current = target;
+
+				if ( isVideo ) {
+					startVideo();
+					return;
+				}
+
+				stopVideo();
 
 				if ( full === photo.getAttribute( 'src' ) ) {
 					return;
@@ -125,6 +187,11 @@
 
 			// Klavye: galeri odaktayken sag/sol oklar da calisir.
 			gallery.addEventListener( 'keydown', function ( event ) {
+				// Video odaktayken oklar videoyu ileri/geri sarar.
+				if ( 'VIDEO' === event.target.tagName ) {
+					return;
+				}
+
 				if ( 'ArrowLeft' === event.key ) {
 					event.preventDefault();
 					show( current - 1 );
@@ -139,7 +206,8 @@
 			var startX = null;
 
 			stage.addEventListener( 'touchstart', function ( event ) {
-				startX = event.changedTouches[ 0 ].clientX;
+				// Videonun ilerleme cubugunu surukleme kare degistirmesin.
+				startX = 'VIDEO' === event.target.tagName ? null : event.changedTouches[ 0 ].clientX;
 			}, { passive: true } );
 
 			stage.addEventListener( 'touchend', function ( event ) {

@@ -14,6 +14,11 @@
  * Fiyatsiz urunde fiyat yerine "Fiyat teklifle" ve nedeni (kocist_price_reason):
  * neden urune baglidir, ziyaretciye ozel fiyat izlenimi verilmez.
  *
+ * Urun videosu (havuzda urun basina tek MP4) galerinin son karesidir: kucuk
+ * resmi ana fotografin ustunde oynat isareti; secilince sahnede oynar.
+ * <video> sayfaya <template> icinde gelir, ziyaretci secmeden hicbir sey
+ * indirilmez. Fotografi olmayan urunde sahnenin kendisi videodur.
+ *
  * Form inc/form.php'ye gider (kayit + e-posta bildirimi); basari ya da hata
  * ayni sayfaya #teklif-formu ile doner. Galeri ve akordeon assets/js/product.js,
  * gorunum assets/css/product.css ve form.css.
@@ -40,6 +45,8 @@ $preview  = function_exists( 'nwcs_is_preview' ) && nwcs_is_preview();
 // Galeri: yalnizca havuzdaki gercek gorseller; yoksa isaretli yer tutucu.
 $images = array_values( array_filter( (array) ( $product['images'] ?? array() ), static fn( $image ): bool => ! empty( $image['url'] ) && ! kocist_is_placeholder_image( $image ) ) );
 
+$has_photos = (bool) $images;
+
 if ( ! $images ) {
 	$images = array( kocist_product_image( $product ) );
 }
@@ -47,6 +54,12 @@ if ( ! $images ) {
 // Buyuk sahne icin buyuk kopya (havuz 768 px veriyor), buyutmede tam boy.
 $images = array_map( static fn( array $image ): array => kocist_pool_image_large( $image, '1536x1536' ), $images );
 $main   = $images[0];
+
+// Urun videosu: fotografli urunde galerinin son karesi, fotografsizda sahnenin kendisi.
+$video        = ! empty( $product['video']['url'] ) ? $product['video'] : array();
+$video_length = $video && function_exists( 'nwcs_video_length_label' ) ? nwcs_video_length_label( (int) $video['length'] ) : '';
+$video_label  = $product['title'] . ' videosu';
+$slides       = count( $images ) + ( $video && $has_photos ? 1 : 0 );
 
 // WhatsApp: urunun grubunun numarasi ve urun mesaji (inc/quote.php).
 $wa_panel = (string) nwcs_field( 'product', 'main', 'secondary_url' );
@@ -134,7 +147,7 @@ get_header();
 	<div class="k-wrap k-pp">
 
 		<div class="k-pp__gallery k-product__gallery" data-k-gallery>
-			<?php if ( count( $images ) > 1 ) : ?>
+			<?php if ( $slides > 1 ) : ?>
 				<div class="k-product__thumbs">
 					<?php foreach ( $images as $thumb_index => $thumb ) : ?>
 						<button
@@ -149,22 +162,56 @@ get_header();
 							<img src="<?php echo esc_url( $thumb['thumb'] ?: $thumb['url'] ); ?>" alt="" width="64" height="64" decoding="async" />
 						</button>
 					<?php endforeach; ?>
+
+					<?php if ( $video && $has_photos ) : ?>
+						<button
+							type="button"
+							class="k-product__thumb k-product__thumb--video"
+							data-k-thumb
+							data-k-video-thumb
+							aria-label="<?php echo esc_attr( trim( 'Ürün videosu ' . $video_length ) ); ?>"
+						>
+							<img src="<?php echo esc_url( $main['thumb'] ?: $main['url'] ); ?>" alt="" width="64" height="64" decoding="async" />
+							<span class="k-product__play" aria-hidden="true">
+								<svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 1.6v8.8L10.2 6z" fill="currentColor" /></svg>
+							</span>
+							<?php if ( '' !== $video_length ) : ?>
+								<span class="k-product__thumb-time" aria-hidden="true"><?php echo esc_html( $video_length ); ?></span>
+							<?php endif; ?>
+						</button>
+					<?php endif; ?>
 				</div>
 			<?php endif; ?>
 
-			<div class="k-product__stage" <?php kocist_product_attr( $product, 'Görseller' ); ?>>
-				<?php echo kocist_image_tag( $main, 'k-product__photo', 'Örnek görsel — ürün' ); // phpcs:ignore WordPress.Security.EscapingOutput ?>
+			<div class="k-product__stage<?php echo $video && ! $has_photos ? ' k-product__stage--video' : ''; ?>" <?php kocist_product_attr( $product, $video ? 'Görseller ve video' : 'Görseller' ); ?>>
+				<?php if ( $video && ! $has_photos ) : ?>
+					<?php // Fotograf yok: sahne bir oynat dugmesi; video basinca gelir. ?>
+					<button type="button" class="k-product__video-start" data-k-video-start>
+						<span class="k-product__play k-product__play--big" aria-hidden="true">
+							<svg width="26" height="26" viewBox="0 0 12 12"><path d="M3 1.6v8.8L10.2 6z" fill="currentColor" /></svg>
+						</span>
+						<span class="k-product__video-start-text">Ürün videosunu izle<?php echo '' !== $video_length ? esc_html( ' (' . $video_length . ')' ) : ''; ?></span>
+					</button>
+				<?php else : ?>
+					<?php echo kocist_image_tag( $main, 'k-product__photo', 'Örnek görsel — ürün' ); // phpcs:ignore WordPress.Security.EscapingOutput ?>
 
-				<?php kocist_zoom_button( $main ); ?>
+					<?php kocist_zoom_button( $main ); ?>
+				<?php endif; ?>
 
-				<?php if ( count( $images ) > 1 ) : ?>
+				<?php if ( $video ) : ?>
+					<template data-k-video-tpl>
+						<video class="k-product__video" src="<?php echo esc_url( $video['url'] ); ?>"<?php echo $has_photos ? ' poster="' . esc_url( $main['url'] ) . '"' : ''; ?> controls playsinline preload="none" aria-label="<?php echo esc_attr( $video_label ); ?>"></video>
+					</template>
+				<?php endif; ?>
+
+				<?php if ( $slides > 1 ) : ?>
 					<button type="button" class="k-product__arrow k-product__arrow--prev" data-k-gallery-prev aria-label="Önceki görsel">
 						<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M11 4 6 9l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
 					</button>
 					<button type="button" class="k-product__arrow k-product__arrow--next" data-k-gallery-next aria-label="Sonraki görsel">
 						<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="m7 4 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
 					</button>
-					<span class="k-product__counter" data-k-gallery-counter aria-live="polite"><?php echo esc_html( '1 / ' . count( $images ) ); ?></span>
+					<span class="k-product__counter" data-k-gallery-counter aria-live="polite"><?php echo esc_html( '1 / ' . $slides ); ?></span>
 				<?php endif; ?>
 			</div>
 		</div>

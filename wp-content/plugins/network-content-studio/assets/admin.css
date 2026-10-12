@@ -2155,3 +2155,17 @@ button.nwcs-bar__mark:focus-visible { outline: 2px solid #fff; outline-offset: 2
 .nwcs-req { color: #b32d2e; font-weight: 700; }
 .nwcs-field.is-invalid .nwcs-input { border-color: #b32d2e; box-shadow: 0 0 0 1px #b32d2e; }
 .nwcs-field__error { margin: 6px 0 0; font-size: 13px; font-weight: 600; color: #9b2426; }
+
+/* Ürün videosu (includes/admin/pool-video.php) */
+.nwcs-video__current { margin: 8px 0 12px; }
+.nwcs-video__player {
+	display: block; width: 100%; max-width: 360px; aspect-ratio: 16 / 9;
+	border: 1px solid var(--nwcs-line); border-radius: 9px; background: #111;
+}
+.nwcs-video__meta { margin: 6px 0; font-size: 12.5px; color: #50575e; }
+.nwcs-video__server { color: #8a4b00; }
+.nwcs-table__video {
+	display: inline-block; margin-left: 4px; font-size: 10px; line-height: 1;
+	color: var(--nwcs-brand-dark); background: var(--nwcs-brand-soft);
+	border-radius: 999px; padding: 3px 6px; vertical-align: 2px;
+}
