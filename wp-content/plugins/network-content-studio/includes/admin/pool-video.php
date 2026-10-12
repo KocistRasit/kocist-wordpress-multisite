@@ -14,7 +14,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Su an yuklenebilecek en buyuk video: 12 MB ile sunucunun sinirinin kucugu.
+ * Su an yuklenebilecek en buyuk video: 20 MB ile sunucunun sinirinin kucugu.
  *
  * wp_max_upload_size kullanilmaz: cok siteli kurulumda Ag Yonetimi'ndeki
  * "En büyük yükleme dosya boyutu"nu (varsayilan 1500 KB) her zaman katar,
@@ -186,9 +186,9 @@ function nwcs_render_product_video_field( ?array $product ): void {
 
 		<?php if ( $limit < NWCS_VIDEO_MAX_BYTES ) : ?>
 			<p class="nwcs-hint nwcs-video__server">
-				Sunucu şu an en fazla <strong><?php echo esc_html( size_format( $limit ) ); ?></strong> kabul ediyor. 12 MB için:
-				hosting panelinde PHP <code>upload_max_filesize</code> ve <code>post_max_size</code> en az 16M olmalı<?php if ( nwcs_video_network_limit_applies() ) : ?>;
-				Ağ Yönetimi → Ayarlar → “En büyük yükleme dosya boyutu” en az 12288 KB olmalı<?php endif; ?>.
+				Sunucu şu an en fazla <strong><?php echo esc_html( size_format( $limit ) ); ?></strong> kabul ediyor. 20 MB için:
+				hosting panelinde PHP <code>upload_max_filesize</code> ve <code>post_max_size</code> en az 24M olmalı<?php if ( nwcs_video_network_limit_applies() ) : ?>;
+				Ağ Yönetimi → Ayarlar → “En büyük yükleme dosya boyutu” en az 20480 KB olmalı<?php endif; ?>.
 			</p>
 		<?php endif; ?>
 	</div>

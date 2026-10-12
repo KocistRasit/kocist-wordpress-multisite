@@ -12,8 +12,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-/** Panelden yuklenebilecek en buyuk video (12 MB). */
-const NWCS_VIDEO_MAX_BYTES = 12 * 1024 * 1024;
+/** Panelden yuklenebilecek en buyuk video (20 MB). */
+const NWCS_VIDEO_MAX_BYTES = 20 * 1024 * 1024;
 
 /**
  * Videonun sitelere giden hali. Havuz baglaminda cagrilmalidir.
