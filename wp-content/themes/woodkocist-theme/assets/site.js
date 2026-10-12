@@ -565,6 +565,7 @@
 			}
 
 			photo.src = thumb.getAttribute( 'data-src' );
+			photo.alt = thumb.getAttribute( 'data-alt' ) || photo.alt;
 
 			// Oran degisirse (dikey/yatay) yer tutma boyutu da degissin.
 			if ( '0' !== thumb.getAttribute( 'data-width' ) ) {
@@ -660,6 +661,10 @@
 			current = ( index + total ) % total;
 			setZoom( false );
 			lbImg.src = sources[ current ];
+
+			if ( thumbs[ current ] ) {
+				lbImg.alt = thumbs[ current ].getAttribute( 'data-alt' ) || lbImg.alt;
+			}
 
 			if ( count ) {
 				count.textContent = ( current + 1 ) + ' / ' + total;

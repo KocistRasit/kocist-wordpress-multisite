@@ -3,8 +3,8 @@
  * Ürün Havuzu -> "Son işlemler": geri alinabilir islemlerin yigini.
  *
  * Kategori Excel'i (urunler), Ürün açıklamaları (aciklamalar), kategori
- * yerlesimi (yerlesim), kategori silme (kategori) ve Fotograf Kutusu
- * (fotograflar) her uygulamada bir kayit
+ * yerlesimi (yerlesim), kategori silme (kategori), Fotograf Kutusu
+ * (fotograflar) ve Medya Havuzu alt metin Excel'i (alt) her uygulamada bir kayit
  * birakir. En yeni en ustte;
  * en fazla NWCS_HISTORY_MAX kayit tutulur. Yalnizca en ustteki geri alinir
  * (son giren ilk cikar): sonraki islemler once geri alindigindan "yuklemeden
@@ -166,6 +166,19 @@ function nwcs_history_describe( array $record ): array {
 			}
 			break;
 
+		case 'alt':
+			$what = (string) ( $record['scope'] ?? '' );
+			$kind = 'görsel alt metinleri';
+
+			if ( ! empty( $counts['updated'] ) ) {
+				$facts[] = sprintf( '%d değişti', (int) $counts['updated'] );
+			}
+
+			if ( ! empty( $counts['cleared'] ) ) {
+				$facts[] = sprintf( '%d silindi', (int) $counts['cleared'] );
+			}
+			break;
+
 		case 'yerlesim':
 			$what  = (string) ( $record['category'] ?? '' );
 			$kind  = 'sitelerde yerleşim';
@@ -238,6 +251,10 @@ function nwcs_history_undo( string $id ) {
 
 		case 'fotograflar':
 			$report = nwcs_photos_undo( $top );
+			break;
+
+		case 'alt':
+			$report = nwcs_alt_undo( $top );
 			break;
 
 		default:
@@ -416,6 +433,7 @@ function nwcs_render_history_result(): void {
 			'headings'  => '%d detay başlığı kaldırıldı',
 			'sites'     => '%d sitenin ürün seçimi eski hâline döndü',
 			'deleted_photos' => '%d fotoğraf dosyası silindi',
+			'alts'      => '%d görselin alt metni eski hâline döndü',
 		) as $field => $format
 	) {
 		if ( ! empty( $report[ $field ] ) ) {
@@ -433,7 +451,7 @@ function nwcs_render_history_result(): void {
 			</ul>
 		<?php endif; ?>
 		<?php if ( ! empty( $report['kept'] ) ) : ?>
-			<p class="nwcs-sync__warn">İşlemden sonra elle düzenlendiği için dokunulmayan ürünler: <?php echo esc_html( implode( ', ', (array) $report['kept'] ) ); ?>.</p>
+			<p class="nwcs-sync__warn">İşlemden sonra elle düzenlendiği için dokunulmayan <?php echo 'alt' === ( $result['kind'] ?? '' ) ? 'görseller' : 'ürünler'; ?>: <?php echo esc_html( implode( ', ', (array) $report['kept'] ) ); ?>.</p>
 		<?php endif; ?>
 	</div>
 	<?php

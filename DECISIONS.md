@@ -1673,3 +1673,33 @@ sitede olduğunu görmek ve seçmek istiyor. Kod: `includes/admin/sync.php` (Sİ
   (yalnızca değişenler). Geri alınan ürünlerde gizleme aynen konur, işlemin seçime eklediği
   çıkarılır. Sonradan elle düzenlendiği için geri alınmayan ürünün sitesi de değişmez.
 - Sütun ÜRÜN ADI'ndan sonra (4. sütun); eski taslaklar (SİTE'siz) aynen çalışır.
+
+## Medya Havuzu: alt metinleri Excel ile (0.25.1, 12 Ekim 2026)
+
+Çok sayıda ürün görselinin alt metni (SEO/GEO ve erişilebilirlik) tek tek kartlardan
+yazılamıyordu. Kategori Excel'i / Ürün açıklamaları ile aynı akış: indir → doldur → yükle →
+önizleme → uygula → "Son işlemler"den geri al. Kod `includes/admin/media-alt.php`, kontrol
+`scripts/dev/check-alt-excel.php`.
+
+- **Kapsam:** Tümü (havuz sitesindeki görsel ekleri), Alt metni boş olanlar (meta yok ya da
+  yalnızca boşluk), Kategori (yayındaki ürünlerin galerileri; ürün sırası, sonra galeri sırası).
+  Fotoğraf Kutusu'nda bekleyen dosyalar (`_nwcs_photo_batch`) hiçbirine girmez.
+- **Dosya:** "Görseller" · "Nasıl kullanılır" · gizli `_bilgi` (`tur=alt`, `kaynak`). Başka
+  panelden ya da başka ekranın dosyası `nwcs_sync_read_info` ile reddedilir; alt dosyası başka
+  ekrana yüklenirse Medya Havuzu'nu söyler. Eşleşme yalnızca gizli `KİMLİK` ile; `DOSYA`,
+  `ÜRÜN`, `SİTE` bilgi. Bilinmeyen kimlik, görsel olmayan ek (video), çift satır, kimliksiz
+  satır ve 250 karakteri aşan metin satır hatasıdır, diğer satırlar uygulanabilir.
+- **Uzun metin kesilmez, hata olur:** yarım cümle sitede yanlış okunur; kullanıcı kısaltsın.
+- **Boş hücre = sil** (kullanıcı kararı): meta silinir. Önizlemede "N görselin alt metni
+  silinecek" başlığıyla ayrı liste. Karşılaştırma `nwcs_clean_text` ile: yalnızca boşluk
+  farkı "değişmedi" sayılır.
+- **Geri alma kaydı** (`kind=alt`): `before` = ham önceki değer (meta yoksa `null`), `after` =
+  yazılan (silmede `null`). Geri almada şimdiki değer `after` ise `before` aynen konur (null →
+  meta silinir); `before` ise dokunulmaz (yarıda kesilen uygulama); başka bir şeyse elle
+  değiştirilmiş sayılır, korunur ve bildirilir. Uygulama önizlemeden sonra değişen görseli
+  atlar. Kayıt 50 görselde bir, yazmadan önce güncellenir (büyük dosyada option yazımı az).
+- `update_post_meta` değeri unslash ettiği için `wp_slash` ile yazılır (ters bölü korunur).
+- Uygulama ve geri alma `nwcs_pool_flush_cache()` çağırır: havuz önbelleği (ürün
+  görsellerinin alt metni) ve site sayfa önbelleği (LiteSpeed/Cloudflare) temizlenir.
+- Medya Havuzu'nun sağ sütunu artık yapışkan değil (üç kart: yükleme, alt metin Excel'i,
+  Son işlemler).

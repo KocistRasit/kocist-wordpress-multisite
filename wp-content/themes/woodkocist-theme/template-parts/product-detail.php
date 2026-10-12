@@ -99,9 +99,11 @@ get_header();
 								data-src="<?php echo esc_url( $item['src'] ); ?>"
 								data-srcset="<?php echo esc_attr( $item['srcset'] ); ?>"
 								data-width="<?php echo (int) $item['width']; ?>" data-height="<?php echo (int) $item['height']; ?>"
+								data-alt="<?php echo esc_attr( $item['alt'] ?: $product['title'] ); ?>"
 								aria-label="<?php echo esc_attr( sprintf( 'Görsel %d', $index + 1 ) ); ?>"
 								aria-pressed="<?php echo 0 === $index ? 'true' : 'false'; ?>">
-								<img src="<?php echo esc_url( $item['thumb'] ); ?>" alt="" width="60" height="60" loading="lazy" decoding="async" />
+								<?php // Alt metin arama motorlari icin; ekran okuyucu dugmenin adini okur. ?>
+								<img src="<?php echo esc_url( $item['thumb'] ); ?>" alt="<?php echo esc_attr( $item['alt'] ); ?>" width="60" height="60" loading="lazy" decoding="async" />
 							</button>
 						</li>
 					<?php endforeach; ?>

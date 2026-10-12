@@ -145,7 +145,11 @@ function nwcs_sync_read_info( string $path, string $kind ) {
 	}
 
 	if ( ( $info['tur'] ?? '' ) !== $kind ) {
-		$other = 'aciklamalar' === ( $info['tur'] ?? '' ) ? 'Bu, Ürün Açıklamaları dosyası; onu “Ürün açıklamaları” ekranından yükleyin.' : 'Bu dosya bu ekranın taslağı değil.';
+		$others = array(
+			'aciklamalar' => 'Bu, Ürün Açıklamaları dosyası; onu “Ürün açıklamaları” ekranından yükleyin.',
+			'alt'         => 'Bu, görsel alt metinleri dosyası; onu Medya Havuzu’ndaki “Alt metinleri Excel ile düzenleyin” kutusundan yükleyin.',
+		);
+		$other  = $others[ $info['tur'] ?? '' ] ?? 'Bu dosya bu ekranın taslağı değil.';
 
 		return new WP_Error(
 			'nwcs_wrong_template',

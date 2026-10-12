@@ -159,7 +159,7 @@ get_header();
 							data-alt="<?php echo esc_attr( $thumb['alt'] ?? '' ); ?>"
 							aria-label="<?php echo esc_attr( sprintf( '%d. görsel', $thumb_index + 1 ) ); ?>"
 						>
-							<img src="<?php echo esc_url( $thumb['thumb'] ?: $thumb['url'] ); ?>" alt="" width="64" height="64" decoding="async" />
+							<img src="<?php echo esc_url( $thumb['thumb'] ?: $thumb['url'] ); ?>" alt="<?php echo esc_attr( $thumb['alt'] ?? '' ); ?>" width="64" height="64" decoding="async" />
 						</button>
 					<?php endforeach; ?>
 

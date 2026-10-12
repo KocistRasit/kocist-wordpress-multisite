@@ -540,6 +540,16 @@ Kullanılmayan görseller seçilip **Seçilenleri sil** ile toplu silinir (kalı
 seçime kullanımdaki görsel karışırsa atlanır ve bildirimde sayısı yazar. Büyük seçimlerde
 sayfa sayfa silin.
 
+**Alt metinleri Excel ile düzenleyin (0.25.1, `includes/admin/media-alt.php`):** sağ sütundaki
+kutuda görsel grubu seçilip Excel indirilir: **Tümü**, **Alt metni boş olanlar** ya da bir
+**kategori** (o kategorideki yayındaki ürünlerin galerilerindeki görseller). Sütunlar:
+`KİMLİK` (gizli) · `DOSYA` · `ÜRÜN` (kod · ad) · `SİTE` · `ALT METİN`; yalnızca `ALT METİN`
+okunur. Tek satır, en fazla 250 karakter (uzunu satır hatası). **Boş hücre alt metni siler**;
+önizleme silinecek görselleri ayrıca listeler. Değişmeyen satıra dokunulmaz. Uygulama "Son
+işlemler"e girer (Medya Havuzu'nda da görünür) ve geri alınabilir; geri alma eski değeri
+birebir koyar, sonradan elle değiştirilen görsele dokunmaz. Fotoğraf Kutusu'nda bekleyen
+dosyalar dosyaya girmez. Kontrol: `scripts/dev/check-alt-excel.php`.
+
 **WebP'ye çevirme (0.22.2, `includes/images.php`):** panelden yüklenen JPG, PNG ve HEIC
 fotoğraflar yükleme anında en fazla 2560 px'e küçültülür, yönü düzeltilir ve WebP olarak
 kaydedilir (kalite 82); orijinal saklanmaz (temalar "full" boyutu da kullanıyor), EXIF/konum

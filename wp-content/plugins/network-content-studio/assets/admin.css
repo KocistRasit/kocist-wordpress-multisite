@@ -2175,3 +2175,34 @@ button.nwcs-bar__mark:focus-visible { outline: 2px solid #fff; outline-offset: 2
 .nwcs-mediatabs a { padding: 7px 18px; font-size: 13px; font-weight: 600; }
 .nwcs-mediacard__thumb--video { height: auto; aspect-ratio: 16 / 9; background: #111; }
 .nwcs-mediacard__thumb--video video { display: block; width: 100%; height: 100%; object-fit: contain; }
+/* ---------- Medya Havuzu: alt metinleri Excel ile (0.25.1) ---------- */
+/* Sağ sütunda üç kart var; yapışkan kalırsa alttakiler ancak sayfa sonunda görünür. */
+.nwcs-wrap--media .nwcs-pool__form { position: static; }
+.nwcs-wrap--media .nwcs-pool__form > .nwcs-pool__card + .nwcs-pool__card { margin-top: 16px; }
+.nwcs-altx .nwcs-hint { font-size: 12.5px; margin: 0 0 4px; }
+.nwcs-altx form + form { margin-top: 6px; }
+.nwcs-altx .nwcs-altx__note { margin: 8px 0 0; }
+.nwcs-wrap--media .nwcs-history { padding: 0; border-top: 0; }
+.nwcs-wrap--media .nwcs-history .nwcs-section__title { margin-top: 0; }
+.nwcs-wrap--media .nwcs-history__row { grid-template-columns: 64px minmax(0, 1fr) auto; gap: 8px; }
+
+.nwcs-altx__scroll { max-height: 520px; overflow: auto; margin-top: 8px; border: 1px solid var(--nwcs-line); border-radius: 8px; }
+.nwcs-altx__table { margin: 0; }
+.nwcs-altx__table thead th { position: sticky; top: 0; z-index: 1; background: #fff; }
+.nwcs-altx__pic { display: flex; gap: 8px; align-items: flex-start; }
+.nwcs-altx__pic img { flex: none; width: 40px; height: 40px; object-fit: cover; border-radius: 5px; background: var(--nwcs-soft); }
+.nwcs-altx__pic small { display: block; margin-top: 2px; font-weight: 400; color: var(--nwcs-muted); }
+/* Silinecek alt metin: üstü çizili, kırmızı zemin. */
+.nwcs-sync__group--trash .nwcs-altx__table td:last-child {
+	background: #fcf0f1;
+	text-decoration: line-through; text-decoration-color: rgba(155, 36, 38, .55);
+}
+/* Dar ekranda tablo yerine satır kartları: dosya adı ezilmesin. */
+@media (max-width: 600px) {
+	.nwcs-altx__table thead { display: none; }
+	.nwcs-altx__table tr { display: block; border-bottom: 1px solid var(--nwcs-line); }
+	.nwcs-altx__table tbody th, .nwcs-altx__table td { display: block; width: auto; border-bottom: 0; }
+	.nwcs-altx__table tbody th { width: auto; }
+	.nwcs-altx__table td::before { content: attr(data-label); float: left; width: 100%; font-size: 11px; font-weight: 600; color: var(--nwcs-muted); text-decoration: none; }
+	.nwcs-altx__pic > span { min-width: 0; overflow-wrap: anywhere; }
+}

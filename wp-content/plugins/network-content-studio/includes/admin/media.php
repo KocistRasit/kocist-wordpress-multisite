@@ -2,8 +2,8 @@
 /**
  * Ag Yonetimi -> Medya Havuzu.
  *
- * Urun gorsellerinin toplu yuklendigi, alt metinlerinin duzenlendigi ve
- * silindigi sayfa. Dosyalar havuz sitesinin (ag ana sitesi) WordPress medya
+ * Urun gorsellerinin toplu yuklendigi, alt metinlerinin duzenlendigi (tek tek
+ * ya da Excel ile: admin/media-alt.php) ve silindigi sayfa. Dosyalar havuz sitesinin (ag ana sitesi) WordPress medya
  * kitapliginda durur; ayri bir depo kullanilmaz.
  *
  * Bir urune bagli gorsel silinemez: once urunun galerisinden cikarilmalidir.
@@ -288,7 +288,7 @@ function nwcs_render_media(): void {
 
 	$is_video = isset( $_GET['tur'] ) && 'video' === $_GET['tur']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- yalnizca gorunum.
 	?>
-	<div class="wrap nwcs-wrap nwcs-wrap--pool">
+	<div class="wrap nwcs-wrap nwcs-wrap--pool nwcs-wrap--media">
 		<header class="nwcs-bar">
 			<div class="nwcs-bar__brand">
 				<button type="button" class="nwcs-bar__mark" data-nwcs-menu
@@ -319,10 +319,17 @@ function nwcs_render_media(): void {
 		<p class="nwcs-help">
 			<span class="nwcs-help__step"><b>1</b> Ürün fotoğrafları: <a href="<?php echo esc_url( nwcs_pool_categories_url() ); ?>">Ürün Havuzu › Kategoriler</a> › kategori › Fotoğrafları yükleyin; dosya adı ürün koduyla başlar</span>
 			<span class="nwcs-help__step"><b>2</b> Site görselleri (logo, hero, blog) buraya yüklenir</span>
-			<span class="nwcs-help__step"><b>3</b> Alt metni doldurun</span>
+			<span class="nwcs-help__step"><b>3</b> Alt metni doldurun: tek tek ya da toplu olarak Excel ile</span>
 		</p>
 
 		<?php nwcs_render_media_notices(); ?>
+		<?php nwcs_render_history_result(); ?>
+		<?php nwcs_render_cache_note(); ?>
+
+		<?php if ( nwcs_render_alt_step() ) : ?>
+			</div>
+			<?php return; ?>
+		<?php endif; ?>
 
 		<div class="nwcs-pool">
 			<section class="nwcs-pool__list">
@@ -535,6 +542,14 @@ function nwcs_render_media(): void {
 						</div>
 					</form>
 				</div>
+
+				<?php nwcs_render_alt_card(); ?>
+
+				<?php if ( nwcs_history_all() ) : ?>
+					<div class="nwcs-pool__card">
+						<?php nwcs_render_history_card( nwcs_media_url() ); ?>
+					</div>
+				<?php endif; ?>
 			</section>
 		</div>
 	</div>
