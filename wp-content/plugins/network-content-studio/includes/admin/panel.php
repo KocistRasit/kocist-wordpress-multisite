@@ -60,6 +60,11 @@ function nwcs_admin_assets( string $hook ): void {
 		wp_enqueue_script( 'nwcs-pool-video', NWCS_URL . 'assets/pool-video.js', array(), NWCS_VERSION, true );
 	}
 
+	// Medya Havuzu > Videolar: videolari tek tek yukler.
+	if ( str_contains( $hook, NWCS_MEDIA_SLUG ) ) {
+		wp_enqueue_script( 'nwcs-media-video', NWCS_URL . 'assets/media-video.js', array(), NWCS_VERSION, true );
+	}
+
 	// Fotograf Kutusu yalnizca Kategoriler sayfasinda.
 	if ( str_contains( $hook, NWCS_CATEGORIES_SLUG ) ) {
 		wp_enqueue_script( 'nwcs-pool-photos', NWCS_URL . 'assets/pool-photos.js', array( 'nwcs-admin' ), NWCS_VERSION, true );

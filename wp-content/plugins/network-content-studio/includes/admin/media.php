@@ -7,6 +7,7 @@
  * kitapliginda durur; ayri bir depo kullanilmaz.
  *
  * Bir urune bagli gorsel silinemez: once urunun galerisinden cikarilmalidir.
+ * Videolar ayni kitaplikta, ayri sekmede (?tur=video): media-video.php.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -47,6 +48,11 @@ function nwcs_media_usage(): array {
 		foreach ( $product['gallery_ids'] as $attachment_id ) {
 			$usage[ $attachment_id ][] = array( 'id' => (int) $product['id'], 'title' => $product['title'], 'trashed' => false );
 		}
+
+		// Urun videosu da kullanim sayilir: bagli video silinemez.
+		if ( ! empty( $product['video']['id'] ) ) {
+			$usage[ (int) $product['video']['id'] ][] = array( 'id' => (int) $product['id'], 'title' => $product['title'], 'trashed' => false );
+		}
 	}
 
 	switch_to_blog( nwcs_pool_blog_id() );
@@ -66,6 +72,12 @@ function nwcs_media_usage(): array {
 
 		if ( ! $gallery && $thumb ) {
 			$gallery = array( $thumb );
+		}
+
+		$video = (int) get_post_meta( $post->ID, '_nwcs_video', true );
+
+		if ( $video ) {
+			$gallery[] = $video;
 		}
 
 		foreach ( $gallery as $attachment_id ) {
@@ -274,9 +286,7 @@ function nwcs_render_media(): void {
 	$page   = isset( $_GET['sayfa'] ) ? max( 1, absint( $_GET['sayfa'] ) ) : 1;
 	// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-	$view   = nwcs_media_view();
-	$result = nwcs_media_query( $search, $page );
-	$usage  = nwcs_media_usage();
+	$is_video = isset( $_GET['tur'] ) && 'video' === $_GET['tur']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- yalnizca gorunum.
 	?>
 	<div class="wrap nwcs-wrap nwcs-wrap--pool">
 		<header class="nwcs-bar">
@@ -290,6 +300,21 @@ function nwcs_render_media(): void {
 				<a class="nwcs-linkout" href="<?php echo esc_url( nwcs_panel_url( 0 ) ); ?>">İçerik Stüdyosu ↗</a>
 			</div>
 		</header>
+
+		<?php nwcs_render_media_tabs( $is_video ); ?>
+
+		<?php
+		if ( $is_video ) {
+			nwcs_render_media_videos( $search, $page );
+			echo '</div>';
+
+			return;
+		}
+
+		$view   = nwcs_media_view();
+		$result = nwcs_media_query( $search, $page );
+		$usage  = nwcs_media_usage();
+		?>
 
 		<p class="nwcs-help">
 			<span class="nwcs-help__step"><b>1</b> Ürün fotoğrafları: <a href="<?php echo esc_url( nwcs_pool_categories_url() ); ?>">Ürün Havuzu › Kategoriler</a> › kategori › Fotoğrafları yükleyin; dosya adı ürün koduyla başlar</span>

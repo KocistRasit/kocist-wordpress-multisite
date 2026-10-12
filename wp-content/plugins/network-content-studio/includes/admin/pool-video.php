@@ -181,7 +181,7 @@ function nwcs_render_product_video_field( ?array $product ): void {
 		<p class="nwcs-field__error" id="nwcs-p-video-error" data-nwcs-video-error role="alert"<?php echo $invalid ? '' : ' hidden'; ?>><?php echo $invalid ? esc_html( $errors[ $error ] ) : ''; ?></p>
 		<p class="nwcs-hint" id="nwcs-p-video-hint">
 			Yalnızca MP4, en fazla <strong><?php echo esc_html( size_format( $limit ) ); ?></strong>. Önerilen: 15–30 saniye, 720p, sessiz.
-			Yüklenen video seçili videonun yerine geçer.
+			Yüklenen video seçili videonun yerine geçer. Videolar <a href="<?php echo esc_url( nwcs_media_url( array( 'tur' => 'video' ) ) ); ?>">Medya Havuzu › Videolar</a>'dan da yüklenebilir.
 		</p>
 
 		<?php if ( $limit < NWCS_VIDEO_MAX_BYTES ) : ?>
@@ -202,8 +202,17 @@ function nwcs_render_product_video_field( ?array $product ): void {
  */
 function nwcs_video_upload_error(): string {
 	// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput -- nwcs_handle_pool_save denetledi; dosya asagida denetlenir.
-	$file = $_FILES['video_upload'] ?? null;
+	return nwcs_video_file_error( $_FILES['video_upload'] ?? null );
+}
 
+/**
+ * Tek bir yuklenen dosyanin ($_FILES girisi) video denetimi. Urun formu ve
+ * Medya Havuzu > Videolar ayni kurali kullanir.
+ *
+ * @param mixed $file
+ * @return string Hata anahtari (video_size, video_type, video_upload); dosya yoksa ya da uygunsa ''.
+ */
+function nwcs_video_file_error( $file ): string {
 	if ( ! is_array( $file ) || ! isset( $file['error'] ) || is_array( $file['error'] ) || UPLOAD_ERR_NO_FILE === (int) $file['error'] ) {
 		return '';
 	}
