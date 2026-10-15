@@ -1703,3 +1703,19 @@ yazılamıyordu. Kategori Excel'i / Ürün açıklamaları ile aynı akış: ind
   görsellerinin alt metni) ve site sayfa önbelleği (LiteSpeed/Cloudflare) temizlenir.
 - Medya Havuzu'nun sağ sütunu artık yapışkan değil (üç kart: yükleme, alt metin Excel'i,
   Son işlemler).
+
+## Yorumlar kapatıldı (0.25.2, 15 Ekim 2026)
+
+sanayipalet.com'daki "Ahşap Palet Nedir?" yazısına bir bot kumar reklamı yorumu bıraktı; site
+yöneticisine "onay bekleyen yorum" e-postası gitti, kuyrukta 4 yorum daha vardı. Hiçbir tema
+yorum formu ya da listesi göstermiyor, ama WordPress yazılarda yorumu varsayılan olarak açık
+tutuyor: botlar formu görmeden `wp-comments-post.php`'ye gönderiyor.
+
+- **Tüm ağda kapalı** (`includes/comments.php`): `comments_open` ve `pings_open` her yazıda
+  `false`. Yorum gönderimi kaydedilmeden reddedilir (`comment_closed`), REST'ten yorum
+  eklenemez, pingback/trackback alınmaz. Site site Tartışma ayarı ve eski yazıların tek tek
+  kapatılması yerine kod: 10 site ve yeni açılacak siteler için tek yer.
+- **Formlar etkilenmez:** tüm temaların formları `admin-post.php` işleyicileriyle kendi kayıt
+  türlerine yazar (`kc_quote`, `wk_order`, `wk_request` …); yorum sistemine dokunan form yok.
+- **Yorumlar ekranı yerinde kalır:** daha önce gelmiş yorumlar oradan silinir. Yorum
+  istenirse (ör. blog) filtre site bazında açılmalı ve spam koruması eklenmeli.
