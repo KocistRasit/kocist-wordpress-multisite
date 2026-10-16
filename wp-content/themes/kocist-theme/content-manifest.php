@@ -484,6 +484,7 @@ $manifest_data = array(
 								array( 'label' => 'Referanslar', 'url' => '/kurumsal/' ),
 								array( 'label' => 'Blog – Haberler', 'url' => '/blog/' ),
 								array( 'label' => 'Sık Sorulan Sorular', 'url' => '/sss/' ),
+								array( 'label' => 'KVKK Aydınlatma Metni', 'url' => '/kvkk/' ),
 							),
 						),
 					),
@@ -617,7 +618,7 @@ $manifest_data = array(
 							),
 							'default' => array(
 								array( 'label' => 'Gizlilik Politikası', 'url' => '#gizlilik' ),
-								array( 'label' => 'KVKK Metni', 'url' => '#kvkk' ),
+								array( 'label' => 'KVKK Metni', 'url' => '/kvkk/' ),
 								array( 'label' => 'Çerez Politikası', 'url' => '#cerez' ),
 							),
 						),
@@ -1142,6 +1143,52 @@ $manifest_data = array(
 						'button_label' => array( 'label' => 'Buton Metni', 'type' => 'text', 'default' => 'Özgeçmiş gönderin' ),
 						'button_url'   => array( 'label' => 'Buton Bağlantısı', 'type' => 'url', 'default' => 'mailto:info@kocist.com.tr?subject=%C4%B0%C5%9F%20ba%C5%9Fvurusu' ),
 						'email'        => array( 'label' => 'Görünen E-posta', 'type' => 'text', 'default' => 'info@kocist.com.tr' ),
+					),
+				),
+			),
+		),
+
+		/*
+		 * KVKK aydinlatma metni (/kvkk/). Kisa tutuldu: formlarin topladigi
+		 * veriler, amac, saklama ve basvuru yolu. Alt seritteki "#kvkk"
+		 * capasi ve form onay kutusu bu sayfaya baglanir.
+		 */
+		'kvkk' => array(
+			'label'      => 'KVKK Metni',
+			'path'       => '/kvkk/',
+			'components' => array(
+
+				'page_head' => array(
+					'label'  => 'Sayfa Başlığı',
+					'fields' => array(
+						'breadcrumb' => array( 'label' => 'Yol Göstergesi', 'type' => 'text', 'default' => 'Ana Sayfa / Kurumsal / KVKK' ),
+						'title'      => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'KVKK Aydınlatma Metni' ),
+						'subtitle'   => array( 'label' => 'Alt Başlık', 'type' => 'textarea', 'default' => 'Kişisel verilerinizi hangi amaçla işlediğimizi ve haklarınızı kısaca anlatıyoruz.' ),
+					),
+				),
+
+				'notice' => array(
+					'label'  => 'Aydınlatma Metni',
+					'fields' => array(
+						'title'   => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Kişisel verileriniz' ),
+						'intro'   => array( 'label' => 'Giriş', 'type' => 'textarea', 'default' => '6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) uyarınca, veri sorumlusu sıfatıyla sizi bilgilendiriyoruz.' ),
+						'updated' => array( 'label' => 'Güncelleme Notu', 'type' => 'text', 'default' => 'Son güncelleme: Ekim 2026', 'hint' => 'Metni değiştirdiğinizde tarihi de güncelleyin. Boş bırakılırsa görünmez.' ),
+						'items'   => array(
+							'label'   => 'Bölümler',
+							'type'    => 'repeater',
+							'max'     => 12,
+							'fields'  => array(
+								'title' => array( 'label' => 'Başlık', 'type' => 'text' ),
+								'body'  => array( 'label' => 'Metin (paragraflar arasında boş satır bırakın)', 'type' => 'textarea' ),
+							),
+							'default' => array(
+								array( 'title' => 'Veri sorumlusu', 'body' => 'Koçist Orman Ürünleri, Kestanelik Mahallesi, Çatalca / İstanbul.' ),
+								array( 'title' => 'Hangi verileri, neden işliyoruz', 'body' => 'Teklif ve iletişim formlarıyla ya da telefon, e-posta ve WhatsApp üzerinden ilettiğiniz ad soyad, firma adı, telefon, e-posta ve talep içeriğini; talebinize dönüş yapmak, teklif hazırlamak ve siparişinizi yürütmek için işliyoruz.' ),
+								array( 'title' => 'Hukuki sebep', 'body' => 'Verileriniz KVKK madde 5/2 kapsamında, bir sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması ve meşru menfaatimiz sebeplerine dayanılarak işlenir.' ),
+								array( 'title' => 'Aktarım ve saklama', 'body' => 'Verileriniz satılmaz ve pazarlama amacıyla paylaşılmaz. Yalnızca hizmet aldığımız barındırma ve e-posta sağlayıcılarıyla ve yasal zorunluluk hâlinde yetkili kurumlarla paylaşılabilir. Talebin gerektirdiği ve mevzuatın öngördüğü süre boyunca saklanır, ardından silinir ya da anonim hâle getirilir.' ),
+								array( 'title' => 'Haklarınız', 'body' => "KVKK madde 11 uyarınca verilerinizin işlenip işlenmediğini öğrenme, düzeltilmesini veya silinmesini isteme ve işlenmesine itiraz etme haklarına sahipsiniz.\n\nBaşvurunuzu info@kocist.com.tr adresine iletebilirsiniz; en geç 30 gün içinde yanıtlarız." ),
+							),
+						),
 					),
 				),
 			),

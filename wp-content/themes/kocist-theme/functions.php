@@ -63,8 +63,9 @@ function kocist_setup(): void {
  * ilk kurulum blog yazilari (inc/blog.php).
  * Surum 4: Banka Bilgilerimiz sayfasi.
  * Surum 5: Sik Sorulan Sorular sayfasi (/sss/).
+ * Surum 6: KVKK aydinlatma metni sayfasi (/kvkk/).
  */
-const KOCIST_PAGES_VERSION = '5';
+const KOCIST_PAGES_VERSION = '6';
 
 add_action( 'after_switch_theme', 'kocist_ensure_pages' );
 add_action( 'admin_init', 'kocist_maybe_ensure_pages' );
@@ -101,6 +102,7 @@ function kocist_ensure_pages(): void {
 		'katalog'          => 'Katalog',
 		'banka-bilgilerimiz' => 'Banka Bilgilerimiz',
 		'sss'              => 'Sık Sorulan Sorular',
+		'kvkk'             => 'KVKK Aydınlatma Metni',
 	);
 
 	$ids = array();
@@ -349,8 +351,8 @@ function kocist_assets(): void {
 		);
 	}
 
-	// Kurumsal ve Insan Kaynaklari sayfalari.
-	if ( is_page( array( 'kurumsal', 'insan-kaynaklari' ) ) ) {
+	// Kurumsal, Insan Kaynaklari ve KVKK sayfalari.
+	if ( is_page( array( 'kurumsal', 'insan-kaynaklari', 'kvkk' ) ) ) {
 		wp_enqueue_style(
 			'kocist-pages',
 			get_theme_file_uri( 'assets/css/pages.css' ),
@@ -749,6 +751,7 @@ function kocist_anchor_targets(): array {
 		'referanslar'      => '/kurumsal/',
 		'belgeler'         => '/katalog/?tab=belgeler',
 		'banka-bilgileri'  => '/banka-bilgilerimiz/',
+		'kvkk'             => '/kvkk/',
 	);
 }
 

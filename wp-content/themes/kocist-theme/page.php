@@ -3,7 +3,7 @@
  * Sayfa sablonu.
  *
  * Temanin actigi sayfalar (kurumsal, insan-kaynaklari, katalog, banka-bilgilerimiz,
- * iletisim, urun, sss)
+ * iletisim, urun, sss, kvkk)
  * manifestteki bilesenlerden cizilir; diger sayfalar normal icerikle.
  */
 
@@ -50,6 +50,10 @@ if ( is_page( 'kurumsal' ) ) {
 	// Sik sorulan sorular: manifestteki 'faq' bilesenlerinden.
 	kocist_section( 'page-head', array( 'page' => 'faq' ) );
 	kocist_section( 'faq' );
+} elseif ( is_page( 'kvkk' ) ) {
+	// KVKK aydinlatma metni: manifestteki 'kvkk' bilesenlerinden.
+	kocist_section( 'page-head', array( 'page' => 'kvkk' ) );
+	kocist_section( 'kvkk' );
 } elseif ( is_page( 'iletisim' ) ) {
 	// Iletisim sayfasi: manifestteki 'contact' bilesenlerinden cizilir.
 	kocist_section( 'contact-main' );

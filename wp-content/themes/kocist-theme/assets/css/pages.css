@@ -1,5 +1,5 @@
 /*
- * Kurumsal ve Insan Kaynaklari sayfalari.
+ * Kurumsal, Insan Kaynaklari ve KVKK sayfalari.
  *
  * Ana sayfanin diliyle ayni: Archivo, 16px kose, yesil palet, buyuk harf
  * etiket yok. Sayfanin tek vurgulu ani Kurumsal'daki "Amacimiz" karti;
@@ -214,6 +214,12 @@
 
 .k-apply .k-btn:focus-visible,
 .k-apply__email:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+/* ---------- KVKK aydinlatma metni ---------- */
+.k-legal { border-top: 1px solid var(--line); }
+.k-legal__item { padding: 28px 0; border-bottom: 1px solid var(--line); }
+.k-legal__title { margin: 0 0 10px; font-size: 20px; font-weight: 800; letter-spacing: -.015em; color: var(--forest); }
+.k-legal__updated { margin: 18px 0 0; color: var(--muted); font-size: 14px; }
 
 /* ---------- Duyarli ---------- */
 @media (max-width: 1000px) {
