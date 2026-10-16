@@ -455,7 +455,7 @@ function nwcs_bulk_plan(): array {
 add_action( 'admin_post_nwcs_bulk_apply', 'nwcs_bulk_apply' );
 function nwcs_bulk_apply(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) || ! check_admin_referer( 'nwcs_bulk_apply' ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 
 	$count = nwcs_bulk_run();
@@ -500,7 +500,7 @@ function nwcs_bulk_run(): int {
 
 function nwcs_render_bulk_update(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 
 	$plan    = nwcs_bulk_plan();

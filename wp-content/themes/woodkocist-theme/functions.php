@@ -612,12 +612,15 @@ function wk_seo_product_pages( array $pages ): array {
 			continue; // Sayfasi olmayan urun (eklenti 404 verir).
 		}
 
-		$image = wk_image( $product );
+		$image     = wk_image( $product );
+		$meta_desc = trim( (string) ( $product['meta_desc'] ?? '' ) );
 
 		$pages[] = array(
 			'url'         => $product['url'],
 			'name'        => wk_product_heading( $product ), // h1 ile ayni: kod + ad (canlidaki gibi).
-			'description' => '' !== trim( (string) $product['short'] ) ? $product['short'] : ( '' !== trim( (string) $product['body'] ) ? wp_strip_all_tags( (string) $product['body'] ) : wk_product_fallback_description( $product ) ),
+			// Havuzdaki meta baslik oldugu gibi; bossa eklenti "ad – site" uretir.
+			'title'       => (string) ( $product['meta_title'] ?? '' ),
+			'description' => '' !== $meta_desc ? $meta_desc : ( '' !== trim( (string) $product['short'] ) ? $product['short'] : ( '' !== trim( (string) $product['body'] ) ? wp_strip_all_tags( (string) $product['body'] ) : wk_product_fallback_description( $product ) ) ),
 			'image'       => ! empty( $image['id'] ) ? (int) $image['id'] : 0,
 			'type'        => 'Product',
 			'sitemap'     => true,

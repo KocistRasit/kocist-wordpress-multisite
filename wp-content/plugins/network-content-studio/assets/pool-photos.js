@@ -161,7 +161,7 @@
 
 		function finish() {
 			if ( ! batch ) {
-				stop( 'Hiçbir dosya yüklenmedi.' );
+				stop( 'Hiçbir dosya yüklenmedi; nedenleri aşağıda yazıyor.' );
 				return;
 			}
 
@@ -199,7 +199,7 @@
 			fetch( cfg.ajaxUrl, { method: 'POST', body: data, credentials: 'same-origin' } )
 				.then( function ( response ) {
 					return response.json().catch( function () {
-						return { success: false, file: true, data: { message: 'sunucu yanıt vermedi (HTTP ' + response.status + ')' } };
+						return { success: false, file: true, data: { message: 'site yanıt vermedi; yeniden deneyin (Teknik: HTTP ' + response.status + ')' } };
 					} );
 				} )
 				.then( function ( json ) {
@@ -214,7 +214,7 @@
 						return;
 					}
 
-					var message = ( json && json.data && json.data.message ) || ( -1 === json || 0 === json ? 'oturumun süresi doldu; sayfayı yenileyip yeniden deneyin' : 'yüklenemedi' );
+					var message = ( json && json.data && json.data.message ) || ( -1 === json || 0 === json ? 'oturumun süresi dolmuş olabilir; sayfayı yenileyip yeniden deneyin' : 'yüklenemedi; yeniden deneyin' );
 
 					// Dosyaya ozgu sunucu hatasi (ornegin boyut): kuyruk surer.
 					if ( json && json.file ) {
@@ -226,7 +226,7 @@
 
 					// Yetki, oturum ya da baska sekmede yeni yukleme: durulur.
 					line( file.name, message );
-					stop( 'Yükleme durdu.' );
+					stop( 'Yükleme durdu; nedeni aşağıda yazıyor.' );
 				} )
 				.catch( function () {
 					done++;

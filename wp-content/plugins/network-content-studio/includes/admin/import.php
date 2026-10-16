@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function nwcs_sync_guard( string $nonce_action ): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	check_admin_referer( $nonce_action );
@@ -50,7 +50,8 @@ function nwcs_handle_sync_download(): void {
 	nwcs_sync_guard( 'nwcs_sync_download' );
 
 	$slug   = isset( $_GET['kategori'] ) ? sanitize_title( wp_unslash( $_GET['kategori'] ) ) : '';
-	$result = nwcs_sync_build_template( $slug );
+	$quick  = isset( $_GET['sablon'] ) && NWCS_SYNC_QUICK === sanitize_key( wp_unslash( $_GET['sablon'] ) );
+	$result = $quick ? nwcs_sync_build_quick_template( $slug ) : nwcs_sync_build_template( $slug );
 
 	if ( is_wp_error( $result ) ) {
 		wp_die( esc_html( $result->get_error_message() ) );
@@ -126,13 +127,17 @@ function nwcs_handle_sync_cancel(): void {
  * ====================================================================== */
 
 /**
- * Kategori listesindeki "Excel indir" baglantisi.
+ * Kategori listesindeki "Excel indir" baglantisi. $quick: Hizli Excel (kod, ad,
+ * fiyat, site); $slug bossa tum urunler.
  */
-function nwcs_sync_download_url( string $slug ): string {
-	return wp_nonce_url(
-		add_query_arg( array( 'action' => 'nwcs_sync_download', 'kategori' => $slug ), admin_url( 'admin-post.php' ) ),
-		'nwcs_sync_download'
-	);
+function nwcs_sync_download_url( string $slug, bool $quick = false ): string {
+	$args = array( 'action' => 'nwcs_sync_download', 'kategori' => $slug );
+
+	if ( $quick ) {
+		$args['sablon'] = NWCS_SYNC_QUICK;
+	}
+
+	return wp_nonce_url( add_query_arg( $args, admin_url( 'admin-post.php' ) ), 'nwcs_sync_download' );
 }
 
 /**
@@ -154,7 +159,7 @@ function nwcs_render_sync_step(): bool {
 			<div class="nwcs-sync nwcs-sync--error" id="nwcs-excel-result" role="alert">
 				<h2 class="nwcs-sync__title">Excel yüklenemedi</h2>
 				<p><?php echo esc_html( $message ); ?></p>
-				<p class="nwcs-sync__muted">Havuzda hiçbir şey değişmedi.</p>
+				<p class="nwcs-sync__muted">Hiçbir ürün değişmedi.</p>
 			</div>
 			<?php
 		}
@@ -173,25 +178,36 @@ function nwcs_render_sync_step(): bool {
 				<?php $labels = nwcs_placement_labels( (string) ( $record['slug'] ?? '' ) ); ?>
 				<ul class="nwcs-sync__facts">
 					<li><?php echo (int) $counts['updated']; ?> ürün güncellendi</li>
-					<li><?php echo (int) $counts['created']; ?> yeni ürün eklendi</li>
-					<li><?php echo (int) $counts['trashed']; ?> ürün çöp kutusuna taşındı</li>
+					<?php if ( empty( $record['quick'] ) ) : ?>
+						<li><?php echo (int) $counts['created']; ?> yeni ürün eklendi</li>
+						<li><?php echo (int) $counts['trashed']; ?> ürün çöp kutusuna taşındı</li>
+					<?php endif; ?>
 					<?php if ( ! empty( $counts['sites'] ) ) : ?>
 						<li><?php echo (int) $counts['sites']; ?> ürünün sitesi değişti (SİTE sütunu)</li>
+					<?php endif; ?>
+					<?php if ( ! empty( $counts['addresses'] ) ) : ?>
+						<li><?php echo (int) $counts['addresses']; ?> sayfa adresi değişti; eski adresler yeni adreslere yönleniyor</li>
 					<?php endif; ?>
 					<?php if ( $counts['errors'] ) : ?>
 						<li class="is-warn"><?php echo (int) $counts['errors']; ?> hatalı satır yüklenmedi</li>
 					<?php endif; ?>
 				</ul>
+				<?php if ( ! empty( $record['address_failed'] ) ) : ?>
+					<p class="nwcs-sync__warn">
+						Şu sayfa adresleri değiştirilemedi (ürünlerin diğer değişiklikleri uygulandı): <?php echo esc_html( implode( '; ', (array) $record['address_failed'] ) ); ?>.
+						Bu adresleri Ürün Havuzu’nda ürünü açıp Özelleştirmeler › Sayfa adresi bölümünden değiştirebilirsiniz.
+					</p>
+				<?php endif; ?>
 				<?php if ( $record['skipped'] ) : ?>
 					<p class="nwcs-sync__warn">
 						Önizlemeden sonra panelde değiştiği için atlanan ürünler: <?php echo esc_html( implode( ', ', $record['skipped'] ) ); ?>.
-						Bu ürünler için dosyayı yeniden indirip tekrar deneyin.
+						Bu ürünler değişmedi; onlar için Excel’i yeniden indirip tekrar deneyin.
 					</p>
 				<?php endif; ?>
 				<?php if ( $counts['created'] && $labels ) : ?>
 					<p><?php echo esc_html( sprintf( 'Yeni ürünler %s sitelerinde görünüyor%s.', nwcs_join_and( array_values( $labels ) ), ! empty( $counts['sites'] ) ? '; SİTE sütunu yazılanlar yalnızca yazılan sitelerde' : '' ) ); ?></p>
 				<?php elseif ( $counts['created'] ) : ?>
-					<p class="nwcs-sync__warn">Bu kategori hiçbir siteye yerleşmedi; yeni ürünler sitede görünmez. Aşağıdaki “Sitelerde” kutusundan yerleştirin.</p>
+					<p class="nwcs-sync__warn">Bu kategori hiçbir siteye yerleştirilmemiş; yeni ürünler sitede görünmez. Kategoriyi aşağıdaki “Sitelerde” kutusundan sitelere yerleştirin.</p>
 				<?php endif; ?>
 				<p class="nwcs-sync__muted">Bir yanlışlık varsa aşağıdaki “Son işlemler”den bu yüklemenin tamamını geri alabilirsiniz.</p>
 			</div>
@@ -229,6 +245,11 @@ function nwcs_sync_value( string $value, string $field = '', bool $is_new = fals
 	// Yeni deger bossa silme demektir: kirmizi. Eski deger bossa yalnizca bilgi.
 	$class = $is_new ? 'nwcs-sync__empty' : 'nwcs-sync__none';
 
+	// Bos meta silinmez, sayfa otomatik degere doner: kirmizi degil.
+	if ( 'meta_title' === $field || 'meta_desc' === $field ) {
+		return '<em class="nwcs-sync__none">boş (otomatik)</em>';
+	}
+
 	// $field alan anahtari ('price', 'detail'...): etiket degil; "Fiyat" adli detay basligi karismaz.
 	return 'price' === $field ? '<em class="' . $class . '">boş (“Teklif al”)</em>' : '<em class="' . $class . '">' . ( $is_new ? 'boş (silinir)' : 'boş' ) . '</em>';
 }
@@ -245,24 +266,27 @@ function nwcs_render_sync_preview( array $plan ): void {
 	$nothing = ! $update && ! $create && ( ! $trash || ! empty( $plan['trash_off'] ) );
 	$labels  = array_values( (array) ( $plan['sites'] ?? array() ) );
 	$order   = nwcs_history_order_note();
+	$quick   = ! empty( $plan['quick'] );
 	// SİTE sutunuyla sitesi belirlenen satir var mi (yeni urun ya da site degisikligi).
 	$by_site = (bool) array_filter( $create, static fn( array $item ): bool => is_array( $item['data']['sites'] ?? null ) )
 		|| (bool) array_filter( $update, static fn( array $item ): bool => '' !== (string) ( $item['moves'] ?? '' ) );
 	?>
 	<section class="nwcs-sync" id="nwcs-excel-result" aria-labelledby="nwcs-sync-title">
 		<header class="nwcs-sync__head">
-			<h2 class="nwcs-sync__title" id="nwcs-sync-title">Önizleme: <?php echo esc_html( $plan['term_name'] ); ?></h2>
+			<h2 class="nwcs-sync__title" id="nwcs-sync-title">Önizleme<?php echo $quick ? ' (Hızlı Excel)' : ''; ?>: <?php echo esc_html( $plan['term_name'] ); ?></h2>
 			<p class="nwcs-sync__muted">
 				<?php echo esc_html( $plan['file'] ); ?>
 				<?php if ( $plan['downloaded'] ) : ?>
-					— <?php echo esc_html( wp_date( 'd.m.Y H:i', (int) $plan['downloaded'] ) ); ?> tarihinde indirilen taslak
+					— <?php echo esc_html( wp_date( 'd.m.Y H:i', (int) $plan['downloaded'] ) ); ?> tarihinde indirilen Excel
 				<?php endif; ?>
 			</p>
 			<p class="nwcs-sync__lead">Henüz hiçbir şey değişmedi. Aşağıyı kontrol edin, doğruysa <strong>Değişiklikleri uygula</strong>’ya basın.</p>
-			<?php if ( $labels ) : ?>
+			<?php if ( $quick ) : ?>
+				<p class="nwcs-sync__sites">Yalnızca var olan ürünler güncellenir. Dosyada olmayan ürünlere ve bu dosyada olmayan alanlara (açıklamalar, kısa açıklama, meta başlık ve meta açıklama, teknik detaylar) dokunulmaz.</p>
+			<?php elseif ( $labels ) : ?>
 				<p class="nwcs-sync__sites"><?php echo esc_html( sprintf( 'Bu ürünler %s sitelerinde görünecek%s.', nwcs_join_and( $labels ), $by_site ? '; SİTE sütunu yazılanlar yalnızca yazılan sitelerde' : '' ) ); ?></p>
 			<?php else : ?>
-				<p class="nwcs-sync__warn">Bu kategori hiçbir siteye yerleşmedi; ürünler yüklenir ama sitede görünmez. Yükledikten sonra kategorinin “Sitelerde” kutusundan yerleştirin.</p>
+				<p class="nwcs-sync__warn">Bu kategori hiçbir siteye yerleştirilmemiş; ürünler yüklenir ama sitede görünmez. Yükledikten sonra kategoriyi bu sayfadaki “Sitelerde” kutusundan sitelere yerleştirin.</p>
 			<?php endif; ?>
 			<?php if ( '' !== $order && ! $nothing ) : ?>
 				<p class="nwcs-sync__muted"><?php echo esc_html( $order ); ?></p>
@@ -271,8 +295,10 @@ function nwcs_render_sync_preview( array $plan ): void {
 
 		<ul class="nwcs-sync__sum">
 			<li class="nwcs-sync__chip nwcs-sync__chip--update"><b><?php echo count( $update ); ?></b> ürün güncellenecek</li>
-			<li class="nwcs-sync__chip nwcs-sync__chip--new"><b><?php echo count( $create ); ?></b> yeni ürün</li>
-			<li class="nwcs-sync__chip nwcs-sync__chip--trash"><b><?php echo count( $trash ); ?></b> ürün çöp kutusuna</li>
+			<?php if ( ! $quick ) : ?>
+				<li class="nwcs-sync__chip nwcs-sync__chip--new"><b><?php echo count( $create ); ?></b> yeni ürün</li>
+				<li class="nwcs-sync__chip nwcs-sync__chip--trash"><b><?php echo count( $trash ); ?></b> ürün çöp kutusuna</li>
+			<?php endif; ?>
 			<li class="nwcs-sync__chip nwcs-sync__chip--error"><b><?php echo count( $errors ); ?></b> satırda hata</li>
 			<li class="nwcs-sync__chip"><b><?php echo count( $same ); ?></b> ürün aynı kalacak</li>
 		</ul>
@@ -297,6 +323,38 @@ function nwcs_render_sync_preview( array $plan ): void {
 				Bu dosyayı indirdikten sonra panelde değişen <?php echo count( $plan['stale'] ); ?> ürün var:
 				<?php echo esc_html( implode( ', ', $plan['stale'] ) ); ?>.
 				Uygularsanız Excel’deki hâli geçerli olur; paneldeki son değişiklikler kaybolur.
+			</p>
+		<?php endif; ?>
+
+		<?php if ( ! empty( $plan['codeless'] ) ) : ?>
+			<p class="nwcs-sync__muted">
+				<?php echo esc_html( sprintf( '%d ürünün kodu yok; satırları değişmediği için atlandı. Bu ürünleri güncellemek için önce ÜRÜN KODU hücresini doldurun.', count( $plan['codeless'] ) ) ); ?>
+			</p>
+		<?php endif; ?>
+
+		<?php if ( ! empty( $plan['cleared'] ) ) : ?>
+			<p class="nwcs-sync__warn">
+				<strong><?php echo count( $plan['cleared'] ); ?> ürünün açıklaması silinecek</strong> (ÜRÜN AÇIKLAMASI hücresi boş):
+				<?php echo esc_html( nwcs_sync_name_list( $plan['cleared'] ) ); ?>.
+				Ürün sayfaları açık kalır; yalnızca açıklama metni görünmez (varsa tabloları kalır). İstemiyorsanız hücreleri doldurup dosyayı yeniden yükleyin.
+			</p>
+		<?php endif; ?>
+
+		<?php foreach ( array( 'meta_title' => 'meta başlığı', 'meta_desc' => 'meta açıklaması' ) as $field => $label ) : ?>
+			<?php if ( ! empty( $plan['long'][ $field ] ) ) : ?>
+				<p class="nwcs-sync__warn">
+					<?php echo esc_html( sprintf( '%d ürünün %s %d karakteri geçiyor; yüklenir ama arama sonucunda kesilir: %s.', count( $plan['long'][ $field ] ), $label, NWCS_SYNC_META_LIMITS[ $field ], nwcs_sync_name_list( $plan['long'][ $field ] ) ) ); ?>
+				</p>
+			<?php endif; ?>
+		<?php endforeach; ?>
+
+		<?php
+		$moving    = array_filter( $update, static fn( array $item ): bool => ! empty( $item['data']['addresses'] ) );
+		$addresses = array_sum( array_map( static fn( array $item ): int => count( (array) $item['data']['addresses'] ), $moving ) );
+		?>
+		<?php if ( $moving ) : ?>
+			<p class="nwcs-sync__warn">
+				<?php echo esc_html( sprintf( '%d sayfa adresi değişecek (%d ürün). Eski adresler yeni adreslere kendiliğinden yönlenir; paylaşılmış bağlantılar kırılmaz.', $addresses, count( $moving ) ) ); ?>
 			</p>
 		<?php endif; ?>
 
@@ -367,7 +425,7 @@ function nwcs_render_sync_preview( array $plan ): void {
 				<h3>Eklenecek yeni ürünler (<?php echo count( $create ); ?>)</h3>
 				<p class="nwcs-sync__muted">
 					Yalnızca “<?php echo esc_html( $plan['term_name'] ); ?>” kategorisine eklenir.
-					<?php echo $labels ? esc_html( sprintf( 'Görüneceği siteler: %s%s.', nwcs_join_and( $labels ), $by_site ? ' (SİTE yazılan satırlarda yazılan siteler)' : '' ) ) : 'Kategori hiçbir siteye yerleşmediği için sitede görünmez.'; ?>
+					<?php echo $labels ? esc_html( sprintf( 'Görüneceği siteler: %s%s.', nwcs_join_and( $labels ), $by_site ? ' (SİTE yazılan satırlarda yazılan siteler)' : '' ) ) : 'Kategori hiçbir siteye yerleştirilmediği için sitede görünmez.'; ?>
 				</p>
 				<ul class="nwcs-sync__list">
 					<?php foreach ( $create as $item ) : ?>
@@ -404,8 +462,8 @@ function nwcs_render_sync_preview( array $plan ): void {
 
 			<?php if ( $trash && ! empty( $plan['trash_off'] ) ) : ?>
 				<p class="nwcs-sync__warn">
-					Dosyada olmayan <?php echo count( $trash ); ?> ürün var, ama bu sunucuda WordPress çöp kutusu kapalı (EMPTY_TRASH_DAYS = 0).
-					Çöpe atmak kalıcı silmek olacağı için bu ürünlere dokunulmayacak.
+					Dosyada olmayan <?php echo count( $trash ); ?> ürün var, ama bu panelde çöp kutusu kapalı.
+					Çöpe atmak kalıcı silmek olacağı için bu ürünlere dokunulmayacak. Bu ürünleri kaldırmanız gerekiyorsa geliştiriciye haber verin. (Teknik: EMPTY_TRASH_DAYS = 0)
 				</p>
 			<?php elseif ( $trash ) : ?>
 				<div class="nwcs-sync__danger" role="group" aria-labelledby="nwcs-sync-trash">
@@ -439,7 +497,7 @@ function nwcs_render_sync_preview( array $plan ): void {
 				<?php if ( ! $nothing ) : ?>
 					<button type="submit" class="button button-primary button-hero">Değişiklikleri uygula</button>
 				<?php else : ?>
-					<p class="nwcs-sync__muted">Uygulanacak bir değişiklik yok: dosya havuzla aynı<?php echo $errors ? ' ya da değişen satırlar hatalı' : ''; ?>.</p>
+					<p class="nwcs-sync__muted">Uygulanacak bir değişiklik yok: dosyadaki bilgiler paneldekiyle aynı<?php echo $errors ? ' ya da değişen satırlar hatalı' : ''; ?>.</p>
 				<?php endif; ?>
 				<button type="submit" class="button" form="nwcs-sync-cancel">Vazgeç</button>
 			</div>
@@ -461,6 +519,13 @@ function nwcs_join_and( array $items ): string {
 	$last  = array_pop( $items );
 
 	return $items ? implode( ', ', $items ) . ' ve ' . $last : (string) $last;
+}
+
+/**
+ * Uyari satirindaki urun adlari: ilk 10'u, fazlasi "…".
+ */
+function nwcs_sync_name_list( array $names ): string {
+	return implode( ', ', array_slice( $names, 0, 10 ) ) . ( count( $names ) > 10 ? '…' : '' );
 }
 
 /**
@@ -491,6 +556,10 @@ function nwcs_sync_new_facts( array $data ): string {
 	// SİTE yazildiysa kategorinin yerlesimi yerine bu siteler.
 	if ( is_array( $data['sites'] ?? null ) ) {
 		$parts[] = 'Site: ' . nwcs_sync_sites_text( $data['sites'] );
+	}
+
+	if ( '' !== (string) ( $data['post_name'] ?? '' ) ) {
+		$parts[] = 'Adres: /urun/' . $data['post_name'] . '/';
 	}
 
 	foreach ( nwcs_required_headings() as $key => $label ) {

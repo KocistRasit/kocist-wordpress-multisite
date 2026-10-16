@@ -143,24 +143,24 @@ function nwcs_xlsx_shared_strings( string $path ): array {
  */
 function nwcs_xlsx_read_rows( string $path, string $sheet_name = '' ) {
 	if ( ! class_exists( 'ZipArchive' ) ) {
-		return new WP_Error( 'nwcs_xlsx_zip', 'Sunucuda ZipArchive eklentisi yok; .xlsx okunamıyor.' );
+		return new WP_Error( 'nwcs_xlsx_zip', 'Excel dosyası bu panelde açılamıyor. Bu sizin düzeltebileceğiniz bir sorun değil; geliştiriciye haber verin. (Teknik: ZipArchive yok)' );
 	}
 
 	$zip = new ZipArchive();
 
 	if ( true !== $zip->open( $path ) ) {
-		return new WP_Error( 'nwcs_xlsx_open', 'Dosya açılamadı. Geçerli bir .xlsx dosyası olduğundan emin olun.' );
+		return new WP_Error( 'nwcs_xlsx_open', 'Dosya açılamadı; bozuk olabilir ya da gerçek bir Excel dosyası olmayabilir. Dosyayı Excel’de açıp “Farklı Kaydet → Excel Çalışma Kitabı (.xlsx)” ile yeniden kaydedin ve tekrar yükleyin.' );
 	}
 
 	$sheet = nwcs_xlsx_sheet_path( $zip, $sheet_name );
 	$zip->close();
 
 	if ( '' === $sheet && '' !== $sheet_name ) {
-		return new WP_Error( 'nwcs_xlsx_nosheet', sprintf( 'Dosyada “%s” sayfası yok.', $sheet_name ) );
+		return new WP_Error( 'nwcs_xlsx_nosheet', sprintf( 'Excel’de “%s” sayfası yok. Excel’in altındaki sayfa sekmesinin adını değiştirdiyseniz eski hâline getirin.', $sheet_name ) );
 	}
 
 	if ( '' === $sheet ) {
-		return new WP_Error( 'nwcs_xlsx_sheet', 'Dosyada okunabilir bir sayfa bulunamadı.' );
+		return new WP_Error( 'nwcs_xlsx_sheet', 'Excel dosyasında okunabilecek bir sayfa bulunamadı. Dosyayı Excel’de açıp yeniden kaydedin ve tekrar yükleyin.' );
 	}
 
 	$shared = nwcs_xlsx_shared_strings( $path );
@@ -168,7 +168,7 @@ function nwcs_xlsx_read_rows( string $path, string $sheet_name = '' ) {
 	$xml = new XMLReader();
 
 	if ( ! @$xml->open( 'zip://' . $path . '#' . $sheet ) ) { // phpcs:ignore WordPress.PHP.NoSilencedErrors
-		return new WP_Error( 'nwcs_xlsx_sheet', 'Sayfa okunamadı.' );
+		return new WP_Error( 'nwcs_xlsx_sheet', 'Excel’deki sayfa okunamadı. Dosyayı Excel’de açıp yeniden kaydedin ve tekrar yükleyin; sorun sürerse geliştiriciye haber verin.' );
 	}
 
 	$rows      = array();

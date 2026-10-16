@@ -24,6 +24,9 @@
  *   kategori/site ciftine yazilir; olan yerlesime dokunulmaz. Yeni acilan
  *   urunler kategorilerinin yerlestigi sitelerde de secilir. Surum 1 ve 2 de
  *   kabul edilir.
+ * - 0.26.0: urunun meta basligi ve aciklamasi ('meta_title', 'meta_desc') da
+ *   tasinir. Istege bagli alan oldugu icin paket surumu degismedi; eski
+ *   paketlerde bos kalir.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -78,6 +81,8 @@ function nwcs_package_build(): array {
 			'title'      => (string) $product['title'],
 			'short'      => (string) $product['short'],
 			'body'       => (string) $product['body'],
+			'meta_title' => (string) ( $product['meta_title'] ?? '' ),
+			'meta_desc'  => (string) ( $product['meta_desc'] ?? '' ),
 			'price'      => (string) $product['price'],
 			'spec'       => (string) $product['spec'],
 			'details'    => (array) ( $product['details'] ?? array() ),
@@ -140,7 +145,7 @@ function nwcs_package_build(): array {
 add_action( 'admin_post_nwcs_package_export', 'nwcs_handle_package_export' );
 function nwcs_handle_package_export(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	check_admin_referer( 'nwcs_package_export' );
@@ -173,7 +178,7 @@ function nwcs_package_apply( array $package, bool $apply ): array {
 	);
 
 	if ( NWCS_PACKAGE_FORMAT !== ( $package['format'] ?? '' ) || ! in_array( (int) ( $package['version'] ?? 0 ), array( 1, 2, NWCS_PACKAGE_VERSION ), true ) || ! is_array( $package['products'] ?? null ) ) {
-		$report['warnings'][] = 'Dosya bir Havuz Paketi değil ya da sürümü uyumsuz.';
+		$report['warnings'][] = 'Bu dosya bir Havuz Paketi değil ya da bu panelle uyumlu olmayan bir sürüm. Diğer kurulumdan “Paketi indir” ile yeni bir paket alıp onu yükleyin.';
 
 		return $report;
 	}
@@ -276,7 +281,7 @@ function nwcs_package_apply( array $package, bool $apply ): array {
 		);
 
 		if ( ! $id ) {
-			$report['warnings'][] = 'Eklenemedi: ' . $title;
+			$report['warnings'][] = 'Ürün eklenemedi: ' . $title . '. Paketi yeniden aktarın; sorun sürerse geliştiriciye haber verin.';
 			continue;
 		}
 
@@ -289,6 +294,9 @@ function nwcs_package_apply( array $package, bool $apply ): array {
 		update_post_meta( $id, '_nwcs_source', wp_slash( $source ) );
 		update_post_meta( $id, '_nwcs_short', wp_slash( nwcs_clean_text( $item['short'] ?? '', true ) ) );
 		update_post_meta( $id, '_nwcs_price', wp_slash( nwcs_clean_text( $item['price'] ?? '' ) ) );
+		// Eski paketlerde yok: bos kalir (sayfa otomatik baslik/aciklama kullanir).
+		nwcs_product_set_meta_text( $id, '_nwcs_meta_title', nwcs_clean_text( $item['meta_title'] ?? '' ) );
+		nwcs_product_set_meta_text( $id, '_nwcs_meta_desc', nwcs_clean_text( $item['meta_desc'] ?? '' ) );
 
 		// Detaylar ve spec tek yaziciyla: surum 2'de 'details', surum 1'de spec metni.
 		$spec    = nwcs_clean_text( $item['spec'] ?? '' );
@@ -444,7 +452,7 @@ function nwcs_package_apply( array $package, bool $apply ): array {
 add_action( 'admin_post_nwcs_package_import', 'nwcs_handle_package_import' );
 function nwcs_handle_package_import(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	check_admin_referer( 'nwcs_package_import' );
@@ -455,12 +463,12 @@ function nwcs_handle_package_import(): void {
 	$report = array( 'apply' => $apply, 'warnings' => array() );
 
 	if ( ! $file || ! is_uploaded_file( $file ) || ! str_ends_with( strtolower( $name ), '.json' ) || filesize( $file ) > 20 * MB_IN_BYTES ) {
-		$report['warnings'][] = 'Bir .json Havuz Paketi dosyası seçin (en fazla 20 MB).';
+		$report['warnings'][] = 'Dosya yüklenmedi. Uzantısı .json olan bir Havuz Paketi dosyası seçin (en fazla 20 MB).';
 	} else {
 		$package = json_decode( (string) file_get_contents( $file ), true );
 
 		if ( ! is_array( $package ) ) {
-			$report['warnings'][] = 'Dosya okunamadı: geçerli bir JSON değil.';
+			$report['warnings'][] = 'Dosya okunamadı; bozuk olabilir. Diğer kurulumdan paketi yeniden indirip yükleyin. (Teknik: geçerli bir JSON değil)';
 		} else {
 			// Uzun paketlerde istek yarida kesilmesin.
 			if ( function_exists( 'set_time_limit' ) ) {
@@ -480,7 +488,7 @@ function nwcs_handle_package_import(): void {
 
 function nwcs_render_package(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 
 	$report = isset( $_GET['rapor'] ) ? get_site_transient( NWCS_PACKAGE_REPORT . '_' . get_current_user_id() ) : false; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- yalnizca gosterim.
@@ -498,13 +506,13 @@ function nwcs_render_package(): void {
 
 		<?php if ( is_array( $report ) ) : ?>
 			<section class="nwcs-pool__card">
-				<h2 class="nwcs-pool__title"><?php echo esc_html( $report['apply'] ? 'Aktarım tamamlandı' : 'Deneme sonucu (hiçbir şey yazılmadı)' ); ?></h2>
+				<h2 class="nwcs-pool__title"><?php echo esc_html( $report['apply'] ? 'Aktarım tamamlandı' : 'Deneme sonucu (hiçbir şey değiştirilmedi)' ); ?></h2>
 
 				<?php if ( isset( $report['new'] ) ) : ?>
 					<p class="nwcs-seo__lead">
 						<strong><?php echo esc_html( (string) ( $report['file'] ?? '' ) ); ?></strong>:
 						<?php echo (int) $report['new']; ?> yeni ürün <?php echo esc_html( $report['apply'] ? 'eklendi' : 'eklenecek' ); ?>,
-						<?php echo (int) $report['existing']; ?> ürün bu havuzda zaten var (dokunulmaz)<?php echo $report['skipped'] ? ', ' . (int) $report['skipped'] . ' satır adı olmadığı için atlandı' : ''; ?>.
+						<?php echo (int) $report['existing']; ?> ürün bu kurulumda zaten var (dokunulmaz)<?php echo $report['skipped'] ? ', ' . (int) $report['skipped'] . ' ürün adı olmadığı için atlandı' : ''; ?>.
 						<?php if ( $report['terms'] ) : ?>
 							<?php echo (int) $report['terms']; ?> yeni kategori açıldı.
 						<?php endif; ?>
@@ -542,7 +550,7 @@ function nwcs_render_package(): void {
 				<?php if ( ! $report['apply'] && ( ! empty( $report['new'] ) || ! empty( $report['tables'] ) || ! empty( $report['headings'] ) || ! empty( $report['placements'] ) || array_sum( array_column( (array) ( $report['sites'] ?? array() ), 'added' ) ) ) ) : ?>
 					<p class="nwcs-seo__lead">Sonuç doğruysa aynı dosyayı aşağıdan <strong>Aktar</strong> seçeneğiyle yükleyin.</p>
 				<?php elseif ( ! $report['apply'] && isset( $report['new'] ) ) : ?>
-					<p class="nwcs-seo__lead">Aktarılacak yeni bir şey yok: bu havuz paketle aynı.</p>
+					<p class="nwcs-seo__lead">Aktarılacak yeni bir şey yok: paketteki her şey bu kurulumda zaten var.</p>
 				<?php endif; ?>
 			</section>
 		<?php endif; ?>

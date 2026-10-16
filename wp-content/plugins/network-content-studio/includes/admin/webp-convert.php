@@ -304,7 +304,7 @@ function nwcs_webp_convert_attachment( int $id ): array {
 	$meta     = wp_get_attachment_metadata( $id );
 
 	if ( ! $file || '' === $relative || ! file_exists( $file ) ) {
-		return $fail( 'Dosya diskte yok.' );
+		return $fail( 'Görselin dosyası bulunamadı; görsel olduğu gibi bırakıldı.' );
 	}
 
 	if ( ! is_array( $meta ) ) {
@@ -314,7 +314,7 @@ function nwcs_webp_convert_attachment( int $id ): array {
 	$editor = wp_get_image_editor( $file );
 
 	if ( is_wp_error( $editor ) ) {
-		return $fail( 'Dosya okunamadı: ' . $editor->get_error_message() );
+		return $fail( 'Görsel açılamadı, dosya bozuk olabilir; görsel olduğu gibi bırakıldı. (Teknik: ' . $editor->get_error_message() . ')' );
 	}
 
 	// images.php ile ayni: yon EXIF'te ise once uygulanir (EXIF WebP'de duser).
@@ -338,7 +338,7 @@ function nwcs_webp_convert_attachment( int $id ): array {
 	$saved = $editor->save( $target, 'image/webp' );
 
 	if ( is_wp_error( $saved ) || empty( $saved['path'] ) || ! file_exists( $saved['path'] ) ) {
-		return $fail( 'WebP yazılamadı' . ( is_wp_error( $saved ) ? ': ' . $saved->get_error_message() : '.' ) );
+		return $fail( 'WebP dosyası oluşturulamadı; görsel olduğu gibi bırakıldı.' . ( is_wp_error( $saved ) ? ' (Teknik: ' . $saved->get_error_message() . ')' : '' ) );
 	}
 
 	$old_size = (int) filesize( $file );
@@ -350,7 +350,7 @@ function nwcs_webp_convert_attachment( int $id ): array {
 	if ( $new_size >= $old_size ) {
 		wp_delete_file( $saved['path'] );
 
-		return $fail( sprintf( 'WebP daha büyük (%s → %s).', size_format( $old_size, 1 ), size_format( $new_size, 1 ) ), 'larger' );
+		return $fail( sprintf( 'WebP hâli daha büyük çıktı; görsel olduğu gibi bırakıldı (%s → %s).', size_format( $old_size, 1 ), size_format( $new_size, 1 ) ), 'larger' );
 	}
 
 	// Geri alma bilgisi, ek degismeden once.
@@ -379,7 +379,7 @@ function nwcs_webp_convert_attachment( int $id ): array {
 		// Yarim kalmasin: eski hale don.
 		nwcs_webp_restore_attachment( $id );
 
-		return $fail( 'Ara boyutlar üretilemedi.' );
+		return $fail( 'Görselin küçük boyutları oluşturulamadı; görsel eski hâline döndürüldü.' );
 	}
 
 	// Alt metin gibi eklenti alanlari post meta'da; metadata'da yalnizca
@@ -503,13 +503,13 @@ function nwcs_webp_flush( int $blog_id ): void {
  */
 function nwcs_webp_ajax_blog(): int {
 	if ( ! current_user_can( NWCS_CAPABILITY ) || ! check_ajax_referer( 'nwcs_webp', 'nonce', false ) ) {
-		wp_send_json_error( array( 'message' => 'Bu işlem için yetkiniz yok.' ), 403 );
+		wp_send_json_error( array( 'message' => 'Bu işlem için yetkiniz yok ya da oturumun süresi dolmuş olabilir; sayfayı yenileyip yeniden deneyin.' ), 403 );
 	}
 
 	$blog_id = isset( $_POST['site'] ) ? absint( $_POST['site'] ) : 0;
 
 	if ( ! $blog_id || ! get_site( $blog_id ) ) {
-		wp_send_json_error( array( 'message' => 'Site bulunamadı.' ), 400 );
+		wp_send_json_error( array( 'message' => 'Site bulunamadı. Sayfayı yenileyip yeniden deneyin.' ), 400 );
 	}
 
 	return $blog_id;
@@ -522,7 +522,7 @@ function nwcs_webp_ajax_batch(): void {
 	$heic    = ! empty( $_POST['heic'] ); // phpcs:ignore WordPress.Security.NonceVerification
 
 	if ( 'convert' === $mode && ! nwcs_image_webp_supported() ) {
-		wp_send_json_error( array( 'message' => 'Sunucunun görüntü kütüphanesi WebP yazamıyor.' ), 500 );
+		wp_send_json_error( array( 'message' => 'Bu panelde görseller WebP’ye çevrilemiyor; geliştiriciye haber verin. (Teknik: sunucunun görüntü kütüphanesi WebP yazamıyor)' ), 500 );
 	}
 
 	if ( function_exists( 'set_time_limit' ) ) {
@@ -548,7 +548,7 @@ function nwcs_webp_ajax_batch(): void {
 
 		if ( 'restore' === $mode ) {
 			$ok      = nwcs_webp_restore_attachment( $id );
-			$items[] = array( 'id' => $id, 'file' => $title, 'status' => $ok ? 'restored' : 'error', 'message' => $ok ? 'eski hâline döndü' : 'geri alma bilgisi yok' );
+			$items[] = array( 'id' => $id, 'file' => $title, 'status' => $ok ? 'restored' : 'error', 'message' => $ok ? 'eski hâline döndü' : 'eski hâli kayıtlı değil, geri alınamadı' );
 
 			if ( ! $ok ) {
 				// Dongu ayni eke takilmasin.
@@ -559,7 +559,7 @@ function nwcs_webp_ajax_batch(): void {
 				$row = nwcs_webp_convert_attachment( $id );
 			} catch ( Throwable $e ) {
 				update_post_meta( $id, NWCS_WEBP_SKIP_META, array( 'reason' => 'error', 'message' => $e->getMessage(), 'time' => time() ) );
-				$row = array( 'status' => 'error', 'message' => $e->getMessage() );
+				$row = array( 'status' => 'error', 'message' => 'Görsel çevrilemedi; olduğu gibi bırakıldı. (Teknik: ' . $e->getMessage() . ')' );
 			}
 
 			$items[] = array( 'id' => $id, 'file' => $title, 'status' => $row['status'], 'message' => $row['message'] );
@@ -620,7 +620,7 @@ function nwcs_webp_sites(): array {
 
 function nwcs_render_webp(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 
 	$supported = nwcs_image_webp_supported();
@@ -642,13 +642,13 @@ function nwcs_render_webp(): void {
 			</p>
 
 			<div class="notice notice-warning inline">
-				<p><strong>Çalıştırmadan önce veritabanının ve <code>wp-content/uploads</code> klasörünün yedeğini alın.</strong>
+				<p><strong>Çalıştırmadan önce sitenin yedeğini alın (veritabanı ve <code>wp-content/uploads</code> klasörü).</strong>
 				İşlem küçük parçalar hâlinde yürür; sayfayı kapatırsanız aynı düğmeyle kaldığı yerden devam eder.
 				Bittiğinde site önbelleği (LiteSpeed, tanımlıysa Cloudflare) kendiliğinden temizlenir.</p>
 			</div>
 
 			<?php if ( ! $supported ) : ?>
-				<div class="notice notice-error inline"><p><strong>Bu sunucunun görüntü kütüphanesi WebP yazamıyor; dönüştürme yapılamaz.</strong></p></div>
+				<div class="notice notice-error inline"><p><strong>Bu kurulumda görseller WebP’ye çevrilemiyor; geliştiriciye haber verin.</strong> (Teknik: sunucunun görüntü kütüphanesi WebP yazamıyor.)</p></div>
 			<?php endif; ?>
 
 			<p>
@@ -709,7 +709,7 @@ function nwcs_render_webp(): void {
 			const response = await fetch( ajaxUrl, { method: 'POST', body, credentials: 'same-origin' } );
 			const json = await response.json().catch( () => null );
 			if ( ! json || ! json.success ) {
-				throw new Error( ( json && json.data && json.data.message ) || 'Sunucu yanıt vermedi (HTTP ' + response.status + ').' );
+				throw new Error( ( json && json.data && json.data.message ) || 'Yanıt alınamadı; bağlantı kesilmiş ya da oturumun süresi dolmuş olabilir. Gerekirse sayfayı yenileyin. (Teknik: HTTP ' + response.status + ')' );
 			}
 			return json.data;
 		};

@@ -579,12 +579,15 @@ function kocist_catalog_current_seo_title(): string {
 
 /*
  * Paneldeki arama basligi, eklentinin normal sayfalarda yaptigi gibi oldugu
- * gibi kullanilir (site adi eklenmez). Eklenti ek sayfalarin basligini addan
- * kendisi uretiyor ve bunun icin suzgec vermiyor; bu yuzden:
+ * gibi kullanilir (site adi eklenmez). Bu duzenek, eklenti ek sayfalara baslik
+ * vermeyi desteklemezken kuruldu:
  *   - sekme basligi: eklentinin suzgecinden (20) sonra,
  *   - og:title ve JSON-LD WebPage adi: eklentinin wp_head ciktisinda (1)
  *     yalnizca o iki deger degistirilir. Yeni etiket eklenmez, tekrar olmaz.
  * Panelde baslik bossa hicbiri calismaz; cikti eskisiyle aynidir.
+ * Eklenti 0.26.0'dan beri ek sayfanin 'title' anahtarini aliyor (urun sayfalari
+ * onu kullanir, asagida); grup/kategori satirlarina 'title' verilerek bu iki
+ * kanca kaldirilabilir.
  */
 add_filter( 'pre_get_document_title', 'kocist_catalog_document_title', 30 );
 function kocist_catalog_document_title( $title ) {
@@ -697,11 +700,14 @@ function kocist_catalog_seo_pages( array $pages ): array {
 			continue;
 		}
 
-		$image   = kocist_product_image( $product );
-		$pages[] = array(
+		$image     = kocist_product_image( $product );
+		$meta_desc = trim( (string) ( $product['meta_desc'] ?? '' ) );
+		$pages[]   = array(
 			'url'         => $product['url'],
 			'name'        => $product['title'],
-			'description' => $product['short'] ?: ( trim( (string) $product['body'] ) ? wp_strip_all_tags( $product['body'] ) : $product['title'] ),
+			// Havuzdaki meta baslik oldugu gibi; bossa eklenti "ad – site" uretir.
+			'title'       => (string) ( $product['meta_title'] ?? '' ),
+			'description' => '' !== $meta_desc ? $meta_desc : ( $product['short'] ?: ( trim( (string) $product['body'] ) ? wp_strip_all_tags( $product['body'] ) : $product['title'] ) ),
 			'image'       => $image['url'] ? array( 'url' => $image['url'], 'alt' => $image['alt'] ) : 0,
 			'type'        => 'Product',
 			// Site haritasina girer (/urun/<slug>/ WordPress sayfasi degil).

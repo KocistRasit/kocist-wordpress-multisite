@@ -1719,3 +1719,186 @@ tutuyor: botlar formu görmeden `wp-comments-post.php`'ye gönderiyor.
   türlerine yazar (`kc_quote`, `wk_order`, `wk_request` …); yorum sistemine dokunan form yok.
 - **Yorumlar ekranı yerinde kalır:** daha önce gelmiş yorumlar oradan silinir. Yorum
   istenirse (ör. blog) filtre site bazında açılmalı ve spam koruması eklenmeli.
+
+## Ürün meta başlığı ve meta açıklaması (0.26.0, 16 Ekim 2026)
+
+Koçist ürün bilgilerini yapay zekâya ürettiriyor; çıktıda ürün başına meta başlık ve meta
+açıklama var. Ürün sayfasında bunların yazılacağı yer yoktu: `<title>` "ad – site" (60'ı
+aşarsa yalnızca ad), açıklama kısa açıklamanın 160'ta kesilmiş hâliydi (yerel veride 321
+ürünün 256'sında kısa açıklama 160'ı aşıyor, arama sonucunda yarım cümle).
+
+- **Havuzda, ürün başına** (`_nwcs_meta_title`, `_nwcs_meta_desc`; tek satır). Site başına
+  ayrı alan açılmadı: müşteri aynı ürünü siteye göre ayrı kopyalar olarak giriyor (SİTE
+  sütunu), her kopyanın kendi metası var. Ürün formunda "Arama sonucu (meta)" bölümü, 60/160
+  sayaçlı (`assets/seo.js` artık Ürün Havuzu sayfalarında da yüklenir; yer tutucu otomatik
+  değer, açıklama kesilmeden: 160'ı aşan otomatik açıklamada sayaç kırmızı).
+- **Meta başlık olduğu gibi yazılır, site adı eklenmez** (kullanıcı kararı: sorumluluk
+  içeriği yazanda). Ek sayfa sözleşmesine (`nwcs_seo_extra_pages`) isteğe bağlı `title`
+  anahtarı eklendi; doluysa `<title>`, `og:title` ve JSON-LD WebPage adı odur, boşsa eski
+  kural. Product adı ve konum yolu ürün adında kalır. SEO ve GEO puan ekranı aynı kuralı
+  kullanır.
+- **Meta açıklama doluysa** temalar `description` olarak onu verir: meta açıklama,
+  `og:description`, JSON-LD (WebPage, Product) ve llms.txt satırı. Tek değer, ayrı ayrı
+  yönetilmez. Boşsa eski sıra (kısa açıklama → metin → ad / WK'da ad + ilk üç detay).
+- Koçist ve WOOD KOCIST temaları; havuz ürünü gösteren başka tema yok (İstanbul Keresteci'nin
+  ürünleri kendi gizli sayfalarında, kendi "Arama ve Paylaşım" alanlarıyla).
+- Excel geri alma kaydı (`nwcs_import_snapshot`) iki alanı da tutar; 0.26.0 öncesi kayıtlarda
+  alan yoksa geri alma ona dokunmaz. Havuz Paketi iki alanı taşır (paket sürümü aynı: alan
+  isteğe bağlı, eski pakette boş kalır). Havuz önbelleği anahtarı `v6`.
+- **Eski önbellek satırları:** anahtar değişince eskisi okunmuyor, WordPress'in tembel silmesi
+  de çalışmıyor; yerelde `nwcs_pool_products` … `_v5` beş satır (~750 KB) birikmişti. Yeni
+  önbellek ilk kez kurulurken bunlar bir kez silinir (`nwcs_pool_cache_pruned` havuz
+  seçeneği anahtarı tutar). Anahtar yeniden yükseltilirse listeye bir öncekini ekleyin.
+- Doğrulama (yerel): meta boşken Koçist ve WOOD KOCIST'in 335 ürün sayfasının `<head>`'i ve
+  iki sitenin llms.txt metni eski kodla aynı. Tek fark önbellek yeniden kurulumundan: eski `v5`
+  önbelleğinde 27 görsel adresi `/kocist/wp-content/uploads/...` önekiyle kalmıştı (ikisi de
+  açılıyor; yeni hâli doğru adres).
+
+## Kategori Excel'i: meta ve ürün açıklaması sütunları (0.26.0, 16 Ekim 2026)
+
+Müşteri ürüne dair düzenleyebileceği her şeyi tek dosyada istiyor (yapay zekâ çıktısı doğrudan
+dosyaya konuyor). Kategori Excel'i bu "kapsamlı" dosya oldu; ayrı bir motor kurulmadı.
+
+- **Yeni sütunlar:** `META BAŞLIK (en fazla 60 karakter)`, `META AÇIKLAMA (en fazla 160
+  karakter)`, `ÜRÜN AÇIKLAMASI (detay sayfası metni)`; sonda bilgi sütunları `SAYFA ADRESİ
+  (bilgi, panelden değişir)` ve `EK İÇERİK (bilgi)`. Taslak sürümü 2; sürüm 1 dosyaları da
+  yüklenir (olmayan sütunun alanına dokunulmaz, eski kural).
+- **Başlıktaki parantez:** sınırlar başlıkta yazıyor, yapay zekâ ve dolduran kişi oradan görür
+  (kullanıcı önerisi). Okumada sondaki parantez **yalnızca açıklama yazılan üç sütunda** atılır
+  ("Meta Başlık (maks 60)" de tanınır). Genel kural olamazdı: Koçist'in "Fiyat (Tek)",
+  "Fiyat (Set)" detay başlıkları FİYAT sayılıp "sütun iki kez var" hatası veriyordu (64
+  kategorilik denemede yakalandı). Kayıtlı detay başlığıyla aynı adlı sütun her zaman detay
+  başlığıdır. Ayrılmış anahtarlara (`nwcs_heading_reserved_keys`) `metabaslik`,
+  `metaaciklama`, `urunaciklamasi`, `sayfaadresi`, `ekicerik` eklendi: bu adlarla detay
+  başlığı açılmaz.
+- **Sistem sütununa benzeyen yeni sütun hata verir:** "KISA AÇIKLAMA (en fazla 300)" gibi,
+  parantezsiz adı bir sistem sütunu olan ve o sistem sütunu dosyada olmayan yeni başlık
+  sessizce detay başlığı olurdu (kısa açıklama değişmez, ürünlere o adla detay yazılırdı).
+  Asıl sütun dosyadaysa ("Fiyat (Toptan)" + FİYAT) yeni başlık olarak kabul edilir. "(detay)"
+  eki büyük/küçük harf duyarsız; ayrılmış adla kayıtlı olmayan "X (detay)" hata verir.
+- **Bilgi sütunları okunmaz:** başlığında "(bilgi" olan ya da adı SAYFA ADRESİ / EK İÇERİK olan
+  sütun; taslakta olmayan bilgi sütunu önizlemede not olarak yazar. SAYFA ADRESİ ilk hâlinde
+  bilgi sütunuydu; aynı gün kullanıcı kararıyla düzenlenebilir oldu (aşağıda, "Kapsamlı
+  Excel'den sayfa adresi").
+- **Boş meta satır bırakmaz:** `nwcs_product_set_meta_text()` boş değerde meta satırını siler
+  (form, Excel, geri alma, Havuz Paketi); "satır yok" ile "boş" aynı anlamda.
+- **Ürün açıklaması** Ürün açıklamaları ekranının dönüşümünü kullanır (`nwcs_desc_html_to_text`
+  / `nwcs_desc_text_to_html`): tablolar dosyaya girmez, sona aynen eklenir; metni değişmeyen
+  hücre ürüne dokunmaz. Özel içerik işareti ("[HTML içerik — panelden düzenleyin]") yalnızca
+  o ürünün kendi satırında geçerli; kopyalanan satırda ya da yeni üründe satır hata verir
+  (yoksa işaret metin olarak yazılırdı). Ürün açıklamaları ekranı tüm ürünleri tek dosyada
+  taşımak için kaldı.
+- **Boş hücre = sil** (kullanıcı kararı, sürüyor). Meta boşsa sayfa otomatik değere döner;
+  önizlemede "boş (otomatik)" gri yazar, kırmızı değil. Açıklaması silinecek ürünler
+  önizlemenin başında ayrıca sayılır.
+- **Uzunluk uyarı, hata değil:** 60/160'ı aşan meta yüklenir; önizleme hangi ürünlerde aştığını
+  söyler (yalnızca değişen ya da yeni değerlerde). Google piksel kesiyor, sınır kesin değil.
+- Doğrulama (yerel): 64 kategorinin taslağı değiştirilmeden yüklendi: kodlu 145 satırın hepsi
+  "aynı", 237 hata satırının hepsi kodsuz ürün (beklenen), başka not yok. Bir kategoride kod
+  ekleme, meta yazma, açıklamaya paragraf ekleme (tablo korundu), açıklama silme, yeni ürün,
+  adres hücresi ve kopyalanmış işaret uyarıları; uygulama ve geri alma (dört ürün aynı hâline
+  döndü, yeni ürün çöpe gitti). Eski biçimli dosya meta/açıklamaya dokunmadı.
+
+## Hızlı Excel: kod, ad, fiyat, site (0.26.0, 16 Ekim 2026)
+
+Müşteri ilk ayrıntılı girişten sonra kritik alanları (kullanıcı kararı: ürün kodu, adı, fiyatı,
+site) toplu güncellemek için dar bir dosya istiyor. Ayrı motor kurulmadı: kategori Excel'iyle
+aynı `tur=urunler`, `_bilgi` sayfasında `sablon=hizli`; aynı "Yükle", önizleme, uygula, geri al.
+
+- **Sütunlar:** KİMLİK (gizli), ÜRÜN KODU *, ÜRÜN ADI *, FİYAT, SİTE. Kategori başına (kategori
+  sayfasında "Hızlı Excel indir") ya da **tüm ürünler** (Kategoriler sayfası, kategori seçili
+  değilken "Tüm ürünler: Hızlı Excel" kutusu; `kategori` boş).
+- **Yalnızca güncelleme:** eşleşmeyen satır hata ("yeni ürün eklenemez"); dosyadan silinen
+  satıra dokunulmaz (çöp kutusu önerisi yok, yalnızca 20 satır bırakıp yüklemek güvenli);
+  çöpteki ürünün satırı hata verir (geri getirmez). Dosyaya eklenen başka sütun (KISA AÇIKLAMA,
+  detay başlığı) okunmaz, önizleme yazar; zorunlu detay başlığı denetimi yok.
+- **Kodsuz ürün:** "her ürünün kodu olur" kuralı sürüyor; ama hızlı dosyada kodu olmayan ve
+  satırı değişmemiş ürün hata sayılmaz, önizlemede tek satırla sayılır (tüm ürünler dosyasında
+  yerelde 234 hata satırı olurdu). Değiştirilen kodsuz satır hata verir; kod girilen satır
+  güncellenir (kod girmenin en hızlı yolu bu dosya).
+- Tüm ürünler dosyasında "SİTE'de yazılan siteye kategori yerleşmemiş" notu çıkmaz (tek bir
+  kategori yerleşimi yok). "Son işlemler"de kayıt "… (Hızlı Excel)" adıyla görünür.
+- Doğrulama (yerel, TEST deneme verisiyle): kategori ve tüm ürünler dosyası değiştirilmeden
+  yüklendi (98 aynı, 234 kodsuz atlandı, hata yok); fiyat (salt rakam → "4.000 ₺"), ad, kod ve
+  site değişikliği; silinen satır, yeni satır, değiştirilmiş kodsuz satır, çöpteki ürün ve
+  eklenen sütun; uygula + geri al (12 deneme ürünü ve site ayarları birebir eski hâlinde);
+  panelden gerçek indirme ve yükleme. Kapsamlı dosya için 66 kategorilik tam tur yine temiz.
+
+## Kapsamlı Excel'den sayfa adresi (0.26.0, 16 Ekim 2026)
+
+8 Ekim'de "adres Excel'e girmez" denmişti; müşteri ürün linkini de yapay zekâya ürettirdiği
+için kullanıcı kararıyla kaldırıldı. Yeni mekanizma kurulmadı: panelin Özelleştirmeler →
+Sayfa adresi yolu (`nwcs_override_set_slug`: site başına özel adres, çakışma denetimi, önceki
+adres eski adreslere → 301) Excel'den toplu çağrılır. Havuz adresi (`post_name`) var olan
+üründe değişmez; hep ürüne yönlenen kalıcı takma ad olarak kalır.
+
+- **Sütun:** `SAYFA ADRESİ (yalnızca /urun/ sonrası değişir; boş = değişmez)`, ÜRÜN
+  AÇIKLAMASI'nın yanında. Hücre ürünün göründüğü her sitedeki tam adresi satır satır yazar.
+  Taslak sürümü 3; sürüm 2'nin "(bilgi, panelden değişir)" başlıklı sütunu okunmaz, önizleme
+  "taslağı yeniden indirin" der (başlık okumada "(bilgi" denetimi parantez atmadan önce).
+- **Okuma** (`nwcs_sync_address_lines`): tam adres satırı sitenin `/urun/` önekiyle (http/https,
+  www. önemsiz) kendi sitesine; yalnızca adres yazılmışsa ("ahsap-cardak", "/urun/ahsap-cardak")
+  ürünün bütün sitelerine. `nwcs_slug_clean` ile sadeleşir. "otomatik" yazılırsa havuz adresine
+  döner. Ürün iki sitede farklı adresliyse her satır kendi sitesini değiştirir; aynı siteye iki
+  farklı adres, site belirtilmemiş birden çok adres ya da hiçbir sitede görünmeyen üründe
+  adres değişikliği satır hatasıdır.
+- **Boş hücre = değişmez** (kullanıcı kararı; SİTE gibi "boş = sil" kuralının istisnası): boş
+  hücre özel adresi otomatiğe döndürseydi bağlantı fark edilmeden değişirdi.
+- **Dosyanın tamamıyla denetim** (`nwcs_sync_check_addresses`, planda, yazmadan):
+  `nwcs_sync_slug_conflict` panelin kurallarını uygular, iki ekle: aynı dosyada adresinden
+  ayrılan ürünün özel adresi alınabilir (zincir: A b'ye, B a'nın eski adresine; önizleme "A'nın
+  bu adresle paylaşılmış bağlantıları artık B'yi açar" der) ve çöp kutusundaki ürünlerin havuz
+  adresi de dolu sayılır. Aynı sitede aynı yeni adresi iki satır istemesi ve sıraya konamayan
+  değişiklik (takas: A b'ye, B a'ya) hatadır; hatalı satır ürünün diğer alanlarıyla birlikte
+  yüklenmez. Başka ürünün eski adresi alınırsa not (o eski bağlantı artık ona yönlenmez).
+- **Yeni ürün:** hücrede tek adres varsa havuz adresi o olur (görüneceği sitelerde ve havuzda
+  çakışma denetimi; WordPress'in sessiz "-2"si uygulamadan sonra da denetlenir). Başka ürünün
+  adresi yazılmışsa (kopyalanan satır) yok sayılır, not; adres addan üretilir.
+- **Uygulama:** adresler en sonda, ürünlerin diğer alanlarından ve yeni ürünlerden sonra;
+  zincir için ilerleme kalmayana kadar yinelenir. Geri alma kaydı site başına önceki hâli
+  (`slug`, `slug_old`) yazmadan önce tutar. Alınamayan adres (arada panelden alınmış) özette
+  listelenir; ürünün diğer değişiklikleri uygulanmış kalır.
+- **Geri alma** ürünün değişiklik zamanından bağımsız (adres yazımı onu değiştirmez): şimdiki
+  özel adres uygulanan adresse önceki hâl geri yazılır, uygulanan adres eski adreslere girer
+  (arada paylaşılan bağlantı yönlenir); panelden sonradan değiştirilmişse dokunulmaz. Zincir
+  geri alınınca bir ürünün eski adresleri başka ürünün güncel adresini tutmaz.
+- **Koçist'in eski site yönlendirme listesi** (`scripts/data/kocist-redirects.txt`) havuz
+  adreslerini hedefliyor; özel adres verilince iki adım olur (liste → havuz adresi → güncel
+  adres). Liste yalnızca 404'te çalıştığı ve havuz adresi hep yönlendiği için döngü olmaz.
+- **Tanınmayan tam adres hata:** alan adıyla yazılmış ama hiçbir sitenin `/urun/` önekine uymayan
+  satır (eski siteden yapıştırılmış link, yazım hatası) bütün sitelere uygulanmaz, satır hata
+  verir. Önek eşleşince adres önekten sonrası alınır (adresi "urun" olan ürün de çalışır).
+- Hata mesajı hangi sitenin adresi olduğunu söyler; zincir/eski adres notları yalnızca
+  yüklenecek satırlar için yazılır. Önizleme (ürün, site) çiftlerini sayar ("3 sayfa adresi
+  değişecek (2 ürün)"), değişiklik tablosu adresi `/urun/…/` biçiminde gösterir.
+- **Geri almada çakışma:** önceki adres arada (panelden) başka bir ürüne verilmişse geri
+  yazılmaz, "önceki adresi artık başka bir üründe" diye listelenir; aynı turda geri alınan
+  zincir kendi içinde çakışma sayılmaz.
+- Hızlı Excel'e adres girmez (eklenen SAYFA ADRESİ sütunu okunmaz).
+- Doğrulama (yerel, TEST deneme verisi): yalnızca adres yazma, "otomatik", iki sitede farklı
+  adresli üründe tek siteyi değiştirme, iki siteye tek adres, zincir, adresli yeni ürün,
+  kopyalanan satır; uygulama sonrası eski adresler 301 ile yeni adreslere; geri alma (ürün
+  verisi ve site seçimleri aynı, yalnızca eski adres eklemeleri). Hatalar: takas, aynı adres
+  iki satırda, sayfa adresi ("iletisim"), gizli ürün, geçersiz adres, çöpteki ürünün adresi;
+  eski adres notu; sürüm 2 taslağı.
+- Yerel havuz 16 Ekim'de kullanıcı isteğiyle sadeleştirildi (TEST deneme ürünleri kaldı);
+  canlıda bütün ürünlerin kodu var (kullanıcı beyanı).
+
+## Panel metinleri: hata ve uyarı mesajları sade Türkçe (0.26.0, 16 Ekim 2026)
+
+Kullanıcı kararı: paneldeki her hata ve uyarı, teknik bilgisi olmayan birinin (Koçist'te ürün
+giren kişi) sorunu anlayıp düzeltebileceği sade Türkçeyle yazılır. Excel'lerin "Nasıl
+kullanılır" sayfaları da aynı dille: Koçist'in notu odur, ürünleri yapay zekâya girdiren kişi
+ve yapay zekâ da oradan okur (ayrı bir yapay zekâ talimat sayfası eklenmedi, kullanıcı kararı).
+
+Yazım kuralları:
+1. Önce sorun, sonra ne yapılacağı; kısa cümleler. "Ürün kodu boş. Bu satıra ürünün kodunu yazın."
+2. Teknik kelime yok: sistem sütunu, tekil, KİMLİK, taslak, havuz (menü adı "Ürün Havuzu"
+   hariç), slug, sunucu, transient, manifest, override, JSON, ZipArchive, post, meta (alan adı
+   "meta başlık" hariç)… Ekranlar paneldeki menü adlarıyla: "Ürün Havuzu › Kategoriler".
+3. Sorunlu değer ve yeri gösterilir: hangi kod, hangi sütun, hangi site.
+4. Kullanıcının çözemeyeceği sorunda açıkça "geliştiriciye haber verin"; gerekirse teknik
+   ayrıntı en sonda parantez içinde ("(Teknik: ZipArchive yok)"). Geliştirici menüsündeki
+   ekranlarda kısa teknik not kalabilir.
+5. Suçlamayan, sakin dil; ünlem yok.
+6. Yer tutucular (%s, %d, %1$s) sayı, sıra ve türüyle aynı kalır; değişirse sayfa hata verir.

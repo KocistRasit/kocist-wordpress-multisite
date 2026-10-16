@@ -119,13 +119,13 @@ function nwcs_xlsx_sheet_xml( array $sheet ): string {
  */
 function nwcs_xlsx_write( string $path, array $sheets ) {
 	if ( ! class_exists( 'ZipArchive' ) ) {
-		return new WP_Error( 'nwcs_xlsx_zip', 'Sunucuda ZipArchive eklentisi yok; Excel dosyası hazırlanamıyor.' );
+		return new WP_Error( 'nwcs_xlsx_zip', 'Excel dosyası bu panelde hazırlanamıyor. Bu sizin düzeltebileceğiniz bir sorun değil; geliştiriciye haber verin. (Teknik: ZipArchive yok)' );
 	}
 
 	$zip = new ZipArchive();
 
 	if ( true !== $zip->open( $path, ZipArchive::CREATE | ZipArchive::OVERWRITE ) ) {
-		return new WP_Error( 'nwcs_xlsx_open', 'Excel dosyası oluşturulamadı.' );
+		return new WP_Error( 'nwcs_xlsx_open', 'Excel dosyası hazırlanamadı. Yeniden deneyin; sorun sürerse geliştiriciye haber verin. (Teknik: geçici dosya açılamadı)' );
 	}
 
 	$book_sheets = '';

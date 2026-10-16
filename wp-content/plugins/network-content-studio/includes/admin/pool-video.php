@@ -186,9 +186,9 @@ function nwcs_render_product_video_field( ?array $product ): void {
 
 		<?php if ( $limit < NWCS_VIDEO_MAX_BYTES ) : ?>
 			<p class="nwcs-hint nwcs-video__server">
-				Sunucu şu an en fazla <strong><?php echo esc_html( size_format( $limit ) ); ?></strong> kabul ediyor. 20 MB için:
-				hosting panelinde PHP <code>upload_max_filesize</code> ve <code>post_max_size</code> en az 24M olmalı<?php if ( nwcs_video_network_limit_applies() ) : ?>;
-				Ağ Yönetimi → Ayarlar → “En büyük yükleme dosya boyutu” en az 20480 KB olmalı<?php endif; ?>.
+				Şu an en fazla <strong><?php echo esc_html( size_format( $limit ) ); ?></strong> boyutunda video yüklenebiliyor; 20 MB’a kadar video için bu sınırın yükseltilmesi gerekir. Bunu geliştiriciye haber verin.
+				(Teknik: hosting panelinde PHP <code>upload_max_filesize</code> ve <code>post_max_size</code> en az 24M olmalı<?php if ( nwcs_video_network_limit_applies() ) : ?>;
+				Ağ Yönetimi → Ayarlar → “En büyük yükleme dosya boyutu” en az 20480 KB olmalı<?php endif; ?>.)
 			</p>
 		<?php endif; ?>
 	</div>

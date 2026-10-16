@@ -52,7 +52,7 @@ function nwcs_redirects_parse( string $text ): array {
 		$parts = preg_split( '/\s+/u', $line );
 
 		if ( 2 !== count( $parts ) || ! str_starts_with( $parts[0], '/' ) ) {
-			$errors[] = sprintf( '%d. satır anlaşılmadı: "%s" (biçim: /eski/ /yeni/ ya da /eski/ 410)', $index + 1, $raw );
+			$errors[] = sprintf( '%d. satır anlaşılmadı: "%s". Satıra "/" ile başlayan eski adresi, bir boşluk ve yeni adresi ya da 410 yazın (ör. /eski/ /yeni/ veya /eski/ 410). Bu satır düzeltilene kadar çalışmaz.', $index + 1, $raw );
 			continue;
 		}
 
@@ -62,7 +62,7 @@ function nwcs_redirects_parse( string $text ): array {
 		$to     = $gone ? '' : $parts[1];
 
 		if ( ! $gone && ! str_starts_with( $to, '/' ) && ! wp_http_validate_url( $to ) ) {
-			$errors[] = sprintf( '%d. satır: hedef "/" ile başlayan bir yol, tam bir adres ya da 410 olmalı.', $index + 1 );
+			$errors[] = sprintf( '%d. satırdaki yeni adres anlaşılmadı. Yeni adres "/" ile başlamalı (ör. /urunler/), tam bir adres olmalı (ör. https://ornek.com/) ya da 410 yazılmalı. Bu satır düzeltilene kadar çalışmaz.', $index + 1 );
 			continue;
 		}
 

@@ -16,7 +16,7 @@ function nwcs_register_placeholder_menu(): void {
 add_action( 'admin_post_nwcs_placeholders_save', 'nwcs_placeholders_save' );
 function nwcs_placeholders_save(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) || ! check_admin_referer( 'nwcs_placeholders_save' ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 
 	$on = array_map( 'absint', (array) ( $_POST['sites'] ?? array() ) );
@@ -50,7 +50,7 @@ function nwcs_placeholder_sites(): array {
 
 function nwcs_render_placeholders(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 	?>
 	<div class="wrap nwcs-wrap nwcs-wrap--pool nwcs-seo">
@@ -68,7 +68,7 @@ function nwcs_render_placeholders(): void {
 			</p>
 
 			<?php if ( isset( $_GET['kaydedildi'] ) ) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- yalnizca bilgi. ?>
-				<p class="nwcs-badge nwcs-badge--ok">Kaydedildi. Sunucu önbelleği kullanılıyorsa (LiteSpeed) bir kez temizleyin.</p>
+				<p class="nwcs-badge nwcs-badge--ok">Kaydedildi. Değişiklik sitede hemen görünmüyorsa site önbelleğini bir kez temizleyin (LiteSpeed).</p>
 			<?php endif; ?>
 
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">

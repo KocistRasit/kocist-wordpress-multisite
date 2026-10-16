@@ -213,7 +213,7 @@ function nwcs_photo_store( string $field, string $batch, string $slug ): array {
 	$fail = static fn( string $reason ): array => array( 'id' => 0, 'name' => $name, 'reason' => $reason );
 
 	if ( ! is_array( $file ) || '' === $name ) {
-		return $fail( 'dosya alınamadı' );
+		return $fail( 'dosya alınamadı; yeniden deneyin' );
 	}
 
 	$error = (int) ( $file['error'] ?? UPLOAD_ERR_NO_FILE );
@@ -247,7 +247,7 @@ function nwcs_photo_store( string $field, string $batch, string $slug ): array {
 		// Cok siteli agin dosya boyutu siniri (Ağ Ayarları) metni Ingilizce gelir; sadelesir.
 		$message = $id->get_error_message();
 
-		return $fail( preg_match( '/too (big|large)|büyük/i', $message ) ? sprintf( 'çok büyük (sınır %s)', $limit ) : 'yüklenemedi: ' . wp_strip_all_tags( $message ) );
+		return $fail( preg_match( '/too (big|large)|büyük/i', $message ) ? sprintf( 'çok büyük (sınır %s)', $limit ) : 'yüklenemedi; yeniden deneyin, sorun sürerse geliştiriciye haber verin (Teknik: ' . wp_strip_all_tags( $message ) . ')' );
 	}
 
 	$id   = (int) $id;
@@ -258,7 +258,7 @@ function nwcs_photo_store( string $field, string $batch, string $slug ): array {
 		wp_delete_attachment( $id, true );
 		restore_current_blog();
 
-		return $fail( in_array( $mime, array( 'image/heic', 'image/heif' ), true ) ? 'sunucu HEIC açamadı; fotoğrafı JPG olarak kaydedip yükleyin' : 'görsel türü uygun değil' );
+		return $fail( in_array( $mime, array( 'image/heic', 'image/heif' ), true ) ? 'bu HEIC fotoğrafı açılamadı; fotoğrafı JPG olarak kaydedip yükleyin' : 'görsel türü uygun değil (JPG, PNG, WebP ya da HEIC olmalı)' );
 	}
 
 	update_post_meta( $id, NWCS_PHOTO_META, $batch );
@@ -406,7 +406,7 @@ function nwcs_photos_plan( string $batch, string $slug, array $rejected = array(
 		$match = nwcs_photo_match( $name, $candidates );
 
 		if ( $match['id'] < 0 ) {
-			$unmatched[] = $file + array( 'reason' => sprintf( '%s kodu iki üründe aynı sayılıyor; birinin kodunu değiştirin', $match['code'] ) );
+			$unmatched[] = $file + array( 'reason' => sprintf( 'iki ürünün kodu dosya adında aynı görünüyor (%s); ürünlerden birinin kodunu değiştirin', $match['code'] ) );
 			continue;
 		}
 
@@ -414,7 +414,7 @@ function nwcs_photos_plan( string $batch, string $slug, array $rejected = array(
 			$trashed  = $trashed ?? nwcs_photo_candidates( true );
 			$in_trash = nwcs_photo_match( $name, $trashed );
 
-			$unmatched[] = $file + array( 'reason' => $in_trash['id'] > 0 ? sprintf( 'çöp kutusundaki bir ürünün kodu (%s)', $in_trash['code'] ) : 'kod bulunamadı' );
+			$unmatched[] = $file + array( 'reason' => $in_trash['id'] > 0 ? sprintf( 'çöp kutusundaki bir ürünün kodu (%s); ürünü çöp kutusundan geri getirip yeniden yükleyin', $in_trash['code'] ) : 'dosya adında bir ürün kodu bulunamadı' );
 			continue;
 		}
 

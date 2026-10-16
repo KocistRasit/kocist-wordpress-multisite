@@ -99,14 +99,14 @@ function nwcs_mailtest_form_stats(): array {
 add_action( 'admin_post_nwcs_mail_test', 'nwcs_handle_mail_test' );
 function nwcs_handle_mail_test(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) || ! check_admin_referer( 'nwcs_mail_test' ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 
 	$blog_id = isset( $_POST['site'] ) ? absint( $_POST['site'] ) : 0;
 	$to      = isset( $_POST['to'] ) ? nwcs_form_clean_email( wp_unslash( $_POST['to'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- nwcs_form_clean_email temizler.
 
 	if ( ! $blog_id || ! get_site( $blog_id ) ) {
-		wp_die( esc_html__( 'Site bulunamadı.' ) );
+		wp_die( esc_html__( 'Site bulunamadı. Geri dönüp sayfayı yenileyin ve yeniden deneyin.' ) );
 	}
 
 	switch_to_blog( $blog_id );
@@ -118,7 +118,7 @@ function nwcs_handle_mail_test(): void {
 
 	if ( $recipients ) {
 		$listen = static function ( WP_Error $wp_error ) use ( &$error ): void {
-			$error = $wp_error->get_error_message();
+			$error = 'E-posta gönderim ayarlarında sorun var; geliştiriciye haber verin. (Teknik: ' . $wp_error->get_error_message() . ')';
 		};
 
 		add_action( 'wp_mail_failed', $listen );
@@ -139,12 +139,12 @@ function nwcs_handle_mail_test(): void {
 		try {
 			$sent = (bool) wp_mail( $recipients, sprintf( '[Test] %s form bildirimi', $site_name ), $body . "\n", array( 'Content-Type: text/plain; charset=UTF-8' ) );
 		} catch ( Throwable $e ) {
-			$error = $e->getMessage();
+			$error = 'E-posta gönderim ayarlarında sorun var; geliştiriciye haber verin. (Teknik: ' . $e->getMessage() . ')';
 		}
 
 		remove_action( 'wp_mail_failed', $listen );
 	} else {
-		$error = 'Geçerli alıcı yok: SEO ve GEO sekmesinde firma e-postası boş, yönetici e-postası da geçersiz.';
+		$error = 'E-postanın gönderileceği adres yok. Geliştirici › SEO ve GEO ekranında bu sitenin firma e-postasını girin ya da “Başka adrese” kutusuna bir adres yazın.';
 	}
 
 	restore_current_blog();
@@ -167,7 +167,7 @@ function nwcs_handle_mail_test(): void {
 
 function nwcs_render_mailtest(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 
 	$result = get_site_transient( NWCS_MAILTEST_RESULT . '_' . get_current_user_id() );
@@ -202,10 +202,10 @@ function nwcs_render_mailtest(): void {
 				<?php // Natro'da mail() kapali: SMTP olmadan hicbir bildirim gitmez. ?>
 				<div class="notice notice-error inline">
 					<p>
-						<strong>Bu sunucuda PHP mail() kapalı; form bildirimleri gönderilemiyor.</strong>
-						Bir e-posta kutusunun SMTP bilgilerini sunucudaki <code>wp-config.php</code> dosyasına ekleyin
-						(<code>NWCS_SMTP_HOST</code>, <code>NWCS_SMTP_PORT</code>, <code>NWCS_SMTP_USER</code>, <code>NWCS_SMTP_PASS</code>).
-						Form kayıtları yine de yönetim panelinde saklanıyor.
+						<strong>Form bildirimleri e-postayla gönderilemiyor; geliştiriciye haber verin.</strong>
+						Gelen formlar kaybolmaz, yönetim panelinde saklanıyor.
+						(Teknik: sunucuda PHP mail() kapalı. Bir e-posta kutusunun SMTP bilgilerini sunucudaki <code>wp-config.php</code> dosyasına ekleyin:
+						<code>NWCS_SMTP_HOST</code>, <code>NWCS_SMTP_PORT</code>, <code>NWCS_SMTP_USER</code>, <code>NWCS_SMTP_PASS</code>.)
 					</p>
 				</div>
 			<?php endif; ?>
@@ -215,8 +215,8 @@ function nwcs_render_mailtest(): void {
 					<?php
 					echo esc_html(
 						$result['sent']
-							? sprintf( 'Sunucu e-postayı kabul etti: %s. Gelen Kutusu ve Spam klasörünü kontrol edin.', $result['to'] )
-							: sprintf( 'Gönderilemedi (%s): %s', $result['to'] ?: 'alıcı yok', $result['error'] ?: 'wp_mail false döndü' )
+							? sprintf( 'Deneme e-postası yola çıktı: %s. Birkaç dakika içinde Gelen Kutusu’nu ve Spam klasörünü kontrol edin; gelmezse geliştiriciye haber verin.', $result['to'] )
+							: sprintf( 'Deneme e-postası gönderilemedi (%s): %s', $result['to'] ?: 'alıcı yok', $result['error'] ?: 'Nedeni bildirilmedi; geliştiriciye haber verin. (Teknik: wp_mail false döndü)' )
 					);
 					?>
 				</p>
@@ -250,7 +250,7 @@ function nwcs_render_mailtest(): void {
 								<?php if ( '' === $site_email ) : ?>
 									<?php // Firma adresi yoksa bildirim ag yoneticisinin adresine gider; firma bunu gormez. ?>
 									<p class="nwcs-badge nwcs-badge--warn">
-										Firma e-postası panelde girilmemiş; bildirimler yönetici adresine gidiyor.
+										Firma e-postası girilmemiş; form bildirimleri firmaya değil, yönetici adresine gidiyor.
 										<?php if ( '' !== $shown ) : ?>
 											Sitede görünen adres: <?php echo esc_html( $shown ); ?>. Firma onaylarsa aynısını girin.
 										<?php endif; ?>

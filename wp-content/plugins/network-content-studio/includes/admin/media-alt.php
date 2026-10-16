@@ -242,12 +242,13 @@ function nwcs_alt_build_template( string $value ) {
 				'name'    => 'Nasıl kullanılır',
 				'columns' => array( 0 => array( 'width' => 110, 'wrap' => true ) ),
 				'rows'    => array(
-					array( 'Bu dosya “' . $scope['name'] . '” için görsel alt metinleridir. Alt metin, görseli göremeyene (ekran okuyucu) ve arama motorlarına görselde ne olduğunu anlatır.' ),
-					array( '1. Yalnızca ALT METİN sütununu değiştirin. Görseller gizli KİMLİK sütunuyla eşleşir; DOSYA, ÜRÜN ve SİTE yalnızca bilgi içindir.' ),
-					array( '2. Görseli kısa ve somut tarif edin, örneğin: “İki katlı ahşap kedi evi, doğal renk”. Tek satır, en fazla ' . NWCS_ALT_MAX . ' karakter.' ),
-					array( '3. Hücreyi boşaltırsanız o görselin alt metni silinir. Önizlemede silinecek görseller ayrıca listelenir.' ),
-					array( '4. Satır silmek bir şey değiştirmez: dosyada olmayan görsele dokunulmaz. Yeni görsel bu dosyayla eklenemez.' ),
-					array( '5. Bitince .xlsx olarak kaydedip Medya Havuzu → “Alt metinleri Excel ile düzenleyin” kutusundan yükleyin. Önce neyin değişeceği gösterilir; uyguladıktan sonra “Son işlemler”den geri alabilirsiniz.' ),
+					array( 'Bu dosya “' . $scope['name'] . '” için görsel alt metinleridir. Alt metin, görseli göremeyen kişiye (ekran okuyucu kullananlara) ve arama motorlarına görselde ne olduğunu anlatır. Her satır bir görseldir.' ),
+					array( '1. Yalnızca ALT METİN sütununu değiştirin. Görseller gizli bir sütunla tanınır; DOSYA, ÜRÜN ve SİTE yalnızca bilgi içindir.' ),
+					array( '2. Görseli kısa ve somut tarif edin. Örnek: “İki katlı ahşap kedi evi, doğal renk”.' ),
+					array( '3. Tek satır yazın; en fazla ' . NWCS_ALT_MAX . ' karakter.' ),
+					array( '4. Hücreyi boşaltırsanız o görselin alt metni silinir. Önizlemede silinecek görseller ayrıca listelenir.' ),
+					array( '5. Satır silmek bir şey değiştirmez: dosyada olmayan görsele dokunulmaz. Bu dosyayla yeni görsel eklenemez.' ),
+					array( '6. Bitince dosyayı .xlsx olarak kaydedin ve Medya Havuzu’ndaki “Alt metinleri Excel ile düzenleyin” kutusundan yükleyin. Önce neyin değişeceği gösterilir; uyguladıktan sonra “Son işlemler”den geri alabilirsiniz.' ),
 				),
 			),
 			array(
@@ -301,12 +302,12 @@ function nwcs_alt_plan( string $path, string $filename ) {
 
 	if ( is_wp_error( $read ) ) {
 		return 'nwcs_xlsx_nosheet' === $read->get_error_code()
-			? new WP_Error( 'nwcs_sheet', '“Görseller” sayfası bulunamadı. Sayfanın adını değiştirdiyseniz geri “Görseller” yapın.' )
+			? new WP_Error( 'nwcs_sheet', 'Excel’de “Görseller” sayfası bulunamadı. Excel’in altındaki sayfa sekmesinin adını değiştirdiyseniz yeniden “Görseller” yapın.' )
 			: $read;
 	}
 
 	if ( $read['truncated'] ) {
-		return new WP_Error( 'nwcs_rows', sprintf( 'Dosya çok büyük: en fazla %s satır okunabiliyor. Daha küçük bir grup (örneğin bir kategori) seçip yeniden indirin.', number_format_i18n( NWCS_XLSX_MAX_ROWS ) ) );
+		return new WP_Error( 'nwcs_rows', sprintf( 'Dosyada çok fazla satır var: en fazla %s satır okunabiliyor. Daha küçük bir grup (örneğin bir kategori) seçip Excel’i yeniden indirin.', number_format_i18n( NWCS_XLSX_MAX_ROWS ) ) );
 	}
 
 	$rows   = $read['rows'];
@@ -314,7 +315,7 @@ function nwcs_alt_plan( string $path, string $filename ) {
 	$col    = array_flip( $header );
 
 	if ( ! isset( $col['KİMLİK'], $col['ALT METİN'] ) ) {
-		return new WP_Error( 'nwcs_cols', 'Sütun başlıkları değişmiş (KİMLİK ya da ALT METİN bulunamadı). Taslağı yeniden indirip onu doldurun.' );
+		return new WP_Error( 'nwcs_cols', 'Sütun adları değiştirilmiş ya da bir sütun silinmiş, bu yüzden dosya okunamadı. Excel’i yeniden indirip onu doldurun. (ALT METİN sütunu ya da gizli sütun bulunamadı)' );
 	}
 
 	$plan = array(
@@ -342,7 +343,7 @@ function nwcs_alt_plan( string $path, string $filename ) {
 		$raw_id = trim( (string) ( $row[ $col['KİMLİK'] ] ?? '' ) );
 		$file   = trim( (string) ( $row[ $col['DOSYA'] ?? -1 ] ?? '' ) );
 		$used   = trim( (string) ( $row[ $col['ÜRÜN'] ?? -1 ] ?? '' ) );
-		$label  = '' !== $file ? $file : ( '' !== $raw_id ? 'KİMLİK ' . $raw_id : '' );
+		$label  = '' !== $file ? $file : ( '' !== $raw_id ? 'Görsel no ' . $raw_id : '' );
 		$post   = preg_match( '/^\d+$/', $raw_id ) ? get_post( (int) $raw_id ) : null;
 
 		if ( ! $post || 'attachment' !== $post->post_type ) {
@@ -350,14 +351,14 @@ function nwcs_alt_plan( string $path, string $filename ) {
 				'line'    => $line,
 				'name'    => $label,
 				'message' => '' === $raw_id
-					? 'Bu satırın gizli KİMLİK hücresi boş. Görseller yalnızca KİMLİK ile eşleşir; taslağı yeniden indirip satırı oradan alın.'
-					: 'Bu satırın görseli Medya Havuzu’nda bulunamadı: silinmiş ya da satır başka bir dosyadan kopyalanmış olabilir.',
+					? 'Bu satırın hangi görsele ait olduğu anlaşılamadı; satır sonradan eklenmiş olabilir. Bu dosyayla yeni görsel eklenemez. Görselin satırını, Excel’i yeniden indirip oradan alın. (Teknik: gizli KİMLİK hücresi boş)'
+					: 'Bu satırın görseli Medya Havuzu’nda bulunamadı: görsel silinmiş ya da satır başka bir Excel dosyasından kopyalanmış olabilir. Bu satırı silebilirsiniz; diğer satırlar etkilenmez.',
 			);
 			continue;
 		}
 
 		if ( ! wp_attachment_is_image( $post ) ) {
-			$plan['errors'][] = array( 'line' => $line, 'name' => $label, 'message' => 'Bu kimlik bir görsele değil, başka bir dosyaya (örneğin video) ait. Alt metin yalnızca görsellere yazılır.' );
+			$plan['errors'][] = array( 'line' => $line, 'name' => $label, 'message' => 'Bu satır bir görsele değil, başka bir dosyaya (örneğin videoya) ait. Alt metin yalnızca görsellere yazılır; bu satırı silin.' );
 			continue;
 		}
 

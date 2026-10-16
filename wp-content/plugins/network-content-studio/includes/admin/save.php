@@ -24,17 +24,17 @@ function nwcs_validate_target( int $blog_id, string $page_key, string $component
 	$sites = nwcs_editable_sites();
 
 	if ( ! isset( $sites[ $blog_id ] ) ) {
-		return new WP_Error( 'nwcs_site', 'Geçersiz site seçimi.' );
+		return new WP_Error( 'nwcs_site', 'Seçilen site bulunamadı. Paneli yenileyip siteyi yeniden seçin.' );
 	}
 
 	$manifest = $sites[ $blog_id ]['manifest'];
 
 	if ( ! isset( $manifest['pages'][ $page_key ] ) ) {
-		return new WP_Error( 'nwcs_page', 'Sayfa bulunamadı.' );
+		return new WP_Error( 'nwcs_page', 'Seçilen sayfa bu sitede bulunamadı. Paneli yenileyip sayfayı yeniden seçin.' );
 	}
 
 	if ( '' !== $component_key && ! isset( $manifest['pages'][ $page_key ]['components'][ $component_key ] ) ) {
-		return new WP_Error( 'nwcs_component', 'Bölüm bulunamadı.' );
+		return new WP_Error( 'nwcs_component', 'Seçilen bölüm bulunamadı. Paneli yenileyip bölümü yeniden seçin.' );
 	}
 
 	return $manifest;
@@ -137,7 +137,7 @@ function nwcs_posted_group( string $name ): array {
 add_action( 'admin_post_nwcs_save', 'nwcs_handle_save' );
 function nwcs_handle_save(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	$blog_id       = isset( $_POST['site'] ) ? absint( $_POST['site'] ) : 0;
@@ -179,7 +179,7 @@ function nwcs_ajax_editor(): void {
 	check_ajax_referer( 'nwcs_panel', 'nonce' );
 
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_send_json_error( array( 'message' => 'Yetkiniz yok.' ), 403 );
+		wp_send_json_error( array( 'message' => 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), 403 );
 	}
 
 	$blog_id       = isset( $_POST['site'] ) ? absint( $_POST['site'] ) : 0;
@@ -207,7 +207,7 @@ function nwcs_ajax_save(): void {
 	check_ajax_referer( 'nwcs_panel', 'nonce' );
 
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_send_json_error( array( 'message' => 'Yetkiniz yok.' ), 403 );
+		wp_send_json_error( array( 'message' => 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), 403 );
 	}
 
 	$blog_id       = isset( $_POST['site'] ) ? absint( $_POST['site'] ) : 0;
@@ -240,7 +240,7 @@ function nwcs_ajax_order(): void {
 	check_ajax_referer( 'nwcs_panel', 'nonce' );
 
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_send_json_error( array( 'message' => 'Yetkiniz yok.' ), 403 );
+		wp_send_json_error( array( 'message' => 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), 403 );
 	}
 
 	$blog_id  = isset( $_POST['site'] ) ? absint( $_POST['site'] ) : 0;
@@ -359,7 +359,7 @@ function nwcs_collect_image( string $path, int $selected_id, int &$media_updates
 		if ( is_wp_error( $uploaded ) ) {
 			// Yukleme basarisizsa mevcut secim korunur ve kullaniciya soylenir;
 			// sahte basari gosterilmez.
-			nwcs_add_save_error( 'Görsel yüklenemedi: ' . $uploaded->get_error_message() );
+			nwcs_add_save_error( 'Görsel yüklenemedi, eski görsel yerinde kaldı. JPG, PNG ya da WebP bir dosya seçip yeniden kaydedin. (Teknik: ' . $uploaded->get_error_message() . ')' );
 		} else {
 			$attachment_id = (int) $uploaded;
 			++$media_updates;

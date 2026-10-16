@@ -183,9 +183,9 @@ function nwcs_render_media_videos( string $search, int $page ): void {
 
 				<?php if ( $limit < NWCS_VIDEO_MAX_BYTES ) : ?>
 					<p class="nwcs-hint nwcs-video__server">
-						Sunucu şu an en fazla <strong><?php echo esc_html( size_format( $limit ) ); ?></strong> kabul ediyor. 20 MB için:
-						hosting panelinde PHP <code>upload_max_filesize</code> ve <code>post_max_size</code> en az 24M olmalı<?php if ( nwcs_video_network_limit_applies() ) : ?>;
-						Ağ Yönetimi → Ayarlar → “En büyük yükleme dosya boyutu” en az 20480 KB olmalı<?php endif; ?>.
+						Şu an video başına en fazla <strong><?php echo esc_html( size_format( $limit ) ); ?></strong> yüklenebiliyor. 20 MB’a kadar video yüklemek için geliştiriciye haber verin.
+						(Teknik: hosting panelinde PHP <code>upload_max_filesize</code> ve <code>post_max_size</code> en az 24M olmalı<?php if ( nwcs_video_network_limit_applies() ) : ?>;
+						Ağ Yönetimi → Ayarlar → “En büyük yükleme dosya boyutu” en az 20480 KB olmalı<?php endif; ?>.)
 					</p>
 				<?php endif; ?>
 			</div>
@@ -205,17 +205,17 @@ function nwcs_render_media_video_notices(): void {
 
 	$problems = trim(
 		( $too_big ? sprintf( ' %1$d video %2$s sınırını aştığı için yüklenmedi; sıkıştırıp yeniden deneyin.', $too_big, size_format( nwcs_video_upload_limit() ) ) : '' )
-		. ( $wrong ? sprintf( ' %d dosya MP4 olmadığı için yüklenmedi.', $wrong ) : '' )
-		. ( $failed ? sprintf( ' %d video yüklenemedi; dosya bozuk olabilir.', $failed ) : '' )
+		. ( $wrong ? sprintf( ' %d dosya MP4 olmadığı için yüklenmedi; bu dosyaları MP4 olarak kaydedip yeniden yükleyin.', $wrong ) : '' )
+		. ( $failed ? sprintf( ' %d video yüklenemedi; dosya bozuk olabilir. Bu videoları yeniden MP4 olarak kaydedip deneyin.', $failed ) : '' )
 	);
 
 	$map = array(
 		'video_uploaded' => array( $problems ? 'warning' : 'success', trim( sprintf( '%d video yüklendi. ', $count ) . $problems ) ),
-		'video_failed'   => array( 'error', '' !== $problems ? 'Hiçbir video yüklenmedi.' . ' ' . $problems : 'Hiçbir video yüklenmedi.' ),
-		'video_too_big'  => array( 'error', sprintf( 'Seçilen videoların toplamı sunucunun tek seferde alabileceğinden büyük; hiçbiri yüklenmedi. Videoları tek tek yükleyin (video başına en fazla %s).', size_format( nwcs_video_upload_limit() ) ) ),
+		'video_failed'   => array( 'error', '' !== $problems ? 'Hiçbir video yüklenmedi.' . ' ' . $problems : 'Hiçbir video yüklenmedi. Videoyu yeniden seçip tekrar deneyin.' ),
+		'video_too_big'  => array( 'error', sprintf( 'Seçilen videoların toplamı tek seferde yüklenebilecek miktardan büyük olduğu için hiçbiri yüklenmedi. Videoları tek tek yükleyin (video başına en fazla %s).', size_format( nwcs_video_upload_limit() ) ) ),
 		'video_updated'  => array( 'success', 'Video başlığı kaydedildi.' ),
 		'video_deleted'  => array( 'success', 'Video silindi.' ),
-		'video_in_use'   => array( 'error', 'Bu video bir üründe kullanılıyor; önce üründen kaldırın.' ),
+		'video_in_use'   => array( 'error', 'Bu video bir üründe kullanıldığı için silinmedi. Önce Ürün Havuzu’nda ürünü açın, “Ürün videosu” bölümünde “Video yok”u seçip kaydedin.' ),
 	);
 
 	if ( isset( $map[ $key ] ) ) {
@@ -262,7 +262,7 @@ function nwcs_media_store_video( array $file ) {
 add_action( 'admin_post_nwcs_media_video_upload', 'nwcs_handle_media_video_upload' );
 function nwcs_handle_media_video_upload(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	check_admin_referer( 'nwcs_media_video_upload' );
@@ -351,7 +351,7 @@ function nwcs_ajax_media_video_upload(): void {
 add_action( 'admin_post_nwcs_media_video_update', 'nwcs_handle_media_video_update' );
 function nwcs_handle_media_video_update(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	$attachment_id = isset( $_POST['attachment'] ) ? absint( $_POST['attachment'] ) : 0;
@@ -378,7 +378,7 @@ function nwcs_handle_media_video_update(): void {
 add_action( 'admin_post_nwcs_media_video_delete', 'nwcs_handle_media_video_delete' );
 function nwcs_handle_media_video_delete(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	$attachment_id = isset( $_POST['attachment'] ) ? absint( $_POST['attachment'] ) : 0;

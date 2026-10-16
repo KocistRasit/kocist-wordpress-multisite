@@ -243,7 +243,7 @@ function nwcs_ajax_media_find(): void {
 	check_ajax_referer( 'nwcs_panel', 'nonce' );
 
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_send_json_error( array( 'message' => 'Bu işlem için yetkiniz yok.' ), 403 );
+		wp_send_json_error( array( 'message' => 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), 403 );
 	}
 
 	$search  = isset( $_POST['q'] ) ? nwcs_clean_text( wp_unslash( $_POST['q'] ) ) : '';
@@ -278,7 +278,7 @@ function nwcs_media_view(): string {
  */
 function nwcs_render_media(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 
 	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- gorunum filtresi.
@@ -590,7 +590,7 @@ function nwcs_render_media_notices(): void {
 	$limit    = size_format( wp_max_upload_size() );
 	$problems = trim(
 		( $too_big ? sprintf( ' %1$d dosya çok büyük olduğu için yüklenmedi (dosya başına en fazla %2$s).', $too_big, $limit ) : '' )
-		. ( $failed ? sprintf( ' %d dosya yüklenemedi; dosya türü desteklenmiyor ya da dosya bozuk olabilir.', $failed ) : '' )
+		. ( $failed ? sprintf( ' %d dosya yüklenemedi; dosya türü desteklenmiyor ya da dosya bozuk olabilir. Bu dosyaları JPG, PNG, WebP ya da HEIC olarak kaydedip yeniden yükleyin.', $failed ) : '' )
 	);
 
 	$map = array(
@@ -601,10 +601,10 @@ function nwcs_render_media_notices(): void {
 			'success',
 			sprintf( '%d görsel silindi.', $count ) . ( $skipped ? sprintf( ' %d görsel bir üründe kullanıldığı için silinmedi.', $skipped ) : '' ),
 		),
-		'bulk_empty' => array( 'error', 'Görsel seçilmedi.' ),
-		'in_use'   => array( 'error', 'Bu görsel bir üründe kullanılıyor; önce üründen çıkarın.' ),
-		'failed'   => array( 'error', '' !== $problems ? 'Yükleme başarısız oldu.' . ' ' . $problems : 'Yükleme başarısız oldu. Dosya türü veya boyutu uygun olmayabilir.' ),
-		'too_big_total' => array( 'error', sprintf( 'Seçilen dosyaların toplamı çok büyük; sunucu hiçbirini almadı. Daha az dosyayla tekrar deneyin (dosya başına en fazla %s).', $limit ) ),
+		'bulk_empty' => array( 'error', 'Hiçbir görsel seçilmedi. Silmek istediğiniz görsellerin kutusunu işaretleyip yeniden deneyin.' ),
+		'in_use'   => array( 'error', 'Bu görsel bir üründe kullanıldığı için silinmedi. Önce Ürün Havuzu’nda ürünü açıp görseli “Görseller” bölümünden çıkarın ve kaydedin.' ),
+		'failed'   => array( 'error', '' !== $problems ? 'Hiçbir görsel yüklenmedi.' . ' ' . $problems : 'Hiçbir görsel yüklenmedi. Dosya seçilmemiş olabilir ya da dosya türü uygun değil. JPG, PNG, WebP ya da HEIC bir dosya seçip yeniden deneyin.' ),
+		'too_big_total' => array( 'error', sprintf( 'Seçilen dosyaların toplamı çok büyük olduğu için hiçbiri yüklenmedi. Dosyaları birkaç seferde, daha az sayıda seçerek yükleyin (dosya başına en fazla %s).', $limit ) ),
 	);
 
 	if ( isset( $map[ $key ] ) ) {
@@ -623,7 +623,7 @@ function nwcs_render_media_notices(): void {
 add_action( 'admin_post_nwcs_media_upload', 'nwcs_handle_media_upload' );
 function nwcs_handle_media_upload(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	check_admin_referer( 'nwcs_media_upload' );
@@ -705,7 +705,7 @@ function nwcs_handle_media_upload(): void {
 add_action( 'admin_post_nwcs_media_update', 'nwcs_handle_media_update' );
 function nwcs_handle_media_update(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	$attachment_id = isset( $_POST['attachment'] ) ? absint( $_POST['attachment'] ) : 0;
@@ -737,7 +737,7 @@ function nwcs_handle_media_update(): void {
 add_action( 'admin_post_nwcs_media_delete', 'nwcs_handle_media_delete' );
 function nwcs_handle_media_delete(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	$attachment_id = isset( $_POST['attachment'] ) ? absint( $_POST['attachment'] ) : 0;
@@ -763,7 +763,7 @@ function nwcs_handle_media_delete(): void {
 add_action( 'admin_post_nwcs_media_bulk_delete', 'nwcs_handle_media_bulk_delete' );
 function nwcs_handle_media_bulk_delete(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	check_admin_referer( 'nwcs_media_bulk_delete' );

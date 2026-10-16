@@ -2,9 +2,10 @@
 /**
  * Ürün Havuzu -> Ürün açıklamaları.
  *
- * Uzun aciklamalar (urunun detay sayfasi metni, post_content) kategori
- * Excel'inde yok: hucrede HTML yonetmek zor. Bu ekran onlari ayri bir
- * dosyayla tasir: KİMLİK (gizli) | ÜRÜN KODU | ÜRÜN ADI | ÜRÜN AÇIKLAMASI.
+ * Uzun aciklamalar (urunun detay sayfasi metni, post_content) ayri bir
+ * dosyayla: KİMLİK (gizli) | ÜRÜN KODU | ÜRÜN ADI | ÜRÜN AÇIKLAMASI. 0.26.0'dan
+ * beri kategori Excel'inde de ayni sutun var (ayni donusum fonksiyonlari,
+ * admin/sync.php); bu ekran tum urunleri tek dosyada tasimak icin kaldi.
  *
  * HTML <-> duz metin:
  *   - indirme: basliklar ve yalnizca kalin yazidan olusan satirlar kendi
@@ -203,7 +204,7 @@ function nwcs_desc_build_template( string $slug ) {
 	$categories = nwcs_pool_categories();
 
 	if ( '' !== $slug && ! isset( $categories[ $slug ] ) ) {
-		return new WP_Error( 'nwcs_cat', 'Kategori bulunamadı.' );
+		return new WP_Error( 'nwcs_cat', 'Kategori bulunamadı; silinmiş olabilir. Sayfayı yenileyip yeniden seçin.' );
 	}
 
 	$products = '' === $slug ? nwcs_pool_products() : nwcs_sync_category_products( $slug );
@@ -242,15 +243,17 @@ function nwcs_desc_build_template( string $slug ) {
 				'name'    => 'Nasıl kullanılır',
 				'columns' => array( 0 => array( 'width' => 110, 'wrap' => true ) ),
 				'rows'    => array(
-					array( 'Bu dosya ' . $name . ' için ürün açıklamalarıdır (ürün sayfasındaki uzun metin).' ),
-					array( '1. Yalnızca ÜRÜN AÇIKLAMASI sütununu değiştirin. Ürünler gizli KİMLİK ve ÜRÜN KODU ile eşleşir; ÜRÜN ADI yalnızca bilgi içindir.' ),
-					array( '2. Paragrafları boş bir satırla ayırın (hücre içinde yeni satır: Alt+Enter, Mac’te Option+Enter).' ),
-					array( '3. Noktasız kısa tek satır alt başlık olur. “• ” ile başlayan satırlar madde listesi olur.' ),
-					array( '4. Hücreyi boşaltırsanız açıklama silinir; ürün sayfası açık kalır, yalnızca açıklama bölümü görünmez.' ),
-					array( '5. Açıklamadaki tablolar bu dosyada yok ve hiç değişmez (EK İÇERİK sütununda yazar). “' . NWCS_DESC_MARKER . '” yazan hücrede görsel ya da bağlantı gibi özel içerik var: dokunmazsanız değişmez; üzerine yazarsanız özel içerik gider, yerine yazdığınız metin gelir.' ),
-					array( '6. “> ” ile başlayan satırlar alıntı (vurgulu not) olur.' ),
-					array( '7. Kalın, italik gibi biçimler düz metne çevrilir; yalnızca değiştirdiğiniz açıklamalarda biçim kaybolur.' ),
-					array( '8. Bitince .xlsx olarak kaydedip Ürün Havuzu → Ürün açıklamaları ekranından yükleyin. Önce neyin değişeceği gösterilir.' ),
+					array( 'Bu dosya “' . $name . '” için ürün açıklamalarıdır (ürün sayfasındaki uzun metin). Her satır bir üründür.' ),
+					array( '1. Yalnızca ÜRÜN AÇIKLAMASI sütununu değiştirin. Ürünler gizli bir sütunla ve ÜRÜN KODU ile tanınır. ÜRÜN ADI yalnızca bilgi içindir; burada değiştirmek ürünün adını değiştirmez.' ),
+					array( '2. Paragrafları boş bir satırla ayırın. Hücre içinde yeni satır: Alt+Enter (Mac’te Option+Enter).' ),
+					array( '3. Noktasız, kısa (en fazla 80 karakter), tek başına duran bir satır alt başlık olur (örnek: “Teknik özellikler”). Sonunda nokta, virgül, iki nokta gibi bir işaret varsa ya da açıklama tek paragraftan oluşuyorsa başlık yapılmaz.' ),
+					array( '4. “• ”, “- ” ya da “* ” ile başlayan satırlar madde listesi olur.' ),
+					array( '5. “> ” ile başlayan satırlar alıntı (vurgulu not) olur.' ),
+					array( '6. Hücreyi boşaltırsanız açıklama silinir. Ürün sayfası açık kalır; yalnızca açıklama bölümü görünmez.' ),
+					array( '7. Açıklamadaki tablolar bu dosyada yok ve hiç değişmez (EK İÇERİK sütununda yazar).' ),
+					array( '8. “' . NWCS_DESC_MARKER . '” yazan hücrede görsel ya da bağlantı gibi özel içerik var. Dokunmazsanız değişmez; üzerine yazarsanız özel içerik silinir, yerine yazdığınız metin gelir.' ),
+					array( '9. Kalın, italik gibi biçimler düz metne çevrilir. Bu yalnızca değiştirdiğiniz açıklamaları etkiler; dokunmadıklarınızın biçimi korunur.' ),
+					array( '10. Bitince dosyayı .xlsx olarak kaydedin ve Ürün Havuzu › Ürün açıklamaları ekranından yükleyin. Önce neyin değişeceği gösterilir; siz onaylamadan hiçbir şey değişmez.' ),
 				),
 			),
 			array(
@@ -296,7 +299,7 @@ function nwcs_desc_plan( string $path, string $filename ) {
 
 	if ( is_wp_error( $read ) ) {
 		return 'nwcs_xlsx_nosheet' === $read->get_error_code()
-			? new WP_Error( 'nwcs_sheet', '“Açıklamalar” sayfası bulunamadı. Sayfanın adını değiştirdiyseniz geri “Açıklamalar” yapın.' )
+			? new WP_Error( 'nwcs_sheet', 'Excel’de “Açıklamalar” sayfası bulunamadı. Excel’in altındaki sayfa sekmesinin adını değiştirdiyseniz yeniden “Açıklamalar” yapın.' )
 			: $read;
 	}
 
@@ -305,7 +308,7 @@ function nwcs_desc_plan( string $path, string $filename ) {
 	$col    = array_flip( $header );
 
 	if ( ! isset( $col['ÜRÜN AÇIKLAMASI'] ) || ( ! isset( $col['KİMLİK'] ) && ! isset( $col['ÜRÜN KODU'] ) ) ) {
-		return new WP_Error( 'nwcs_cols', 'Sütun başlıkları değişmiş. Taslağı yeniden indirip onu doldurun.' );
+		return new WP_Error( 'nwcs_cols', 'Sütun adları değiştirilmiş ya da bir sütun silinmiş (ÜRÜN AÇIKLAMASI ya da ÜRÜN KODU bulunamadı). Excel’i yeniden indirip onu doldurun.' );
 	}
 
 	$plan = array(
@@ -345,7 +348,7 @@ function nwcs_desc_plan( string $path, string $filename ) {
 		}
 
 		if ( ! $post ) {
-			$plan['errors'][] = array( 'line' => $line, 'name' => '' !== $name ? $name : $code, 'message' => 'Bu satırın ürünü havuzda bulunamadı. Yeni ürün bu dosyadan eklenemez; önce ürünü Ürün Havuzu’nda açın.' );
+			$plan['errors'][] = array( 'line' => $line, 'name' => '' !== $name ? $name : $code, 'message' => 'Bu satırdaki ürün bulunamadı: ürün silinmiş ya da satır sonradan eklenmiş olabilir. Bu dosyadan yeni ürün eklenemez; yeni ürünü önce Ürün Havuzu’nda oluşturun.' );
 			continue;
 		}
 
@@ -561,7 +564,7 @@ function nwcs_desc_excerpt( string $text ): string {
 
 function nwcs_render_descriptions(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- yalnizca gosterim.
@@ -739,7 +742,7 @@ function nwcs_render_desc_preview( array $plan ): void {
 								<summary>
 									<strong><?php echo esc_html( $item['title'] ); ?></strong>
 									<?php if ( $item['complex'] ) : ?>
-										<span class="nwcs-sync__flag">özel içerik (tablo, görsel…) silinip yerine yazdığınız metin gelecek</span>
+										<span class="nwcs-sync__flag">özel içerik (görsel, bağlantı…) silinecek, yerine yazdığınız metin gelecek; tablolar kalır</span>
 									<?php endif; ?>
 								</summary>
 								<table class="nwcs-sync__diff">
@@ -762,7 +765,7 @@ function nwcs_render_desc_preview( array $plan ): void {
 				<?php if ( ! $nothing ) : ?>
 					<button type="submit" class="button button-primary button-hero">Değişiklikleri uygula</button>
 				<?php else : ?>
-					<p class="nwcs-sync__muted">Uygulanacak bir değişiklik yok: dosyadaki açıklamalar havuzla aynı.</p>
+					<p class="nwcs-sync__muted">Uygulanacak bir değişiklik yok: dosyadaki açıklamalar paneldekilerle aynı.</p>
 				<?php endif; ?>
 				<button type="submit" class="button" form="nwcs-desc-cancel">Vazgeç</button>
 			</div>

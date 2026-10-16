@@ -130,13 +130,13 @@ function nwcs_override_slug_conflict( int $blog_id, int $product_id, string $slu
 		$name = '' !== (string) ( $override['title'] ?? '' ) ? (string) $override['title'] : (string) $product['title'];
 
 		if ( ( '' !== $custom ? $custom : (string) $product['slug'] ) === $slug ) {
-			return sprintf( 'Bu adres bu sitede başka bir ürünün adresi: %s. Başka bir adres yazın.', $name );
+			return sprintf( 'Bu adres bu sitede “%s” ürününün adresi. Başka bir adres yazın.', $name );
 		}
 
 		// O urun bu sitede ozel adres kullansa da havuzdaki adresi ona yonlenir
 		// (arama motorunda kayitli olabilir); baska urune verilmez.
 		if ( (string) $product['slug'] === $slug ) {
-			return sprintf( 'Bu adres başka bir ürünün otomatik adresi: %s. O ürünün eski bağlantıları bu adresten ona yönlenir. Başka bir adres yazın.', $name );
+			return sprintf( 'Bu adres “%s” ürününün ana adresi; özel adres verilse bile eski bağlantılar buradan ona yönlenir. Başka bir adres yazın.', $name );
 		}
 	}
 
@@ -144,7 +144,7 @@ function nwcs_override_slug_conflict( int $blog_id, int $product_id, string $slu
 	// geri getirilince adresleri cakismasin.
 	foreach ( $overrides as $id => $override ) {
 		if ( (int) $id !== $product_id && is_array( $override ) && nwcs_override_slug( $override ) === $slug ) {
-			return 'Bu adres bu sitede çöp kutusundaki bir ürünün adresi. Başka bir adres yazın.';
+			return 'Bu adres bu sitede çöp kutusundaki bir ürüne ait; ürün geri getirilirse bu adresi kullanacak. Başka bir adres yazın.';
 		}
 	}
 
@@ -153,7 +153,7 @@ function nwcs_override_slug_conflict( int $blog_id, int $product_id, string $slu
 	restore_current_blog();
 
 	if ( $page ) {
-		return sprintf( 'Bu adres bu sitede bir sayfanın adresi: %s. Başka bir adres yazın.', '' !== $page->post_title ? $page->post_title : $slug );
+		return sprintf( 'Bu adres bu sitede “%s” sayfasının adresi. Başka bir adres yazın.', '' !== $page->post_title ? $page->post_title : $slug );
 	}
 
 	return '';
@@ -189,13 +189,13 @@ function nwcs_override_set_slug( int $blog_id, int $product_id, string $raw ): a
 	};
 
 	if ( '' === $auto ) {
-		return $result( false, 'Ürün bulunamadı.', $current, $old );
+		return $result( false, 'Ürün bulunamadı; silinmiş olabilir.', $current, $old );
 	}
 
 	$target = nwcs_slug_clean( $raw );
 
 	if ( '' !== trim( $raw ) && '' === $target ) {
-		return $result( false, 'Adres harf ya da rakam içermeli. Örneğin: verandali-kopek-kulubesi', $current, $old );
+		return $result( false, 'Adres en az bir harf ya da rakam içermeli; yalnızca işaretlerden oluşamaz. Örneğin: verandali-kopek-kulubesi', $current, $old );
 	}
 
 	$target = '' !== $target ? $target : $auto;
@@ -300,8 +300,8 @@ function nwcs_render_product_customizations( ?array $product, array $media ): vo
 		<span class="nwcs-field__label">Özelleştirmeler</span>
 
 		<p class="nwcs-hint">
-			Ürün her sitede havuzdaki hâliyle görünür. Bir site için farklı bir ad, açıklama,
-			fiyat veya görsel istiyorsanız aşağıdan girin; boş bıraktığınız alanlar havuzdaki
+			Ürün her sitede Ürün Havuzu’ndaki hâliyle görünür. Bir site için farklı bir ad, açıklama,
+			fiyat veya görsel istiyorsanız aşağıdan girin; boş bıraktığınız alanlar Ürün Havuzu’ndaki
 			değeri kullanır.
 		</p>
 
@@ -395,7 +395,7 @@ function nwcs_render_product_customizations( ?array $product, array $media ): vo
 
 		<?php if ( $unsupported ) : ?>
 			<p class="nwcs-hint">
-				Şu siteler havuz ürünlerini göstermiyor, çünkü temalarında ürün bölümü tanımlı değil:
+				Şu sitelerde ürün gösterilmiyor, çünkü sitenin tasarımında ürün bölümü yok:
 				<strong><?php echo esc_html( implode( ', ', $unsupported ) ); ?></strong>.
 			</p>
 		<?php endif; ?>
@@ -412,18 +412,18 @@ function nwcs_render_product_customizations( ?array $product, array $media ): vo
  */
 function nwcs_override_guard(): array {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_send_json_error( array( 'message' => 'Bu işlem için yetkiniz yok.' ), 403 );
+		wp_send_json_error( array( 'message' => 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), 403 );
 	}
 
 	if ( ! check_ajax_referer( 'nwcs_panel', 'nonce', false ) ) {
-		wp_send_json_error( array( 'message' => 'Oturum doğrulaması başarısız.' ), 400 );
+		wp_send_json_error( array( 'message' => 'Oturumun süresi dolmuş olabilir; sayfayı yenileyip yeniden deneyin.' ), 400 );
 	}
 
 	$blog_id    = isset( $_POST['blog'] ) ? absint( $_POST['blog'] ) : 0;
 	$product_id = isset( $_POST['product'] ) ? absint( $_POST['product'] ) : 0;
 
 	if ( ! $blog_id || ! $product_id || ! array_key_exists( $blog_id, nwcs_editable_sites() ) ) {
-		wp_send_json_error( array( 'message' => 'Site ya da ürün bulunamadı.' ) );
+		wp_send_json_error( array( 'message' => 'Site ya da ürün bulunamadı. Sayfayı yenileyip yeniden deneyin.' ) );
 	}
 
 	return array( $blog_id, $product_id );

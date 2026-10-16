@@ -79,7 +79,7 @@ function nwcs_register_product_type(): void {
 
 // Anahtar surumlu: urun verisinin sekli degistiginde eski onbellek kendiliginden
 // gecersiz olur, elle temizlemek gerekmez.
-const NWCS_POOL_CACHE_KEY = 'nwcs_pool_products_v5';
+const NWCS_POOL_CACHE_KEY = 'nwcs_pool_products_v6';
 
 /**
  * Havuz onbellegini temizler. Urun/gorsel degisikliklerinden sonra cagrilir.
@@ -152,6 +152,16 @@ function nwcs_pool_products( bool $reset = false ): array {
 	}
 
 	set_transient( NWCS_POOL_CACHE_KEY, $products, HOUR_IN_SECONDS );
+
+	// Onceki anahtarlarin onbellegi artik okunmuyor, kendiliginden de silinmiyor
+	// (her biri ~750 KB): anahtar degistikten sonraki ilk kurulumda bir kez silinir.
+	if ( NWCS_POOL_CACHE_KEY !== get_option( 'nwcs_pool_cache_pruned' ) ) {
+		foreach ( array( '', '_v2', '_v3', '_v4', '_v5' ) as $old ) {
+			delete_transient( 'nwcs_pool_products' . $old );
+		}
+
+		update_option( 'nwcs_pool_cache_pruned', NWCS_POOL_CACHE_KEY, false );
+	}
 
 	restore_current_blog();
 
@@ -331,6 +341,9 @@ function nwcs_pool_product_data( WP_Post $post ): array {
 		'title'       => $post->post_title,
 		'short'       => (string) get_post_meta( $post->ID, '_nwcs_short', true ),
 		'body'        => $post->post_content,
+		// Urun sayfasinin arama sonucu; bossa sayfa otomatik degeri kullanir (tema).
+		'meta_title'  => (string) get_post_meta( $post->ID, '_nwcs_meta_title', true ),
+		'meta_desc'   => (string) get_post_meta( $post->ID, '_nwcs_meta_desc', true ),
 		'price'       => (string) get_post_meta( $post->ID, '_nwcs_price', true ),
 		'spec'        => (string) get_post_meta( $post->ID, '_nwcs_spec', true ),
 		'details'     => nwcs_product_details( (int) $post->ID ),
@@ -343,6 +356,22 @@ function nwcs_pool_product_data( WP_Post $post ): array {
 		'video'       => nwcs_video_by_id( (int) get_post_meta( $post->ID, '_nwcs_video', true ) ),
 		'order'       => (int) $post->menu_order,
 	);
+}
+
+/**
+ * Urunun arama alani (_nwcs_meta_title, _nwcs_meta_desc). Bos deger satiri
+ * siler: "satir yok" ile "bos" ayni anlamda (sayfa otomatik degeri kullanir),
+ * bos satir birikmesin. Havuz baglaminda cagrilir.
+ */
+function nwcs_product_set_meta_text( int $id, string $key, string $value ): void {
+	if ( '' === $value ) {
+		delete_post_meta( $id, $key );
+
+		return;
+	}
+
+	// update_post_meta degeri unslash eder; ters bolu korunsun.
+	update_post_meta( $id, $key, wp_slash( $value ) );
 }
 
 /**
@@ -764,7 +793,8 @@ function nwcs_sanitize_product_tables( array $raw ): array {
 /**
  * Sitenin gosterecegi urunler: kip + secim sirasi + site istisnalari uygulanmis.
  *
- * Her satir: id, title, short, price, price_label, has_price, spec, image, url
+ * Her satir: id, title, short, price, price_label, has_price, spec, image, url,
+ * meta_title, meta_desc (havuzdaki arama basligi ve aciklamasi; bos olabilir)
  */
 function nwcs_site_products( ?int $blog_id = null ): array {
 	$blog_id  = $blog_id ?? get_current_blog_id();
@@ -831,6 +861,8 @@ function nwcs_site_products( ?int $blog_id = null ): array {
 			'title'       => $title,
 			'short'       => $short,
 			'body'        => $product['body'],
+			'meta_title'  => $product['meta_title'] ?? '',
+			'meta_desc'   => $product['meta_desc'] ?? '',
 			'spec'        => $product['spec'],
 			'details'     => $product['details'] ?? array(),
 			'code'        => $product['code'] ?? '',

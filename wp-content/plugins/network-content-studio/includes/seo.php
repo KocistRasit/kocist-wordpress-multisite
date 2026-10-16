@@ -319,6 +319,7 @@ function nwcs_seo_page_for_path( string $path ): string {
  *       $pages[] = array(
  *           'url'         => 'https://…/urunlerimiz/kalas/',
  *           'name'        => 'Kalas',
+ *           'title'       => 'Kalas | Çam ve Göknar', // istege bagli: arama basligi, oldugu gibi yazilir (site adi eklenmez); bossa "ad – site"
  *           'description' => '…',
  *           'image'       => 12,            // ek kimligi ya da array( url, width, height, alt )
  *           'type'        => 'Product',     // istege bagli
@@ -487,13 +488,14 @@ function nwcs_seo_context_extra( string $path, string $site, array $base ): arra
 			continue;
 		}
 
-		$name = nwcs_seo_clean( $page['name'] );
+		$name  = nwcs_seo_clean( $page['name'] );
+		$title = nwcs_seo_clean( (string) ( $page['title'] ?? '' ) );
 
 		return array(
 			'schema'      => (string) ( $page['type'] ?? '' ),
 			'properties'  => (array) ( $page['properties'] ?? array() ),
 			'name'        => $name,
-			'title'       => nwcs_seo_title_with_site( $name, $site ),
+			'title'       => '' !== $title ? $title : nwcs_seo_title_with_site( $name, $site ),
 			'description' => nwcs_seo_clean( (string) ( $page['description'] ?? '' ), 160 ),
 			'image'       => $page['image'] ?? 0,
 			'url'         => (string) $page['url'],

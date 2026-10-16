@@ -48,10 +48,11 @@
 		toast.hidden = false;
 
 		clearTimeout( showToast.timer );
+		// Hata metni ne yapilacagini anlatir; okunacak kadar uzun kalsin.
 		if ( 'busy' !== kind ) {
 			showToast.timer = setTimeout( function () {
 				toast.hidden = true;
-			}, 3200 );
+			}, 'error' === kind ? 9000 : 3200 );
 		}
 	}
 
@@ -339,7 +340,7 @@
 		post( 'nwcs_editor', { site: siteId, content_page: activePage, component: componentKey } )
 			.then( function ( result ) {
 				if ( ! result || ! result.success ) {
-					editorBox.innerHTML = '<p class="nwcs-empty">Bölüm yüklenemedi.</p>';
+					editorBox.innerHTML = '<p class="nwcs-empty">Bölüm açılamadı. Paneli yenileyip bölüme yeniden tıklayın.</p>';
 					return;
 				}
 
@@ -350,7 +351,7 @@
 				updateHistory( componentKey );
 			} )
 			.catch( function () {
-				editorBox.innerHTML = '<p class="nwcs-empty">Bölüm yüklenemedi.</p>';
+				editorBox.innerHTML = '<p class="nwcs-empty">Bölüm açılamadı. Bağlantınızı kontrol edip paneli yenileyin.</p>';
 			} );
 	}
 
@@ -724,7 +725,7 @@
 			var max = parseInt( repeater.getAttribute( 'data-max' ), 10 ) || 20;
 
 			if ( list.children.length >= max ) {
-				showToast( 'Bu bölümde en fazla ' + max + ' satır olabilir.', 'error' );
+				showToast( 'Bu bölümde en fazla ' + max + ' satır olabilir. Yeni satır eklemek için önce bir satırı silin.', 'error' );
 				return;
 			}
 

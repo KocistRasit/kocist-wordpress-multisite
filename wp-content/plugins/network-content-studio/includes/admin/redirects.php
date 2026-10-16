@@ -29,7 +29,7 @@ function nwcs_save_redirects(): void {
 	$blog_id = isset( $_POST['site'] ) ? absint( $_POST['site'] ) : 0;
 
 	if ( ! current_user_can( NWCS_CAPABILITY ) || ! check_admin_referer( 'nwcs_save_redirects_' . $blog_id ) || ! isset( nwcs_editable_sites()[ $blog_id ] ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Kaydedilmedi: bu işlem için yetkiniz yok ya da site bulunamadı. Geri dönüp sayfayı yenileyin ve yeniden deneyin.' ) );
 	}
 
 	// sanitize_textarea_field %20 gibi kodlamalari siler; eski adreslerde
@@ -47,7 +47,7 @@ function nwcs_save_redirects(): void {
 
 function nwcs_render_redirects(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 
 	$sites   = nwcs_editable_sites();
@@ -132,7 +132,7 @@ function nwcs_render_redirects(): void {
 				</aside>
 			</div>
 		<?php else : ?>
-			<p class="nwcs-empty">Alan manifesti olan bir site yok.</p>
+			<p class="nwcs-empty">Düzenlenebilecek site bulunamadı; geliştiriciye haber verin. (Teknik: alan manifesti olan site yok)</p>
 		<?php endif; ?>
 	</div>
 	<?php

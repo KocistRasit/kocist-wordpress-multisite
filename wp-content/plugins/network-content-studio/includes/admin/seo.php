@@ -43,7 +43,8 @@ function nwcs_register_seo_menu(): void {
 add_action( 'admin_enqueue_scripts', 'nwcs_seo_admin_assets', 20 );
 function nwcs_seo_admin_assets( string $hook ): void {
 	// Studyo'da da yuklenir: sayfalarin "Arama ve Paylasim" bolumu orada da var.
-	if ( str_contains( $hook, NWCS_SEO_SLUG ) || str_contains( $hook, NWCS_MENU_SLUG ) ) {
+	// Urun Havuzu'nda urun formunun meta alanlari sayac kullanir.
+	if ( str_contains( $hook, NWCS_SEO_SLUG ) || str_contains( $hook, NWCS_MENU_SLUG ) || str_contains( $hook, NWCS_POOL_SLUG ) ) {
 		wp_enqueue_script( 'nwcs-seo', NWCS_URL . 'assets/seo.js', array( 'nwcs-admin' ), NWCS_VERSION, true );
 	}
 }
@@ -409,11 +410,13 @@ function nwcs_seo_score( int $blog_id ): array {
 
 	if ( $theme_live ) {
 		foreach ( nwcs_seo_extra_pages() as $extra ) {
-			$name = nwcs_seo_clean( $extra['name'] );
+			$name  = nwcs_seo_clean( $extra['name'] );
+			$title = nwcs_seo_clean( (string) ( $extra['title'] ?? '' ) );
 
+			// On yuzle ayni kural (nwcs_seo_context_extra): tema basligi verdiyse o.
 			$pages[] = array(
 				'name'        => $name,
-				'title'       => nwcs_seo_title_with_site( $name, $site_name ),
+				'title'       => '' !== $title ? $title : nwcs_seo_title_with_site( $name, $site_name ),
 				'description' => nwcs_seo_clean( (string) ( $extra['description'] ?? '' ), 160 ),
 				'image'       => (bool) nwcs_seo_image_any( $extra['image'] ?? 0 ),
 			);
@@ -429,7 +432,7 @@ function nwcs_seo_score( int $blog_id ): array {
 			}
 		}
 	} elseif ( nwcs_seo_score_theme_declares( 'nwcs_seo_extra_pages' ) ) {
-		$notes[] = 'Temanın kendi çizdiği ek sayfalar (ör. ürün alt sayfaları) bu ekrandan ölçülemiyor; puan manifest sayfalarına göre hesaplandı.';
+		$notes[] = 'Temanın kendi oluşturduğu ek sayfalar (ör. ürün alt sayfaları) bu ekrandan ölçülemiyor; puan yalnızca İçerik Stüdyosu’nda düzenlenen sayfalara göre hesaplandı.';
 	}
 
 	restore_current_blog();
@@ -545,7 +548,7 @@ function nwcs_seo_score( int $blog_id ): array {
 		$faq_items ? $faq_items . ' soru' : ( $faq_page ? 'Sayfa boş' : 'Sayfa yok' ),
 		$faq_page
 			? 'Sık sorulan sorular sayfasına soru ve cevap ekleyin; yapay zekâ aramaları en çok bu tür içerikten alıntı yapar.'
-			: 'Temada soru-cevap sayfası yok; eklenmesi geliştirici işidir. Yapay zekâ aramaları en çok bu tür içerikten alıntı yapar.' );
+			: 'Temada soru-cevap sayfası yok; eklenmesi için geliştiriciye haber verin. Yapay zekâ aramaları en çok bu tür içerikten alıntı yapar.' );
 
 	if ( $products ) {
 		$add( 'specs', 'geo', 'Ürünlerde teknik özellikler', 4, $products_spec / $products, $products_spec . '/' . $products . ' ürün',
@@ -715,7 +718,7 @@ function nwcs_render_seo_score_card( array $score ): void {
 
 function nwcs_render_seo(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 
 	$sites   = nwcs_editable_sites();
@@ -750,7 +753,7 @@ function nwcs_render_seo(): void {
 
 		<?php
 		if ( ! $sites ) {
-			echo '<p class="nwcs-empty">Alan manifesti olan bir site yok.</p>';
+			echo '<p class="nwcs-empty">Düzenlenebilecek site bulunamadı; geliştiriciye haber verin. (Teknik: alan manifesti olan site yok)</p>';
 		} elseif ( $blog_id ) {
 			nwcs_render_seo_site( $blog_id, $sites[ $blog_id ] );
 		} else {

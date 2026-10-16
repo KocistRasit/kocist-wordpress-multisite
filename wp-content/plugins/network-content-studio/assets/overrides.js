@@ -44,9 +44,13 @@
 
 		return fetch( cfg.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: body } )
 			.then( function ( r ) { return r.json(); } )
+			// Baglanti koptu ya da yanit okunamadi: tarayicinin Ingilizce hatasi gorunmesin.
+			.catch( function () {
+				throw new Error( 'Kaydedilemedi: siteye ulaşılamadı. İnternet bağlantınızı kontrol edin, sayfayı yenileyip yeniden deneyin.' );
+			} )
 			.then( function ( json ) {
 				if ( ! json || ! json.success ) {
-					var error = new Error( ( json && json.data && json.data.message ) || 'Kaydedilemedi.' );
+					var error = new Error( ( json && json.data && json.data.message ) || 'Kaydedilemedi. Sayfayı yenileyip yeniden deneyin; sorun sürerse geliştiriciye haber verin.' );
 					error.field = json && json.data ? json.data.field : '';
 					throw error;
 				}
@@ -202,7 +206,7 @@
 		}
 
 		if ( event.target.closest( '[data-ovr-clear]' ) ) {
-			if ( ! window.confirm( 'Bu sitenin özelleştirmeleri (sayfa adresi dahil) silinecek; ürün havuzdaki hâline dönecek. Eski adresler yönlenmeye devam eder. Devam edilsin mi?' ) ) {
+			if ( ! window.confirm( 'Bu sitedeki özelleştirmeler (sayfa adresi dahil) silinecek; ürün bu sitede de Ürün Havuzu’ndaki hâliyle görünecek. Eski adreslerden gelen ziyaretçiler yine ürün sayfasına ulaşır. Devam edilsin mi?' ) ) {
 				return;
 			}
 

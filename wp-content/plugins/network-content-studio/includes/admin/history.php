@@ -206,7 +206,7 @@ function nwcs_history_describe( array $record ): array {
 			$what = (string) ( $record['category'] ?? '' );
 			$kind = 'ürün Excel’i';
 
-			foreach ( array( 'updated' => '%d güncellendi', 'created' => '%d yeni', 'trashed' => '%d çöp kutusuna', 'sites' => '%d ürünün sitesi değişti' ) as $key => $format ) {
+			foreach ( array( 'updated' => '%d güncellendi', 'created' => '%d yeni', 'trashed' => '%d çöp kutusuna', 'sites' => '%d ürünün sitesi değişti', 'addresses' => '%d sayfa adresi değişti' ) as $key => $format ) {
 				if ( ! empty( $counts[ $key ] ) ) {
 					$facts[] = sprintf( $format, (int) $counts[ $key ] );
 				}
@@ -288,7 +288,7 @@ function nwcs_placement_undo( array $record ) {
 	$before = (array) ( $record['before'] ?? array() );
 
 	if ( ! isset( nwcs_pool_categories()[ $slug ] ) ) {
-		return new WP_Error( 'nwcs_undo_gone', sprintf( '“%s” kategorisi sonradan silinmiş; bu yerleşim değişikliği geri alınamaz. Kayıt listeden kaldırıldı.', (string) ( $record['category'] ?? $slug ) ) );
+		return new WP_Error( 'nwcs_undo_gone', sprintf( '“%s” kategorisi sonradan silinmiş; bu yerleşim değişikliği geri alınamaz. Bu işlem listeden kaldırıldı.', (string) ( $record['category'] ?? $slug ) ) );
 	}
 
 	foreach ( nwcs_catalog_sites() as $site ) {
@@ -344,7 +344,7 @@ function nwcs_category_undelete( array $record ) {
 	$name = (string) ( $record['name'] ?? $slug );
 
 	if ( isset( nwcs_pool_categories()[ $slug ] ) ) {
-		return new WP_Error( 'nwcs_undo_gone', sprintf( 'Aynı adresle (%s) yeni bir kategori açılmış; silinen kategori geri getirilemez. Kayıt listeden kaldırıldı.', $slug ) );
+		return new WP_Error( 'nwcs_undo_gone', sprintf( 'Silinen kategorinin adresiyle (%s) yeni bir kategori oluşturulmuş; silinen kategori geri getirilemez. Bu işlem listeden kaldırıldı.', $slug ) );
 	}
 
 	switch_to_blog( nwcs_pool_blog_id() );
@@ -354,7 +354,7 @@ function nwcs_category_undelete( array $record ) {
 	if ( is_wp_error( $made ) ) {
 		restore_current_blog();
 
-		return new WP_Error( 'nwcs_undo', 'Kategori yeniden açılamadı: aynı adda başka bir kategori var. Onu yeniden adlandırıp tekrar deneyin.' );
+		return new WP_Error( 'nwcs_undo', 'Kategori geri getirilemedi: aynı adda başka bir kategori var. O kategorinin adını değiştirip yeniden deneyin.' );
 	}
 
 	$term_id  = (int) $made['term_id'];
@@ -385,7 +385,7 @@ function nwcs_category_undelete( array $record ) {
 add_action( 'admin_post_nwcs_history_undo', 'nwcs_handle_history_undo' );
 function nwcs_handle_history_undo(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	check_admin_referer( 'nwcs_history_undo' );
@@ -434,6 +434,7 @@ function nwcs_render_history_result(): void {
 			'sites'     => '%d sitenin ürün seçimi eski hâline döndü',
 			'deleted_photos' => '%d fotoğraf dosyası silindi',
 			'alts'      => '%d görselin alt metni eski hâline döndü',
+			'addresses' => '%d sayfa adresi eski hâline döndü',
 		) as $field => $format
 	) {
 		if ( ! empty( $report[ $field ] ) ) {
@@ -451,7 +452,7 @@ function nwcs_render_history_result(): void {
 			</ul>
 		<?php endif; ?>
 		<?php if ( ! empty( $report['kept'] ) ) : ?>
-			<p class="nwcs-sync__warn">İşlemden sonra elle düzenlendiği için dokunulmayan <?php echo 'alt' === ( $result['kind'] ?? '' ) ? 'görseller' : 'ürünler'; ?>: <?php echo esc_html( implode( ', ', (array) $report['kept'] ) ); ?>.</p>
+			<p class="nwcs-sync__warn">İşlemden sonra değiştirildiği için eski hâline döndürülmeyen <?php echo 'alt' === ( $result['kind'] ?? '' ) ? 'görseller' : 'ürünler'; ?>: <?php echo esc_html( implode( ', ', (array) $report['kept'] ) ); ?>. Gerekirse bunları elle düzeltin.</p>
 		<?php endif; ?>
 	</div>
 	<?php
@@ -479,7 +480,7 @@ function nwcs_render_history_card( string $back ): void {
 							<strong><?php echo esc_html( $info['what'] ); ?></strong>
 							<span><?php echo esc_html( $info['kind'] . ': ' . $info['facts'] ); ?></span>
 							<?php if ( isset( $row['complete'] ) && ! $row['complete'] ) : ?>
-								<span class="nwcs-history__warn">Yarıda kesildi; geri alma o ana kadar yapılanları geri alır.</span>
+								<span class="nwcs-history__warn">Bu işlem yarıda kesildi; “Geri al” o ana kadar yapılanları geri alır.</span>
 							<?php endif; ?>
 						</span>
 						<?php if ( 0 === $index ) : ?>

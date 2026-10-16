@@ -84,7 +84,7 @@ function nwcs_admin_assets( string $hook ): void {
 				'confirmRow'     => 'Bu satır silinsin mi? Kaydettiğinizde kalıcı olur.',
 				'saving'         => 'Kaydediliyor…',
 				'saved'          => 'Yayınlandı',
-				'saveError'      => 'Kaydedilemedi. Lütfen tekrar deneyin.',
+				'saveError'      => 'Kaydedilemedi. Bağlantınızı kontrol edip yeniden deneyin; olmazsa paneli yenileyin.',
 				'loading'        => 'Yükleniyor…',
 			),
 		)
@@ -179,14 +179,14 @@ function nwcs_ordered_components( array $manifest, string $page_key, int $blog_i
  */
 function nwcs_render_panel(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 
 	$sites = nwcs_editable_sites();
 
 	if ( ! $sites ) {
 		echo '<div class="wrap"><h1>İçerik Stüdyosu</h1><div class="notice notice-error"><p>';
-		echo 'Alan manifesti olan bir alt site bulunamadı. Temaların ağ genelinde etkin olduğundan emin olun.';
+		echo 'Düzenlenebilecek site bulunamadı. Sitelerin temaları etkin olmayabilir; geliştiriciye haber verin. (Teknik: alan manifesti olan alt site yok; temaların ağ genelinde etkin olduğunu kontrol edin)';
 		echo '</p></div></div>';
 
 		return;
@@ -701,7 +701,7 @@ function nwcs_render_editor_form( int $blog_id, array $manifest, string $page_ke
 	$component = $manifest['pages'][ $page_key ]['components'][ $component_key ] ?? null;
 
 	if ( ! $component ) {
-		echo '<p class="nwcs-empty">Bu bölüm bulunamadı.</p>';
+		echo '<p class="nwcs-empty">Bu bölüm bulunamadı. Paneli yenileyip bölümü yeniden seçin.</p>';
 
 		return;
 	}
@@ -746,7 +746,7 @@ function nwcs_render_editor_form( int $blog_id, array $manifest, string $page_ke
 			<button type="button" class="button" data-nwcs-discard>Vazgeç</button>
 			<span class="nwcs-dirty" data-nwcs-dirty hidden>● kaydedilmedi</span>
 			<?php // Not cubugun icinde: ikisi ayri yapisinca not dugmelerin ustune biniyordu. ?>
-			<p class="nwcs-actions__note">Kaydettiğiniz anda sitede yayınlanır; taslak tutulmaz.</p>
+			<p class="nwcs-actions__note">Kaydettiğiniz anda değişiklik sitede yayınlanır; ayrıca onay beklemez.</p>
 		</footer>
 	</form>
 	<?php

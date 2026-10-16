@@ -85,14 +85,14 @@ function nwcs_ajax_photo_upload(): void {
 	check_ajax_referer( 'nwcs_panel' );
 
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_send_json_error( array( 'message' => 'Bu işlem için yetkiniz yok.' ), 403 );
+		wp_send_json_error( array( 'message' => 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), 403 );
 	}
 
 	$slug  = isset( $_POST['kategori'] ) ? sanitize_title( wp_unslash( $_POST['kategori'] ) ) : '';
 	$batch = isset( $_POST['parti'] ) ? sanitize_key( wp_unslash( $_POST['parti'] ) ) : '';
 
 	if ( ! isset( nwcs_pool_categories()[ $slug ] ) ) {
-		wp_send_json_error( array( 'message' => 'Kategori bulunamadı. Sayfayı yenileyin.' ), 400 );
+		wp_send_json_error( array( 'message' => 'Kategori bulunamadı; silinmiş olabilir. Sayfayı yenileyip yeniden deneyin.' ), 400 );
 	}
 
 	$pending = nwcs_photos_pending();
@@ -125,7 +125,7 @@ function nwcs_ajax_photo_upload(): void {
 			'parti'  => $pending['id'],
 			'id'     => $result['id'],
 			'name'   => $result['name'],
-			'reason' => '' !== $result['reason'] ? $result['reason'] : ( $match ? '' : 'kod bulunamadı' ),
+			'reason' => '' !== $result['reason'] ? $result['reason'] : ( $match ? '' : 'dosya adında bir ürün kodu bulunamadı' ),
 			'stored' => '' === $result['reason'],
 			'match'  => $match,
 		)
@@ -138,7 +138,7 @@ function nwcs_ajax_photo_upload(): void {
 add_action( 'admin_post_nwcs_photos_upload_all', 'nwcs_handle_photos_upload_all' );
 function nwcs_handle_photos_upload_all(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	// Kategori adreste (GET) de gelir: toplam post_max_size'i asinca PHP $_POST'u da bosaltir.
@@ -146,7 +146,7 @@ function nwcs_handle_photos_upload_all(): void {
 
 	if ( empty( $_POST ) && ! empty( $_SERVER['CONTENT_LENGTH'] ) ) {
 		$limits = nwcs_photos_form_limits();
-		nwcs_photos_redirect( 'hata', $slug, sprintf( 'Seçtiğiniz dosyaların toplamı sınırı (%s) aşıyor; sunucu hiçbirini almadı. Daha az dosyayla deneyin ya da sayfayı JavaScript açıkken kullanın.', $limits['total'] ) );
+		nwcs_photos_redirect( 'hata', $slug, sprintf( 'Seçtiğiniz dosyaların toplam boyutu sınırı (%s) aşıyor; hiçbiri yüklenmedi. Daha az dosya seçip yeniden deneyin. (Teknik: JavaScript kapalıyken tek seferde gönderilebilecek sınır aşıldı)', $limits['total'] ) );
 	}
 
 	check_admin_referer( 'nwcs_photos_upload' );
@@ -154,7 +154,7 @@ function nwcs_handle_photos_upload_all(): void {
 	$files = $_FILES['dosyalar'] ?? null; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- asagida tek tek islenir.
 
 	if ( ! isset( nwcs_pool_categories()[ $slug ] ) ) {
-		nwcs_photos_redirect( 'hata', '', 'Kategori bulunamadı.' );
+		nwcs_photos_redirect( 'hata', '', 'Kategori bulunamadı; silinmiş olabilir. Sayfayı yenileyip yeniden deneyin.' );
 	}
 
 	if ( ! is_array( $files ) || ! is_array( $files['name'] ?? null ) || UPLOAD_ERR_NO_FILE === (int) ( $files['error'][0] ?? UPLOAD_ERR_NO_FILE ) ) {

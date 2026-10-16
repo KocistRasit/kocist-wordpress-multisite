@@ -340,7 +340,7 @@ function nwcs_render_products_field( array $definition, int $blog_id ): void {
 
 		<?php if ( ! $pool ) : ?>
 			<p class="nwcs-hint">
-				Havuzda henüz ürün yok.
+				Henüz ürün yok.
 				<a href="<?php echo esc_url( nwcs_pool_url( array( 'yeni' => 1 ) ) ); ?>">Ürün Havuzu</a> sayfasından ekleyin.
 			</p>
 		<?php else : ?>
@@ -368,7 +368,7 @@ function nwcs_render_products_field( array $definition, int $blog_id ): void {
 
 			<p class="nwcs-hint">
 				Ürünün kendisi <a href="<?php echo esc_url( nwcs_pool_url() ); ?>">Ürün Havuzu</a>'nda düzenlenir.
-				Buradaki alanlar <strong>yalnızca bu site için</strong> özelleştirmedir; boş bırakılan alan havuzdaki değeri kullanır.
+				Buradaki alanlar <strong>yalnızca bu site için</strong> özelleştirmedir; boş bırakılan alan Ürün Havuzu’ndaki değeri kullanır.
 			</p>
 
 			<?php // Uzun listede arama ve "yalnizca secilenler" suzgeci; kayda etkisi yok, yalnizca gorunumu daraltir. ?>

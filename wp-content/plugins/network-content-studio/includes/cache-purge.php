@@ -141,7 +141,7 @@ function nwcs_render_cache_note(): void {
 	if ( 'fail' === ( $result['cloudflare'] ?? '' ) ) {
 		printf(
 			'<div class="notice notice-warning is-dismissible"><p>%s</p></div>',
-			esc_html( sprintf( 'Değişiklik kaydedildi, ama Cloudflare önbelleği temizlenemedi (%s). Sitede bir süre eski hâli görünebilir. Cloudflare panelinden “Caching → Purge Everything” yapın ya da yöneticiye haber verin.', (string) ( $result['error'] ?? '' ) ) )
+			esc_html( sprintf( 'Değişiklik kaydedildi, ancak sitelerde bir süre eski hâli görünebilir. Birkaç dakika sonra siteye bakın; eski hâl sürerse geliştiriciye haber verin. (Teknik: Cloudflare önbelleği temizlenemedi, %s; Cloudflare panelinden “Caching → Purge Everything” yapılabilir)', (string) ( $result['error'] ?? '' ) ) )
 		);
 
 		return;

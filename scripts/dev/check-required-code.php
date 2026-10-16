@@ -82,7 +82,7 @@ check( 'kodsuz yeni satır: hata', isset( $empty['Deneme kodsuz ürün'] ), wp_j
 // Beklenen: kodu silinen satir + kodsuz yeni satir + kategoride zaten kodu olmayan urunler.
 $codeless = count( array_filter( nwcs_sync_category_products( $slug ), static fn( array $p ): bool => '' === (string) $p['code'] ) );
 check( sprintf( 'kodu silinen mevcut satır ve %d kodsuz ürün: hata', $codeless ), 2 + $codeless === count( $empty ), (string) count( $empty ) );
-check( 'hata metni', 'ÜRÜN KODU boş. Her ürünün kodu olmalı; fotoğraflar bu kodla eşleşir.' === ( $empty['Deneme kodsuz ürün'] ?? '' ) );
+check( 'hata metni', 'ÜRÜN KODU boş. Bu satıra ürünün kodunu yazın; her ürünün kodu olmalı, fotoğraflar ürüne bu kodla bağlanır.' === ( $empty['Deneme kodsuz ürün'] ?? '' ) );
 check( 'kodu silinen ürün çöp kutusuna gitmez', ! $plan['trash'], (string) count( $plan['trash'] ) );
 check( 'kodlu yeni satır: eklenecek', 1 === count( $plan['create'] ) && 'ZZ-DENEME-01' === $plan['create'][0]['data']['code'] );
 

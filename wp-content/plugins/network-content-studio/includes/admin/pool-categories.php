@@ -153,7 +153,7 @@ function nwcs_category_similar( string $name, string $except = '' ): array {
 
 function nwcs_render_categories(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 
 	// Yeni eklenen havuz tuketici site varsa yerlesim tohumu (tek seferlik).
@@ -220,6 +220,27 @@ function nwcs_render_categories(): void {
 							Yeni bir ürün grubu için yeni kategori açın.
 						</p>
 						<p><a class="button button-primary" href="<?php echo esc_url( nwcs_pool_categories_url( array( 'yeni' => 1 ) ) ); ?>">Yeni kategori aç</a></p>
+
+						<section class="nwcs-cat__section" aria-labelledby="nwcs-sec-quick" id="nwcs-excel">
+							<h3 class="nwcs-section__title" id="nwcs-sec-quick">Tüm ürünler: Hızlı Excel</h3>
+							<p class="nwcs-hint">
+								Bütün ürünlerin kodu, adı, fiyatı ve sitesi tek dosyada; toplu fiyat ya da kod güncellemesi için.
+								Yalnızca var olan ürünler güncellenir; dosyadan sildiğiniz satırlara dokunulmaz. Yüklemeden önce neyin değişeceği gösterilir.
+							</p>
+							<div class="nwcs-excel__steps">
+								<a class="button" href="<?php echo esc_url( nwcs_sync_download_url( '', true ) ); ?>">Hızlı Excel indir</a>
+								<form method="post" enctype="multipart/form-data" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="nwcs-excel__up">
+									<input type="hidden" name="action" value="nwcs_sync_upload" />
+									<input type="hidden" name="kategori" value="" />
+									<?php wp_nonce_field( 'nwcs_sync_upload' ); ?>
+									<label class="nwcs-sublabel" for="nwcs-excel-file">Düzenlenmiş dosya (.xlsx)</label>
+									<div class="nwcs-excel__row">
+										<input class="nwcs-file" type="file" id="nwcs-excel-file" name="dosya" accept=".xlsx" required />
+										<button type="submit" class="button button-primary">Yükle</button>
+									</div>
+								</form>
+							</div>
+						</section>
 					</div>
 					<?php
 				}
@@ -249,7 +270,7 @@ function nwcs_render_orphan_notice(): void {
 
 	printf(
 		'<div class="notice notice-warning"><p>%s %s</p></div>',
-		esc_html( sprintf( '%d kategori, sitede artık olmayan bir başlığa (seri ya da ürün grubu) bağlı olduğu için görünmüyor. Başlığın anahtarı İçerik Stüdyosu’nda değişmiş ya da satırı silinmiş olabilir. Kategoriyi açıp yeni bir başlık seçin:', count( $orphans ) ) ),
+		esc_html( sprintf( '%d kategori sitede görünmüyor, çünkü bağlı olduğu başlık (seri ya da ürün grubu) artık yok. Başlık İçerik Stüdyosu’nda silinmiş ya da değiştirilmiş olabilir. Kategoriyi açıp listeden yeni bir başlık seçin:', count( $orphans ) ) ),
 		implode( ', ', $links ) // phpcs:ignore WordPress.Security.EscapingOutput -- yukarida kacirildi.
 	);
 }
@@ -264,10 +285,10 @@ function nwcs_render_category_notice( string $result ): void {
 	$map = array(
 		'acildi'      => array( 'success', 'Kategori açıldı. Şimdi Excel’i indirin, ürünleri doldurun ve yükleyin.' ),
 		'var'         => array( 'warning', 'Bu adda bir kategori zaten var; o açıldı.' ),
-		'bos'         => array( 'error', 'Kategori adı boş olamaz.' ),
+		'bos'         => array( 'error', 'Kategori adı boş. Bir ad yazıp yeniden deneyin.' ),
 		'acilamadi'   => array( 'error', 'Kategori açılamadı. Adı yalnızca işaretlerden oluşuyor olabilir; harf ya da rakam içeren bir ad yazıp yeniden deneyin.' ),
-		'ust'         => array( 'warning', 'Bu kategori bir sitenin üst başlığının (seri ya da ürün grubu) kendi kategorisi; başka bir başlığın altına yerleştirilmez.' ),
-		'sil_ust'     => array( 'error', 'Bu kategori bir sitenin üst başlığının (seri ya da ürün grubu) kendi kategorisi; silinirse o başlığa doğrudan bağlı ürünler başlıktan düşer. Önce İçerik Stüdyosu’nda başlığı kaldırın.' ),
+		'ust'         => array( 'warning', 'Yerleşim kaydedilmedi: bu kategori bir sitedeki üst başlığın (seri ya da ürün grubu) kendi kategorisi, başka bir başlığın altına konamaz.' ),
+		'sil_ust'     => array( 'error', 'Kategori silinmedi: bu kategori bir sitedeki üst başlığın (seri ya da ürün grubu) kendi kategorisi; silinirse o başlığa doğrudan bağlı ürünler başlıktan düşer. Silmek için önce İçerik Stüdyosu’nda başlığı kaldırın.' ),
 		'ad'          => array( 'success', 'Kategorinin adı değişti. Adresi (bağlantısı) aynı kaldı.' ),
 		'ad_var'      => array( 'error', 'Bu adda başka bir kategori var. Farklı bir ad yazın.' ),
 		'yerlesim'    => array( 'success', 'Yerleşim kaydedildi. Sitelerde hemen görünür; yanlışsa “Son işlemler”den geri alabilirsiniz.' ),
@@ -381,7 +402,7 @@ function nwcs_render_placement_rows( array $placement, bool $fresh ): void {
 	$sites = nwcs_catalog_sites();
 
 	if ( ! $sites ) {
-		echo '<p class="nwcs-hint">Ağda kategori yerleşimi kullanan bir site yok (temasında ürün kataloğu olan site).</p>';
+		echo '<p class="nwcs-hint">Kategori yerleştirilebilecek bir site yok; hiçbir sitede ürün kataloğu bölümü bulunmuyor. Bunu geliştiriciye haber verin.</p>';
 
 		return;
 	}
@@ -518,9 +539,11 @@ function nwcs_render_category_detail( string $slug, array $term ): void {
 
 		<section class="nwcs-cat__section" aria-labelledby="nwcs-sec-excel" id="nwcs-excel">
 			<h3 class="nwcs-section__title" id="nwcs-sec-excel">Ürünleri Excel ile girin</h3>
-			<p class="nwcs-hint">Excel’i indirin, satırları doldurun ya da düzeltin, sonra yükleyin. Yüklemeden önce neyin değişeceği gösterilir; onaylamadan hiçbir şey yazılmaz.</p>
+			<p class="nwcs-hint">Excel’i indirin, satırları doldurun ya da düzeltin, sonra yükleyin. Dosyada ürün adı, kodu, fiyatı, kısa açıklaması, meta başlığı ve açıklaması, ürün açıklaması, sayfa adresi ve teknik detaylar var. Yüklemeden önce neyin değişeceği gösterilir; onaylamadan hiçbir şey yazılmaz.</p>
+			<p class="nwcs-hint">Yalnızca kod, ad, fiyat ve site güncellenecekse <strong>Hızlı Excel</strong> yeter: var olan ürünleri günceller, yeni ürün eklemez, dosyadan sildiğiniz satırlara dokunmaz. İkisi de aynı “Yükle” ile yüklenir.</p>
 			<div class="nwcs-excel__steps">
 				<a class="button" href="<?php echo esc_url( nwcs_sync_download_url( $slug ) ); ?>">Excel indir</a>
+				<a class="button" href="<?php echo esc_url( nwcs_sync_download_url( $slug, true ) ); ?>">Hızlı Excel indir</a>
 				<form method="post" enctype="multipart/form-data" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="nwcs-excel__up">
 					<input type="hidden" name="action" value="nwcs_sync_upload" />
 					<input type="hidden" name="kategori" value="<?php echo esc_attr( $slug ); ?>" />
@@ -641,11 +664,11 @@ function nwcs_render_category_delete( string $slug, array $term, array $products
 	<div class="nwcs-confirm" role="alertdialog" aria-labelledby="nwcs-del-title">
 		<h4 id="nwcs-del-title">“<?php echo esc_html( $term['name'] ); ?>” silinsin mi?</h4>
 		<ul>
-			<li><?php echo esc_html( sprintf( '%d ürün bu kategoriden çıkar; ürünler havuzda kalır.', count( $products ) ) ); ?></li>
+			<li><?php echo esc_html( sprintf( '%d ürün bu kategoriden çıkar; ürünler silinmez, Ürün Havuzu’nda kalır.', count( $products ) ) ); ?></li>
 			<?php foreach ( $loss as $line ) : ?>
 				<li><?php echo esc_html( $line ); ?></li>
 			<?php endforeach; ?>
-			<li>Sitelerdeki kategori sayfası kapanır (adresi 404 olur).</li>
+			<li>Sitelerdeki kategori sayfası kapanır; o adrese gelen ziyaretçi “sayfa bulunamadı” görür.</li>
 		</ul>
 		<p class="nwcs-hint">Yanlışsa “Son işlemler”den geri alınabilir: kategori, ürünleri ve sitelerdeki yeri geri gelir.</p>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="nwcs-actions">
@@ -802,7 +825,7 @@ function nwcs_category_apply_placement( string $slug, array $wanted ): bool {
 add_action( 'admin_post_nwcs_category_create', 'nwcs_handle_category_create' );
 function nwcs_handle_category_create(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	check_admin_referer( 'nwcs_category_create' );
@@ -852,7 +875,7 @@ function nwcs_handle_category_create(): void {
 add_action( 'admin_post_nwcs_category_rename', 'nwcs_handle_category_rename' );
 function nwcs_handle_category_rename(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	$slug = isset( $_POST['kategori'] ) ? sanitize_title( wp_unslash( $_POST['kategori'] ) ) : '';
@@ -887,7 +910,7 @@ function nwcs_handle_category_rename(): void {
 add_action( 'admin_post_nwcs_category_place', 'nwcs_handle_category_place' );
 function nwcs_handle_category_place(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	$slug = isset( $_POST['kategori'] ) ? sanitize_title( wp_unslash( $_POST['kategori'] ) ) : '';
@@ -966,7 +989,7 @@ function nwcs_prunable_categories(): array {
 add_action( 'admin_post_nwcs_category_delete', 'nwcs_handle_category_delete' );
 function nwcs_handle_category_delete(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	$slug = isset( $_POST['kategori'] ) ? sanitize_title( wp_unslash( $_POST['kategori'] ) ) : '';

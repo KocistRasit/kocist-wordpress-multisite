@@ -42,7 +42,7 @@ function nwcs_pool_url( array $args = array() ): string {
  */
 function nwcs_render_pool(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 
 	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- gorunum secimi.
@@ -121,7 +121,7 @@ function nwcs_render_pool(): void {
 
 				<?php if ( ! $result['items'] ) : ?>
 					<p class="nwcs-empty">
-						<?php echo $all ? 'Bu filtreye uyan ürün yok.' : 'Havuzda henüz ürün yok. Sağ üstten “+ Yeni ürün” ile başlayın.'; ?>
+						<?php echo $all ? 'Bu filtreye uyan ürün yok.' : 'Henüz ürün yok. Sağ üstteki “+ Yeni ürün” ile başlayın.'; ?>
 					</p>
 				<?php else : ?>
 					<?php nwcs_render_pool_table( $result['items'], $editing, $categories, $filters ); ?>
@@ -404,7 +404,7 @@ function nwcs_render_pool_form( ?array $product, array $categories, bool $is_new
 					<?php echo $code_missing ? 'aria-invalid="true" aria-describedby="nwcs-p-code-error nwcs-p-code-hint"' : 'aria-describedby="nwcs-p-code-hint"'; ?>
 					value="<?php echo esc_attr( $product['code'] ?? '' ); ?>" placeholder="örn. W-KAM-400DUB" />
 				<?php if ( $code_missing ) : ?>
-					<p class="nwcs-field__error" id="nwcs-p-code-error">Ürün kodu boş. Her ürünün kodu olmalı; fotoğraflar bu kodla eşleşir.</p>
+					<p class="nwcs-field__error" id="nwcs-p-code-error">Ürün kodu boş. Bu alana ürünün kodunu yazın; fotoğraflar ürüne bu kodla bağlanır.</p>
 				<?php endif; ?>
 				<p class="nwcs-hint" id="nwcs-p-code-hint">
 					Zorunlu; her ürünün kendine ait kodu. Fotoğraf adları bu kodla başlar (W-KAM-400DUB-1.jpg);
@@ -494,11 +494,38 @@ function nwcs_render_pool_form( ?array $product, array $categories, bool $is_new
 				<p class="nwcs-hint">
 					Ürün sayfasında (<code>/urun/<?php echo esc_html( $product['slug'] ?? 'urun-adi' ); ?>/</code>) açıklama bölümü olarak görünür.
 					Boş bırakılırsa WOOD KOCIST ve Koçist’te sayfa yine açılır (ad, görsel, teknik detaylar); diğer sitelerde ürünün kendi sayfası olmaz.
-					Toplu düzenleme için <a href="<?php echo esc_url( nwcs_descriptions_url() ); ?>">Ürün açıklamaları</a>.
+					Toplu düzenleme için kategorinin Excel’i ya da <a href="<?php echo esc_url( nwcs_descriptions_url() ); ?>">Ürün açıklamaları</a>.
 				</p>
 			</div>
 
 			<?php nwcs_render_product_tables_field( $product ); ?>
+
+			<?php
+			// Yer tutucu otomatik deger: sayac bos alanda onun uzunlugunu gosterir
+			// (assets/seo.js). Aciklama kesilmeden verilir; 160'i asarsa sayac kirmizi olur.
+			$auto_desc = nwcs_seo_clean( '' !== trim( (string) ( $product['short'] ?? '' ) ) ? $product['short'] : ( $product['body'] ?? '' ) );
+			?>
+			<div class="nwcs-field">
+				<span class="nwcs-field__label">Arama sonucu (meta)</span>
+				<p class="nwcs-hint">
+					Google’da ve bağlantı paylaşıldığında görünen başlık ve açıklama. Boş bırakırsanız otomatik:
+					başlık ürün adından (WOOD KOCIST’te kod + ad; sığarsa sonuna site adı eklenir), açıklama kart açıklamasından.
+				</p>
+
+				<label class="nwcs-sublabel" for="nwcs-p-meta-title">Meta başlık</label>
+				<input class="nwcs-input" type="text" id="nwcs-p-meta-title" name="meta_title" data-nwcs-count="60"
+					value="<?php echo esc_attr( $product['meta_title'] ?? '' ); ?>"
+					placeholder="<?php echo esc_attr( nwcs_seo_clean( $product['title'] ?? '' ) ); ?>" />
+
+				<label class="nwcs-sublabel" for="nwcs-p-meta-desc">Meta açıklama</label>
+				<textarea class="nwcs-input" id="nwcs-p-meta-desc" name="meta_desc" rows="3" data-nwcs-count="160"
+					placeholder="<?php echo esc_attr( $auto_desc ); ?>"><?php echo esc_textarea( $product['meta_desc'] ?? '' ); ?></textarea>
+
+				<p class="nwcs-hint">
+					Meta başlık sayfaya olduğu gibi yazılır; site adı eklenmez. Önerilen uzunluk: başlık en fazla 60,
+					açıklama en fazla 160 karakter. Uzun açıklama arama sonucunda kesilir. İkisi de tek satır kaydedilir.
+				</p>
+			</div>
 
 			<div class="nwcs-actions">
 				<button type="submit" class="button button-primary">Kaydet</button>
@@ -703,31 +730,31 @@ function nwcs_render_pool_notices(): void {
 
 	$map = array(
 		'saved'        => array( 'success', 'Ürün kaydedildi.' ),
-		'saved_missing' => array( 'warning', sprintf( 'Ürün kaydedildi, ama %d zorunlu detay başlığı boş. Excel yüklemesinde bu ürünün satırı hata verir; formdaki “eksik” satırları doldurun.', $count ) ),
+		'saved_missing' => array( 'warning', sprintf( 'Ürün kaydedildi, ama %d zorunlu detay boş. Bunlar dolmadan ürünün Excel satırı yüklenmez; formda “eksik” yazan satırları doldurup yeniden kaydedin.', $count ) ),
 		'deleted'      => array( 'success', 'Ürün çöp kutusuna taşındı ve sitelerden kalktı. Çöp kutusundan geri getirebilirsiniz.' ),
 		'restored'     => array( 'success', 'Ürün geri getirildi; daha önce göründüğü sitelerde yeniden görünüyor.' ),
 		'purged'       => array( 'success', 'Ürün kalıcı olarak silindi.' ),
 		'bulk_trashed' => array( 'success', sprintf( '%d ürün çöp kutusuna taşındı ve sitelerden kalktı. Çöp kutusundan geri getirebilirsiniz.', $count ) ),
 		'bulk_restored' => array( 'success', sprintf( '%d ürün geri getirildi; daha önce göründükleri sitelerde yeniden görünüyor.', $count ) ),
 		'bulk_purged'  => array( 'success', sprintf( '%d ürün kalıcı olarak silindi.', $count ) ),
-		'trash_empty'  => array( 'error', 'Ürün seçilmedi.' ),
-		'trash_off'    => array( 'error', 'Bu sunucuda WordPress çöp kutusu kapalı (EMPTY_TRASH_DAYS = 0); ürün çöpe atılamaz, atılırsa kalıcı silinirdi. Sunucu yöneticisinden çöp kutusunu açmasını isteyin.' ),
+		'trash_empty'  => array( 'error', 'Ürün seçilmedi. Listeden en az bir ürün işaretleyip “Uygula”ya basın.' ),
+		'trash_off'    => array( 'error', 'Bu panelde çöp kutusu kapalı olduğu için ürün çöpe taşınamıyor; taşınsaydı kalıcı olarak silinirdi. Bunu geliştiriciye haber verin. (Teknik: EMPTY_TRASH_DAYS = 0)' ),
 		'cat_added'    => array( 'success', 'Kategori eklendi.' ),
 		'cat_deleted'  => array( 'success', 'Kategori silindi.' ),
 		'cats_pruned'  => array( 'success', sprintf( 'Ürünü olmayan %d kategori silindi.', $count ) ),
 		'bulk'         => array( 'success', sprintf( '%d ürün güncellendi.', $count ) ),
-		'bulk_empty'   => array( 'error', 'Ürün seçilmedi ya da işlem seçilmedi.' ),
-		'upload'       => array( 'error', 'Görsel yüklenemedi.' ),
+		'bulk_empty'   => array( 'error', 'Ürün ya da işlem seçilmedi. Listeden en az bir ürün işaretleyin, “Toplu işlem…” kutusundan bir işlem seçip “Uygula”ya basın.' ),
+		'upload'       => array( 'error', 'Görsel yüklenemedi, kayıt yarım kaldı: ad, kod, fiyat, metinler, detaylar ve kategoriler kaydedildi; görsellerde, tablolarda, videoda ve site seçiminde yaptığınız değişiklikler kaydedilmedi (eski hâlleri duruyor). Dosyanın bir resim (JPG, PNG ya da WebP) olduğunu ve çok büyük olmadığını kontrol edip bu bölümleri yeniden kaydedin.' ),
 		'video_size'   => array( 'error', sprintf( 'Kaydedilmedi: video %s sınırını aşıyor. Videoyu sıkıştırıp yeniden seçin.', size_format( nwcs_video_upload_limit() ) ) ),
-		'video_type'   => array( 'error', 'Kaydedilmedi: video MP4 olmalı.' ),
+		'video_type'   => array( 'error', 'Kaydedilmedi: video MP4 olmalı. Telefon videosunu MP4 olarak dışa aktarıp yeniden seçin.' ),
 		'video_upload' => array( 'error', 'Kaydedilmedi: video yüklenemedi. Dosyayı yeniden seçin.' ),
 		'video_failed' => array( 'error', 'Ürün kaydedildi ama video yüklenemedi; ürünün videosu değişmedi. Dosyayı yeniden seçip kaydedin.' ),
-		'title'        => array( 'error', 'Ürün adı boş olamaz.' ),
+		'title'        => array( 'error', 'Kaydedilmedi: ürün adı boş. Ürün adını yazıp yeniden kaydedin.' ),
 		'code_taken'   => array( 'error', 'Bu ürün kodu başka bir üründe kullanılıyor. Farklı bir kod yazın.' ),
-		'code_empty'   => array( 'error', 'Kaydedilmedi: ürün kodu boş. Her ürünün kodu olmalı; fotoğraflar bu kodla eşleşir. Kodu yazıp yeniden kaydedin.' ),
+		'code_empty'   => array( 'error', 'Kaydedilmedi: ürün kodu boş. Her ürünün kodu olmalı; fotoğraflar ürüne bu kodla bağlanır. Kodu yazıp yeniden kaydedin.' ),
 		'fixed'        => array( 'success', '' !== $site_label ? sprintf( '%s görünür oldu.', nwcs_locative( $site_label ) ) : 'Ürün görünür oldu.' ),
 		'untrashed'    => array( 'success', 'Ürün çöp kutusundan geri geldi; daha önce göründüğü sitelerde yeniden görünüyor.' ),
-		'fix_failed'   => array( 'error', 'Düzeltilemedi: site ya da ürün bulunamadı.' ),
+		'fix_failed'   => array( 'error', 'Düzeltilemedi: site ya da ürün bulunamadı. Sayfayı yenileyip yeniden deneyin.' ),
 	);
 
 	if ( isset( $map[ $key ] ) ) {
@@ -746,7 +773,7 @@ function nwcs_render_pool_notices(): void {
 add_action( 'admin_post_nwcs_pool_save', 'nwcs_handle_pool_save' );
 function nwcs_handle_pool_save(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	$id = isset( $_POST['urun'] ) ? absint( $_POST['urun'] ) : 0;
@@ -808,6 +835,9 @@ function nwcs_handle_pool_save(): void {
 
 	update_post_meta( $id, '_nwcs_short', wp_slash( isset( $_POST['short'] ) ? nwcs_clean_text( wp_unslash( $_POST['short'] ), true ) : '' ) );
 	update_post_meta( $id, '_nwcs_price', wp_slash( isset( $_POST['price'] ) ? nwcs_clean_text( wp_unslash( $_POST['price'] ) ) : '' ) );
+	// Arama sonucu: tek satir; bossa urun sayfasi otomatik baslik/aciklama kullanir.
+	nwcs_product_set_meta_text( $id, '_nwcs_meta_title', isset( $_POST['meta_title'] ) ? nwcs_clean_text( wp_unslash( $_POST['meta_title'] ) ) : '' );
+	nwcs_product_set_meta_text( $id, '_nwcs_meta_desc', isset( $_POST['meta_desc'] ) ? nwcs_clean_text( wp_unslash( $_POST['meta_desc'] ) ) : '' );
 	// Detaylar ve turetilmis spec tek yaziciyla. Serbest not ("Ölçü / not")
 	// yalnizca formda gosterildiyse gelir (urunde eski bir not varsa).
 	$details = nwcs_posted_details();
@@ -935,6 +965,8 @@ function nwcs_pool_keep_draft( int $id, string $error, string $taken_by = '' ): 
 		'spec'         => nwcs_clean_text( $field( 'spec' ) ),
 		'details'      => nwcs_posted_details(),
 		'body'         => wp_kses_post( $field( 'body' ) ),
+		'meta_title'   => nwcs_clean_text( $field( 'meta_title' ) ),
+		'meta_desc'    => nwcs_clean_text( $field( 'meta_desc' ) ),
 		'new_category' => nwcs_clean_text( $field( 'new_category' ) ),
 		'categories'   => isset( $_POST['categories'] ) && is_array( $_POST['categories'] ) ? array_map( 'sanitize_title', array_filter( wp_unslash( $_POST['categories'] ), 'is_scalar' ) ) : array(),
 		'gallery'      => isset( $_POST['gallery'] ) && is_array( $_POST['gallery'] ) ? array_values( array_filter( array_map( 'absint', array_filter( $_POST['gallery'], 'is_scalar' ) ) ) ) : array(),
@@ -1005,6 +1037,8 @@ function nwcs_pool_take_draft( ?array $product ): ?array {
 			'spec'         => $draft['spec'],
 			'details'      => $draft['details'] ?? array(),
 			'body'         => $draft['body'],
+			'meta_title'   => $draft['meta_title'] ?? '',
+			'meta_desc'    => $draft['meta_desc'] ?? '',
 			'categories'   => $categories,
 			'images'       => $images,
 			'tables'       => $draft['tables'],
@@ -1070,7 +1104,7 @@ function nwcs_handle_gallery_upload(): ?array {
 add_action( 'admin_post_nwcs_pool_delete', 'nwcs_handle_pool_delete' );
 function nwcs_handle_pool_delete(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	$id = isset( $_POST['urun'] ) ? absint( $_POST['urun'] ) : 0;
@@ -1225,7 +1259,7 @@ function nwcs_render_pool_trash(): void {
 add_action( 'admin_post_nwcs_pool_restore', 'nwcs_handle_pool_restore' );
 function nwcs_handle_pool_restore(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	$id = isset( $_POST['urun'] ) ? absint( $_POST['urun'] ) : 0;
@@ -1246,7 +1280,7 @@ function nwcs_handle_pool_restore(): void {
 add_action( 'admin_post_nwcs_pool_purge', 'nwcs_handle_pool_purge' );
 function nwcs_handle_pool_purge(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	$id = isset( $_POST['urun'] ) ? absint( $_POST['urun'] ) : 0;
@@ -1275,7 +1309,7 @@ function nwcs_handle_pool_purge(): void {
 add_action( 'admin_post_nwcs_pool_trash_bulk', 'nwcs_handle_pool_trash_bulk' );
 function nwcs_handle_pool_trash_bulk(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	check_admin_referer( 'nwcs_pool_trash_bulk' );
@@ -1386,7 +1420,7 @@ function nwcs_forget_products( array $product_ids ): void {
 add_action( 'admin_post_nwcs_product_fix', 'nwcs_handle_product_fix' );
 function nwcs_handle_product_fix(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	$id = isset( $_POST['urun'] ) ? absint( $_POST['urun'] ) : 0;
@@ -1432,7 +1466,7 @@ function nwcs_handle_product_fix(): void {
 add_action( 'admin_post_nwcs_pool_bulk', 'nwcs_handle_pool_bulk' );
 function nwcs_handle_pool_bulk(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	check_admin_referer( 'nwcs_pool_bulk' );
@@ -1547,7 +1581,7 @@ function nwcs_handle_pool_bulk(): void {
 add_action( 'admin_post_nwcs_pool_category_prune', 'nwcs_handle_pool_category_prune' );
 function nwcs_handle_pool_category_prune(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	check_admin_referer( 'nwcs_pool_category_prune' );

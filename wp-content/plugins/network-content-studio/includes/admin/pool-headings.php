@@ -212,7 +212,7 @@ function nwcs_headings_rewrite( callable $change ): int {
 add_action( 'admin_post_nwcs_headings', 'nwcs_handle_headings' );
 function nwcs_handle_headings(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu işlem için yetkiniz yok.' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'Bu işlem için yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ), '', array( 'response' => 403 ) );
 	}
 
 	check_admin_referer( 'nwcs_headings' );
@@ -401,7 +401,7 @@ function nwcs_handle_headings(): void {
 
 function nwcs_render_headings(): void {
 	if ( ! current_user_can( NWCS_CAPABILITY ) ) {
-		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok.' ) );
+		wp_die( esc_html__( 'Bu sayfaya erişim yetkiniz yok. Yönetici hesabıyla giriş yapıp yeniden deneyin.' ) );
 	}
 
 	$headings = nwcs_product_headings();
@@ -421,11 +421,11 @@ function nwcs_render_headings(): void {
 		'renamed' => array( 'success', sprintf( 'Başlığın adı değişti; %d ürün güncellendi.', $count ) ),
 		'merged'  => array( 'success', sprintf( 'Başlıklar birleştirildi; %d ürün güncellendi.', $count ) ),
 		'deleted' => array( 'success', 'Başlık silindi.' ),
-		'invalid' => array( 'error', 'Başlık adı en az bir harf içermeli.' ),
+		'invalid' => array( 'error', 'Başlık adı en az bir harf içermeli. “Ahşap Cinsi” gibi bir ad yazın.' ),
 		'exists'  => array( 'error', 'Bu adda bir başlık zaten var. İki başlığı tek yapmak için “Birleştir”i kullanın.' ),
-		'reserved' => array( 'error', 'Bu ad Excel dosyasındaki bir sistem sütunuyla aynı (Kimlik, Ürün kodu, Ürün adı, Site, Fiyat, Kısa açıklama). Başka bir ad yazın, örneğin “Fiyat (Tek)”.' ),
+		'reserved' => array( 'error', 'Bu ad Excel dosyasında zaten ayrı bir sütunun adı (Ürün kodu, Ürün adı, Fiyat, Kısa açıklama, Site, Meta başlık, Meta açıklama, Ürün açıklaması, Sayfa adresi gibi). Başka bir ad yazın, örneğin “Fiyat (Tek)”.' ),
 		'pick'    => array( 'error', 'Birleştirmek için listeden başka bir başlık seçin.' ),
-		'in_use'  => array( 'error', 'Bu başlık ürünlerde kullanılıyor; silinemez. Önce başka bir başlıkla birleştirin.' ),
+		'in_use'  => array( 'error', 'Bu başlık ürünlerde kullanıldığı için silinemez. Kaldırmak istiyorsanız “Düzenle” › “Birleştir” ile değerlerini başka bir başlığa taşıyın.' ),
 	);
 	?>
 	<div class="wrap nwcs-wrap nwcs-wrap--pool nwcs-headings">
@@ -463,7 +463,7 @@ function nwcs_render_headings(): void {
 						<?php
 						echo esc_html(
 							$blocked
-								? sprintf( '“%s” zorunlu yapıldı. Şu kategorilerin Excel’i bu sütun dolmadan yüklenmez: %s.', $headings[ $fresh_key ]['label'], nwcs_heading_gap_names( $blocked, 6 ) )
+								? sprintf( '“%s” zorunlu yapıldı. Şu kategorilerde bu başlık bazı ürünlerde boş; Excel yüklemesinde o ürünlerin satırları doldurulana kadar yüklenmez, diğer satırlar yüklenir: %s.', $headings[ $fresh_key ]['label'], nwcs_heading_gap_names( $blocked, 6 ) )
 								: sprintf( '“%s” zorunlu yapıldı. Bütün ürünlerde dolu; hiçbir kategorinin Excel’i takılmaz.', $headings[ $fresh_key ]['label'] )
 						);
 						?>
