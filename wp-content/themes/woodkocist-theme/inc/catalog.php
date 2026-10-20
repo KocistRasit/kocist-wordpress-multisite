@@ -214,14 +214,18 @@ function wk_filter_products( string $category = '', string $search = '', string 
 	$search = trim( $search );
 
 	if ( '' !== $search ) {
-		// Turkce harf katlamasi eklentide ortak (nwcs_search_fold, Kocist aramasi
-		// da kullanir): "ÇİVİ" = "çivi" = "civi". Eslestirme eskisi gibi tek parca.
-		$fold     = static fn( string $text ): string => function_exists( 'nwcs_search_fold' ) ? nwcs_search_fold( $text ) : mb_strtolower( $text );
-		$needle   = $fold( $search );
-		$products = array_filter(
-			$products,
-			static fn( array $p ): bool => str_contains( $fold( $p['code'] . ' ' . $p['title'] . ' ' . implode( ' ', $p['categories'] ) ), $needle )
-		);
+		if ( function_exists( 'nwcs_search_products' ) ) {
+			// Kocist aramasiyla ayni (eklenti, includes/search.php): Turkce harf,
+			// bosluk ve tire farki yok ("adr k" = "ADR-K"); kodu tam tutan en ustte,
+			// sonra kodu terimle baslayan, kodunda, adinda gecen, kelimeleri ayri gecen.
+			$products = nwcs_search_products( $products, $search );
+		} else {
+			$needle   = mb_strtolower( $search );
+			$products = array_filter(
+				$products,
+				static fn( array $p ): bool => str_contains( mb_strtolower( $p['code'] . ' ' . $p['title'] . ' ' . implode( ' ', $p['categories'] ) ), $needle )
+			);
+		}
 	}
 
 	$products = '' === $search ? wk_cards( $products ) : array_values( $products );
@@ -295,4 +299,86 @@ function wk_seo_category_pages( array $pages ): array {
 	}
 
 	return $pages;
+}
+
+/*
+ * Canli arama (eklenti: includes/live-search.php, assets/live-search.js).
+ *
+ * Ust menudeki arama kutusuna yazarken liste acilir. Veri ucu
+ * <site>/wp-json/nwcs/v1/arama?q= magazanin aramasini (wk_filter_products,
+ * onerilen sira) cagirir: liste, sira ve "Tüm sonuçlar (N)" /magaza/?ara=
+ * sayfasiyla ayni; renk grubu sadelesmez. Fiyat karttaki gibi ("+ KDV" /
+ * "KDV dahil" notu, fiyatsizda "Fiyat teklifle"); genis ekranda onizlemeden
+ * sepete eklenir (site.js, ayni cerez ve "Sepete eklendi" paneli). Odeme
+ * akisi degismedi. Metinler panelde: Tüm Sayfalar > Üst Menü ("Canlı arama").
+ */
+add_filter( 'nwcs_live_search', 'wk_live_search_config' );
+function wk_live_search_config( $config ) {
+	return array(
+		'search' => static fn( string $term ): array => wk_filter_products( '', $term, '' ),
+		'url'    => static fn( string $term ): string => add_query_arg( 'ara', rawurlencode( $term ), wk_shop_url() ),
+	);
+}
+
+add_filter( 'nwcs_live_search_item', 'wk_live_search_item', 10, 2 );
+function wk_live_search_item( array $item, array $product ): array {
+	$buy = wk_can_buy( $product );
+
+	$item['url']        = (string) ( $product['url'] ?? '' );
+	$item['price']      = $buy ? (string) $product['price'] : (string) nwcs_field( 'global', 'card', 'price_ask' );
+	$item['price_note'] = $buy ? wk_price_note() : '';
+	$item['has_price']  = $buy;
+	$item['can_add']    = $buy;
+
+	return $item;
+}
+
+add_action( 'wp_enqueue_scripts', 'wk_live_search_assets', 20 );
+function wk_live_search_assets(): void {
+	if ( ! function_exists( 'nwcs_live_search_enqueue' ) ) {
+		return;
+	}
+
+	$field = static fn( string $page, string $component, string $name ): string => (string) nwcs_field( $page, $component, $name );
+
+	nwcs_live_search_enqueue(
+		array(
+			'prefix'  => 'wk-ls',
+			'sr'      => 'wk-sr',
+			'maxQty'  => WK_QTY_MAX,
+			'plate'   => true, // Gorseli olmayan urunde kod plakasi (kart gibi).
+			'cart'    => home_url( '/sepet/' ),
+			'texts'   => array(
+				'list'       => $field( 'global', 'header', 'live_list' ),
+				'loading'    => $field( 'global', 'header', 'live_loading' ),
+				'count'      => $field( 'global', 'header', 'live_count' ),
+				'all'        => $field( 'global', 'header', 'live_all' ),
+				'code'       => $field( 'global', 'header', 'live_code' ),
+				'qty'        => $field( 'global', 'header', 'live_qty' ),
+				'less'       => $field( 'global', 'header', 'live_less' ),
+				'more'       => $field( 'global', 'header', 'live_more' ),
+				'full'       => wk_text( 'global', 'header', 'live_full', array( 'sayi' => WK_CART_MAX ) ),
+				'emptyTitle' => $field( 'shop', 'list', 'empty_title' ),
+				'emptyText'  => $field( 'shop', 'list', 'empty_desc' ),
+				'add'        => $field( 'global', 'card', 'add_button' ),
+				'open'       => $field( 'global', 'card', 'ask_button' ),
+			),
+			// Sitenin kendi siniflari: adet secici, dugmeler, kod plakasi.
+			'classes' => array(
+				'qty'      => 'wk-qty',
+				'qtyBtn'   => 'wk-qty__btn',
+				'qtyInput' => 'wk-qty__input',
+				'add'      => 'wk-btn wk-btn--primary',
+				'open'     => 'wk-btn wk-btn--line',
+				'ph'       => 'wk-plate wk-plate--sm',
+				'phLarge'  => 'wk-plate',
+			),
+			'links'   => array(
+				array(
+					'label' => $field( 'shop', 'list', 'empty_button' ),
+					'url'   => wk_shop_url(),
+				),
+			),
+		)
+	);
 }

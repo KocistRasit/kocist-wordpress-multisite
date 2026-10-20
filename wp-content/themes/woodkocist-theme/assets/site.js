@@ -291,7 +291,8 @@
 		}
 	}
 
-	function showAdded( form, qty ) {
+	/** info: { code, title } (kart/urun formunun data-code, data-title'i ya da canli aramanin urunu). */
+	function showAdded( info, qty ) {
 		if ( ! added ) {
 			added = doc.createElement( 'div' );
 			added.className = 'wk-added';
@@ -315,9 +316,9 @@
 		item.textContent = '';
 		var code = doc.createElement( 'span' );
 		code.className = 'wk-added__code';
-		code.textContent = form.getAttribute( 'data-code' ) + ' · ' + qty + ' adet';
+		code.textContent = info.code + ' · ' + qty + ' adet';
 		item.appendChild( code );
-		item.appendChild( doc.createTextNode( form.getAttribute( 'data-title' ) ) );
+		item.appendChild( doc.createTextNode( info.title ) );
 
 		added.hidden = false;
 		window.requestAnimationFrame( function () {
@@ -328,28 +329,42 @@
 		addedTimer = setTimeout( closeAdded, 7000 );
 	}
 
+	/**
+	 * Sepete ekler ve ust menudeki sayiyi yazar; sepet doluysa (yeni satir
+	 * sigmiyorsa) false. Kart/urun formu ve ust menudeki canli arama ayni yolu
+	 * kullanir.
+	 */
+	function addToCart( id, qty ) {
+		var cart = readCart();
+
+		if ( ! cart.items[ id ] ) {
+			if ( cart.order.length >= MAX_LINES ) {
+				return false;
+			}
+			cart.order.push( id );
+			cart.items[ id ] = 0;
+		}
+
+		cart.items[ id ] = Math.min( MAX_QTY, cart.items[ id ] + qty );
+		writeCart( cart );
+		renderCount();
+
+		return true;
+	}
+
 	doc.querySelectorAll( '[data-add]' ).forEach( function ( form ) {
 		form.addEventListener( 'submit', function ( event ) {
 			event.preventDefault();
 
-			var id = form.getAttribute( 'data-id' );
 			var input = form.querySelector( '[name="wk_qty"]' );
 			var qty = Math.max( 1, Math.min( MAX_QTY, parseInt( input ? input.value : '1', 10 ) || 1 ) );
-			var cart = readCart();
 
-			if ( ! cart.items[ id ] ) {
-				if ( cart.order.length >= MAX_LINES ) {
-					form.submit();
-					return;
-				}
-				cart.order.push( id );
-				cart.items[ id ] = 0;
+			if ( ! addToCart( form.getAttribute( 'data-id' ), qty ) ) {
+				form.submit();
+				return;
 			}
 
-			cart.items[ id ] = Math.min( MAX_QTY, cart.items[ id ] + qty );
-			writeCart( cart );
-			renderCount();
-			showAdded( form, qty );
+			showAdded( { code: form.getAttribute( 'data-code' ), title: form.getAttribute( 'data-title' ) }, qty );
 
 			var button = form.querySelector( '[type="submit"]' );
 			if ( button ) {
@@ -359,6 +374,28 @@
 				}, 1200 );
 			}
 		} );
+	} );
+
+	/*
+	 * Ust menudeki canli arama (eklenti, assets/live-search.js): onizlemedeki
+	 * "Sepete ekle" bu olayi gonderir. Ayni cerez, ayni "Sepete eklendi"
+	 * paneli; sonuc olaya yazilir (notified: liste ayrica metin yazmaz).
+	 */
+	doc.addEventListener( 'nwcs-live-add', function ( event ) {
+		var detail = event.detail || {};
+		var id = parseInt( detail.id, 10 );
+		var qty = Math.max( 1, Math.min( MAX_QTY, parseInt( detail.qty, 10 ) || 1 ) );
+
+		if ( ! ( id > 0 ) ) {
+			return;
+		}
+
+		if ( addToCart( String( id ), qty ) ) {
+			showAdded( { code: String( detail.code || '' ), title: String( detail.title || '' ) }, qty );
+			detail.result = { status: 'added', qty: qty, notified: true };
+		} else {
+			detail.result = { status: 'full' };
+		}
 	} );
 
 	/* ---------------------------------------------------------------- */

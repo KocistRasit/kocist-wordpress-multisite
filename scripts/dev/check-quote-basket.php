@@ -232,8 +232,9 @@ PHP;
 }
 
 /**
- * WOOD KOCIST baglaminda (ayri surec): her terim icin wk_filter_products ve
- * eski eslestirme (mb_strtolower + str_contains) kimlikleri; aramasiz kartlar.
+ * WOOD KOCIST baglaminda (ayri surec): her terim icin wk_filter_products, eski
+ * eslestirme (mb_strtolower + str_contains) ve ortak sirali arama
+ * (nwcs_search_products) kimlikleri; aramasiz kartlar.
  */
 function wk_search_run( array $terms ): array {
 	$runner = sys_get_temp_dir() . '/nwcs-wk-search.php';
@@ -251,7 +252,7 @@ $old = static function ( string $search ) use ( $ids ): array {
 };
 $out = array( '__cards' => $ids( wk_filter_products( '', '', '' ) ), '__all' => $ids( wk_products() ) );
 foreach ( json_decode( $argv[1], true ) as $term ) {
-	$out[ $term ] = array( 'new' => $ids( wk_filter_products( '', $term, '' ) ), 'old' => $old( $term ) );
+	$out[ $term ] = array( 'new' => $ids( wk_filter_products( '', $term, '' ) ), 'old' => $old( $term ), 'ranked' => $ids( nwcs_search_products( wk_products(), $term ) ) );
 }
 echo json_encode( $out );
 PHP;
@@ -784,12 +785,12 @@ try {
 		foreach ( $wk_terms as $term ) {
 			$new = $wk[ $term ]['new'] ?? array();
 			$old = $wk[ $term ]['old'] ?? array();
-			$same[ $term ] = $new === $old;
+			$same[ $term ] = $new === ( $wk[ $term ]['ranked'] ?? null );
 			$wide[ $term ] = array() === array_diff( $old, $new );
 		}
 
-		$ascii = array( 'QZ Deneme', 'qzt-adr', 'QZT-ADR-K-TK', 'renkli masa', 'zzz-yok', 'sandalye', 'KAMELYA', 'masa' );
-		check( 'WK: Turkce harfsiz terimlerde sonuc ve sira ayni', ! in_array( false, array_intersect_key( $same, array_flip( $ascii ) ), true ), wp_json_encode( array_keys( array_filter( $same, static fn( $ok ) => ! $ok ) ) ) );
+		// 0.27.2'den beri magaza aramasi Kocist'le ayni sirali ortak arama (nwcs_search_products).
+		check( 'WK: magaza aramasi = ortak sirali arama (sonuc ve sira)', ! in_array( false, $same, true ), wp_json_encode( array_keys( array_filter( $same, static fn( $ok ) => ! $ok ) ) ) );
 		check( 'WK: eskiden bulunan her urun yine bulunur', ! in_array( false, $wide, true ) );
 		check( 'WK: "çiçekli" eskisi gibi; "CICEKLI" ve "İĞNE" artik da buluyor (katlama)', array( $e ) === $wk['çiçekli']['new'] && array( $e ) === $wk['çiçekli']['old'] && array( $e ) === $wk['CICEKLI']['new'] && array() === $wk['CICEKLI']['old'] && array( $e ) === $wk['İĞNE']['new'] );
 		check( 'WK: arama renk grubunu sadelestirmez; aramasiz liste tek kart', array( $g, $h ) === array_values( array_intersect( $wk['renkli masa']['new'], array( $g, $h ) ) ) && in_array( $g, $wk['__cards'], true ) && ! in_array( $h, $wk['__cards'], true ) );

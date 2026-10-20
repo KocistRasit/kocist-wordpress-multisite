@@ -2102,3 +2102,76 @@ her üyede ayrı girildiği için yeniden kullanılamıyor, liste kod değişmed
   dolma, menü; başka kategorilerin gruplarına dokunulmadığı denetlenir); `check-color-groups.php`,
   `check-cat-faq.php`, `check-quote-basket.php` geçti; başsız Chrome ile Renkler ekranı, onay,
   grup satırı (JS'li ve JS'siz) ve 390 px.
+
+## Canlı arama: yazarken liste ve önizleme (NWCS 0.27.2, kocist-theme 0.6.1, woodkocist-theme 0.2.2, 20 Ekim 2026)
+
+Eski woodkocist.com.tr'deki WooCommerce canlı aramasının karşılığı: üst menüdeki kutuya yazarken
+büyük bir liste, genişte yanında seçili ürünün önizlemesi ve sepete ekleme.
+
+- **Tek uç, tek betik, eklentide:** `includes/live-search.php` (REST `nwcs/v1/arama`) ve
+  `assets/live-search.js` (combobox, vurgu, önizleme). Tema açar: `nwcs_live_search` süzgeci
+  `search` (sonuç sayfasının araması) ve `url` (sonuç sayfası adresi) verir; açmayan sitede yol
+  kayıtlı değil (404). Öğeyi tema kartındaki gibi biçimler (`nwcs_live_search_item`): WOOD KOCIST
+  fiyat + `wk_price_note()`, fiyatsızda "Fiyat teklifle", `can_add = wk_can_buy`; Koçist fiyatsızda
+  `kategoriler.texts.price_quote`, her ürün eklenebilir (sepet sayfası açıksa), adres kartın adresi
+  (sayfası yoksa teklif formu). Görünüm her temada kendi değişkenleri ve sınıflarıyla (önek
+  `k-ls` / `wk-ls`; adet seçici, düğmeler ve kod plakası temanın sınıfları).
+- **Sonuç sayfasıyla aynı liste:** uç sitenin kendi sonuç sayfasının aramasını çağırır (Koçist
+  `kocist_search`, WOOD KOCIST `wk_filter_products( '', q, '' )`): 8 öğe sayfanın ilk 8 kartı, N
+  sayfanın sayısı, renk grubu sadeleşmez. WOOD KOCIST mağaza araması da (kullanıcı kararı) Koçist'le
+  aynı sıralı ortak aramayı kullanır (`nwcs_search_products`): "adr k" = "ADR-K", tam kod en üstte;
+  0.27.0'daki "tek parça" kararının yerini alır. Seçilen sıralama (fiyat, ad) yine ezer.
+- **Girdi:** yalnızca `q`; `sanitize_text_field`, 60 karakter, en az 2 harf/rakam (kısa terim 200 ve
+  boş liste). Dizi `q` REST doğrulamasında 400. Ürün listesi ve fiyatlar sunucuda; istemciden başka
+  bir şey okunmaz.
+- **Önbellek:** `Cache-Control: public, max-age=300` (tarayıcı; geri silmede ve aynı terimde istek
+  yok) ve `X-LiteSpeed-Cache-Control: no-cache` (rastgele terimler sunucu önbelleğini doldurmasın;
+  terimli `/arama/` ile aynı gerekçe). Betik `credentials: 'omit'` ile ister; oturum çerezi gitmez.
+- **Görsel:** havuz sitesinde tek geçişle `thumbnail` (liste, 56 px) ve `medium_large` (önizleme,
+  ölçüleriyle). 'medium' (300 px) 360 px'lik önizlemede bulanık kalıyordu. Koçist'te yer tutucu
+  (seed) görsel gösterilmez (`kocist_product_image`). Kısa metin düz yazı, ~160 karakter, kelime
+  sınırında "…".
+- **Vurgu istemcide, güvenli:** `nwcs_search_fold` JS'te birebir (İ→i, I→ı, küçük harf, ı ğ ü ş ö
+  ç â î û); harf/rakam haritası üzerinden asıl metindeki konuma döner, böylece "adr k" kodda
+  "ADR-K"yı kalın yapar. Terim bütünüyle geçmiyorsa kelimeleri (2 harften uzun) ayrı ayrı. Liste
+  `createElement` + `textContent`; sunucu metni hiçbir yerde HTML olarak işlenmez, adresler
+  yalnızca http(s) ya da site içi. Ayar JSON'u `JSON_HEX_TAG` ile basılır.
+- **ARIA ve klavye:** kutu `role=combobox`, `aria-autocomplete=list`, `aria-expanded`,
+  `aria-controls` → `role=listbox`; öğeler `<a role=option tabindex=-1>` (orta tıkla yeni sekme
+  çalışsın). ↑ ↓ "kutu → ilk … son → kutu" döner, `aria-activedescendant` ve `aria-selected`;
+  fareyle üzerine gelmek de seçer (`mousemove`: liste farenin altında yenilenince kaymaz). Enter
+  seçili ürünü açar, seçili yoksa form gönderilir. Esc yalnızca listeyi kapatır
+  (`stopPropagation`: Koçist'te arama çubuğu ve çekmece açık kalır). Listeye basınca odak kutuda
+  kalır (`mousedown` önlenir; adet kutusu hariç); dışarı basınca ve sekmeyle formdan çıkınca kapanır.
+  Sayı canlı bölgede ("12 ürün bulundu"), yazmayı bölmesin diye 450 ms sonra.
+- **İstek:** 200 ms bekleme, eski istek `AbortController` ile iptal, sıra numarası (geç gelen eski
+  cevap çizilmez), terim başına sayfa içi önbellek; cevap 150 ms'yi geçerse "Aranıyor…" ya da ince
+  şerit. Uç cevap vermezse liste açılmaz, form eskisi gibi.
+- **Ekleme mevcut yoldan:** önizleme `nwcs-live-add` olayı gönderir, sonucu `detail.result`'tan
+  okur. Koçist `teklif.js` ürün sayfasının ekleme kodunu `addToBasket()`'a ayırdı (form ve liste
+  aynı fonksiyon: çerez, doğrulama, üst menü sayısı; "bu üründen N adet" + "Sepete git", dolu ve
+  çerez kapalı metinleri). WOOD KOCIST `site.js` `addToCart()`'a ayırdı ve mevcut "Sepete eklendi"
+  panelini açar (`notified`: liste ayrıca metin yazmaz). Çerez mantığı tek yerde kaldı; olayı
+  karşılayan betik yoksa liste ürün sayfasına gider. Ödeme akışı değişmedi.
+- **Yerleşim:** liste formun altında, sayfanın üstüne biner (yer kaydırmaz); yükseklik pencereye
+  göre, liste kendi içinde kayar, "Tüm sonuçlar (N)" altta yapışık. Önizleme yalnızca ≥ 1024 px.
+  Koçist telefon çekmecesinde liste akışta: çekmece kendi içinde kayan bir kutu, üstüne binen liste
+  kırpılıyordu; kayma yalnızca yazınca olur. WOOD KOCIST telefonda alttaki WhatsApp şeridi kadar yer
+  ayrılır (kökün `margin-bottom`'u; betik hesaba katar). WOOD KOCIST'in `.wk-search__form input`
+  kuralı `> input` oldu: önizlemedeki adet kutusunu da koyu temaya boyuyordu. Koçist'in adet
+  seçicisi (`.k-qty`) `teklif.css`'ten her sayfada yüklenen `header.css`'e taşındı.
+- **Gizli olduğu yerde yok:** Koçist'te arama sayfası yayında değilken (`kocist_page_ready`) uç,
+  betik ve kutu işareti (`data-nwcs-live`) yok; panel önizlemesinde liste açılmaz (tıklama alanı
+  düzenlemeye açar). Arama sayfasındaki büyük kutuda canlı liste yok (sonuçlar zaten altında).
+  JavaScript yoksa hiçbir şey değişmez.
+- **Metinler panelde:** Koçist Tüm Sayfalar › "Üst Menü: Arama ve Teklif Sepeti" (`live_all`,
+  `live_count`, `live_loading`, `live_code`, `live_list`, `live_error`); boş sonuç Arama Sayfası'nın,
+  ekleme Teklif Sepeti'nin metinleri. WOOD KOCIST Tüm Sayfalar › "Üst Menü" (aynı adlar + adet
+  kutusu ve `live_full`); boş sonuç Mağaza'nın, fiyat ve düğmeler Ürün Kartları'nın metinleri.
+- Doğrulama: `scripts/dev/check-live-search.php` (85 kontrol: uç biçimi ve sınırlar, iki sitede
+  sonuç sayfasıyla sıra ve sayı eşitliği (işlev ve HTTP'de kartlar), Türkçe katlama, renk grubu,
+  site biçimi (KDV hariç/dahil), uç olmayan siteler ve gizli arama sayfası, önbellek başlıkları,
+  sayfalardaki betik ve ayar, E_ALL); `check-quote-basket`, `check-color-groups`, `check-cat-faq`,
+  `check-color-palette` geçti; başsız Chrome ile iki sitede 1280 px (liste, kalın eşleşme, ↑ ↓,
+  Enter, Esc, dışarı tıklama, önizleme, teklif sepetine / sepete ekleme ve üst menü sayısı, sonuç
+  yok) ve 390 px (yalnızca liste, yatay kaydırma yok), konsol hatası yok.

@@ -121,7 +121,7 @@ $submenu = static function ( array $item, string $prefix ) use ( $tree, $corpora
 		<form class="wk-wrap wk-search__form" role="search" method="get" action="<?php echo esc_url( wk_shop_url() ); ?>">
 			<label class="wk-sr" for="wk-search-input" <?php nwcs_edit_attr( 'global', 'header', 'search_label' ); ?>><?php echo esc_html( nwcs_field( 'global', 'header', 'search_label' ) ); ?></label>
 			<?php echo wk_icon( 'search' ); // phpcs:ignore WordPress.Security.EscapingOutput ?>
-			<input id="wk-search-input" type="search" name="ara" value="<?php echo esc_attr( $search ); ?>" placeholder="<?php echo esc_attr( nwcs_field( 'global', 'header', 'search_hint' ) ); ?>" autocomplete="off" <?php nwcs_edit_attr( 'global', 'header', 'search_hint' ); ?> />
+			<input id="wk-search-input" type="search" name="ara" value="<?php echo esc_attr( $search ); ?>" placeholder="<?php echo esc_attr( nwcs_field( 'global', 'header', 'search_hint' ) ); ?>" autocomplete="off" <?php nwcs_edit_attr( 'global', 'header', 'search_hint' ); ?><?php echo function_exists( 'nwcs_live_search_active' ) && nwcs_live_search_active() ? ' data-nwcs-live' : ''; // Canli arama: inc/catalog.php. ?> />
 			<button type="submit" class="wk-btn wk-btn--primary" <?php nwcs_edit_attr( 'global', 'header', 'search_button' ); ?>><?php echo esc_html( nwcs_field( 'global', 'header', 'search_button' ) ); ?></button>
 		</form>
 	</div>

@@ -621,6 +621,39 @@ Sipariş ve ödeme **yok**: ziyaretçi ürünleri toplar, hepsi için tek seferd
   `template-parts/basket-page.php`, `assets/js/teklif.js`, `assets/css/teklif.css`. Deneme
   `scripts/dev/check-quote-basket.php`.
 
+## Canlı arama (NWCS 0.27.2; Koçist ve WOOD KOCIST)
+
+Üst menüdeki arama kutusuna (Koçist'te telefon çekmecesindeki kutuya da) yazarken liste açılır.
+
+- **Liste:** küçük resim (yoksa Koçist'te kamera rozeti, WOOD KOCIST'te kod plakası), ad ve
+  "Ürün kodu: …" (eşleşen kısım kalın), sağda fiyat kartlardaki gibi (WOOD KOCIST "10.250 ₺ KDV
+  dahil" / "+ KDV"; fiyatsızda "Fiyat teklifle"). En fazla 8 ürün; altta "Tüm sonuçlar (N)" sonuç
+  sayfasına gider (Koçist `/arama/?ara=`, WOOD KOCIST `/magaza/?ara=`). Liste, sıra ve N sonuç
+  sayfasıyla aynı (aynı arama çağrılır); renk grubu sadeleşmez. Sonuç yoksa Koçist'te arama
+  sayfasının metni, "Bize yazın" ve WhatsApp (mesajda aranan terim); WOOD KOCIST'te mağazanın
+  "Sonuç yok" metni ve "Tüm ürünleri göster".
+- **Klavye:** ↑ ↓ ürün seçer (odak kutuda kalır), Enter seçili ürünü açar, seçili ürün yoksa form
+  eskisi gibi sonuç sayfasına gider; Esc listeyi kapatır; dışarı tıklayınca kapanır. Ekran
+  okuyucu sonuç sayısını duyar (ARIA combobox + listbox).
+- **Önizleme (≥ 1024 px):** sağda seçili ya da üzerine gelinen ürün: büyük görsel, ad, kod, fiyat,
+  kısa metin (~160 karakter), adet − + ve ekle düğmesi. Koçist: teklif sepetine ekler (aynı çerez,
+  "bu üründen N adet" ve "Sepete git", üst menüdeki sayı). WOOD KOCIST: sepete ekler (aynı çerez,
+  aynı "Sepete eklendi" paneli, üst menüdeki sayı); fiyatsız üründe ekleme yok, "Fiyat sor" ürün
+  sayfasına gider. Dar ekranda yalnızca liste.
+- **Veri ucu:** `GET <site>/wp-json/nwcs/v1/arama?q=<terim>` (yalnızca `q` okunur; en az 2
+  harf/rakam, 60 karakter). Cevap `{ q, total, url, items[] }`; öğe: `id, url, title, code, price,
+  price_note, has_price, can_add, thumb, image{url,width,height}|null, text`. Tarayıcı 5 dakika
+  tutar (`Cache-Control: public, max-age=300`), LiteSpeed tutmaz. Yalnızca temasında açılan sitede
+  var (`nwcs_live_search` süzgeci; öğe biçimi `nwcs_live_search_item`); diğer sitelerde 404.
+  Koçist'te arama sayfası açılana kadar uç da liste de yok.
+- Betik yoksa hiçbir şey değişmez; panel önizlemesinde liste açılmaz. Metinler panelde: Koçist
+  Tüm Sayfalar › "Üst Menü: Arama ve Teklif Sepeti" (`live_*`), WOOD KOCIST Tüm Sayfalar ›
+  "Üst Menü" (`live_*`); boş sonuç, fiyat ve düğme yazıları mevcut alanlardan.
+- Kod: eklenti `includes/live-search.php`, `assets/live-search.js`; Koçist `inc/search.php`,
+  `assets/js/teklif.js`, `assets/css/header.css`; WOOD KOCIST `inc/catalog.php`, `assets/site.js`,
+  `assets/site.css`. Deneme `scripts/dev/check-live-search.php` (`keep` deneme ürünlerini
+  bırakır, `clean` siler).
+
 ## Ürün açıklamaları (toplu)
 
 **Ürün Havuzu → Ürün açıklamaları**: bir kategori (ya da tüm ürünler) seçilip Excel indirilir:

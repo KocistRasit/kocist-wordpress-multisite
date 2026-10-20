@@ -174,14 +174,117 @@ function kocist_search_document_title( $title ) {
  * @param string $class Formun ek sinifi.
  * @param string $value Kutudaki terim.
  * @param string $name  Bolge adinin panel alani (search_region_bar, _drawer, _page).
+ * @param bool   $live  Yazarken sonuc listesi acilsin mi (ust menu ve cekmece; bkz. asagi).
  */
-function kocist_search_form( string $id, string $class = '', string $value = '', string $name = 'search_region_bar' ): void {
+function kocist_search_form( string $id, string $class = '', string $value = '', string $name = 'search_region_bar', bool $live = false ): void {
+	$live = $live && function_exists( 'nwcs_live_search_active' ) && nwcs_live_search_active();
 	?>
 	<form class="k-searchform<?php echo '' !== $class ? ' ' . esc_attr( $class ) : ''; ?>" role="search" aria-label="<?php echo esc_attr( nwcs_field( 'global', 'tools', $name ) ); ?>" method="get" action="<?php echo esc_url( kocist_search_url() ); ?>">
 		<label class="screen-reader-text" for="<?php echo esc_attr( $id ); ?>" <?php nwcs_edit_attr( 'global', 'tools', 'search_label' ); ?>><?php echo esc_html( nwcs_field( 'global', 'tools', 'search_label' ) ); ?></label>
 		<svg class="k-searchform__icon" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="8.5" cy="8.5" r="5.5" /><path d="m12.6 12.6 4.4 4.4" /></svg>
-		<input class="k-searchform__input" id="<?php echo esc_attr( $id ); ?>" type="search" name="ara" value="<?php echo esc_attr( $value ); ?>" maxlength="<?php echo (int) KOCIST_SEARCH_CHARS; ?>" autocomplete="off" enterkeyhint="search" placeholder="<?php echo esc_attr( nwcs_field( 'global', 'tools', 'search_hint' ) ); ?>" <?php nwcs_edit_attr( 'global', 'tools', 'search_hint' ); ?> />
+		<input class="k-searchform__input" id="<?php echo esc_attr( $id ); ?>" type="search" name="ara" value="<?php echo esc_attr( $value ); ?>" maxlength="<?php echo (int) KOCIST_SEARCH_CHARS; ?>" autocomplete="off" enterkeyhint="search" placeholder="<?php echo esc_attr( nwcs_field( 'global', 'tools', 'search_hint' ) ); ?>" <?php nwcs_edit_attr( 'global', 'tools', 'search_hint' ); ?><?php echo $live ? ' data-nwcs-live' : ''; ?> />
 		<button type="submit" class="k-searchform__btn" <?php nwcs_edit_attr( 'global', 'tools', 'search_button' ); ?>><?php echo esc_html( nwcs_field( 'global', 'tools', 'search_button' ) ); ?></button>
 	</form>
 	<?php
+}
+
+/*
+ * Canli arama (eklenti: includes/live-search.php, assets/live-search.js).
+ *
+ * Ust menudeki kutuya ve cekmecedeki kutuya yazarken liste acilir; veri ucu
+ * <site>/wp-json/nwcs/v1/arama?q= bu sayfanin aramasini (kocist_search)
+ * cagirir: liste, sira ve "Tüm sonuçlar (N)" sonuc sayfasiyla ayni. Arama
+ * sayfasi acilmadan (kocist_page_ready) uc da, liste de yok. Genis ekranda
+ * yandaki onizlemeden teklif sepetine eklenir (teklif.js, ayni cerez yolu).
+ * Metinler panelde: Tüm Sayfalar > "Üst Menü: Arama ve Teklif Sepeti";
+ * sonuc yoksa Arama Sayfasi'nin metinleri, ekleme Teklif Sepeti'nin metinleri.
+ */
+add_filter( 'nwcs_live_search', 'kocist_live_search_config' );
+function kocist_live_search_config( $config ) {
+	if ( ! kocist_page_ready( 'arama' ) ) {
+		return $config;
+	}
+
+	return array(
+		'search' => 'kocist_search',
+		'url'    => 'kocist_search_url',
+	);
+}
+
+/**
+ * Listedeki urun, kartindaki gibi: detay sayfasi yoksa teklif formuna gider,
+ * fiyatsiz urunde "Fiyat teklifle", her urun teklif sepetine eklenebilir
+ * (sepet sayfasi aciksa). Yer tutucu gorsel gosterilmez.
+ */
+add_filter( 'nwcs_live_search_item', 'kocist_live_search_item', 10, 2 );
+function kocist_live_search_item( array $item, array $product ): array {
+	$item['url']     = kocist_product_has_page( $product ) ? (string) $product['url'] : kocist_quote_url( $product );
+	$item['price']   = ! empty( $product['has_price'] ) ? (string) $product['price_label'] : (string) nwcs_field( 'kategoriler', 'texts', 'price_quote' );
+	$item['can_add'] = kocist_page_ready( 'teklif-sepeti' );
+
+	if ( '' === (string) ( kocist_product_image( $product )['url'] ?? '' ) ) {
+		$item['thumb'] = '';
+		$item['image'] = null;
+	}
+
+	return $item;
+}
+
+add_action( 'wp_enqueue_scripts', 'kocist_live_search_assets', 20 );
+function kocist_live_search_assets(): void {
+	if ( ! function_exists( 'nwcs_live_search_enqueue' ) || ! kocist_page_ready( 'arama' ) ) {
+		return;
+	}
+
+	$wa     = kocist_general_wa_digits();
+	$basket = kocist_page_ready( 'teklif-sepeti' );
+	$field  = static fn( string $page, string $component, string $name ): string => (string) nwcs_field( $page, $component, $name );
+
+	nwcs_live_search_enqueue(
+		array(
+			'prefix'  => 'k-ls',
+			'sr'      => 'screen-reader-text',
+			'maxQty'  => KOCIST_BASKET_QTY,
+			'cart'    => $basket ? kocist_basket_url() : '',
+			'texts'   => array(
+				'list'       => $field( 'global', 'tools', 'live_list' ),
+				'loading'    => $field( 'global', 'tools', 'live_loading' ),
+				'count'      => $field( 'global', 'tools', 'live_count' ),
+				'all'        => $field( 'global', 'tools', 'live_all' ),
+				'code'       => $field( 'global', 'tools', 'live_code' ),
+				'error'      => $field( 'global', 'tools', 'live_error' ),
+				'emptyTitle' => $field( 'arama', 'results', 'empty_title' ),
+				'emptyText'  => $field( 'arama', 'results', 'empty_text' ),
+				'add'        => $field( 'teklif', 'add', 'button' ),
+				'qty'        => $field( 'teklif', 'add', 'qty_label' ),
+				'less'       => $field( 'teklif', 'add', 'qty_less' ),
+				'more'       => $field( 'teklif', 'add', 'qty_more' ),
+				'added'      => $field( 'teklif', 'add', 'added' ),
+				'go'         => $field( 'teklif', 'add', 'go' ),
+				'full'       => kocist_text( 'teklif', 'add', 'full', array( 'sayi' => KOCIST_BASKET_MAX ) ),
+				'open'       => $field( 'kategoriler', 'texts', 'go_detail' ),
+				'noImage'    => $field( 'global', 'texts', 'image_soon' ),
+			),
+			// Sitenin kendi siniflari: adet secici (header.css), arama dugmesi.
+			'classes' => array(
+				'qty'      => 'k-qty',
+				'qtyBtn'   => 'k-qty__btn',
+				'qtyInput' => 'k-qty__input',
+				'add'      => 'k-searchform__btn',
+				'open'     => 'k-searchform__btn',
+			),
+			// Sonuc yoksa arama sayfasindaki gibi: iletisim ve WhatsApp (hazir mesajda terim).
+			'links'   => array(
+				array(
+					'label' => $field( 'arama', 'results', 'contact_label' ),
+					'url'   => home_url( '/iletisim/' ),
+				),
+			),
+			'wa'      => '' !== $wa ? array(
+				'base'  => kocist_wa_url( $wa ),
+				'label' => $field( 'arama', 'results', 'wa_label' ),
+				'msg'   => $field( 'arama', 'results', 'wa_msg' ),
+			) : null,
+		)
+	);
 }

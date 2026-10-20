@@ -182,8 +182,70 @@ p { margin: 0; }
 /* Arama cubugu */
 .wk-search { border-top: 1px solid rgb(240 232 219 / 0.12); background: var(--wine-deep); }
 .wk-search__form { display: flex; align-items: center; gap: 0.75rem; padding-block: 0.75rem; color: rgb(255 255 255 / 0.7); }
-.wk-search__form input { flex: 1; min-width: 0; min-height: 2.75rem; padding: 0.5rem 0.75rem; border: 1px solid rgb(240 232 219 / 0.3); border-radius: var(--radius); background: rgb(255 255 255 / 0.06); color: #fff; font: inherit; }
-.wk-search__form input::placeholder { color: rgb(240 232 219 / 0.6); }
+.wk-search__form > input { flex: 1; min-width: 0; min-height: 2.75rem; padding: 0.5rem 0.75rem; border: 1px solid rgb(240 232 219 / 0.3); border-radius: var(--radius); background: rgb(255 255 255 / 0.06); color: #fff; font: inherit; }
+.wk-search__form > input::placeholder { color: rgb(240 232 219 / 0.6); }
+
+/*
+ * Canli arama (eklenti assets/live-search.js; tema inc/catalog.php). Liste
+ * arama cubugunun altinda acilir, sayfanin ustune biner (yer kaydirmaz).
+ * Genis ekranda (>= 1024px) sagda etkin urunun onizlemesi; dar ekranda
+ * yalnizca liste. Gorseli olmayan urunde kartlardaki gibi kod plakasi.
+ */
+.wk-search__form { position: relative; }
+.wk-ls { position: absolute; top: calc(100% - 0.25rem); left: 1rem; right: 1rem; z-index: 6; }
+@media (min-width: 768px) { .wk-ls { left: 2rem; right: 2rem; } }
+/* Telefonda alttaki WhatsApp seridi listenin sonunu ortmesin (betik bu boslugu ayirir). */
+@media (max-width: 767px) { .wk-ls { margin-bottom: 3.5rem; } }
+.wk-ls__panel { position: relative; display: flex; overflow: hidden; border-radius: var(--radius); background: var(--card); color: var(--ink); box-shadow: var(--float); }
+.wk-ls.is-loading .wk-ls__panel::before { content: ""; position: absolute; top: 0; left: 0; right: 0; z-index: 1; height: 3px; background: linear-gradient(90deg, transparent, var(--brick), transparent) no-repeat; background-size: 40% 100%; animation: wk-ls-load 1s linear infinite; }
+@keyframes wk-ls-load { from { background-position: -60% 0; } to { background-position: 160% 0; } }
+.wk-ls__col { display: flex; flex: 1 1 auto; flex-direction: column; min-width: 0; overflow-y: auto; overscroll-behavior: contain; }
+.wk-ls__list { padding: 0.5rem; }
+.wk-ls__opt { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr) auto; align-items: center; gap: 1rem; padding: 0.5rem 0.75rem 0.5rem 0.5rem; border-radius: var(--radius); color: var(--ink); text-decoration: none; }
+.wk-ls__opt.is-active { background: var(--paper); }
+.wk-ls__opt.is-active .wk-ls__title { color: var(--brick); }
+.wk-ls__thumb { display: block; width: 3.5rem; height: 3.5rem; overflow: hidden; background: var(--frame); }
+.wk-ls__thumb img { width: 100%; height: 100%; object-fit: cover; }
+.wk-ls__info { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+.wk-ls__title { font-size: 0.9375rem; line-height: 1.35; overflow-wrap: anywhere; }
+.wk-ls__code { color: var(--muted); font-size: 0.8125rem; overflow-wrap: anywhere; }
+.wk-ls__hit { color: var(--wine); font-weight: 800; }
+.wk-ls__price { color: #ad4d3e; font-size: 0.9375rem; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.wk-ls__note { color: #ad4d3e; font-size: 0.8125rem; }
+.wk-ls__price.is-quote, .wk-ls__pprice.is-quote { color: var(--muted); font-size: 0.875rem; }
+/* "Tüm sonuçlar" liste kaysa da altta gorunur. */
+.wk-ls__all { position: sticky; bottom: 0; z-index: 1; display: flex; align-items: center; justify-content: center; min-height: 3rem; margin-top: auto; padding: 0.75rem 1rem; border-top: 1px solid var(--line); background: var(--card); color: var(--brick); font-size: 0.8125rem; font-weight: 800; letter-spacing: 0.08em; text-decoration: none; text-transform: uppercase; }
+.wk-ls__all:hover { background: var(--paper); }
+.wk-ls__state { padding: 1.1rem 1.25rem; color: var(--muted); font-size: 0.9375rem; }
+.wk-ls__empty { display: block; color: var(--wine); font-weight: 700; }
+.wk-ls__emptytext { display: block; margin-top: 0.35rem; line-height: 1.5; }
+.wk-ls__links { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin-top: 0.5rem; }
+.wk-ls__link { display: inline-flex; align-items: center; min-height: 2.75rem; color: var(--brick); font-weight: 700; }
+.wk-ls__thumb .wk-plate { padding: 0.2rem; font-size: 0.5625rem; }
+.wk-ls__preview { display: none; }
+@media (min-width: 1024px) { .wk-ls__preview:not([hidden]) { display: flex; flex: 0 0 22rem; flex-direction: column; min-width: 0; overflow-y: auto; border-left: 1px solid var(--line); background: var(--paper); } }
+.wk-ls__media { display: block; flex: none; aspect-ratio: 4 / 3; overflow: hidden; background: var(--frame); }
+.wk-ls__media img { width: 100%; height: 100%; object-fit: contain; }
+.wk-ls__pbody { display: flex; flex-direction: column; gap: 0.4rem; padding: 1rem 1.25rem 1.25rem; }
+.wk-ls__ptitle { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; color: var(--ink); font-size: 1.0625rem; font-weight: 600; line-height: 1.35; text-decoration: none; }
+a.wk-ls__ptitle:hover { color: var(--brick); text-decoration: underline; }
+.wk-ls__pcode { color: var(--muted); font-size: 0.8125rem; }
+.wk-ls__pprice { color: #ad4d3e; font-size: 1.125rem; }
+.wk-ls__pprice .wk-ls__note { font-size: 0.875rem; }
+.wk-ls__ptext { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; color: var(--muted); font-size: 0.875rem; line-height: 1.5; }
+.wk-ls__add { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+.wk-ls__addbtn { flex: 1; min-width: 0; }
+.wk-ls__go { align-self: flex-start; margin-top: 0.5rem; }
+.wk-ls__status:empty { display: none; }
+.wk-ls__status { padding: 0.5rem 0.75rem; border-radius: var(--radius); font-size: 0.875rem; font-weight: 600; line-height: 1.45; }
+.wk-ls__status.is-ok { background: rgb(47 125 79 / 0.1); color: var(--ok); }
+.wk-ls__status.is-err { background: #fdecea; color: var(--danger); }
+.wk-ls__cart { color: var(--brick); font-weight: 700; }
+@media (max-width: 599px) {
+	.wk-ls__opt { grid-template-columns: 3rem minmax(0, 1fr); gap: 0.1rem 0.75rem; }
+	.wk-ls__thumb { grid-row: span 2; width: 3rem; height: 3rem; }
+	.wk-ls__price { grid-column: 2; text-align: left; white-space: normal; }
+}
 
 /* ------------------------------------------------------------------ */
 /* Mobil cekmece                                                       */

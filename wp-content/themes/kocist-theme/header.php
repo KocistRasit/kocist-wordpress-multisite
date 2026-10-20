@@ -120,7 +120,7 @@ $has_basket = kocist_page_ready( 'teklif-sepeti' );
 			<?php if ( $has_search ) : ?>
 				<?php /* Telefonda cekmecenin basinda arama kutusu (masaustunde gizli; orada ust menudeki dugme acar). */ ?>
 				<div class="k-nav__search">
-					<?php kocist_search_form( 'k-nav-search', 'k-searchform--drawer', '', 'search_region_drawer' ); ?>
+					<?php kocist_search_form( 'k-nav-search', 'k-searchform--drawer', '', 'search_region_drawer', true ); ?>
 				</div>
 			<?php endif; ?>
 
@@ -270,7 +270,7 @@ $has_basket = kocist_page_ready( 'teklif-sepeti' );
 	<?php if ( $has_search ) : ?>
 		<div class="k-search" id="k-search" data-k-search hidden>
 			<div class="k-wrap">
-				<?php kocist_search_form( 'k-search-input', 'k-searchform--bar', '', 'search_region_bar' ); ?>
+				<?php kocist_search_form( 'k-search-input', 'k-searchform--bar', '', 'search_region_bar', true ); ?>
 			</div>
 		</div>
 	<?php endif; ?>

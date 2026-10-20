@@ -507,6 +507,14 @@ $manifest_data = array(
 						'search_region_page'   => array( 'label' => 'Arama bölgesinin adı: arama sonuçları sayfasındaki kutu (ekran okuyucu için)', 'type' => 'text', 'default' => 'Sonuçlarda yeniden ara' ),
 						'basket_label'  => array( 'label' => 'Teklif sepeti düğmesi (sepet boşken, ekran okuyucu için)', 'type' => 'text', 'default' => 'Teklif sepeti' ),
 						'basket_count'  => array( 'label' => 'Teklif sepeti düğmesi (ürün varken) — {sayi} ürün sayısı olur', 'type' => 'text', 'default' => 'Teklif sepeti, {sayi} ürün', 'hint' => 'Simgenin üstündeki rakam sepetteki ürün çeşidi sayısıdır (adet toplamı değil).' ),
+
+						// Canli arama: kutuya yazarken acilan liste (eklenti assets/live-search.js).
+						'live_all'      => array( 'label' => 'Canlı arama: tüm sonuçlar bağlantısı — {sayi} sonuç sayısı olur', 'type' => 'text', 'default' => 'Tüm sonuçlar ({sayi})', 'hint' => 'Kutuya yazarken açılan listenin altında; arama sayfasını açar. Sonuç yoksa listede Arama Sayfası › Sonuçlar bölümündeki "Sonuç yoksa" metinleri, iletişim ve WhatsApp bağlantısı görünür; ekleme metinleri Teklif Sepeti sayfasından gelir.' ),
+						'live_count'    => array( 'label' => 'Canlı arama: sonuç sayısı (ekran okuyucu için) — {sayi}', 'type' => 'text', 'default' => '{sayi} ürün bulundu' ),
+						'live_loading'  => array( 'label' => 'Canlı arama: sonuç gecikince', 'type' => 'text', 'default' => 'Aranıyor…' ),
+						'live_code'     => array( 'label' => 'Canlı arama: ürün kodu satırı — {kod} ürünün kodu olur', 'type' => 'text', 'default' => 'Ürün kodu: {kod}' ),
+						'live_list'     => array( 'label' => 'Canlı arama: listenin adı (ekran okuyucu için)', 'type' => 'text', 'default' => 'Arama önerileri' ),
+						'live_error'    => array( 'label' => 'Canlı arama: teklif sepetine eklenemediyse (çerez kapalı)', 'type' => 'text', 'default' => 'Ürün sepete eklenemedi: tarayıcınız çerezleri engelliyor olabilir. Ürün sayfasını açıp teklif formunu kullanın.' ),
 					),
 				),
 
@@ -1615,7 +1623,7 @@ $manifest_data = array(
 					'fields' => array(
 						'short_term' => array( 'label' => 'Terim çok kısaysa', 'type' => 'text', 'default' => 'En az 2 harf ya da rakam yazın.' ),
 						'limit_note' => array( 'label' => 'Sonuç çoksa not — {sayi} gösterilen sonuç sayısı', 'type' => 'text', 'default' => 'İlk {sayi} sonuç gösteriliyor. Daha az sonuç için kodu ya da adı daha uzun yazın.' ),
-						'empty_title' => array( 'label' => 'Sonuç yoksa başlık — {terim}', 'type' => 'text', 'default' => '‘{terim}’ için sonuç bulunamadı' ),
+						'empty_title' => array( 'label' => 'Sonuç yoksa başlık — {terim}', 'type' => 'text', 'default' => '‘{terim}’ için sonuç bulunamadı', 'hint' => 'Sonuç yoksa metni, iletişim ve WhatsApp bağlantısıyla birlikte üst menüdeki canlı aramada da görünür.' ),
 						'empty_text'  => array( 'label' => 'Sonuç yoksa metin', 'type' => 'textarea', 'default' => 'Kodu kısaltarak ya da ürünün adıyla tekrar arayın. Aradığınız ürün listede yoksa ölçü ve adedi yazın; tedarik edip teklif gönderelim.' ),
 						'contact_label' => array( 'label' => 'Sonuç yoksa: iletişim bağlantısı', 'type' => 'text', 'default' => 'Bize yazın' ),
 						'wa_label'    => array( 'label' => 'Sonuç yoksa: WhatsApp bağlantısı', 'type' => 'text', 'default' => 'WhatsApp’tan sorun' ),

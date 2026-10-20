@@ -6,7 +6,8 @@
  * - Sepet cerezi "kimlik:adet|..." (inc/basket.php ile ayni bicim ve yol).
  *   Ust menudeki sayi buradan yazilir: sayfa onbellekte kalsa da dogru.
  * - Urun sayfasi: "Teklif sepetine ekle" sayfayi yenilemeden cerezi yazar ve
- *   sonucu canli bolgede duyurur; cerez yazilamadiysa hata yazar.
+ *   sonucu canli bolgede duyurur; cerez yazilamadiysa hata yazar. Ust menudeki
+ *   canli aramanin onizlemesi de ayni yolla ekler ('nwcs-live-add' olayi).
  * - Sepet sayfasi: adet degisince form kendisi gonderilir (sunucu listeyi,
  *   WhatsApp mesajini yeniden cizer); "Sepeti temizle" onay sorar.
  * JavaScript yoksa her sey duz baglanti ve form olarak calisir.
@@ -179,33 +180,48 @@
 		}, 60 );
 	}
 
+	/**
+	 * Sepete ekler ve ust menudeki sayiyi yazar. Sonuc: { status: 'added',
+	 * qty } (bu urunun sepetteki adedi), { status: 'full' } ya da cerez
+	 * yazilamadiysa { status: 'error' }. Urun sayfasindaki form ve ust
+	 * menudeki canli arama ayni yolu kullanir.
+	 */
+	function addToBasket( id, qty ) {
+		var basket = readBasket();
+
+		if ( ! basket.items[ id ] ) {
+			if ( basket.order.length >= maxLines ) {
+				return { status: 'full' };
+			}
+
+			basket.order.push( id );
+			basket.items[ id ] = 0;
+		}
+
+		basket.items[ id ] = Math.min( maxQty, basket.items[ id ] + qty );
+		writeBasket( basket );
+
+		// Tarayici cerezi kabul etmediyse "eklendi" denmez.
+		var saved = readBasket().items[ id ];
+
+		if ( ! saved ) {
+			return { status: 'error' };
+		}
+
+		renderCount();
+
+		return { status: 'added', qty: saved };
+	}
+
 	doc.querySelectorAll( '[data-k-basket-add]' ).forEach( function ( form ) {
 		form.addEventListener( 'submit', function ( event ) {
-			var id     = form.getAttribute( 'data-id' );
 			var input  = form.querySelector( '[name="kc_qty"]' );
-			var qty    = clamp( parseInt( input ? input.value : '1', 10 ) || 1, 1, maxQty );
-			var basket = readBasket();
+			var result = addToBasket( form.getAttribute( 'data-id' ), clamp( parseInt( input ? input.value : '1', 10 ) || 1, 1, maxQty ) );
 
 			event.preventDefault();
 
-			if ( ! basket.items[ id ] ) {
-				if ( basket.order.length >= maxLines ) {
-					say( status ? status.getAttribute( 'data-full' ) : '', false );
-					return;
-				}
-
-				basket.order.push( id );
-				basket.items[ id ] = 0;
-			}
-
-			basket.items[ id ] = Math.min( maxQty, basket.items[ id ] + qty );
-			writeBasket( basket );
-
-			// Tarayici cerezi kabul etmediyse "eklendi" denmez.
-			var saved = readBasket().items[ id ];
-
-			if ( ! saved ) {
-				say( status ? status.getAttribute( 'data-error' ) : '', false );
+			if ( 'added' !== result.status ) {
+				say( status ? status.getAttribute( 'full' === result.status ? 'data-full' : 'data-error' ) : '', false );
 				return;
 			}
 
@@ -213,9 +229,23 @@
 				input.value = '1';
 			}
 
-			renderCount();
-			say( ( status ? status.getAttribute( 'data-added' ) || '' : '' ).replace( '{adet}', String( saved ) ), true );
+			say( ( status ? status.getAttribute( 'data-added' ) || '' : '' ).replace( '{adet}', String( result.qty ) ), true );
 		} );
+	} );
+
+	/*
+	 * Ust menudeki canli arama (eklenti, assets/live-search.js): onizlemedeki
+	 * "Teklif sepetine ekle" bu olayi gonderir; sonuc olaya yazilir, metni
+	 * liste kendisi gosterir. Sepet sayfasi acik degilse (baglanti yok) cevap
+	 * verilmez: liste urun sayfasina gider.
+	 */
+	doc.addEventListener( 'nwcs-live-add', function ( event ) {
+		var detail = event.detail || {};
+		var id     = parseInt( detail.id, 10 );
+
+		if ( id > 0 && link ) {
+			detail.result = addToBasket( String( id ), clamp( parseInt( detail.qty, 10 ) || 1, 1, maxQty ) );
+		}
 	} );
 
 	/* ---------------------------------------------------------------- */

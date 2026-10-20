@@ -11,62 +11,7 @@
 /* Sepet ve arama sayfasinin basligi: alcak (kategori basligi gibi) ama icerikle ayni genislikte. */
 .k-pagehead.k-pagehead--tool > .k-wrap { max-width: var(--maxw); }
 
-/* ---------- Adet secici ---------- */
-.k-qty {
-	display: inline-flex;
-	align-items: stretch;
-	height: 46px;
-	border: 1.5px solid var(--line);
-	border-radius: 999px;
-	background: #fff;
-	overflow: hidden;
-}
-
-.k-qty:focus-within { border-color: var(--leaf); box-shadow: 0 0 0 4px rgba(122, 182, 72, .16); }
-
-.k-qty__btn {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 44px;
-	padding: 0;
-	border: 0;
-	background: none;
-	color: var(--forest);
-	font-family: inherit;
-	font-size: 20px;
-	font-weight: 700;
-	line-height: 1;
-	cursor: pointer;
-	transition: background .18s ease;
-}
-
-.k-qty__btn[hidden] { display: none; }
-.k-qty__btn:hover:not(:disabled) { background: var(--leaf-soft); }
-.k-qty__btn:focus-visible { outline: 3px solid var(--leaf); outline-offset: -3px; }
-.k-qty__btn:disabled { color: #b4bdb7; cursor: default; }
-
-.k-qty__input {
-	width: 64px;
-	min-width: 0;
-	padding: 0 4px;
-	border: 0;
-	background: none;
-	color: var(--text);
-	font-family: inherit;
-	font-size: 16px;
-	font-weight: 700;
-	text-align: center;
-	-moz-appearance: textfield;
-	appearance: textfield;
-}
-
-.k-qty__input::-webkit-outer-spin-button,
-.k-qty__input::-webkit-inner-spin-button { margin: 0; -webkit-appearance: none; }
-.k-qty__input:focus { outline: none; }
-
-/* Betik yoksa artir/azalt dugmesi yok: kutu tek basina biraz genis. */
-.k-qty:not(:has(.k-qty__btn:not([hidden]))) .k-qty__input { width: 88px; }
+/* Adet secici (.k-qty) header.css icinde: ust menudeki canli aramanin onizlemesi de kullanir. */
 
 /* ---------- Urun sayfasi: sepete ekleme ---------- */
 .k-badd {
