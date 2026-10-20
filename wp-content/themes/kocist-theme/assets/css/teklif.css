@@ -1,0 +1,380 @@
+/*
+ * Teklif sepeti ve arama (inc/basket.php, inc/search.php):
+ *   - urun sayfasinda adet + "Teklif sepetine ekle" (.k-badd),
+ *   - adet secici (.k-qty; urun sayfasi ve sepet satiri),
+ *   - sepet sayfasi (.k-basket, .k-bline, .k-send),
+ *   - arama sonuclari (.k-results).
+ * Renkler ve butonlar sitenin kendi degiskenleri ve siniflari (style.css,
+ * product.css .k-product__btn, form.css .k-field). Dokunma alanlari en az 44px.
+ */
+
+/* Sepet ve arama sayfasinin basligi: alcak (kategori basligi gibi) ama icerikle ayni genislikte. */
+.k-pagehead.k-pagehead--tool > .k-wrap { max-width: var(--maxw); }
+
+/* ---------- Adet secici ---------- */
+.k-qty {
+	display: inline-flex;
+	align-items: stretch;
+	height: 46px;
+	border: 1.5px solid var(--line);
+	border-radius: 999px;
+	background: #fff;
+	overflow: hidden;
+}
+
+.k-qty:focus-within { border-color: var(--leaf); box-shadow: 0 0 0 4px rgba(122, 182, 72, .16); }
+
+.k-qty__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--forest);
+	font-family: inherit;
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 1;
+	cursor: pointer;
+	transition: background .18s ease;
+}
+
+.k-qty__btn[hidden] { display: none; }
+.k-qty__btn:hover:not(:disabled) { background: var(--leaf-soft); }
+.k-qty__btn:focus-visible { outline: 3px solid var(--leaf); outline-offset: -3px; }
+.k-qty__btn:disabled { color: #b4bdb7; cursor: default; }
+
+.k-qty__input {
+	width: 64px;
+	min-width: 0;
+	padding: 0 4px;
+	border: 0;
+	background: none;
+	color: var(--text);
+	font-family: inherit;
+	font-size: 16px;
+	font-weight: 700;
+	text-align: center;
+	-moz-appearance: textfield;
+	appearance: textfield;
+}
+
+.k-qty__input::-webkit-outer-spin-button,
+.k-qty__input::-webkit-inner-spin-button { margin: 0; -webkit-appearance: none; }
+.k-qty__input:focus { outline: none; }
+
+/* Betik yoksa artir/azalt dugmesi yok: kutu tek basina biraz genis. */
+.k-qty:not(:has(.k-qty__btn:not([hidden]))) .k-qty__input { width: 88px; }
+
+/* ---------- Urun sayfasi: sepete ekleme ---------- */
+.k-badd {
+	margin: 20px 0 0;
+	padding: 16px 18px 14px;
+	border: 1px solid var(--line);
+	border-radius: 16px;
+	background: var(--paper-2);
+	scroll-margin-top: 110px;
+}
+
+.k-badd__form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 10px 12px;
+}
+
+.k-badd__qty { display: flex; flex-direction: column; gap: 6px; }
+.k-badd__label { font-size: 13.5px; font-weight: 700; color: var(--text); }
+
+.k-badd__btn {
+	flex: 1 1 220px;
+	gap: 9px;
+	min-height: 46px;
+	padding: 11px 20px;
+	border: 0;
+	font-family: inherit;
+	cursor: pointer;
+}
+
+.k-badd__btn:focus-visible { outline: 3px solid var(--leaf); outline-offset: 3px; }
+.k-badd__icon { flex: none; }
+
+/* Canli bolge: bosken yer kaplamaz. */
+.k-badd__status:empty { display: none; }
+
+.k-badd__status {
+	margin-top: 12px;
+	padding: 10px 14px;
+	border-radius: 12px;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.5;
+}
+
+.k-badd__status.is-ok {
+	border: 1px solid rgba(122, 182, 72, .45);
+	background: rgba(122, 182, 72, .14);
+	color: var(--forest);
+}
+
+.k-badd__status.is-err {
+	border: 1px solid #f3b8b2;
+	background: #fdecea;
+	color: #8c1d18;
+}
+
+.k-badd__go {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	font-weight: 800;
+	color: var(--forest);
+	text-underline-offset: 3px;
+}
+
+.k-badd__go:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; border-radius: 4px; }
+
+.k-badd__hint { margin: 10px 0 0; font-size: 13px; color: var(--muted); }
+
+/* ---------- Sepet sayfasi ---------- */
+.k-basket { padding-top: 28px; }
+
+.k-basket__grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 420px;
+	gap: 36px;
+	align-items: start;
+}
+
+.k-basket__main { min-width: 0; }
+
+.k-basket__count {
+	margin: 0 0 14px;
+	font-size: 20px;
+	color: var(--forest);
+}
+
+.k-basket__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border-top: 1px solid var(--line);
+}
+
+.k-bline {
+	display: grid;
+	grid-template-columns: 72px minmax(0, 1fr) auto auto;
+	grid-template-areas: "media body qty remove";
+	align-items: center;
+	gap: 8px 18px;
+	padding: 16px 0;
+	border-bottom: 1px solid var(--line);
+}
+
+.k-bline__media {
+	grid-area: media;
+	display: block;
+	width: 72px;
+	height: 72px;
+	overflow: hidden;
+	border-radius: 10px;
+	background: var(--paper-2);
+}
+
+.k-bline__img,
+.k-bline__media img,
+.k-bline__media .k-placeholder { width: 100%; height: 100%; object-fit: cover; }
+
+.k-bline__media .k-placeholder__text { display: none; }
+
+.k-bline__body { grid-area: body; min-width: 0; }
+
+.k-bline__code {
+	margin: 0;
+	font-size: 12.5px;
+	font-weight: 700;
+	letter-spacing: .03em;
+	color: var(--leaf-dark);
+}
+
+.k-bline__name {
+	margin: 2px 0 0;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.35;
+	overflow-wrap: anywhere;
+}
+
+.k-bline__name a { color: var(--text); text-decoration: none; }
+.k-bline__name a:hover { color: var(--forest); text-decoration: underline; text-underline-offset: 3px; }
+.k-bline__name a:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; border-radius: 4px; }
+
+.k-bline__price { margin: 4px 0 0; font-size: 15px; font-weight: 800; color: var(--forest); }
+.k-bline__price.is-quote { font-size: 14px; font-weight: 600; color: var(--muted); }
+
+.k-bline__qty { grid-area: qty; }
+
+.k-bline__remove {
+	grid-area: remove;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	min-height: 44px;
+	padding: 0 12px;
+	border: 1px solid transparent;
+	border-radius: 999px;
+	background: none;
+	color: var(--muted);
+	font-family: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: color .18s ease, border-color .18s ease;
+}
+
+.k-bline__remove:hover { color: #8c1d18; border-color: #f3b8b2; }
+.k-bline__remove:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; }
+
+.k-basket__tools {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px 20px;
+	margin-top: 18px;
+}
+
+.k-basket__update { min-height: 44px; background: #fff; font-family: inherit; cursor: pointer; }
+.k-basket__update[hidden] { display: none; }
+.k-basket__more { min-height: 44px; }
+
+.k-basket__clear { margin-top: 10px; }
+
+.k-basket__clear-btn {
+	min-height: 44px;
+	padding: 0 2px;
+	border: 0;
+	background: none;
+	color: var(--muted);
+	font-family: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	cursor: pointer;
+}
+
+.k-basket__clear-btn:hover { color: #8c1d18; }
+.k-basket__clear-btn:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; border-radius: 4px; }
+
+/* Gonderme yollari: masaustunde sagda yapisik. */
+.k-basket__send {
+	position: sticky;
+	top: 96px;
+	padding: 22px 24px 24px;
+	border: 1px solid var(--line);
+	border-radius: 16px;
+	background: #fff;
+}
+
+.k-basket__send-title { margin: 0 0 14px; font-size: 21px; line-height: 1.25; color: var(--forest); }
+
+.k-send + .k-send { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }
+.k-send__title { margin: 0 0 4px; font-size: 16.5px; letter-spacing: -.01em; color: var(--text); }
+.k-send__text { margin: 0 0 14px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.k-send__wa { width: 100%; }
+.k-send__hint { margin: -4px 0 -6px; font-size: 13px; color: var(--muted); }
+.k-send__form { margin-top: 4px; }
+
+.k-basket .k-contact__notice[tabindex="-1"]:focus,
+.k-basket__done:focus { outline: 3px solid var(--leaf); outline-offset: 2px; }
+
+.k-basket__done {
+	max-width: 640px;
+	padding: 36px 40px;
+	border: 1px solid rgba(122, 182, 72, .45);
+	border-radius: 16px;
+	background: rgba(122, 182, 72, .12);
+}
+
+.k-basket__done-mark {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	border-radius: 999px;
+	background: var(--forest);
+	color: #fff;
+	font-size: 22px;
+	font-weight: 800;
+}
+
+.k-basket__done-title { margin: 14px 0 6px; font-size: clamp(22px, 2.6vw, 28px); color: var(--forest); }
+.k-basket__done-text { margin: 0; max-width: 56ch; color: var(--text); }
+
+@media (max-width: 1023.98px) {
+	.k-basket__grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+	.k-basket__send { position: static; max-width: 640px; }
+}
+
+/* Telefon: resim ve ad ustte, adet ve "Cikar" altta. */
+@media (max-width: 599.98px) {
+	.k-bline {
+		grid-template-columns: 60px minmax(0, 1fr) auto;
+		grid-template-areas:
+			"media body body"
+			"qty qty remove";
+		gap: 12px 14px;
+	}
+
+	.k-bline__media { width: 60px; height: 60px; }
+	.k-basket__send { padding: 20px 18px; }
+	.k-basket__done { padding: 26px 22px; }
+	.k-send .k-qform__form { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---------- Arama sonuclari ---------- */
+.k-results { padding-top: 28px; }
+
+.k-searchform--page { max-width: 720px; margin: 0 0 26px; }
+
+.k-results__note { margin: 0 0 18px; color: var(--muted); }
+
+/* Kategori sayfasindaki gibi: satirda en fazla 4 kart, telefonda 2. */
+.k-results__list {
+	grid-template-columns: repeat(auto-fill, minmax(max(min(220px, 100%), calc((100% - 66px) / 4)), 1fr));
+	gap: 22px;
+}
+
+.k-results__list .k-pcard__body { padding: 16px 16px 18px; }
+
+.k-results__wa { gap: 8px; }
+.k-results__wa-icon { flex: none; color: var(--leaf-dark); }
+.k-results__more { margin: 0; }
+
+@media (max-width: 860px) {
+	.k-results__list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; }
+}
+
+@media (max-width: 560px) {
+	.k-results__list .k-pcard__link { border-radius: 12px; }
+	.k-results__list .k-pcard__body { gap: 4px; padding: 12px 12px 14px; }
+	.k-results__list .k-pcard__kind { font-size: 12px; }
+	.k-results__list .k-pcard__title { font-size: 15px; }
+	.k-results__list .k-pcard__text { font-size: 13px; line-height: 1.4; }
+	.k-results__list .k-pcard__foot { flex-direction: column; align-items: flex-start; gap: 4px; padding-top: 10px; }
+	.k-results__list .k-pcard__price { font-size: 15px; }
+	.k-results__list .k-pcard__price.is-quote,
+	.k-results__list .k-pcard__go { font-size: 13px; }
+	.k-results .k-empty { padding: 26px 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.k-qty__btn,
+	.k-bline__remove {
+		transition-duration: .01ms !important;
+	}
+}

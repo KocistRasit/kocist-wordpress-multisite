@@ -1,0 +1,148 @@
+/* Renk grupları (Ürün Havuzu › Kategoriler › kategori) ve ürün formundaki özet satırı.
+   Renkler ve ölçüler admin.css'teki panelle aynı (--nwcs-*). */
+
+/* Gizli ogeler gizli kalsin: admin.css'teki .nwcs-badge (display: inline-block) gibi sinif
+   kurallari tarayicinin [hidden] kuralini ezer ("Öne çıkan" her satirda gorunuyordu). */
+.nwcs-colors [hidden] { display: none !important; }
+
+.nwcs-colors__lead { font-size: 12.5px; max-width: 86ch; margin: 0 0 12px; }
+.nwcs-colors__notice { margin: 0 0 12px !important; }
+
+/* Grup kartı */
+.nwcs-colors__group {
+	position: relative;
+	margin: 0 0 14px; padding: 14px 16px 16px;
+	border: 1px solid var(--nwcs-line); border-radius: 10px; background: #fff;
+}
+.nwcs-colors__group:target, .nwcs-colors__confirm:target { box-shadow: 0 0 0 3px var(--nwcs-brand-soft); border-color: var(--nwcs-brand); }
+.nwcs-colors__default { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.nwcs-colors__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin: 0 0 10px; }
+.nwcs-colors__title { margin: 0; font-size: 15px; font-weight: 700; color: var(--nwcs-ink); }
+.nwcs-colors__sites { margin: 0; font-size: 12.5px; color: var(--nwcs-muted); }
+
+.nwcs-colors__label { max-width: 340px; margin: 0 0 12px; }
+.nwcs-colors__label .nwcs-input { width: 100%; }
+
+/* Üye satırları */
+.nwcs-colors__table { width: 100%; min-width: 720px; }
+.nwcs-colors__table td { vertical-align: middle; }
+.nwcs-colors__table th:first-child, .nwcs-colors__order { width: 66px; white-space: nowrap; }
+.nwcs-colors__order .nwcs-move:disabled { opacity: .3; cursor: default; }
+.nwcs-colors__row.is-invalid td { background: #fdf6ea; }
+.nwcs-colors__row.is-moved td { background: var(--nwcs-brand-soft); transition: background-color .6s ease; }
+
+.nwcs-colors__product { min-width: 260px; }
+.nwcs-colors__prod { display: flex; align-items: center; gap: 10px; }
+.nwcs-colors__thumb {
+	display: inline-block; flex: none; width: 40px; height: 40px; overflow: hidden;
+	border-radius: 7px; background: var(--nwcs-soft); border: 1px solid var(--nwcs-line);
+}
+.nwcs-colors__thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.nwcs-colors__name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; min-width: 0; max-width: 36ch; line-height: 1.4; }
+.nwcs-colors__name .nwcs-cat__code { flex-basis: 100%; font-size: 12px; }
+.nwcs-colors__warn { flex-basis: 100%; font-size: 12.5px; color: var(--nwcs-amber); }
+
+.nwcs-colors__cname .nwcs-input { width: 100%; min-width: 150px; margin: 0; }
+.nwcs-colors__cname .nwcs-input[aria-invalid="true"] { border-color: #b32d2e; box-shadow: 0 0 0 1px #b32d2e; }
+.nwcs-colors__err { display: block; margin: 4px 0 0; font-size: 12.5px; font-weight: 600; color: #b32d2e; }
+
+.nwcs-colors__pick { white-space: nowrap; }
+.nwcs-colors__pick > * { vertical-align: middle; }
+.nwcs-colors__pick select.nwcs-input { width: auto; max-width: 190px; margin: 0 6px; }
+.nwcs-colors__dot {
+	display: inline-block; width: 24px; height: 24px; border-radius: 50%;
+	background: var(--nwcs-dot, #fff);
+	box-shadow: inset 0 0 0 1px rgba(23, 28, 43, .12);
+}
+.nwcs-colors__dot.is-light { box-shadow: inset 0 0 0 1px #b9bfcc; }
+.nwcs-colors__dot.is-empty { background: repeating-linear-gradient(45deg, #fff 0 4px, #e3e6ef 4px 8px); }
+.nwcs-colors__custom { width: 38px; height: 30px; padding: 2px; border: 1px solid var(--nwcs-line); border-radius: 6px; background: #fff; cursor: pointer; }
+.nwcs-colors.is-js .nwcs-colors__custom[data-off] { display: none; }
+
+.nwcs-colors__out { text-align: right; white-space: nowrap; }
+.nwcs-colors__out .button-link { min-height: 30px; }
+
+.nwcs-colors__status { min-height: 1.2em; margin: 8px 0 0; font-size: 13px; color: var(--nwcs-brand-dark); }
+.nwcs-colors__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+
+/* Ürün seçimi (oluşturma ve ekleme) */
+.nwcs-colors__add, .nwcs-colors__create { margin: 12px 0 0; }
+.nwcs-colors__add > summary { cursor: pointer; font-weight: 600; color: var(--nwcs-brand-dark); }
+.nwcs-colors__add[open] > summary { margin-bottom: 8px; }
+.nwcs-colors__add .button { margin-top: 10px; }
+.nwcs-colors__toggle {
+	display: inline-flex; align-items: center; min-height: 32px; padding: 4px 14px;
+	border: 1px solid var(--nwcs-brand); border-radius: 6px; background: #fff;
+	color: var(--nwcs-brand-dark); font-size: 13px; font-weight: 600; cursor: pointer; list-style: none;
+}
+.nwcs-colors__toggle::-webkit-details-marker { display: none; }
+.nwcs-colors__toggle::before { content: "+"; margin-right: 6px; font-weight: 700; }
+.nwcs-colors__toggle:hover { background: var(--nwcs-brand-soft); }
+.nwcs-colors__create[open] > .nwcs-colors__toggle { margin-bottom: 10px; background: var(--nwcs-brand-soft); }
+.nwcs-colors__create[open] > .nwcs-colors__toggle::before { content: "−"; }
+.nwcs-colors__new {
+	padding: 14px 16px; border: 1px dashed #cfd4e2; border-radius: 10px; background: var(--nwcs-soft);
+}
+.nwcs-colors__new .nwcs-hint { font-size: 12.5px; margin: 0 0 10px; max-width: 86ch; }
+
+.nwcs-colors__search { max-width: 340px; margin: 0 0 6px; }
+.nwcs-colors__search .nwcs-input { width: 100%; }
+.nwcs-colors__choices {
+	display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 6px;
+	max-height: 360px; overflow: auto; margin: 6px 0 0; padding: 2px; list-style: none;
+}
+.nwcs-colors__choice {
+	display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 2px 8px;
+	margin: 0; padding: 6px 8px; border: 1px solid var(--nwcs-line); border-radius: 8px; background: #fff;
+}
+.nwcs-colors__choice:has(input:checked) { border-color: var(--nwcs-brand); background: var(--nwcs-brand-soft); }
+.nwcs-colors__choice label { display: flex; align-items: center; gap: 10px; min-width: 0; cursor: pointer; }
+.nwcs-colors__choice .nwcs-colors__name { max-width: none; }
+.nwcs-colors__choice.is-taken { background: var(--nwcs-soft); }
+.nwcs-colors__choice.is-taken label { cursor: not-allowed; color: var(--nwcs-muted); }
+.nwcs-colors__why { grid-column: 2; font-size: 12px; line-height: 1.4; color: var(--nwcs-amber); }
+.nwcs-colors__new .nwcs-field__error { margin: 8px 0 0; color: #b32d2e; font-weight: 600; }
+
+/* Ürünler tablosundaki rozet */
+.nwcs-badge--color { background: var(--nwcs-brand-soft); color: var(--nwcs-brand-dark); text-decoration: none; }
+.nwcs-badge--color:hover, .nwcs-badge--color:focus { background: #e0e3ff; color: var(--nwcs-brand-dark); }
+
+/* Ürün formu: tek satırlık özet */
+.nwcs-colorline {
+	display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px;
+	margin: 0 0 16px; padding: 8px 12px;
+	border: 1px solid var(--nwcs-line); border-radius: 10px; background: #fff;
+	font-size: 13px; line-height: 1.45;
+}
+.nwcs-colorline__dot {
+	display: inline-block; width: 16px; height: 16px; margin-right: 2px; border-radius: 50%;
+	background: var(--nwcs-dot, #fff); box-shadow: inset 0 0 0 1px rgba(23, 28, 43, .12);
+}
+.nwcs-colorline__dot.is-light { box-shadow: inset 0 0 0 1px #b9bfcc; }
+.nwcs-colorline__lead { color: #0f766e; font-weight: 600; }
+
+/* Dar ekran: satırlar alt alta, yatay kaydırma yok */
+@media (max-width: 782px) {
+	.nwcs-colors__group { padding: 12px; }
+	.nwcs-colors__table { min-width: 0; }
+	.nwcs-colors__table thead { display: none; }
+	.nwcs-colors__table, .nwcs-colors__table tbody { display: block; }
+	.nwcs-colors__table tr {
+		display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 10px;
+		padding: 10px 0; border-bottom: 1px solid var(--nwcs-line);
+	}
+	.nwcs-colors__table td { display: block; min-width: 0; padding: 0; border: 0; }
+	.nwcs-colors__cname .nwcs-input { min-width: 0; max-width: 100%; }
+	.nwcs-colors__name { max-width: none; }
+	.nwcs-colors__order { grid-row: span 3; width: auto; display: flex !important; flex-direction: column; gap: 6px; }
+	.nwcs-colors__order .nwcs-move { width: 44px; height: 44px; font-size: 16px; }
+	.nwcs-colors__product { min-width: 0; }
+	.nwcs-colors__pick { white-space: normal; display: flex !important; flex-wrap: wrap; align-items: center; gap: 6px; }
+	.nwcs-colors__pick select.nwcs-input { margin: 0; max-width: 100%; min-height: 44px; }
+	.nwcs-colors__custom { width: 44px; height: 44px; }
+	.nwcs-colors__out { grid-column: 2; text-align: left; }
+	.nwcs-colors__out .button-link { min-height: 44px; }
+	.nwcs-colors__choices { grid-template-columns: minmax(0, 1fr); }
+	.nwcs-colors__choice { min-height: 44px; }
+}

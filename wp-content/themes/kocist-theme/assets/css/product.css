@@ -725,6 +725,99 @@ html:not(.k-lb-ready) .k-zoom { display: none; }
 
 .k-pp__price { margin: 18px 0 0; }
 
+/*
+ * Renk secenekleri: "Renk: Antrasit" ve yuvarlak baglantilar (her renk kendi
+ * sayfasi). Dokunma alani 44px, ici 32px renk; bulunulan renkte koyu yesil
+ * halka. Renk adi fareyle ve klavye odagiyla balon olarak gorunur; balon
+ * yokken ekran okuyucu metni olarak durur (kaydirma alani yaratmaz).
+ */
+.k-swatch { margin: 16px 0 0; }
+
+.k-swatch__label {
+	margin: 0 0 8px;
+	font-size: 14.5px;
+	line-height: 1.4;
+	color: var(--muted);
+}
+
+.k-swatch__label strong { color: var(--text); font-weight: 700; }
+
+.k-swatch__list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	margin: 0 0 0 -6px;
+	padding: 0;
+	list-style: none;
+}
+
+.k-swatch__item { margin: 0; }
+
+.k-swatch__dot {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	color: inherit;
+	text-decoration: none;
+}
+
+.k-swatch__dot::before {
+	content: "";
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: var(--k-swatch, #fff);
+	box-shadow: inset 0 0 0 1px rgb(15 61 33 / .14);
+	transition: transform .15s ease;
+}
+
+/* Acik renk (beyaz, krem): beyaz zeminde kaybolmasin. */
+.k-swatch__dot.is-light::before { box-shadow: inset 0 0 0 1px #b9c4bc; }
+
+.k-swatch__dot:hover::before { transform: scale(1.08); }
+
+.k-swatch__dot.is-current { box-shadow: inset 0 0 0 2px var(--forest); }
+
+.k-swatch__dot:focus-visible { outline: 3px solid var(--leaf); outline-offset: 1px; }
+
+.k-swatch__name {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+.k-swatch__dot:hover .k-swatch__name,
+.k-swatch__dot:focus-visible .k-swatch__name {
+	bottom: calc(100% + 4px);
+	left: 50%;
+	z-index: 3;
+	width: auto;
+	height: auto;
+	padding: 4px 10px;
+	overflow: visible;
+	clip: auto;
+	transform: translateX(-50%);
+	border-radius: 6px;
+	background: var(--forest-3);
+	color: #fff;
+	font-size: 12.5px;
+	font-weight: 700;
+	line-height: 1.4;
+	pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.k-swatch__dot::before { transition: none; }
+	.k-swatch__dot:hover::before { transform: none; }
+}
+
 .k-pp__amount {
 	margin: 0;
 	font-size: 28px;
@@ -907,6 +1000,23 @@ html:not(.k-lb-ready) .k-zoom { display: none; }
 }
 
 .k-acc__faq-link svg { flex: none; }
+
+/* Kategorinin ilk uc sorusu (akordeonun son satiri; soru-cevap cizimi faq.css). */
+.k-pfaq { padding-top: 18px; }
+
+.k-pfaq__title {
+	margin: 0 0 2px;
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--forest);
+}
+
+.k-pfaq .k-sss__q { padding: 14px 0; font-size: 16px; }
+.k-pfaq .k-sss__a { padding: 0 28px 16px 0; font-size: 15px; }
+.k-pfaq .k-sss__icon { margin-top: 3px; }
+.k-pfaq__list { border-bottom: 1px solid var(--line); }
+.k-pfaq .k-pfaq__all { padding: 16px 0 18px; }
 
 .k-acc__text h2,
 .k-acc__text h3,

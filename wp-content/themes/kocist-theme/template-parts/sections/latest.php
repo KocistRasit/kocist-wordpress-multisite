@@ -56,7 +56,9 @@ if ( ! $items ) {
 							<span class="k-latest__cat" <?php $kind_sub ? kocist_sub_edit_attr( $kind_sub ) : nwcs_edit_attr( 'global', 'header', 'menu', $groups[ $item['group'] ]['menu_row'], 'label' ); ?>><?php echo esc_html( $kind ); ?></span>
 						<?php endif; ?>
 
-						<span class="k-latest__title" <?php nwcs_edit_attr( 'home', 'products', 'pool' ); ?>><?php echo esc_html( $item['title'] ); ?></span>
+						<span class="k-latest__title" <?php nwcs_edit_attr( 'home', 'products', 'pool' ); ?>><?php echo esc_html( kocist_card_title( $item ) ); ?></span>
+
+						<?php kocist_card_colors( $item, 'k-latest__colors' ); ?>
 
 						<?php if ( '' !== $spec ) : ?>
 							<span class="k-latest__spec" <?php kocist_product_attr( $item, 'Özellikler' ); ?>><?php echo esc_html( $spec ); ?></span>

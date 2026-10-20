@@ -499,6 +499,104 @@ Excel'in anahtarı ürün kodu; fotoğrafın anahtarı da ürün kodu.
 İçerik Stüdyosu'ndaki ürün satırlarında kodun yanında üç nokta (fotoğraf, açıklama, teknik
 detay; dolu = var); fotoğrafı yoksa "Fotoğraf ekle ↗" kategorinin Fotoğraf Kutusu'nu açar.
 
+## Renk grupları (0.27.0)
+
+**Ürün Havuzu → Kategoriler → kategori → Renk grupları** (Fotoğraf Kutusu'nun altında).
+Excel'de her renk ayrı ürün olarak girilmeye devam eder (kendi kodu, fotoğrafı, fiyatı, sayfası);
+burada aynı ürünün renkleri tek gruba toplanır. Excel değişmez.
+
+- **Renk grubu oluştur:** kategorinin ürünlerinden en az ikisi işaretlenir (kod ve ada göre
+  aranır). Başka bir renk grubundaki ürün seçilemez, nedeni yazar; bir ürün havuz genelinde
+  tek grupta olur. Ürün adında hazır bir renk geçiyorsa renk adı ve yuvarlağı dolar.
+- **Grup kartı:** başlık ("Renk"; "Çatı rengi" gibi değişir), üye satırları: sıra ↑ ↓, küçük
+  resim, kod, ad, renk adı, renk yuvarlağı (hazır renkler: Beyaz, Siyah, Antrasit, Gri, Kiremit
+  Kırmızı, Zümrüt Yeşili, Teak, Ceviz, Doğal Çam, Amber (Açık Meşe), Nussbaum, Mavi, Sarı ya da
+  özel renk), "Gruptan çıkar", "Gruba ürün ekle", "Grubu sil…" (onay sorulur). 1. satır
+  **öne çıkan**dır. Çöpteki, silinmiş ya da kategoriden çıkmış üye uyarıyla görünür, sitede
+  yok sayılır. Ürünler tablosunda "renk grubu: X" rozeti; ürün formunda tek satır
+  "Renk grubu: Renk · 3 renk · Düzenle ↗" (ikinci bir düzenleme yeri yok).
+- Her değişiklik "Son işlemler"e düşer (`renk`) ve geri alınır; kayıttan sonra havuz ve site
+  önbelleği temizlenir. JavaScript yoksa her düğme formu kaydeder; JS ile ↑ ↓ satırı yerinde
+  taşır, "Grubu kaydet" yazar.
+- **Sitede (Koçist, WOOD KOCIST):** kategori, seri/grup, mağaza ve ana sayfa listelerinde grup
+  tek kart: o sitede görünen ilk üye (öne çıkan gizliyse sıradaki), adında renk yoksa sonunda
+  " – <renk>", altında "3 renk" (panel metni `{sayi} renk`: Koçist Ortak Metinler, WOOD KOCIST
+  Ürün Kartları). Menü ve kategori sayıları da tek kart sayar. Sitede tek üye görünüyorsa grup
+  yok sayılır. **Arama, sepet, site haritası ve llms.txt** her rengi ayrı ürün olarak görür.
+- **Ürün sayfası:** başlığın altında "Renk: Antrasit" ve yuvarlak bağlantılar; her biri o rengin
+  bu sitedeki sayfası (site başına adres dahil). Bulunulan renk `aria-current="page"` ve
+  halkalı; renk adı fareyle ve odakla görünür. Her renk sayfası kendi canonical'ında kalır;
+  JSON-LD'de Product `color`, `inProductGroupWithID`, `isVariantOf` ve bir `ProductGroup`
+  (`productGroupID`, `variesBy`, `hasVariant`: sitedeki renkler).
+- Veri: havuz kategorisinin terim meta'sı `_nwcs_color_groups`; okuma havuz başına önbellekli
+  haritadan (`nwcs_color_map`). Kod `includes/color-groups.php`, `includes/admin/color-groups.php`,
+  `assets/color-groups.{js,css}`. Deneme `scripts/dev/check-color-groups.php`.
+
+## Kategoriye özel sık sorulan sorular (0.27.0)
+
+**Ürün Havuzu → Kategoriler → kategori → Sık sorulan sorular** (Renk grupları'nın altında).
+Kategorinin yerleştiği her site için bir sekme ve kendi listesi (en fazla 10 soru); yerleşmediği
+site için sekme yok, nedeni bir satırla yazılır. Önerilen: kategoriye özgü 3–6 soru; teslimat,
+montaj, ödeme gibi genel sorular sitenin `/sss/` sayfasında kalır.
+
+- **Satır:** soru (tek satır) ve cevap (düz metin, boş satır paragraf); ↑ ↓, "Sil", "Soru ekle",
+  sekme başına "Soruları kaydet". Cevabı boş soru kaydedilir ama sitede ve arama verisinde
+  görünmez (satırda yazar). Cevabı olup sorusu boş satır kaydedilmez; yazılanlar geri gelir.
+- **Kopya uyarısı:** aynı kategorinin başka bir sitesinde aynı ya da çok benzer (%85) cevap
+  varsa kayıt yapılır, uyarı soruyu ve siteyi söyler (30 karakterden kısa cevaplar sayılmaz).
+  Benzerlik SEO ve GEO tutarlılık kontrolüyle aynı (`nwcs_seo_near_text`).
+- "Son işlemler"e `sss` kaydı düşer, geri alınır; aynı kişinin aynı kategori ve sitedeki art
+  arda kayıtları 30 dakika içinde tek kayıtta birleşir. Kategori başlığında "SSS: 4 soru".
+- **Sitede:** kategori sayfasında (Koçist `/kategoriler/<grup>/<kategori>/`, WOOD KOCIST
+  `/urun-kategori/<seri>/<kategori>/`) ürünlerin altında "Sık sorulan sorular" akordeonu
+  (`#sss`) ve yalnızca bu sayfada FAQPage (sayfa düğümü `WebPage` + `FAQPage`). Ürün sayfasında
+  kategorinin ilk 3 sorusu ve "Tüm sorular" (kategori sayfası `#sss`); FAQ şeması yok. Koçist'te
+  kategoride soru yoksa akordeonun son satırı eskisi gibi grubun SSS bağlantısıdır.
+  `llms.txt`'de "Kategorilere özel sık sorulan sorular" bölümü. Başlık ve bağlantı metinleri
+  panelde: Koçist Kategoriler → `faq_title`, Ürün sayfası → `faq_title`, `faq_all`; WOOD KOCIST
+  Mağaza → `faq_title`, Ürün Sayfaları → `faq_title`, `faq_all`.
+- Veri: havuz kategorisinin terim meta'sı `_nwcs_cat_faq` = `[ site_key => [ { q, a } ] ]`.
+  Kod `includes/category-faq.php`, `includes/admin/category-faq.php`,
+  `assets/category-faq.{js,css}`. Deneme `scripts/dev/check-cat-faq.php`.
+
+## Koçist: arama ve teklif sepeti (kocist-theme 0.6.0)
+
+Sipariş ve ödeme **yok**: ziyaretçi ürünleri toplar, hepsi için tek seferde fiyat ister.
+
+- **Arama `/arama/?ara=<terim>`:** üst menüde büyüteç (betik yoksa arama sayfasına giden
+  bağlantı, betikle menünün altında açılan kutu); telefonda çekmecenin başında arama kutusu.
+  Kod, ad ve kategori adında arar; Türkçe harf, büyük/küçük harf, boşluk ve tire farkı yok
+  ("adrk", "ADR K", "adr-k" aynı). Sıra: kodu tam tutan, kodu terimle başlayan, kodunda geçen,
+  adında/kategorisinde geçen, kelimeleri ayrı ayrı geçen. Renk grubu sadeleşmez (her renk ayrı
+  kart). Kartlar kategori sayfasının kartı; başlık "‘ADR’ için 6 ürün"; sonuç yoksa iletişim ve
+  WhatsApp. En az 2 harf, en fazla 60 sonuç. Sayfa `noindex, follow`, site haritasında ve
+  llms.txt'de yok; terimli arama önbelleğe alınmaz (terimsiz `/arama/` alınır). Üç arama
+  formunun her birinin kendi bölge adı var ("Ürün ara", "Menüde ürün ara", "Sonuçlarda yeniden ara"). Yardımcılar eklentide ortak (`includes/search.php`: `nwcs_search_fold`,
+  `nwcs_search_products`); WOOD KOCIST mağaza araması da aynı katlamayı kullanır.
+- **Teklif sepeti `/teklif-sepeti/`:** ürün sayfasında adet ve "Teklif sepetine ekle" (fiyatlı ya
+  da fiyatsız her ürün; tek ürünlük teklif formu ve WhatsApp yerinde). Sepet tarayıcıda çerezde
+  (`kc_teklif`, `kimlik:adet|...`, en fazla 30 ürün, satırda en fazla 9999 adet); ad, kod ve fiyat
+  her zaman havuzdan okunur. Üst menüdeki sayı (ürün çeşidi) betikle çerezden yazılır: sayfalar
+  önbellekte kalabilir; sepet sayfası, işleyiciler ve ürün sayfasının `?teklif=` dönüşü
+  önbelleğe alınmaz. Satırlar: küçük resim, kod, ad, varsa fiyat (toplam yok), adet − +, Çıkar.
+- **Gönderme:** (1) **WhatsApp:** form yok; hazır mesaj (her ürün "kod – ad – adet" ve sayfa
+  adresi; adres 1900 karakteri geçerse önce adresler, sonra listenin sonu "+N ürün daha").
+  Bütün ürünler aynı gruptaysa grubun numarası (Ürün Sayfaları › WhatsApp ve Teklif), değilse
+  genel numara (ürün sayfalarının WhatsApp butonu). Sepet kendiliğinden boşalmaz; "Sepeti
+  temizle" var. (2) **E-posta:** ad soyad, telefon ya da e-posta, firma ve not (isteğe bağlı),
+  KVKK onayı; bot tuzağı ve nonce. "Teklif Talepleri"ne kaydolur, bildirim `info@kocist.com.tr`'ye
+  gider ("Ürünler" listesiyle). Bildirim gidemezse ziyaretçi başarı değil hata görür (kayıt
+  panelde durur, sepet ve yazılanlar korunur); başarıda sepet boşalır, "Talebiniz alındı".
+  Hız sınırı: aynı adresten 30 saniyede bir, saatte en fazla 10 talep (teklif formuyla ortak);
+  sınırda "Az önce bir talep gönderdiniz; lütfen biraz sonra yeniden deneyin." ve yazılanlar korunur.
+- Bütün metinler panelde: Tüm Sayfalar › "Üst Menü: Arama ve Teklif Sepeti", gizli sayfalar
+  "Arama Sayfası" ve "Teklif Sepeti" (Sayfa bul ya da önizlemede tıklayarak).
+- Sayfalar tema sürüm 7'de açılır (`kocist_ensure_pages`): canlıya aldıktan sonra yönetici
+  panele bir kez girmeli; o zamana kadar üst menüdeki düğmeler ve ekleme formu görünmez.
+- Kod: tema `inc/search.php`, `inc/basket.php`, `template-parts/search-page.php`,
+  `template-parts/basket-page.php`, `assets/js/teklif.js`, `assets/css/teklif.css`. Deneme
+  `scripts/dev/check-quote-basket.php`.
+
 ## Ürün açıklamaları (toplu)
 
 **Ürün Havuzu → Ürün açıklamaları**: bir kategori (ya da tüm ürünler) seçilip Excel indirilir:

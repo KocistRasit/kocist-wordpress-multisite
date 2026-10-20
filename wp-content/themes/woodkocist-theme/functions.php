@@ -254,6 +254,29 @@ function wk_products(): array {
 }
 
 /**
+ * Urun listesinin kartlari: ayni urunun renkleri (Ürün Havuzu -> Kategoriler
+ * -> Renk grupları) tek kart olur; kartta one cikan urun ve "3 renk" etiketi
+ * gorunur (eklenti, nwcs_color_collapse). Magaza, kategori, ana sayfa
+ * seritleri ve sayilar bununla; arama, sepet, site haritasi ve llms.txt her
+ * rengi ayri urun olarak gorur (wk_products).
+ *
+ * @param array<int, array<string, mixed>> $products
+ * @return array<int, array<string, mixed>>
+ */
+function wk_cards( array $products ): array {
+	return function_exists( 'nwcs_color_collapse' ) ? nwcs_color_collapse( $products ) : array_values( $products );
+}
+
+/**
+ * Sitedeki kart sayisi (Magaza'daki "Tümü", ust menudeki toplam): renk grubu tek urun.
+ */
+function wk_card_count(): int {
+	static $count = null;
+
+	return $count ??= count( wk_cards( wk_products() ) );
+}
+
+/**
  * Seriler (panelde duzenlenir): etiket, havuz kategori adi, kisa aciklama ve
  * o seride kac urun oldugu.
  *
@@ -288,7 +311,7 @@ function wk_lines(): array {
 			'category' => $category,
 			'text'     => (string) ( $row['text'] ?? '' ),
 			'slug'     => $slug,
-			'count'    => count( array_filter( wk_products(), static fn( array $p ): bool => in_array( $category, $p['categories'], true ) ) ),
+			'count'    => count( wk_cards( array_filter( wk_products(), static fn( array $p ): bool => in_array( $category, $p['categories'], true ) ) ) ),
 		);
 	}
 

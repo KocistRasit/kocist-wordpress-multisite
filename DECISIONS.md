@@ -1902,3 +1902,162 @@ Yazım kuralları:
    ekranlarda kısa teknik not kalabilir.
 5. Suçlamayan, sakin dil; ünlem yok.
 6. Yer tutucular (%s, %d, %1$s) sayı, sıra ve türüyle aynı kalır; değişirse sayfa hata verir.
+
+## Renk grupları: aynı ürünün renkleri tek kart (0.27.0, 19 Ekim 2026)
+
+Plan: `PLAN-renk-sss-teklif.md` §1. WOOD KOCIST'te aynı ürünün renkleri (Adirondack, kedi
+yuvası) ayrı ürün olarak giriliyor; kategoride her renk ayrı kart oluyor, ürün sayfasında
+diğer renklere geçiş yoktu.
+
+- **Renkler ayrı ürün kalır** (kod, fotoğraf, fiyat, sayfa, sepet): varyant modeli kurulmadı,
+  Excel değişmedi. Grup yalnızca bir bağdır: havuz kategorisinin terim meta'sı
+  `_nwcs_color_groups` = sıralı `{ id, label, members: [ { product_id, color_name, color_hex } ] }`.
+  Veritabanı göçü yok; canlıya alma dosya yüklemekten ibaret.
+- **Kurallar:** bir ürün havuz genelinde tek grupta (kayıtta denetlenir; elle bozulmuş veride
+  haritada ilk gelen kazanır); üye o kategoride olmalı. Çöpteki, silinmiş, kategoriden çıkmış
+  üye silinmez, sitede yok sayılır, panelde uyarıyla durur (geri gelirse grup kendiliğinden
+  tamamlanır).
+- **Okuma:** `nwcs_color_map()` (ürün → grup, sıra) havuz sitesinin transient'ında; kategori
+  önbelleğiyle birlikte temizlenir (`nwcs_pool_categories_flush`, dolayısıyla
+  `nwcs_pool_flush_cache` ve ürün-kategori bağı değişimi). Site ürün dizini istek içinde.
+- **Sadeleştirme (`nwcs_color_collapse`)** temanın verdiği listeye uygulanır: grubun o sitede
+  görünen (seçili, gizli değil, sayfası var) ve listede bulunan ilk üyesi kalır, grubun listedeki
+  ilk yerine oturur; renk sayısı ve düğmeler site geneli. Sitede ikiden az renk görünüyorsa grup
+  yok sayılır. Kategori, seri/grup, mağaza, ana sayfa listeleri ve menü/kategori sayıları
+  (`nwcs_site_category_tree` dahil) sadeleşir; arama (kodla arayan doğru ürünü bulmalı), sepet,
+  site haritası ve llms.txt sadeleşmez.
+- **Kart:** renk yuvarlağı yok, yalnızca "{sayi} renk" (iki temada panel metni). Başlık öne çıkan
+  ürünün sitedeki adı; adında renk adı geçmiyorsa " – <renk>" (Türkçe harf ve büyük/küçük harf
+  farkı `nwcs_search_fold` ile gözetilmez). Parantezli adın ("Amber (Açık Meşe)") bir parçası
+  adda geçiyorsa renk var sayılır (`nwcs_color_guess` ile aynı bölme).
+- **Ürün sayfası:** "<başlık>: <renk>" ve 44 px dokunma alanlı yuvarlak bağlantılar; ad bağlantı
+  metni (fareyle/odakla balon, yokken ekran okuyucu metni; gizliyken kaydırma alanı yaratmaz).
+  Açık renkte ince çizgi (WCAG bağıl parlaklık > 0,7). İlgili ürünler şeridi aynı grubun
+  renklerini göstermez.
+- **SEO:** her renk kendi adresi ve canonical'ı; Product'a `color`, `inProductGroupWithID`,
+  `isVariantOf`; ayrıca `ProductGroup` (`@id` sitedeki ilk rengin adresi + `#renk-grubu`, her
+  renk sayfasında aynı; `productGroupID` = `RENK-<grup kimliği>`, üye sırası değişse de sabit;
+  `variesBy` color; `hasVariant` sitedeki renkler).
+- **Geri alma** (`kind=renk`): kategorinin önceki ve sonraki tüm grupları. Şimdiki hâl `after`
+  değilse (başka yoldan değişmiş) yazılmaz, kayıt nedeniyle listeden düşer. Kategori silinince
+  gruplar terimle gider; "kategori" kaydı onları da tutar, geri almada geri yazılır.
+- Panel JS'siz çalışır (↑ ↓ ve "Gruptan çıkar" formu o hâliyle kaydeder; Enter "Grubu kaydet"i
+  kullanır); JS satırı yerinde taşır, aramayı ve yuvarlağı canlı gösterir.
+- Doğrulama: `scripts/dev/check-color-groups.php` (105 kontrol: istek yolları, geri alma,
+  sadeleştirme, gizli öne çıkan, tek üye, site başına adres, HTTP ile iki sitenin kategori ve
+  ürün sayfası, JSON-LD); başsız Chrome ile iki tema, panel, 390 px.
+
+## Kategoriye özel sık sorulan sorular (0.27.0, 19 Ekim 2026)
+
+Plan: `PLAN-renk-sss-teklif.md` §2. Sitenin `/sss/` sayfası genel soruları taşıyor; kategoriye
+özgü soru (kamelya kaç kişilik, çatı neyle kaplanır) için yer yoktu.
+
+- **Veri:** havuz kategorisinin terim meta'sı `_nwcs_cat_faq` = `[ site_key => [ { q, a } ] ]`;
+  site başına ayrı liste, en fazla 10 satır. Soru tek satır (200 karakter), cevap düz metin
+  (2000 karakter, etiket yok, en fazla bir boş satır paragraf boşluğu). Göç yok.
+- **Site başına liste:** iki sitede aynı cevap kopya içerik sayılır; ortak liste yerine her
+  sitenin kendi listesi. Kayıt engellenmez, uyarı verilir: aynı kategorinin yerleştiği diğer
+  sitedeki cevapla `nwcs_seo_near_text` (SEO tutarlılık kontrolüyle aynı kural, oradan
+  çıkarıldı: biçim aynı ya da `similar_text` ≥ %85; uzunluk farkı eşiği aşıyorsa hesaplanmaz).
+  30 karakterden kısa cevap ("Evet.") uyarı vermez.
+- **Cevabı boş soru** kaydedilir, sitede ve şemada görünmez (sitenin SSS'iyle aynı kural:
+  firmadan cevap bekleyen soru). Sorusu boş cevap kaydedilmez; taslak bir kez geri gelir.
+- **Sekmeler:** yalnızca kategorinin gerçekten göründüğü siteler (yerleşimi var ve başlığı
+  duruyor). Yerleşimi kalkan sitenin listesi silinmez; panel "kayıtlı N soru duruyor" der,
+  yeniden yerleşince geri gelir. Üst başlığın kendi kategorisinde soru yok (yalnızca alt
+  kategori sayfaları).
+- **Kategori sayfasının adresi** eklentinin ürettiği `kat-<slug>` panel sayfasının adresidir;
+  iki temanın çizdiği adresle aynı. FAQPage bu adresle eşleşen sayfada eklenir
+  (`nwcs_cat_faq_for_context`): Koçist'te sayfa temanın ek sayfası, WOOD KOCIST'te manifest
+  sayfası; iki durumda da tema ek bir şey bildirmez. Sitenin SSS sayfasıyla aynı yol: sayfa
+  düğümü `["WebPage","FAQPage"]` + `mainEntity`; ayrı FAQPage düğümü yok, ürün sayfasında hiç
+  yok. Koçist'in özel arama başlığı JSON-LD'de WebPage'i artık `#webpage` kimliğiyle bulur.
+- **Ürün sayfası:** `nwcs_product_place` ile bulunan kategorinin ilk 3 sorusu + "Tüm sorular"
+  (`#sss`). Koçist'te bu, akordeonun son satırındaki grup SSS bağlantısının yerini alır;
+  kategoride soru yoksa eski bağlantı kalır.
+- **llms.txt:** site SSS'inden sonra "Kategorilere özel sık sorulan sorular": kategori başlığı
+  (sayfa adresi `#sss`) ve "- soru cevap" satırları; ürünsüz kategoriyi gizleyen sitede
+  (WOOD KOCIST) görünmeyen kategori atlanır.
+- **Geri alma** (`kind=sss`): o sitenin önceki ve sonraki listesi; şimdiki hâl `after` değilse
+  yazılmaz, kayıt düşer. Aynı kullanıcı, kategori ve sitenin art arda kayıtları 30 dakika
+  içinde birleşir (renk gruplarıyla aynı); oturumun başına dönen kayıt düşer. Kategori
+  silinince sorular "kategori" kaydında durur, geri almada geri yazılır.
+- Panel JS'siz çalışır: sekmeler bağlantı (`?sss_site=`), ↑ ↓ ve "Sil" formu o hâliyle kaydeder,
+  sonda bir boş "Yeni soru" satırı. JS: sekmeler yerinde (ok tuşları), satır yerinde taşınır
+  ve silinir, "Soru ekle".
+- Doğrulama: `scripts/dev/check-cat-faq.php` (95 kontrol: istek yolları, doğrulama, birleşme,
+  geri alma, kopya uyarısı, panel, HTTP ile iki sitenin kategori ve ürün sayfası, JSON-LD,
+  llms.txt, sayfaların E_ALL çizimi); başsız Chrome ile panel (JS'li ve JS'siz), iki tema, 390 px.
+
+## Koçist: arama ve teklif sepeti (kocist-theme 0.6.0, NWCS 0.27.0, 19 Ekim 2026)
+
+Plan: `PLAN-renk-sss-teklif.md` §3. Koçist B2B: ürünlerin çoğu fiyatsız; ziyaretçi birden çok
+ürün için tek seferde fiyat isteyemiyor, sitede arama yoktu. Sipariş ve ödeme kurulmadı.
+
+- **Arama adresi `/arama/?ara=`** (`/kategoriler/?ara=` değil): `/kategoriler/` dizine giren,
+  kendi canonical'ı olan sayfa; sorgulu hâli noindex olunca arama motoruna çelişen işaret gider.
+  `/arama/` her zaman `noindex, follow` (site kapalıyken WordPress'in `nofollow`'u kalır), site
+  haritasında yok, gizli manifest sayfası olduğu için llms.txt'de yok; üst menüdeki form hep aynı
+  adrese gider. Sayfa (ve `/teklif-sepeti/`) diğer tema sayfaları gibi WordPress sayfası
+  (`KOCIST_PAGES_VERSION` 7): yeniden yazma kuralıyla kurulsaydı WordPress isteği blog listesi
+  sanıyor, SEO bağlamı ve menü işareti bloga düşüyordu. Sayfa açılana kadar (yönetici panele
+  girene kadar) üst menü düğmeleri ve ekleme formu basılmaz, ziyaretçi 404'e gitmez.
+- **Eşleştirme eklentide ortak** (`includes/search.php`): `nwcs_search_fold` (products.php'den
+  taşındı, davranışı aynı), `nwcs_search_compact` (yalnızca harf ve rakam), `nwcs_search_rank`,
+  `nwcs_search_products`. Derece: 0 kod tam, 1 kod terimle başlıyor, 2 kodda geçiyor, 3 adda ya
+  da kategoride (Koçist'te sitedeki grup ve kategori adı da) geçiyor, 4 kelimeler ayrı ayrı
+  geçiyor; eşitte liste sırası. Alanlar ayrı sadeleşir ("|" ayracı): bir kelime iki alanın
+  birleşiminden eşleşmez. Renk grubu sadeleşmez. En az 2 harf/rakam, sayfada en fazla 60 sonuç.
+- **WOOD KOCIST:** `wk_filter_products` yalnızca katlamayı alır (`nwcs_search_fold`); eşleştirme
+  eskisi gibi tek parça, sıra mağazanın sıralaması. Sonuç: Türkçe harfsiz terimlerde aynı;
+  "CICEKLI", "İĞNE" gibi terimler artık Türkçe harfli ürünü de bulur. Sepet ve sipariş değişmedi.
+- **Sepet çerezi** `kc_teklif` = `kimlik:adet|...` (WOOD KOCIST biçimi; ayrı ad, iki site yerelde
+  aynı alan adında). Yol sitenin adresi (`/kocist/` yerelde, `/` canlıda), SameSite=Lax, 30 gün;
+  betik de okuyup yazar (HttpOnly değil). En fazla 30 satır, satırda 9999 adet (B2B adetleri
+  büyük; WOOD KOCIST 99). Üst menüdeki rozet ürün çeşidi sayısıdır, adet toplamı değil.
+- **Önbellek:** sayfalar önbelleğe girer; sayı betikle çerezden. Sepet sayfası, ürün sayfasının
+  `?teklif=` dönüşü ve işleyiciler `DONOTCACHEPAGE` + `X-LiteSpeed-Cache-Control: no-cache`.
+- **Nonce:** ekle/güncelle/çıkar/temizle nonce'suz (WOOD KOCIST sepetiyle aynı gerekçe:
+  önbellekteki sayfada nonce eskir; yalnızca o tarayıcının çerezi değişir). E-posta gönderimi
+  nonce'lu (sepet sayfası önbelleğe girmez).
+- **JavaScript'siz:** ürün sayfasında form `admin-post.php`'ye gider, sayfa
+  `?teklif=eklendi#teklif-sepeti-ekle` ile döner; dönüş çerezi okur: ürün sepette değilse
+  (çerez kapalı) "eklendi" demez, ne yapılacağını yazar. Sepette +/− ve "Çıkar" gönder
+  düğmesi; formun ilk düğmesi görünmez "güncelle" (Enter bir satırın −'sine basmasın). Betikle
+  ekleme sayfayı yenilemez, sonucu canlı bölgede duyurur, çerezi okuyup doğrular; sepette adet
+  değişince form 600 ms sonra kendisi gönderilir.
+- **E-posta:** mevcut akış: `kc_quote` kaydı ("Teklif Talepleri"), eklentinin bildirimi
+  (`kocist_form_recipient`). Ürün listesi `_kc_items` (eklentiye `items` → "Ürünler" etiketi
+  eklendi) ve kayıt metninde; satır "kod – ad – adet" ve sayfa adresi. Eklenti bildirimi normalde
+  isteğin sonuna erteler ve sonucu yansıtmaz; burada `nwcs_form_send_notification` hemen
+  çağrılır ve sonucu beklenir (kuyruk ikinci kez göndermez). Gitmezse: kayıt durur (panelde
+  "failed"), ziyaretçiye dürüst hata, sepet ve yazılanlar korunur. Alan kuralları ürün formuyla
+  aynı (ad; telefon ya da e-posta; onay). `kocist_quote_redirect`'e dönüş çapası parametresi
+  eklendi.
+- **Müşteriye kopya gönderilmedi:** eklentinin bildirim akışı yalnızca site sahibine yazar;
+  formdan gelen bir adrese otomatik e-posta, oturum açılmayan bir formu üçüncü kişilere e-posta
+  gönderen bir araca çevirir (bot tuzağı ve nonce bunu durdurmaz) ve gönderen adres Koçist'in
+  alan adı değil. Karar kullanıcıda.
+- **WhatsApp:** hepsi aynı gruptaysa grubun numarası, karışık ya da grubu yoksa genel numara
+  (`product.main.secondary_url`, yoksa İletişim sayfasının WhatsApp'ı). Mesaj giriş satırı panel
+  metni, satır kalıbı `{kod} – {urun} – {adet} adet` (kodsuz üründe ayraç düşer). Adres en
+  fazla 1900 karakter: önce sayfa adresleri, sonra liste kısalır ("+N ürün daha"). Bağlantı
+  `esc_attr` ile basılır: `esc_url` kodlanmış satır sonlarını (`%0A`) siliyor, mesaj tek satıra
+  yapışıyordu; adres temada kurulur (`https://wa.me/` + rakamlar + `rawurlencode`).
+- **Kart:** kategori sayfasının kartı `kocist_product_card()`'a taşındı (çıktı bire bir aynı),
+  arama sonuçları da onu kullanır.
+- **İnceleme düzeltmeleri (Fable):**
+  - terimli `/arama/?ara=` önbelleğe alınmaz (rastgele terimler LiteSpeed önbelleğini
+    doldurmasın); terimsiz `/arama/` alınır;
+  - sepetin dönüş adresinde yol kodu çözülerek denetlenir (`%2e%2e`, iç içe `%252e`) ve son kapı
+    `wp_validate_redirect`;
+  - hız sınırı: IP'nin tuzlu özeti (`wp_hash`) geçici kayıtta; 30 saniyede bir, saatte 10
+    talep; teklif sepeti e-postası ve tek ürünlük teklif/iletişim formu ortak sayar. Yalnızca
+    geçerli (kaydedilecek) talep sayılır; sınırda kayıt ve e-posta yok, dürüst hata, yazılanlar ve
+    sepet korunur. IP, WOOD KOCIST ödeme formu gibi `CF-Connecting-IP`, yoksa `REMOTE_ADDR`
+    (yalnızca hız sınırı; başka yetki buna dayanmaz);
+  - "eklendi" metni "bu üründen {adet} adet": üst menüdeki rozet ürün çeşidini sayar;
+  - her arama formunun kendi bölge adı (`aria-label`; panel metni).
+- Doğrulama: `scripts/dev/check-quote-basket.php` (arama yardımcıları, sayfalar, çerez,
+  JS'siz işleyiciler, HTTP ile Set-Cookie ve yönlendirme, gönderim ve Mailpit, WhatsApp,
+  WOOD KOCIST arama ve sepet, E_ALL); başsız Chrome ile masaüstü (JS'li ve JS'siz) ve 390 px.

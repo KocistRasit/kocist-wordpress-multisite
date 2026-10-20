@@ -192,15 +192,9 @@ function nwcs_pool_trashed_ids(): array {
 	return array_map( 'intval', $ids );
 }
 
-/**
- * Aramada Turkce harf ve buyuk/kucuk harf farki gozetilmesin diye metni
- * sadelestirir: "ÇİVİ", "çivi", "civi" ayni sonucu verir.
+/*
+ * Arama katlamasi (nwcs_search_fold) ve site aramasi: includes/search.php.
  */
-function nwcs_search_fold( string $text ): string {
-	$text = mb_strtolower( strtr( $text, array( 'İ' => 'i', 'I' => 'ı' ) ), 'UTF-8' );
-
-	return strtr( $text, array( 'ı' => 'i', 'ğ' => 'g', 'ü' => 'u', 'ş' => 's', 'ö' => 'o', 'ç' => 'c', 'â' => 'a', 'î' => 'i', 'û' => 'u' ) );
-}
 
 /**
  * Yonetim listesi icin filtrelenmis/sayfalanmis sorgu.

@@ -366,6 +366,7 @@ function nwcs_render_pool_form( ?array $product, array $categories, bool $is_new
 		<?php
 		if ( $id && ! isset( $product['taken_by'] ) ) {
 			nwcs_render_product_status( $product );
+			nwcs_render_product_color_line( $product );
 		}
 		?>
 

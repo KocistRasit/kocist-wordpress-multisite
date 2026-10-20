@@ -280,6 +280,41 @@ function nwcs_seo_score_network(): array {
 }
 
 /**
+ * Yakin yazim karsilastirmasinda metnin bicimi: bosluk, nokta, virgul ve
+ * buyuk-kucuk harf farki sayilmaz.
+ */
+function nwcs_seo_near_normal( string $text ): string {
+	return mb_strtolower( (string) preg_replace( '/[\s.,]+/u', ' ', $text ) );
+}
+
+/**
+ * Iki metin ayni metnin yakin yazimi mi: bicimleri ayni ya da similar_text'e
+ * gore en az %85 ortak. Siteler arasi tutarlilik (firma bilgisi) ve kategori
+ * sorularinin kopya uyarisi (includes/admin/category-faq.php) bunu kullanir.
+ *
+ * similar_text uzun metinde yavas: yuzdenin ulasabilecegi en yuksek deger
+ * (kisa metnin uzunluguna gore) esigin altindaysa karsilastirma yapilmaz.
+ */
+function nwcs_seo_near_text( string $a, string $b ): bool {
+	$a = nwcs_seo_near_normal( $a );
+	$b = nwcs_seo_near_normal( $b );
+
+	if ( $a === $b ) {
+		return true;
+	}
+
+	$total = strlen( $a ) + strlen( $b );
+
+	if ( ! $total || 200 * min( strlen( $a ), strlen( $b ) ) < 85 * $total ) {
+		return false;
+	}
+
+	similar_text( $a, $b, $percent );
+
+	return $percent >= 85;
+}
+
+/**
  * Bir sitenin bilgisi, agdaki baska bir sitedekinin kucuk farkla yazilmis
  * hali mi. Tamamen farkli degerler (baska sube, baska sirket) sorun degil;
  * ayni bilginin iki yazimi sorun.
@@ -291,7 +326,6 @@ function nwcs_seo_score_near_variants( int $blog_id ): array {
 	$label   = $network['sites'][ $blog_id ]['label'] ?? '';
 	$found   = array();
 
-	$normal = static fn( string $text ): string => mb_strtolower( (string) preg_replace( '/[\s.,]+/u', ' ', $text ) );
 	$digits = static fn( string $text ): string => (string) preg_replace( '/\D+/', '', $text );
 
 	foreach ( $network['consistency'] as $key => $check ) {
@@ -316,8 +350,7 @@ function nwcs_seo_score_near_variants( int $blog_id ): array {
 				// Telefon: rakamlari ayni, bicimi farkli.
 				$near = $digits( $variant['text'] ) === $digits( $own );
 			} else {
-				similar_text( $normal( $variant['text'] ), $normal( $own ), $percent );
-				$near = $percent >= 85;
+				$near = nwcs_seo_near_text( $variant['text'], $own );
 			}
 
 			if ( $near ) {

@@ -274,10 +274,21 @@ function kocist_catalog_page_key( string $group, string $sub = '' ): string {
 }
 
 /**
- * Grup ya da kategoriye dusen urunler.
+ * Urun listesinin kartlari: ayni urunun renkleri (Ürün Havuzu -> Kategoriler
+ * -> Renk grupları) tek kart olur; kartta one cikan urun ve "3 renk" etiketi
+ * gorunur (eklenti, nwcs_color_collapse). Grup ya da kategori sayfasi, ana
+ * sayfa seritleri ve menudeki sayilar bununla; urun sayfalari, site haritasi
+ * ve llms.txt her rengi ayri urun olarak gorur (kocist_catalog_products).
+ */
+function kocist_catalog_cards( array $products ): array {
+	return function_exists( 'nwcs_color_collapse' ) ? nwcs_color_collapse( $products ) : array_values( $products );
+}
+
+/**
+ * Grup ya da kategoriye dusen urunler, kart listesi olarak (renk grubu tek kart).
  */
 function kocist_catalog_products_in( string $group, string $sub = '' ): array {
-	return array_values(
+	return kocist_catalog_cards(
 		array_filter(
 			kocist_catalog_products(),
 			static fn( array $product ): bool => $product['group'] === $group && ( '' === $sub || $product['sub'] === $sub )
@@ -286,24 +297,109 @@ function kocist_catalog_products_in( string $group, string $sub = '' ): array {
 }
 
 /**
- * Kategori basina urun sayisi (grup => [kategori => sayi, '' => toplam]).
+ * Kategori basina kart sayisi (grup => [kategori => sayi, '' => toplam]).
+ * Renk grubu, sayfadaki gibi tek urun sayilir.
  */
 function kocist_catalog_counts(): array {
+	static $counts = null;
+
+	if ( null !== $counts ) {
+		return $counts;
+	}
+
 	$counts = array();
+	$lists  = array();
 
 	foreach ( kocist_catalog_products() as $product ) {
 		if ( '' === $product['group'] ) {
 			continue;
 		}
 
-		$counts[ $product['group'] ][''] = ( $counts[ $product['group'] ][''] ?? 0 ) + 1;
+		$lists[ $product['group'] ][''][] = $product;
 
 		if ( '' !== $product['sub'] ) {
-			$counts[ $product['group'] ][ $product['sub'] ] = ( $counts[ $product['group'] ][ $product['sub'] ] ?? 0 ) + 1;
+			$lists[ $product['group'] ][ $product['sub'] ][] = $product;
+		}
+	}
+
+	foreach ( $lists as $group => $subs ) {
+		foreach ( $subs as $sub => $list ) {
+			$counts[ $group ][ $sub ] = count( kocist_catalog_cards( $list ) );
 		}
 	}
 
 	return $counts;
+}
+
+/**
+ * Kart basligi: renk grubunda one cikan urunun adi, adinda renk yoksa sonunda
+ * rengi ("Adirondack Sandalye – Antrasit"); grupta degilse urunun adi.
+ */
+function kocist_card_title( array $product ): string {
+	return (string) ( $product['card_title'] ?? $product['title'] );
+}
+
+/**
+ * Karttaki "3 renk" etiketi (panel: Ortak Metinler -> Ürün Kartında Renk
+ * Sayısı); renk grubunda olmayan kartta bos.
+ */
+function kocist_card_colors( array $product, string $class ): void {
+	$count = (int) ( $product['color_count'] ?? 0 );
+
+	if ( $count < 2 ) {
+		return;
+	}
+	?>
+	<span class="<?php echo esc_attr( $class ); ?>" <?php nwcs_edit_attr( 'global', 'texts', 'colors' ); ?>><?php echo esc_html( kocist_text( 'global', 'texts', 'colors', array( 'sayi' => $count ) ) ); ?></span>
+	<?php
+}
+
+/**
+ * Urun karti (kategori ve grup sayfasi, arama sonuclari): gorsel, kategori,
+ * ad, renk sayisi, kisa aciklama, fiyat ya da "Fiyat teklifle".
+ *
+ * @param bool $show_kind      Kartta urunun kategorisi yazsin mi (grup sayfasi, arama).
+ * @param bool $group_fallback Kategorisi yoksa grubun adi yazsin mi (arama).
+ */
+function kocist_product_card( array $product, bool $show_kind = false, bool $group_fallback = false ): void {
+	$groups   = kocist_catalog_groups();
+	$group    = $groups[ $product['group'] ?? '' ] ?? null;
+	$sub_item = $group['subs'][ $product['sub'] ?? '' ] ?? null;
+	$has_page = kocist_product_has_page( $product );
+	$href     = $has_page ? $product['url'] : kocist_quote_url( $product );
+	$kind     = $show_kind ? (string) ( $sub_item['name'] ?? ( $group_fallback ? ( $group['name'] ?? '' ) : '' ) ) : '';
+	?>
+	<li class="k-pcard">
+		<a class="k-pcard__link" href="<?php echo esc_url( $href ); ?>">
+			<span class="k-pcard__media" <?php kocist_product_attr( $product, 'Görsel' ); ?>>
+				<?php echo kocist_image_tag( kocist_product_image( $product ), 'k-pcard__img', 'Örnek görsel' ); // phpcs:ignore WordPress.Security.EscapingOutput ?>
+			</span>
+
+			<span class="k-pcard__body">
+				<?php if ( '' !== $kind ) : ?>
+					<span class="k-pcard__kind" <?php $sub_item ? kocist_sub_edit_attr( $sub_item ) : nwcs_edit_attr( 'global', 'header', 'menu', (int) $group['menu_row'], 'label' ); ?>><?php echo esc_html( $kind ); ?></span>
+				<?php endif; ?>
+
+				<span class="k-pcard__title" <?php kocist_product_attr( $product, 'Ürün adı' ); ?>><?php echo esc_html( kocist_card_title( $product ) ); ?></span>
+
+				<?php kocist_card_colors( $product, 'k-pcard__colors' ); ?>
+
+				<?php if ( $product['short'] ) : ?>
+					<span class="k-pcard__text" <?php kocist_product_attr( $product, 'Kısa açıklama' ); ?>><?php echo esc_html( $product['short'] ); ?></span>
+				<?php endif; ?>
+
+				<span class="k-pcard__foot">
+					<?php if ( $product['has_price'] ) : ?>
+						<span class="k-pcard__price" <?php kocist_product_attr( $product, 'Fiyat' ); ?>><?php echo esc_html( $product['price_label'] ); ?></span>
+					<?php else : ?>
+						<span class="k-pcard__price is-quote" <?php nwcs_edit_attr( 'kategoriler', 'texts', 'price_quote' ); ?>><?php echo esc_html( nwcs_field( 'kategoriler', 'texts', 'price_quote' ) ); ?></span>
+					<?php endif; ?>
+					<span class="k-pcard__go" <?php nwcs_edit_attr( 'kategoriler', 'texts', $has_page ? 'go_detail' : 'go_quote' ); ?>><?php echo esc_html( nwcs_field( 'kategoriler', 'texts', $has_page ? 'go_detail' : 'go_quote' ) ); ?></span>
+				</span>
+			</span>
+		</a>
+	</li>
+	<?php
 }
 
 /**
@@ -625,8 +721,9 @@ function kocist_catalog_seo_head_end(): void {
 		);
 
 		// JSON-LD: yalnizca WebPage dugumunun adi (konum yolu adlari ayni kalir).
+		// Dugum kimligiyle bulunur: kategori sorulari varsa turu ["WebPage","FAQPage"].
 		$flags = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG;
-		$start = strpos( $html, '"@type":"WebPage"' );
+		$start = strpos( $html, '#webpage"' );
 		$find  = '"name":' . wp_json_encode( $old, $flags );
 		$at    = false !== $start ? strpos( $html, $find, $start ) : false;
 

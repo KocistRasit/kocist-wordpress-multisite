@@ -351,6 +351,122 @@ html { scroll-padding-top: 88px; }
 /* Mobil akordiyondaki karsiligi. */
 .k-dropdown__link--all { font-weight: 700; color: var(--forest); }
 
+/* ---------- Arama ve teklif sepeti dugmeleri (inc/search.php, inc/basket.php) ---------- */
+.k-tools {
+	display: flex;
+	flex: none;
+	align-items: center;
+	gap: 6px;
+}
+
+.k-tool {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: #fff;
+	color: var(--forest);
+	text-decoration: none;
+	transition: background .18s ease, border-color .18s ease;
+}
+
+.k-tool:hover,
+.k-tool.is-open,
+.k-tool.is-current { border-color: var(--leaf); background: var(--leaf-soft); }
+
+.k-tool:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; }
+
+/* Sepetteki urun cesidi; betik cerezden yazar (bos sepette gizli). */
+.k-tool__count {
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	min-width: 20px;
+	height: 20px;
+	padding: 0 5px;
+	border: 2px solid #fff;
+	border-radius: 999px;
+	background: var(--forest);
+	color: #fff;
+	font-size: 11px;
+	font-weight: 800;
+	line-height: 16px;
+	text-align: center;
+}
+
+.k-tool__count[hidden] { display: none; }
+
+/* Arama kutusu: ust menunun altinda acilir; betik yoksa buyutec arama sayfasina gider. */
+.k-search {
+	border-top: 1px solid var(--line);
+	background: var(--paper-2);
+	padding: 12px 0;
+}
+
+.k-searchform {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.k-searchform__icon {
+	position: absolute;
+	top: 50%;
+	left: 15px;
+	color: var(--muted);
+	transform: translateY(-50%);
+	pointer-events: none;
+}
+
+.k-searchform__input {
+	flex: 1;
+	min-width: 0;
+	height: 46px;
+	padding: 0 16px 0 42px;
+	border: 1.5px solid var(--line);
+	border-radius: 999px;
+	background: #fff;
+	color: var(--text);
+	font-family: inherit;
+	font-size: 15.5px;
+	transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.k-searchform__input::placeholder { color: #8a978f; }
+
+.k-searchform__input:focus {
+	outline: none;
+	border-color: var(--leaf);
+	box-shadow: 0 0 0 4px rgba(122, 182, 72, .16);
+}
+
+.k-searchform__btn {
+	flex: none;
+	height: 46px;
+	padding: 0 22px;
+	border: 0;
+	border-radius: 999px;
+	background: var(--forest);
+	color: #fff;
+	font-family: inherit;
+	font-size: 14px;
+	font-weight: 800;
+	letter-spacing: .04em;
+	cursor: pointer;
+	transition: background-color .2s ease;
+}
+
+.k-searchform__btn:hover { background: var(--leaf-dark); }
+.k-searchform__btn:focus-visible { outline: 3px solid var(--leaf); outline-offset: 3px; }
+
+/* Cekmecedeki arama kutusu yalnizca dar ekranda. */
+.k-nav__search { display: none; }
+
 /* ---------- Mobil menu dugmesi ---------- */
 .k-burger {
 	display: none;
@@ -433,6 +549,12 @@ html { scroll-padding-top: 88px; }
 
 	.k-header.is-nav-open .k-nav { display: block; }
 
+	/* Arama ve sepet dugmeleri hamburgerin solunda. */
+	.k-header__inner--tools .k-tools { order: 2; margin-left: auto; }
+	.k-header__inner--tools .k-burger { order: 3; margin-left: 0; }
+
+	.k-nav__search { display: block; padding: 4px 0 14px; }
+
 	.k-nav__indicator,
 	.k-dropdown { display: none; }
 
@@ -492,6 +614,13 @@ html { scroll-padding-top: 88px; }
 	.k-topbar__meta:first-child { display: none; }
 }
 
+/* Dar telefonda arama butonu kisalir, kutu genis kalsin. */
+@media (max-width: 420px) {
+	.k-header__inner { gap: 8px; }
+	.k-tools { gap: 4px; }
+	.k-searchform__btn { padding: 0 16px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.k-nav__indicator,
 	.k-dropdown,
@@ -501,7 +630,10 @@ html { scroll-padding-top: 88px; }
 	.k-dropdown__link,
 	.k-nav__accordion,
 	.k-nav__chevron,
-	.k-burger__bar {
+	.k-burger__bar,
+	.k-tool,
+	.k-searchform__input,
+	.k-searchform__btn {
 		transition-duration: .01ms !important;
 		transition-delay: 0s !important;
 	}

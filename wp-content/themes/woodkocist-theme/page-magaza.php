@@ -2,6 +2,7 @@
 /**
  * Magaza (/magaza/) ve kategori sayfalari (/urun-kategori/<seri>/<kategori>/).
  * Solda kategori agaci, sagda siralama ve urun izgarasi. Arama: ?ara=.
+ * Kategori sayfasinda izgaranin altinda kategorinin kendi sorulari (#sss).
  * Suzgecler duz baglanti/form: JavaScript gerekmez, adresler paylasilabilir.
  */
 
@@ -90,7 +91,7 @@ get_header();
 			<summary class="wk-filter__summary" <?php nwcs_edit_attr( 'shop', 'list', 'filter_title' ); ?>><?php echo esc_html( nwcs_field( 'shop', 'list', 'filter_title' ) ); ?></summary>
 			<ul class="wk-tree">
 				<li>
-					<a href="<?php echo esc_url( wk_shop_url() ); ?>" <?php echo ! $category ? 'aria-current="page"' : ''; ?> <?php nwcs_edit_attr( 'shop', 'list', 'all_label' ); ?>><?php echo esc_html( nwcs_field( 'shop', 'list', 'all_label' ) ); ?> <span class="wk-num"><?php echo count( wk_products() ); ?></span></a>
+					<a href="<?php echo esc_url( wk_shop_url() ); ?>" <?php echo ! $category ? 'aria-current="page"' : ''; ?> <?php nwcs_edit_attr( 'shop', 'list', 'all_label' ); ?>><?php echo esc_html( nwcs_field( 'shop', 'list', 'all_label' ) ); ?> <span class="wk-num"><?php echo (int) wk_card_count(); ?></span></a>
 				</li>
 				<?php foreach ( $tree as $line ) : ?>
 					<?php $open = $category && ( $category['slug'] === $line['slug'] || ( $parent && $parent['slug'] === $line['slug'] ) ); ?>
@@ -160,6 +161,28 @@ get_header();
 				<p <?php nwcs_edit_attr( 'shop', 'list', 'empty_desc' ); ?>><strong <?php nwcs_edit_attr( 'shop', 'list', 'empty_title' ); ?>><?php echo esc_html( nwcs_field( 'shop', 'list', 'empty_title' ) ); ?></strong> <?php echo esc_html( nwcs_field( 'shop', 'list', 'empty_desc' ) ); ?></p>
 				<p><a class="wk-btn wk-btn--primary" href="<?php echo esc_url( wk_shop_url() ); ?>" <?php nwcs_edit_attr( 'shop', 'list', 'empty_button' ); ?>><?php echo esc_html( nwcs_field( 'shop', 'list', 'empty_button' ) ); ?></a></p>
 			</div>
+		<?php endif; ?>
+
+		<?php
+		/*
+		 * Kategorinin kendi sorulari (Ürün Havuzu -> Kategoriler -> Sık sorulan
+		 * sorular), urunlerin altinda; yalnizca alt kategori sayfasinda. Yalnizca
+		 * sorusu ve cevabi dolu satirlar; eklenti ayni sorulari bu sayfada FAQPage
+		 * olarak isaretler. Urun sayfasindaki "Tüm sorular" #sss'ye gelir.
+		 * Gorunum SSS sayfasiyla ayni (.wk-faq__item); acma kapama <details>.
+		 */
+		$faq_rows = $category && $parent && function_exists( 'nwcs_cat_faq_public' ) ? nwcs_cat_faq_public( (string) $category['slug'] ) : array();
+		?>
+		<?php if ( $faq_rows ) : ?>
+			<section class="wk-faq wk-catfaq" id="sss" aria-labelledby="sss-baslik">
+				<h2 id="sss-baslik" class="wk-faq__title" <?php nwcs_edit_attr( 'shop', 'list', 'faq_title' ); ?>><?php echo esc_html( nwcs_field( 'shop', 'list', 'faq_title' ) ); ?></h2>
+				<?php foreach ( $faq_rows as $faq_row ) : ?>
+					<details class="wk-faq__item"<?php echo function_exists( 'nwcs_is_preview' ) && nwcs_is_preview() ? ' open' : ''; ?>>
+						<summary><span <?php nwcs_cat_faq_attr( (string) $category['slug'] ); ?>><?php echo esc_html( $faq_row['question'] ); ?></span><?php echo wk_icon( 'chevron' ); // phpcs:ignore WordPress.Security.EscapingOutput ?></summary>
+						<div class="wk-faq__answer" <?php nwcs_cat_faq_attr( (string) $category['slug'] ); ?>><?php echo wk_paragraphs( $faq_row['answer'] ); // phpcs:ignore WordPress.Security.EscapingOutput ?></div>
+					</details>
+				<?php endforeach; ?>
+			</section>
 		<?php endif; ?>
 	</section>
 </div>

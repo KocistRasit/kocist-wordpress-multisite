@@ -5,6 +5,8 @@
  * Iki form ayni isleyiciye gelir: iletisim sayfasindaki form ve havuz urun
  * sayfasindaki teklif formu (gizli kc_product; mesaj yerine Adet / Olcu,
  * Sirket istege bagli). Ikisinde de onay kutusu (kc-consent) zorunlu.
+ * Teklif sepetinin e-posta formu ayni kayit turune ve bildirime yazar, kendi
+ * isleyicisiyle (inc/basket.php, kocist_handle_basket_send).
  *
  * Gonderilen form kaydedilir (yonetimde "Teklif Talepleri"), Network Content
  * Studio bildirim e-postasini gonderir (includes/forms.php; alici
@@ -59,14 +61,65 @@ function kocist_form_recipient(): string {
 
 /**
  * Yonlendirme sonrasi durumu tasiyan gecici kayit. Anahtar kucuk harfli
- * onaltilik (harf duyarli nesne onbelleginde kaybolmasin).
+ * onaltilik (harf duyarli nesne onbelleginde kaybolmasin). $anchor: donulen
+ * sayfadaki formun kimligi (teklif sepetinde 'teklif-gonder', inc/basket.php).
  */
-function kocist_quote_redirect( string $redirect, array $state ): void {
+function kocist_quote_redirect( string $redirect, array $state, string $anchor = 'teklif-formu' ): void {
 	$token = bin2hex( random_bytes( 10 ) );
 
 	set_transient( 'kc_quote_' . $token, $state, 10 * MINUTE_IN_SECONDS );
-	wp_safe_redirect( add_query_arg( 'kc', $token, $redirect ) . '#teklif-formu' );
+	wp_safe_redirect( add_query_arg( 'kc', $token, $redirect ) . '#' . $anchor );
 	exit;
+}
+
+/*
+ * Hiz siniri (e-posta seli): ayni adresten en fazla 30 saniyede bir ve saatte
+ * 10 talep. Teklif formu ve teklif sepetinin e-posta formu ortak sayar. Adres
+ * tuzlu ozetle tutulur (gecici kayitta acik IP yok). Cloudflare arkasinda
+ * REMOTE_ADDR Cloudflare'in adresidir; gercek ziyaretci CF-Connecting-IP'de
+ * (WOOD KOCIST odeme formuyla ayni; yalnizca hiz siniri, baska yetki yok).
+ */
+const KOCIST_FORM_GAP    = 30; // Iki talep arasi en az saniye.
+const KOCIST_FORM_HOURLY = 10; // Saatte en fazla talep.
+
+function kocist_form_rate_key(): string {
+	$ip = (string) ( $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? '' );
+
+	return 'kc_rate_' . substr( wp_hash( 'kocist-form|' . $ip ), 0, 24 );
+}
+
+/**
+ * Son bir saatteki talep zamanlari.
+ *
+ * @return int[]
+ */
+function kocist_form_rate_times(): array {
+	$times = get_transient( kocist_form_rate_key() );
+
+	return array_values( array_filter( array_map( 'intval', is_array( $times ) ? $times : array() ), static fn( int $time ): bool => $time > time() - HOUR_IN_SECONDS ) );
+}
+
+/**
+ * Bu adres sinirda mi? Siniri asan talep kaydedilmez, e-posta gonderilmez.
+ */
+function kocist_form_rate_limited(): bool {
+	$times = kocist_form_rate_times();
+
+	return ( $times && time() - max( $times ) < KOCIST_FORM_GAP ) || count( $times ) >= KOCIST_FORM_HOURLY;
+}
+
+/**
+ * Kaydedilen talebi sayar.
+ */
+function kocist_form_rate_hit(): void {
+	$times   = kocist_form_rate_times();
+	$times[] = time();
+
+	set_transient( kocist_form_rate_key(), $times, HOUR_IN_SECONDS );
+}
+
+function kocist_form_rate_message(): string {
+	return 'Az önce bir talep gönderdiniz; lütfen biraz sonra yeniden deneyin.';
 }
 
 add_action( 'admin_post_kc_quote', 'kocist_handle_quote' );
@@ -131,9 +184,16 @@ function kocist_handle_quote(): void {
 		$errors['consent'] = 'Onay kutusunu işaretleyin.';
 	}
 
+	// Hiz siniri yalnizca gecerli talepte: hatasini duzelten ziyaretci beklemez.
+	if ( ! $errors && kocist_form_rate_limited() ) {
+		$errors['form'] = kocist_form_rate_message();
+	}
+
 	if ( $errors ) {
 		kocist_quote_redirect( $redirect, array( 'errors' => $errors, 'values' => $values ) );
 	}
+
+	kocist_form_rate_hit();
 
 	// Urun: yalnizca sitedeki urun listesinde bulunan slug kabul edilir.
 	$product = '';

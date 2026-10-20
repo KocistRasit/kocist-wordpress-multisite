@@ -491,6 +491,26 @@ $manifest_data = array(
 				),
 
 				/*
+				 * Ust menunun sagindaki arama ve teklif sepeti dugmeleri
+				 * (inc/search.php, inc/basket.php). Sepetteki urun sayisi
+				 * sayfada betikle cerezden okunur (sayfa onbellekte kalabilir).
+				 */
+				'tools' => array(
+					'label'  => 'Üst Menü: Arama ve Teklif Sepeti',
+					'fields' => array(
+						'search_toggle' => array( 'label' => 'Arama düğmesi (ekran okuyucu için)', 'type' => 'text', 'default' => 'Ürün ara' ),
+						'search_label'  => array( 'label' => 'Arama kutusunun adı (ekran okuyucu için)', 'type' => 'text', 'default' => 'Ürün kodu, adı ya da kategorisi' ),
+						'search_hint'   => array( 'label' => 'Arama kutusundaki ipucu', 'type' => 'text', 'default' => 'Ürün kodu ya da adı' ),
+						'search_button' => array( 'label' => 'Arama butonu', 'type' => 'text', 'default' => 'Ara' ),
+						'search_region_bar'    => array( 'label' => 'Arama bölgesinin adı: üst menüde açılan kutu (ekran okuyucu için)', 'type' => 'text', 'default' => 'Ürün ara' ),
+						'search_region_drawer' => array( 'label' => 'Arama bölgesinin adı: telefon menüsündeki kutu (ekran okuyucu için)', 'type' => 'text', 'default' => 'Menüde ürün ara' ),
+						'search_region_page'   => array( 'label' => 'Arama bölgesinin adı: arama sonuçları sayfasındaki kutu (ekran okuyucu için)', 'type' => 'text', 'default' => 'Sonuçlarda yeniden ara' ),
+						'basket_label'  => array( 'label' => 'Teklif sepeti düğmesi (sepet boşken, ekran okuyucu için)', 'type' => 'text', 'default' => 'Teklif sepeti' ),
+						'basket_count'  => array( 'label' => 'Teklif sepeti düğmesi (ürün varken) — {sayi} ürün sayısı olur', 'type' => 'text', 'default' => 'Teklif sepeti, {sayi} ürün', 'hint' => 'Simgenin üstündeki rakam sepetteki ürün çeşidi sayısıdır (adet toplamı değil).' ),
+					),
+				),
+
+				/*
 				 * Sitenin her yerinde gecen kisa metinler.
 				 */
 				'texts' => array(
@@ -498,6 +518,7 @@ $manifest_data = array(
 					'fields' => array(
 						'image_soon' => array( 'label' => 'Görseli Olmayan Alandaki Yazı', 'type' => 'text', 'default' => 'Görsel yakında' ),
 						'home_crumb' => array( 'label' => 'Yol Göstergesi: Ana Sayfa', 'type' => 'text', 'default' => 'Ana Sayfa' ),
+						'colors'     => array( 'label' => 'Ürün Kartında Renk Sayısı — {sayi} renk sayısı olur', 'type' => 'text', 'default' => '{sayi} renk', 'hint' => 'Aynı ürünün renkleri tek kartta toplandığında (Ürün Havuzu › Kategoriler › Renk grupları) kartta görünür. {sayi} silmeyin.' ),
 						'wa_message' => array( 'label' => 'WhatsApp Hazır Mesajı (genel düğmeler)', 'type' => 'textarea', 'default' => 'Merhaba, Koçist web sitesinden ulaşıyorum. Bilgi almak istiyorum.', 'hint' => 'Mesajı yazılmamış her WhatsApp bağlantısında (footer, iletişim sayfası) sohbet bu metinle açılır. Ürünlerden açılan WhatsApp mesajı Ürün Sayfaları › WhatsApp ve Teklif bölümündedir.' ),
 					),
 				),
@@ -820,6 +841,7 @@ $manifest_data = array(
 						'empty_title'        => array( 'label' => 'Ürün Yoksa Başlık — {ad} sayfa adı', 'type' => 'text', 'default' => '{ad} için listelenmiş ürün yok' ),
 						'empty_text'         => array( 'label' => 'Ürün Yoksa Metin', 'type' => 'textarea', 'default' => 'Bu kategorideki ürünleri siparişe göre hazırlıyoruz. Ölçü ve adedi yazın, yazılı teklif gönderelim.' ),
 						'empty_cta'          => array( 'label' => 'Ürün Yoksa Buton', 'type' => 'text', 'default' => 'Teklif isteyin' ),
+						'faq_title'          => array( 'label' => 'Kategori Sayfası: Soru-Cevap Başlığı (ürünlerin altında)', 'type' => 'text', 'default' => 'Sık sorulan sorular', 'hint' => 'Soruların kendisi Ürün Havuzu › Kategoriler › kategori › “Sık sorulan sorular”dan yazılır; sorusu olmayan kategoride bu bölüm görünmez.' ),
 					),
 				),
 			),
@@ -1306,6 +1328,10 @@ $manifest_data = array(
 						'related_group' => array( 'label' => 'Benzer Ürünler Başlığı (grup) — {grup} grubun adı olur', 'type' => 'text', 'default' => '{grup} grubunda diğer ürünler' ),
 						'see_all'       => array( 'label' => 'Tümünü Gör Bağlantısı', 'type' => 'text', 'default' => 'Tümünü gör' ),
 
+						// Akordeonun altinda: urunun kategorisinin ilk uc sorusu (Ürün Havuzu -> Kategoriler).
+						'faq_title'     => array( 'label' => 'Akordeonun altı: kategori soruları başlığı', 'type' => 'text', 'default' => 'Sık sorulan sorular', 'hint' => 'Ürünün kategorisinde soru varsa ilk üçü burada görünür; yoksa yerine SSS sayfasına bağlantı çıkar.' ),
+						'faq_all'       => array( 'label' => 'Akordeonun altı: kategorinin bütün sorularına bağlantı', 'type' => 'text', 'default' => 'Tüm sorular' ),
+
 						// Galerinin altindaki akordeon: uc panel, ayni anda biri acik.
 						'tab_specs'     => array( 'label' => 'Akordeon 1. başlık (ürün kodu ve teknik detaylar)', 'type' => 'text', 'default' => 'Teknik Detaylar' ),
 						'code_label'    => array( 'label' => 'Akordeon 1: ilk satır (ürün kodu)', 'type' => 'text', 'default' => 'Ürün kodu' ),
@@ -1559,6 +1585,119 @@ $manifest_data = array(
 						'query'      => array( 'label' => 'Harita Konumu (adres olarak yazın)', 'type' => 'text', 'default' => 'Kestanelik Mahallesi, Çatalca, İstanbul' ),
 						'coords'     => array( 'label' => 'Koordinat (enlem,boylam — doldurulursa adres yerine bu kullanılır)', 'type' => 'text', 'default' => '41.2311136,28.5012366' ), // KOÇİST Kereste, Orman Ürünleri ve İnşaat Malzemeleri
 						'link_label' => array( 'label' => 'Yol Tarifi Buton Metni', 'type' => 'text', 'default' => 'Yol tarifi al' ),
+					),
+				),
+			),
+		),
+
+		/*
+		 * Urun aramasi (/arama/?ara=..., inc/search.php). Sonuc sayfasi arama
+		 * motorlarina kapali (noindex, follow) ve site haritasinda yok.
+		 * {terim} aranan metin, {sayi} sonuc sayisi olur.
+		 */
+		'arama' => array(
+			'label'      => 'Arama Sayfası',
+			'path'       => '/arama/',
+			// Gizli: sekme listesinde yok, "Sayfa bul" ile acilir; SEO listelerine (llms.txt) girmez.
+			'hidden'     => true,
+			'components' => array(
+				'head' => array(
+					'label'  => 'Sayfa Başlığı',
+					'fields' => array(
+						'crumb' => array( 'label' => 'Yol göstergesindeki adı', 'type' => 'text', 'default' => 'Arama' ),
+						'title' => array( 'label' => 'Başlık (arama yapılmadan)', 'type' => 'text', 'default' => 'Ürün arayın' ),
+						'found' => array( 'label' => 'Başlık (sonuç varsa) — {terim}, {sayi}', 'type' => 'text', 'default' => '‘{terim}’ için {sayi} ürün' ),
+						'lead'  => array( 'label' => 'Alt metin', 'type' => 'textarea', 'default' => 'Ürün kodunu, adını ya da kategorisini yazın. Türkçe karakter, boşluk ve tire fark etmez: “adrk” ile “ADR-K” aynı sonucu verir.' ),
+					),
+				),
+				'results' => array(
+					'label'  => 'Sonuçlar',
+					'fields' => array(
+						'short_term' => array( 'label' => 'Terim çok kısaysa', 'type' => 'text', 'default' => 'En az 2 harf ya da rakam yazın.' ),
+						'limit_note' => array( 'label' => 'Sonuç çoksa not — {sayi} gösterilen sonuç sayısı', 'type' => 'text', 'default' => 'İlk {sayi} sonuç gösteriliyor. Daha az sonuç için kodu ya da adı daha uzun yazın.' ),
+						'empty_title' => array( 'label' => 'Sonuç yoksa başlık — {terim}', 'type' => 'text', 'default' => '‘{terim}’ için sonuç bulunamadı' ),
+						'empty_text'  => array( 'label' => 'Sonuç yoksa metin', 'type' => 'textarea', 'default' => 'Kodu kısaltarak ya da ürünün adıyla tekrar arayın. Aradığınız ürün listede yoksa ölçü ve adedi yazın; tedarik edip teklif gönderelim.' ),
+						'contact_label' => array( 'label' => 'Sonuç yoksa: iletişim bağlantısı', 'type' => 'text', 'default' => 'Bize yazın' ),
+						'wa_label'    => array( 'label' => 'Sonuç yoksa: WhatsApp bağlantısı', 'type' => 'text', 'default' => 'WhatsApp’tan sorun' ),
+						'wa_msg'      => array( 'label' => 'Sonuç yoksa: WhatsApp hazır mesajı — {terim}', 'type' => 'textarea', 'default' => 'Merhaba, Koçist web sitesinde “{terim}” aradım ama bulamadım. Bu ürün için bilgi almak istiyorum.' ),
+						'all_label'   => array( 'label' => 'Tüm kategoriler bağlantısı', 'type' => 'text', 'default' => 'Tüm ürün kategorileri' ),
+					),
+				),
+			),
+		),
+
+		/*
+		 * Teklif sepeti (/teklif-sepeti/, inc/basket.php). Siparis ve odeme
+		 * yok: ziyaretci urunleri toplayip tek seferde fiyat ister (e-posta ile
+		 * "Teklif Talepleri"ne ya da WhatsApp'tan). Sayfa arama motorlarina
+		 * kapali ve site haritasinda yok.
+		 */
+		'teklif' => array(
+			'label'      => 'Teklif Sepeti',
+			'path'       => '/teklif-sepeti/',
+			// Gizli: sekme listesinde yok, "Sayfa bul" ile acilir; SEO listelerine (llms.txt) girmez.
+			'hidden'     => true,
+			'components' => array(
+				'add' => array(
+					'label'  => 'Ürün Sayfasında: Sepete Ekleme',
+					'fields' => array(
+						'qty_label'  => array( 'label' => 'Adet etiketi', 'type' => 'text', 'default' => 'Adet' ),
+						'qty_less'   => array( 'label' => 'Adet azalt düğmesi (ekran okuyucu için)', 'type' => 'text', 'default' => 'Adedi azalt' ),
+						'qty_more'   => array( 'label' => 'Adet artır düğmesi (ekran okuyucu için)', 'type' => 'text', 'default' => 'Adedi artır' ),
+						'button'     => array( 'label' => 'Ekle butonu', 'type' => 'text', 'default' => 'Teklif sepetine ekle' ),
+						'hint'       => array( 'label' => 'Butonun altındaki not', 'type' => 'text', 'default' => 'Birden çok ürünü sepete ekleyip tek talepte fiyat isteyebilirsiniz.' ),
+						'added'      => array( 'label' => 'Eklenince — {adet} bu ürünün sepetteki adedi olur', 'type' => 'text', 'default' => 'Teklif sepetine eklendi: bu üründen {adet} adet.', 'hint' => 'Üst menüdeki rakam ürün çeşidi sayısıdır; buradaki adet yalnızca bu ürünün.' ),
+						'go'         => array( 'label' => 'Eklenince: sepete git bağlantısı', 'type' => 'text', 'default' => 'Sepete git' ),
+						'full'       => array( 'label' => 'Sepet doluysa — {sayi} en fazla ürün sayısı', 'type' => 'text', 'default' => 'Teklif sepeti dolu: en fazla {sayi} ürün eklenebilir. Önce sepettekiler için teklif isteyin ya da bazı ürünleri çıkarın.' ),
+						'no_cookie'  => array( 'label' => 'Eklenemediyse (çerez kapalı)', 'type' => 'text', 'default' => 'Ürün sepete eklenemedi: tarayıcınız çerezleri engelliyor olabilir. Çerezlere izin verin ya da bu sayfadaki teklif formunu kullanın.' ),
+					),
+				),
+				'head' => array(
+					'label'  => 'Sayfa Başlığı',
+					'fields' => array(
+						'crumb' => array( 'label' => 'Yol göstergesindeki adı', 'type' => 'text', 'default' => 'Teklif sepeti' ),
+						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Teklif sepeti' ),
+						'lead'  => array( 'label' => 'Alt metin', 'type' => 'textarea', 'default' => 'Seçtiğiniz ürünler için tek seferde fiyat isteyin. Bu bir sipariş değildir; ödeme alınmaz.' ),
+					),
+				),
+				'list' => array(
+					'label'  => 'Ürün Listesi',
+					'fields' => array(
+						'count'        => array( 'label' => 'Ürün sayısı — {sayi}', 'type' => 'text', 'default' => 'Sepette {sayi} ürün' ),
+						'price_quote'  => array( 'label' => 'Fiyatı olmayan üründe', 'type' => 'text', 'default' => 'Fiyat teklifle' ),
+						'remove'       => array( 'label' => 'Satırı çıkar butonu', 'type' => 'text', 'default' => 'Çıkar' ),
+						'update'       => array( 'label' => 'Adetleri kaydet butonu (betik kapalıyken görünür)', 'type' => 'text', 'default' => 'Adetleri güncelle' ),
+						'clear'        => array( 'label' => 'Sepeti temizle butonu', 'type' => 'text', 'default' => 'Sepeti temizle' ),
+						'clear_ask'    => array( 'label' => 'Sepeti temizle: onay sorusu', 'type' => 'text', 'default' => 'Sepetteki bütün ürünler çıkarılsın mı?' ),
+						'more'         => array( 'label' => 'Ürün eklemeye devam bağlantısı', 'type' => 'text', 'default' => 'Ürün eklemeye devam edin' ),
+						'removed'      => array( 'label' => 'Sitede olmayan ürün çıkarıldıysa — {sayi}', 'type' => 'text', 'default' => '{sayi} ürün artık sitede olmadığı için sepetten çıkarıldı.' ),
+						'empty_title'  => array( 'label' => 'Sepet boşsa başlık', 'type' => 'text', 'default' => 'Teklif sepetiniz boş' ),
+						'empty_text'   => array( 'label' => 'Sepet boşsa metin', 'type' => 'textarea', 'default' => 'Ürün sayfalarındaki “Teklif sepetine ekle” butonuyla ürün ekleyin; sonra hepsi için tek seferde fiyat isteyin.' ),
+						'empty_cta'    => array( 'label' => 'Sepet boşsa buton', 'type' => 'text', 'default' => 'Ürün kategorilerine git' ),
+					),
+				),
+				'send' => array(
+					'label'  => 'Teklif İsteme (E-posta ve WhatsApp)',
+					'fields' => array(
+						'title'         => array( 'label' => 'Bölüm başlığı', 'type' => 'text', 'default' => 'Teklif isteyin' ),
+						'wa_title'      => array( 'label' => 'WhatsApp: başlık', 'type' => 'text', 'default' => 'WhatsApp ile gönderin' ),
+						'wa_text'       => array( 'label' => 'WhatsApp: açıklama', 'type' => 'textarea', 'default' => 'Ürün listesi hazır bir mesaj olarak açılır; göndermeden önce ölçü ve teslim yerini ekleyebilirsiniz.' ),
+						'wa_button'     => array( 'label' => 'WhatsApp: buton', 'type' => 'text', 'default' => 'WhatsApp’tan gönder' ),
+						'wa_intro'      => array( 'label' => 'WhatsApp: mesajın ilk satırı', 'type' => 'textarea', 'default' => 'Merhaba, Koçist web sitesinden şu ürünler için fiyat teklifi istiyorum:' ),
+						'wa_line'       => array( 'label' => 'WhatsApp ve e-posta: ürün satırı — {kod}, {urun}, {adet}', 'type' => 'text', 'default' => '{kod} – {urun} – {adet} adet', 'hint' => 'Kodu olmayan üründe {kod} kendiliğinden çıkar. Ürün sayfasının adresi, sığdığı sürece satırın altına eklenir.' ),
+						'wa_more'       => array( 'label' => 'WhatsApp: liste uzunsa son satır — {sayi}', 'type' => 'text', 'default' => '+{sayi} ürün daha' ),
+						'mail_title'    => array( 'label' => 'E-posta: başlık', 'type' => 'text', 'default' => 'E-posta ile gönderin' ),
+						'mail_text'     => array( 'label' => 'E-posta: açıklama', 'type' => 'textarea', 'default' => 'Bilgilerinizi yazın; yazılı teklifimizi e-posta ya da telefonla iletelim.' ),
+						'contact_hint'  => array( 'label' => 'E-posta: telefon ve e-posta notu', 'type' => 'text', 'default' => 'Telefon ya da e-postadan biri yeterli.' ),
+						'company_label' => array( 'label' => 'E-posta: firma etiketi', 'type' => 'text', 'default' => 'Firma (isteğe bağlı)' ),
+						'note_label'    => array( 'label' => 'E-posta: not etiketi', 'type' => 'text', 'default' => 'Not (isteğe bağlı)' ),
+						'note_ph'       => array( 'label' => 'E-posta: not ipucu', 'type' => 'text', 'default' => 'Ölçü, teslim yeri, istenen tarih gibi ayrıntılar' ),
+						'submit'        => array( 'label' => 'E-posta: gönder butonu', 'type' => 'text', 'default' => 'Teklif talebini gönder' ),
+						'success_title' => array( 'label' => 'Gönderilince: başlık', 'type' => 'text', 'default' => 'Talebiniz alındı' ),
+						'success_text'  => array( 'label' => 'Gönderilince: metin', 'type' => 'textarea', 'default' => 'Ürün listeniz bize ulaştı. En kısa sürede yazılı teklifle size dönüş yapacağız.' ),
+						'mail_error'    => array( 'label' => 'Bildirim e-postası gidemediyse', 'type' => 'textarea', 'default' => 'Talebiniz kaydedildi ama bize bildirim e-postası gönderilemedi. Gecikmemesi için ürün listesini WhatsApp’tan da gönderin ya da bizi arayın.' ),
+						'save_error'    => array( 'label' => 'Talep kaydedilemediyse', 'type' => 'textarea', 'default' => 'Talebiniz kaydedilemedi. Lütfen tekrar deneyin ya da ürün listesini WhatsApp’tan gönderin.' ),
+						'empty_error'   => array( 'label' => 'Sepet boşken gönderilirse', 'type' => 'text', 'default' => 'Teklif sepetiniz boş: önce ürün ekleyin.' ),
 					),
 				),
 			),

@@ -5,7 +5,9 @@
  * Ust bolum canlidaki (kocist.com.tr/urun/...) duzen: solda buyuk galeri,
  * sagda teklif formu. Galerinin altinda WOOD KOCIST'teki akordeon: Teknik
  * Detaylar, Urun Aciklamasi, Lojistik ve Teslimat. Veri yuvalari iki sitede
- * ayni havuz alanlarindan dolar (PLAN-kocist-urun-sayfasi.md §2).
+ * ayni havuz alanlarindan dolar (PLAN-kocist-urun-sayfasi.md §2). Akordeonun
+ * son satiri urunun kategorisinin ilk uc sorusu ve "Tüm sorular"; kategoride
+ * soru yoksa grubun SSS'sine baglanti (sections/product-faq-link.php).
  *
  * Kaynak sirasi = telefondaki sira (okuma ve klavye sirasi ayni):
  * galeri → ad / fiyat / kisa aciklama → akordeon → teklif formu.
@@ -18,6 +20,16 @@
  * resmi ana fotografin ustunde oynat isareti; secilince sahnede oynar.
  * <video> sayfaya <template> icinde gelir, ziyaretci secmeden hicbir sey
  * indirilmez. Fotografi olmayan urunde sahnenin kendisi videodur.
+ *
+ * Renk grubundaki urunde (Ürün Havuzu -> Kategoriler -> Renk grupları) adin
+ * altinda "Renk: Antrasit" ve her rengin bu sitedeki sayfasina giden yuvarlak
+ * baglantilar (nwcs_color_options). Bulunulan renk aria-current="page" ve
+ * halkali; renk adi fareyle ve odakla gorunur. Sitede tek renk gorunuyorsa
+ * hicbiri basilmaz.
+ *
+ * Adin ve fiyatin altinda adet ve "Teklif sepetine ekle" (inc/basket.php):
+ * birden cok urun icin tek talep. Tek urunluk teklif formu ve WhatsApp
+ * dugmesi yerinde kalir.
  *
  * Form inc/form.php'ye gider (kayit + e-posta bildirimi); basari ya da hata
  * ayni sayfaya #teklif-formu ile doner. Galeri ve akordeon assets/js/product.js,
@@ -65,10 +77,15 @@ $slides       = count( $images ) + ( $video && $has_photos ? 1 : 0 );
 $wa_panel = (string) nwcs_field( 'product', 'main', 'secondary_url' );
 $wa_href  = kocist_is_whatsapp_url( $wa_panel ) ? kocist_product_wa_url( $product, $wa_panel ) : kocist_link( $wa_panel );
 
-// Ayni kategorideki (yoksa ayni gruptaki) diger urunler, en fazla dort.
+// Renk secenekleri: urun bir renk grubundaysa ve sitede en az iki rengi gorunuyorsa.
+$colors = function_exists( 'nwcs_color_options' ) ? nwcs_color_options( (int) $product['id'] ) : array();
+
+// Ayni kategorideki (yoksa ayni gruptaki) diger urunler, en fazla dort. Ayni
+// urunun diger renkleri seritte yer almaz (renk dugmeleri onlari gosteriyor).
 $related       = array();
 $related_head  = '';
 $related_scope = $category;
+$same_product  = function_exists( 'nwcs_color_member_ids' ) ? nwcs_color_member_ids( (int) $product['id'] ) : array( (int) $product['id'] );
 
 if ( $group ) {
 	$pool = $sub ? kocist_catalog_products_in( $group['slug'], $sub['slug'] ) : array();
@@ -84,7 +101,7 @@ if ( $group ) {
 	}
 
 	$related = array_slice(
-		array_values( array_filter( $pool, static fn( array $item ): bool => $item['id'] !== $product['id'] ) ),
+		array_values( array_filter( $pool, static fn( array $item ): bool => ! in_array( (int) $item['id'], $same_product, true ) ) ),
 		0,
 		4
 	);
@@ -225,6 +242,22 @@ get_header();
 
 			<h1 class="k-product__title k-pp__title" <?php kocist_product_attr( $product, 'Ürün adı' ); ?>><?php echo esc_html( $product['title'] ); ?></h1>
 
+			<?php if ( $colors ) : ?>
+				<?php // Her yuvarlak o rengin kendi sayfasi; renk adi baglantinin metni (fareyle ve odakla gorunur). ?>
+				<div class="k-swatch" role="group" aria-labelledby="k-swatch-label">
+					<p class="k-swatch__label" id="k-swatch-label"><?php echo esc_html( $colors['label'] ); ?>: <strong><?php echo esc_html( $colors['name'] ); ?></strong></p>
+					<ul class="k-swatch__list">
+						<?php foreach ( $colors['colors'] as $color ) : ?>
+							<li class="k-swatch__item">
+								<a class="k-swatch__dot<?php echo $color['current'] ? ' is-current' : ''; ?><?php echo $color['light'] ? ' is-light' : ''; ?>" href="<?php echo esc_url( $color['url'] ); ?>" style="<?php echo esc_attr( '--k-swatch:' . ( '' !== $color['hex'] ? $color['hex'] : '#ffffff' ) ); ?>"<?php echo $color['current'] ? ' aria-current="page"' : ''; ?>>
+									<span class="k-swatch__name"><?php echo esc_html( $color['name'] ); ?></span>
+								</a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</div>
+			<?php endif; ?>
+
 			<div class="k-pp__price">
 				<?php if ( $product['has_price'] ) : ?>
 					<p class="k-pp__amount" <?php kocist_product_attr( $product, 'Fiyat' ); ?>><?php echo esc_html( $product['price'] ); ?></p>
@@ -240,6 +273,9 @@ get_header();
 			<?php if ( '' !== trim( (string) $product['short'] ) ) : ?>
 				<p class="k-product__subtitle k-pp__short" <?php kocist_product_attr( $product, 'Kısa açıklama' ); ?>><?php echo esc_html( $product['short'] ); ?></p>
 			<?php endif; ?>
+
+			<?php // Adet + "Teklif sepetine ekle" (fiyatli ya da fiyatsiz her urun; inc/basket.php). Asagidaki tek urunluk teklif formu ve WhatsApp yerinde kalir. ?>
+			<?php kocist_basket_add_form( $product ); ?>
 
 			<?php // Telefonda form akordeonun altinda: burada oraya goturen baglanti (masaustunde gizli). ?>
 			<p class="k-pp__jump">
@@ -330,7 +366,8 @@ get_header();
 				</div>
 			<?php endforeach; ?>
 
-			<?php kocist_section( 'product-faq-link', array( 'group' => $group['slug'] ?? '' ) ); ?>
+			<?php // Son satir: kategorinin ilk uc sorusu ve "Tüm sorular"; kategoride soru yoksa grubun SSS'sine baglanti. ?>
+			<?php kocist_section( 'product-faq-link', array( 'group' => $group['slug'] ?? '', 'category' => $sub ) ); ?>
 		</div>
 
 		<div class="k-pp__form" id="teklif-formu">
@@ -430,7 +467,8 @@ get_header();
 								<?php echo kocist_image_tag( kocist_product_image( $item ), 'k-pcard__img', 'Örnek görsel' ); // phpcs:ignore WordPress.Security.EscapingOutput ?>
 							</span>
 							<span class="k-pcard__body">
-								<span class="k-pcard__title" <?php kocist_product_attr( $item, 'Ürün adı' ); ?>><?php echo esc_html( $item['title'] ); ?></span>
+								<span class="k-pcard__title" <?php kocist_product_attr( $item, 'Ürün adı' ); ?>><?php echo esc_html( kocist_card_title( $item ) ); ?></span>
+								<?php kocist_card_colors( $item, 'k-pcard__colors' ); ?>
 								<span class="k-pcard__foot">
 									<?php if ( $item['has_price'] ) : ?>
 										<span class="k-pcard__price" <?php kocist_product_attr( $item, 'Fiyat' ); ?>><?php echo esc_html( $item['price_label'] ); ?></span>

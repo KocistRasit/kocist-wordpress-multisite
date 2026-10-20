@@ -35,7 +35,7 @@ $submenu = static function ( array $item, string $prefix ) use ( $tree, $corpora
 					</div>
 				<?php endforeach; ?>
 			</div>
-			<a class="wk-mega__all" href="<?php echo esc_url( wk_shop_url() ); ?>" <?php nwcs_edit_attr( 'global', 'header', 'mega_all' ); ?>><?php echo esc_html( nwcs_field( 'global', 'header', 'mega_all' ) ); ?> <span class="wk-num">(<?php echo count( wk_products() ); ?>)</span></a>
+			<a class="wk-mega__all" href="<?php echo esc_url( wk_shop_url() ); ?>" <?php nwcs_edit_attr( 'global', 'header', 'mega_all' ); ?>><?php echo esc_html( nwcs_field( 'global', 'header', 'mega_all' ) ); ?> <span class="wk-num">(<?php echo (int) wk_card_count(); ?>)</span></a>
 		</div>
 		<?php
 	elseif ( 'about' === $item['kind'] && $corporate ) :

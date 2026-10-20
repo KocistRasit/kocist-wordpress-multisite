@@ -865,9 +865,25 @@ function nwcs_seo_graph( array $context ): array {
 	if ( 'post' === $context['kind'] ) {
 		$graph[] = nwcs_seo_article( $context, $org_id, $page_id, $language );
 	} elseif ( 'Product' === $context['schema'] ) {
-		$graph[] = nwcs_seo_product( $context, $org_id, $page_id );
-	} elseif ( 'FAQPage' === $context['schema'] ) {
-		$faq = nwcs_seo_faq( $context['page_key'] );
+		$product = nwcs_seo_product( $context, $org_id, $page_id );
+		// Renk grubundaki urun: kendi rengi ve grubu (ProductGroup, sitedeki
+		// renkleriyle). Her renk sayfasi kendi adresinde ve canonical'inda kalir.
+		$colors = function_exists( 'nwcs_color_seo' ) ? nwcs_color_seo( $context ) : array();
+
+		if ( $colors ) {
+			$graph[] = $product + $colors['product'];
+			$graph[] = $colors['group'] + array( 'brand' => array( '@id' => $org_id ) );
+		} else {
+			$graph[] = $product;
+		}
+	} else {
+		// Soru-cevap: sitenin SSS sayfasi (FAQPage) ya da kategori sayfasinin
+		// kendi sorulari (Ürün Havuzu -> Kategoriler -> Sık sorulan sorular,
+		// includes/category-faq.php). Ikisi ayni sayfada olmaz; urun sayfasinda
+		// hic yok. Sayfa dugumu tek kalir: WebPage + FAQPage.
+		$faq = 'FAQPage' === $context['schema']
+			? nwcs_seo_faq( $context['page_key'] )
+			: ( function_exists( 'nwcs_cat_faq_for_context' ) ? nwcs_cat_faq_for_context( $context ) : array() );
 
 		if ( $faq ) {
 			// Sayfanin kendisi soru-cevap sayfasi: WebPage yerine FAQPage.
@@ -875,10 +891,10 @@ function nwcs_seo_graph( array $context ): array {
 			$graph[ array_key_last( $graph ) ]['mainEntity'] = array_map(
 				static fn( array $item ): array => array(
 					'@type'          => 'Question',
-					'name'           => $item['question'],
+					'name'           => nwcs_seo_clean( $item['question'] ),
 					'acceptedAnswer' => array(
 						'@type' => 'Answer',
-						'text'  => $item['answer'],
+						'text'  => nwcs_seo_clean( $item['answer'] ),
 					),
 				),
 				$faq
@@ -1451,6 +1467,11 @@ function nwcs_seo_llms_text(): string {
 				$lines[] = '- ' . $item['question'] . ' ' . $item['answer'];
 			}
 		}
+	}
+
+	// Kategori sayfalarinin kendi sorulari (kategori basligi ve sayfasinin #sss capasiyla).
+	if ( function_exists( 'nwcs_cat_faq_llms_lines' ) ) {
+		$lines = array_merge( $lines, nwcs_cat_faq_llms_lines() );
 	}
 
 	$posts = get_posts(

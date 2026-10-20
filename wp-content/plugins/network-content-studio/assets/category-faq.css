@@ -1,0 +1,94 @@
+/* Sık sorulan sorular (Ürün Havuzu › Kategoriler › kategori).
+   Renkler ve ölçüler admin.css'teki panelle aynı (--nwcs-*). */
+
+/* Gizli ogeler gizli kalsin: sinif kurallari tarayicinin [hidden] kuralini ezmesin. */
+.nwcs-faqs [hidden] { display: none !important; }
+
+.nwcs-faqs__lead { font-size: 12.5px; max-width: 86ch; margin: 0 0 10px; }
+.nwcs-faqs__nosite { font-size: 12.5px; max-width: 86ch; margin: 0 0 6px; }
+.nwcs-faqs__empty { margin: 8px 0 0; padding: 10px 12px; border-radius: 8px; background: var(--nwcs-soft); font-size: 13px; }
+.nwcs-faqs__notice { margin: 0 0 12px !important; }
+.nwcs-faqs__notice ul { margin: 2px 0 4px 18px; list-style: disc; }
+.nwcs-faqs__notice li { margin: 2px 0; }
+.nwcs-faqs__default { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* Site sekmeleri */
+.nwcs-faqs__tabs {
+	display: flex; flex-wrap: wrap; gap: 4px;
+	margin: 12px 0 0; padding: 0 0 0 2px;
+	border-bottom: 1px solid var(--nwcs-line);
+}
+.nwcs-faqs__tab {
+	display: inline-flex; align-items: center; gap: 8px;
+	min-height: 40px; margin-bottom: -1px; padding: 8px 14px;
+	border: 1px solid transparent; border-bottom: 0; border-radius: 8px 8px 0 0;
+	color: var(--nwcs-muted); font-size: 13px; font-weight: 600; text-decoration: none;
+}
+.nwcs-faqs__tab:hover { color: var(--nwcs-brand-dark); background: var(--nwcs-soft); }
+.nwcs-faqs__tab.is-active {
+	background: #fff; color: var(--nwcs-ink);
+	border-color: var(--nwcs-line); box-shadow: inset 0 2px 0 var(--nwcs-brand);
+}
+.nwcs-faqs__tab:focus { box-shadow: none; }
+.nwcs-faqs__tab:focus-visible { outline: 2px solid var(--nwcs-brand); outline-offset: 2px; }
+.nwcs-faqs__tab.is-active:focus-visible { box-shadow: inset 0 2px 0 var(--nwcs-brand); }
+.nwcs-faqs__badge {
+	padding: 1px 8px; border-radius: 999px; background: var(--nwcs-soft);
+	color: var(--nwcs-muted); font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums;
+}
+
+.nwcs-faqs__panel {
+	position: relative;
+	padding: 14px 16px 16px;
+	border: 1px solid var(--nwcs-line); border-top: 0; border-radius: 0 0 10px 10px; background: #fff;
+}
+.nwcs-faqs__panel:focus { outline: none; }
+.nwcs-faqs__panel:focus-visible { outline: 2px solid var(--nwcs-brand); outline-offset: -2px; }
+
+/* Soru satırları */
+.nwcs-faqs__list { margin: 0; padding: 0; list-style: none; }
+.nwcs-faqs__row {
+	display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 8px 12px;
+	margin: 0; padding: 12px 0; border-bottom: 1px solid var(--nwcs-line);
+}
+.nwcs-faqs__row:first-child { padding-top: 4px; }
+.nwcs-faqs__row.is-new .nwcs-faqs__n { color: var(--nwcs-brand-dark); }
+.nwcs-faqs__row.is-invalid { background: #fdf6ea; }
+.nwcs-faqs__row.is-moved { background: var(--nwcs-brand-soft); transition: background-color .6s ease; }
+
+.nwcs-faqs__side { display: flex; flex-direction: column; align-items: center; gap: 6px; padding-top: 2px; }
+.nwcs-faqs__n { min-width: 25px; font-size: 13px; font-weight: 700; line-height: 25px; text-align: center; color: var(--nwcs-ink); font-variant-numeric: tabular-nums; }
+.nwcs-faqs__side .nwcs-move:disabled { opacity: .3; cursor: default; }
+
+.nwcs-faqs__fields { min-width: 0; }
+.nwcs-faqs__fields .nwcs-sublabel:first-child { margin-top: 0; }
+.nwcs-faqs__fields .nwcs-input { width: 100%; max-width: 72ch; margin: 0; }
+.nwcs-faqs__fields .nwcs-input[aria-invalid="true"] { border-color: #b32d2e; box-shadow: 0 0 0 1px #b32d2e; }
+.nwcs-faqs__warn { margin: 6px 0 0; font-size: 12.5px; line-height: 1.45; color: var(--nwcs-amber); }
+.nwcs-faqs__err { display: block; margin: 4px 0 0; font-size: 12.5px; font-weight: 600; color: #b32d2e; }
+.nwcs-faqs__out { padding-top: 20px; white-space: nowrap; }
+.nwcs-faqs__out .button-link { min-height: 30px; }
+
+.nwcs-faqs__status { min-height: 1.2em; margin: 8px 0 0; font-size: 13px; color: var(--nwcs-brand-dark); }
+.nwcs-faqs__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.nwcs-faqs__actions .nwcs-faqs__count { margin: 0; font-size: 12.5px; }
+.nwcs-faqs__view { font-size: 13px; }
+
+/* Kategori başlığındaki "SSS: 4 soru" */
+.nwcs-cat__faq { color: var(--nwcs-brand-dark); text-decoration: none; white-space: nowrap; }
+.nwcs-cat__faq:hover, .nwcs-cat__faq:focus { text-decoration: underline; }
+
+/* Dar ekran: satırlar alt alta, yatay kaydırma yok, dokunma alanı 44px */
+@media (max-width: 782px) {
+	.nwcs-faqs__panel { padding: 12px; }
+	.nwcs-faqs__tab { min-height: 44px; }
+	.nwcs-faqs__row { grid-template-columns: 44px minmax(0, 1fr); }
+	.nwcs-faqs__side .nwcs-move { width: 44px; height: 44px; font-size: 16px; }
+	.nwcs-faqs__out { grid-column: 2; padding-top: 0; }
+	.nwcs-faqs__out .button-link { min-height: 44px; }
+	.nwcs-faqs__actions .button { min-height: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.nwcs-faqs__row.is-moved { transition-duration: .01ms; }
+}

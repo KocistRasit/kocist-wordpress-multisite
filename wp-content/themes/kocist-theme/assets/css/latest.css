@@ -148,6 +148,20 @@
 	color: var(--forest-3);
 }
 
+/* Renk grubu: "3 renk". */
+.k-latest__colors {
+	align-self: flex-start;
+	margin-top: 8px;
+	padding: 2px 10px;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: var(--paper-2);
+	color: var(--forest);
+	font-size: 12.5px;
+	font-weight: 700;
+	line-height: 1.5;
+}
+
 .k-latest__spec {
 	margin-top: 6px;
 	font-size: 14px;

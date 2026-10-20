@@ -4,8 +4,8 @@
  *
  * Kategori Excel'i (urunler), Ürün açıklamaları (aciklamalar), kategori
  * yerlesimi (yerlesim), kategori silme (kategori), Fotograf Kutusu
- * (fotograflar) ve Medya Havuzu alt metin Excel'i (alt) her uygulamada bir kayit
- * birakir. En yeni en ustte;
+ * (fotograflar), Medya Havuzu alt metin Excel'i (alt), renk gruplari (renk)
+ * ve kategori sorulari (sss) her uygulamada bir kayit birakir. En yeni en ustte;
  * en fazla NWCS_HISTORY_MAX kayit tutulur. Yalnizca en ustteki geri alinir
  * (son giren ilk cikar): sonraki islemler once geri alindigindan "yuklemeden
  * sonra elle duzenlendi" denetimi yanlis alarm vermez.
@@ -191,6 +191,18 @@ function nwcs_history_describe( array $record ): array {
 			$facts = (array) ( $record['facts'] ?? array() );
 			break;
 
+		case 'renk':
+			$what  = (string) ( $record['category'] ?? '' );
+			$kind  = 'renk grubu';
+			$facts = (array) ( $record['facts'] ?? array() );
+			break;
+
+		case 'sss':
+			$what  = (string) ( $record['category'] ?? '' );
+			$kind  = 'sık sorulan sorular';
+			$facts = (array) ( $record['facts'] ?? array() );
+			break;
+
 		case 'fotograflar':
 			$what    = (string) ( $record['category'] ?? '' );
 			$kind    = 'fotoğraflar';
@@ -255,6 +267,14 @@ function nwcs_history_undo( string $id ) {
 
 		case 'alt':
 			$report = nwcs_alt_undo( $top );
+			break;
+
+		case 'renk':
+			$report = nwcs_color_undo( $top );
+			break;
+
+		case 'sss':
+			$report = nwcs_cat_faq_undo( $top );
 			break;
 
 		default:
@@ -373,6 +393,20 @@ function nwcs_category_undelete( array $record ) {
 		update_term_meta( $term_id, NWCS_PLACEMENT_META, $placement );
 	}
 
+	// Renk gruplari terimle birlikte silinmisti; silindigi andaki haliyle geri gelir.
+	$colors = nwcs_color_clean( $record['colors'] ?? array() );
+
+	if ( $colors ) {
+		update_term_meta( $term_id, NWCS_COLOR_META, $colors );
+	}
+
+	// Kategori sorulari da (site basina listeler).
+	$faq = nwcs_cat_faq_clean( $record['faq'] ?? array() );
+
+	if ( $faq ) {
+		update_term_meta( $term_id, NWCS_CAT_FAQ_META, $faq );
+	}
+
 	restore_current_blog();
 
 	nwcs_pool_categories_flush();
@@ -434,6 +468,8 @@ function nwcs_render_history_result(): void {
 			'sites'     => '%d sitenin ürün seçimi eski hâline döndü',
 			'deleted_photos' => '%d fotoğraf dosyası silindi',
 			'alts'      => '%d görselin alt metni eski hâline döndü',
+			'colors'    => '%d kategorinin renk grupları eski hâline döndü',
+			'faq'       => '%d sitenin kategori soruları eski hâline döndü',
 			'addresses' => '%d sayfa adresi eski hâline döndü',
 		) as $field => $format
 	) {
@@ -468,7 +504,7 @@ function nwcs_render_history_card( string $back ): void {
 		<h3 class="nwcs-section__title" id="nwcs-history-title">Son işlemler</h3>
 
 		<?php if ( ! $list ) : ?>
-			<p class="nwcs-hint">Henüz geri alınabilecek bir işlem yok. Excel yüklemeleri, fotoğraf yüklemeleri ve sitelerdeki yerleşim değişiklikleri burada listelenir.</p>
+			<p class="nwcs-hint">Henüz geri alınabilecek bir işlem yok. Excel yüklemeleri, fotoğraf yüklemeleri, renk grupları, kategori soruları ve sitelerdeki yerleşim değişiklikleri burada listelenir.</p>
 		<?php else : ?>
 			<p class="nwcs-hint">En yeniden eskiye. Yalnızca en üstteki geri alınır; daha eskisini geri almak için önce üsttekileri geri alın.</p>
 			<ol class="nwcs-history__list">

@@ -10,9 +10,16 @@
  * urunde "Fiyat icin sorun" + form), yesil "Hizli Siparis" (WhatsApp) ve
  * akordeon: Teknik Detaylar (acik), Urun Aciklamasi, Lojistik ve Teslimat,
  * Musteri Gorusleri. Ayni anda tek panel acik; JavaScript yoksa hepsi acik.
+ * Akordeonun altinda urunun kategorisinin ilk uc sorusu ve kategori
+ * sayfasindaki sorulara (#sss) "Tüm sorular" baglantisi (kategoride soru varsa).
  * Sagda buyuk galeri, kucuk resimler gorselin ustune bindirilmis (yoksa kod
  * plakasi). Gorsel kendi oraninda, cercevesiz; fareyle uzerine gelince
  * imlecin oldugu yer buyur, tiklayinca tam ekran (assets/site.js).
+ *
+ * Renk grubundaki urunde (Ürün Havuzu -> Kategoriler -> Renk grupları) adin
+ * altinda "Renk: Antrasit" ve her rengin bu sitedeki sayfasina giden yuvarlak
+ * baglantilar (nwcs_color_options); bulunulan renk aria-current="page" ve
+ * halkali. Sepet degismez: her renk zaten ayri urun.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -45,11 +52,16 @@ $split = function_exists( 'nwcs_product_split_tables' ) ? nwcs_product_split_tab
 // Mobil WhatsApp cubugu (footer.php) bu urunun mesajini kullansin.
 $GLOBALS['wk_current_product'] = $product;
 
+// Renk secenekleri: urun bir renk grubundaysa ve sitede en az iki rengi gorunuyorsa.
+$colors = function_exists( 'nwcs_color_options' ) ? nwcs_color_options( (int) $product['id'] ) : array();
+
+// Ilgili urunler: kart listesi (renk grubu tek kart); ayni urunun diger renkleri haric.
+$same    = function_exists( 'nwcs_color_member_ids' ) ? nwcs_color_member_ids( (int) $product['id'] ) : array( (int) $product['id'] );
 $related = array_slice(
 	array_values(
 		array_filter(
-			wk_products(),
-			static fn( array $p ): bool => $p['id'] !== $product['id'] && ( ! $group || isset( $p['categories'][ $group['slug'] ] ) )
+			wk_cards( array_filter( wk_products(), static fn( array $p ): bool => ! $group || isset( $p['categories'][ $group['slug'] ] ) ) ),
+			static fn( array $p ): bool => ! in_array( (int) $p['id'], $same, true )
 		)
 	),
 	0,
@@ -59,6 +71,9 @@ $related = array_slice(
 // Icerik Studyosu onizlemesinde dort panel acik baslar: kapali paneldeki alan
 // (Lojistik metni, bos durum metinleri) tiklanip vurgulanabilsin. On yuz etkilenmez.
 $preview = function_exists( 'nwcs_is_preview' ) && nwcs_is_preview();
+
+// Urunun bu sitedeki kategorisinin ilk uc sorusu (Ürün Havuzu -> Kategoriler -> Sık sorulan sorular).
+$faq_rows = $place['child'] && function_exists( 'nwcs_cat_faq_public' ) ? nwcs_cat_faq_public( (string) $place['child']['slug'], null, NWCS_CAT_FAQ_PRODUCT ) : array();
 
 // Akordeon panelleri: kimlik => panel alani (baslik onizlemede bu alani acar).
 $tabs = array(
@@ -138,6 +153,22 @@ get_header();
 
 	<div class="wk-product__info">
 		<h1 class="wk-product__title" <?php wk_product_src( $product, 'Ürün adı' ); ?>><?php echo esc_html( $heading ); ?></h1>
+
+		<?php if ( $colors ) : ?>
+			<?php // Her yuvarlak o rengin kendi sayfasi; renk adi baglantinin metni (fareyle ve odakla gorunur). ?>
+			<div class="wk-swatch" role="group" aria-labelledby="wk-swatch-label">
+				<p class="wk-swatch__label" id="wk-swatch-label"><?php echo esc_html( $colors['label'] ); ?>: <strong><?php echo esc_html( $colors['name'] ); ?></strong></p>
+				<ul class="wk-swatch__list">
+					<?php foreach ( $colors['colors'] as $color ) : ?>
+						<li>
+							<a class="wk-swatch__dot<?php echo $color['current'] ? ' is-current' : ''; ?><?php echo $color['light'] ? ' is-light' : ''; ?>" href="<?php echo esc_url( $color['url'] ); ?>" style="<?php echo esc_attr( '--wk-swatch:' . ( '' !== $color['hex'] ? $color['hex'] : '#ffffff' ) ); ?>"<?php echo $color['current'] ? ' aria-current="page"' : ''; ?>>
+								<span class="wk-swatch__name"><?php echo esc_html( $color['name'] ); ?></span>
+							</a>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+		<?php endif; ?>
 
 		<?php if ( $buy ) : ?>
 			<?php // "5.500 ₺": tutar buyuk, para birimi ve KDV notu kucuk (canlidaki gibi). ?>
@@ -235,6 +266,20 @@ get_header();
 				</div>
 			<?php endforeach; ?>
 		</div>
+
+		<?php if ( $faq_rows ) : ?>
+			<?php // Kategorinin ilk uc sorusu ve kategori sayfasindaki sorulara baglanti; FAQ isareti yalnizca kategori sayfasinda. ?>
+			<section class="wk-faq wk-pfaq" aria-labelledby="wk-pfaq-title">
+				<h2 id="wk-pfaq-title" class="wk-pfaq__title" <?php nwcs_edit_attr( 'product', 'labels', 'faq_title' ); ?>><?php echo esc_html( nwcs_field( 'product', 'labels', 'faq_title' ) ); ?></h2>
+				<?php foreach ( $faq_rows as $faq_row ) : ?>
+					<details class="wk-faq__item"<?php echo $preview ? ' open' : ''; ?>>
+						<summary><span <?php nwcs_cat_faq_attr( (string) $place['child']['slug'] ); ?>><?php echo esc_html( $faq_row['question'] ); ?></span><?php echo wk_icon( 'chevron' ); // phpcs:ignore WordPress.Security.EscapingOutput ?></summary>
+						<div class="wk-faq__answer" <?php nwcs_cat_faq_attr( (string) $place['child']['slug'] ); ?>><?php echo wk_paragraphs( $faq_row['answer'] ); // phpcs:ignore WordPress.Security.EscapingOutput ?></div>
+					</details>
+				<?php endforeach; ?>
+				<p class="wk-pfaq__all"><a href="<?php echo esc_url( $place['child']['url'] . '#sss' ); ?>" <?php nwcs_edit_attr( 'product', 'labels', 'faq_all' ); ?>><?php echo esc_html( nwcs_field( 'product', 'labels', 'faq_all' ) ); ?> <span aria-hidden="true">→</span></a></p>
+			</section>
+		<?php endif; ?>
 	</div>
 </article>
 

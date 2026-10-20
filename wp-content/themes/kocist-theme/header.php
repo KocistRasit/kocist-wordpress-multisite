@@ -24,6 +24,10 @@ foreach ( $menu as $menu_index => $menu_item ) {
 		$menu_panes[ $menu_index ] = $menu_item['children'];
 	}
 }
+
+// Arama ve teklif sepeti (inc/search.php, inc/basket.php): sayfalari acilmadan basilmaz.
+$has_search = kocist_page_ready( 'arama' );
+$has_basket = kocist_page_ready( 'teklif-sepeti' );
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -89,7 +93,7 @@ foreach ( $menu as $menu_index => $menu_item ) {
 </div>
 
 <header class="k-header" data-k-header data-nwcs-section="header">
-	<div class="k-wrap k-header__inner">
+	<div class="k-wrap k-header__inner<?php echo $has_search || $has_basket ? ' k-header__inner--tools' : ''; ?>">
 
 		<a class="k-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
 			<?php if ( ! empty( $logo['url'] ) ) : ?>
@@ -112,6 +116,13 @@ foreach ( $menu as $menu_index => $menu_item ) {
 
 		<nav class="k-nav" id="k-nav" data-k-nav aria-label="Ana menü">
 			<span class="k-nav__indicator" data-k-nav-indicator aria-hidden="true"></span>
+
+			<?php if ( $has_search ) : ?>
+				<?php /* Telefonda cekmecenin basinda arama kutusu (masaustunde gizli; orada ust menudeki dugme acar). */ ?>
+				<div class="k-nav__search">
+					<?php kocist_search_form( 'k-nav-search', 'k-searchform--drawer', '', 'search_region_drawer' ); ?>
+				</div>
+			<?php endif; ?>
 
 			<ul class="k-nav__list">
 				<?php foreach ( $menu as $index => $item ) : ?>
@@ -224,7 +235,45 @@ foreach ( $menu as $menu_index => $menu_item ) {
 				</div>
 			<?php endif; ?>
 		</nav>
+
+		<?php if ( $has_search || $has_basket ) : ?>
+			<div class="k-tools">
+				<?php if ( $has_search ) : ?>
+					<?php
+					/*
+					 * Gercek baglanti: betik yoksa arama sayfasina gider (orada buyuk
+					 * arama kutusu var). Betik varsa (assets/js/teklif.js) asagidaki
+					 * arama kutusunu acip kapatan dugme olur.
+					 */
+					?>
+					<a class="k-tool" href="<?php echo esc_url( kocist_search_url() ); ?>" data-k-search-toggle aria-controls="k-search">
+						<svg class="k-tool__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="8.5" cy="8.5" r="5.5" /><path d="m12.6 12.6 4.4 4.4" /></svg>
+						<span class="screen-reader-text" <?php nwcs_edit_attr( 'global', 'tools', 'search_toggle' ); ?>><?php echo esc_html( nwcs_field( 'global', 'tools', 'search_toggle' ) ); ?></span>
+					</a>
+				<?php endif; ?>
+
+				<?php if ( $has_basket ) : ?>
+					<?php
+					// Sayi betikle cerezden yazilir: sayfa onbellekte kalsa da dogru (inc/basket.php).
+					$basket_label = trim( (string) nwcs_field( 'global', 'tools', 'basket_label' ) );
+					?>
+					<a class="k-tool k-tool--basket<?php echo is_page( 'teklif-sepeti' ) ? ' is-current' : ''; ?>" href="<?php echo esc_url( kocist_basket_url() ); ?>" data-k-basket-link data-path="<?php echo esc_attr( kocist_basket_cookie_path() ); ?>"<?php echo is_page( 'teklif-sepeti' ) ? ' aria-current="page"' : ''; ?> <?php nwcs_edit_attr( 'global', 'tools', 'basket_label' ); ?>>
+						<?php kocist_basket_icon( 'k-tool__icon' ); ?>
+						<span class="screen-reader-text" data-k-basket-sr data-empty="<?php echo esc_attr( $basket_label ); ?>" data-count="<?php echo esc_attr( (string) nwcs_field( 'global', 'tools', 'basket_count' ) ); ?>"><?php echo esc_html( $basket_label ); ?></span>
+						<span class="k-tool__count" data-k-basket-count aria-hidden="true" hidden>0</span>
+					</a>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>
 	</div>
+
+	<?php if ( $has_search ) : ?>
+		<div class="k-search" id="k-search" data-k-search hidden>
+			<div class="k-wrap">
+				<?php kocist_search_form( 'k-search-input', 'k-searchform--bar', '', 'search_region_bar' ); ?>
+			</div>
+		</div>
+	<?php endif; ?>
 </header>
 
 <main id="icerik">

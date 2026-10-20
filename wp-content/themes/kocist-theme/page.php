@@ -3,7 +3,7 @@
  * Sayfa sablonu.
  *
  * Temanin actigi sayfalar (kurumsal, insan-kaynaklari, katalog, banka-bilgilerimiz,
- * iletisim, urun, sss, kvkk)
+ * iletisim, urun, sss, kvkk, arama, teklif-sepeti)
  * manifestteki bilesenlerden cizilir; diger sayfalar normal icerikle.
  */
 
@@ -54,6 +54,12 @@ if ( is_page( 'kurumsal' ) ) {
 	// KVKK aydinlatma metni: manifestteki 'kvkk' bilesenlerinden.
 	kocist_section( 'page-head', array( 'page' => 'kvkk' ) );
 	kocist_section( 'kvkk' );
+} elseif ( is_page( 'arama' ) ) {
+	// Urun aramasi (/arama/?ara=): inc/search.php.
+	get_template_part( 'template-parts/search-page' );
+} elseif ( is_page( 'teklif-sepeti' ) ) {
+	// Teklif sepeti: inc/basket.php.
+	get_template_part( 'template-parts/basket-page' );
 } elseif ( is_page( 'iletisim' ) ) {
 	// Iletisim sayfasi: manifestteki 'contact' bilesenlerinden cizilir.
 	kocist_section( 'contact-main' );

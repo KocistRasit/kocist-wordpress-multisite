@@ -71,6 +71,7 @@ function nwcs_form_field_labels(): array {
 		'phone'   => 'Telefon',
 		'subject' => 'Konu',
 		'product' => 'Ürün',
+		'items'   => 'Ürünler', // Cok urunlu talep (Kocist teklif sepeti): satir satir kod, ad, adet, adres.
 		'size'    => 'Ölçü ve adet',
 		'message' => 'Mesaj',
 	);

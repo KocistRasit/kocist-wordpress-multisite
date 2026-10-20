@@ -190,6 +190,9 @@ function wk_product_place( array $product ): array {
 /**
  * Magaza suzgeci: kategori, arama ve siralama.
  *
+ * Aramasiz listede renk grubu tek kart (wk_cards); aramada her renk ayri
+ * gorunur: kodla arayan dogru urunu bulur.
+ *
  * @return array<int, array<string, mixed>>
  */
 function wk_filter_products( string $category = '', string $search = '', string $sort = '' ): array {
@@ -211,14 +214,17 @@ function wk_filter_products( string $category = '', string $search = '', string 
 	$search = trim( $search );
 
 	if ( '' !== $search ) {
-		$needle   = mb_strtolower( $search );
+		// Turkce harf katlamasi eklentide ortak (nwcs_search_fold, Kocist aramasi
+		// da kullanir): "ÇİVİ" = "çivi" = "civi". Eslestirme eskisi gibi tek parca.
+		$fold     = static fn( string $text ): string => function_exists( 'nwcs_search_fold' ) ? nwcs_search_fold( $text ) : mb_strtolower( $text );
+		$needle   = $fold( $search );
 		$products = array_filter(
 			$products,
-			static fn( array $p ): bool => str_contains( mb_strtolower( $p['code'] . ' ' . $p['title'] . ' ' . implode( ' ', $p['categories'] ) ), $needle )
+			static fn( array $p ): bool => str_contains( $fold( $p['code'] . ' ' . $p['title'] . ' ' . implode( ' ', $p['categories'] ) ), $needle )
 		);
 	}
 
-	$products = array_values( $products );
+	$products = '' === $search ? wk_cards( $products ) : array_values( $products );
 
 	if ( 'fiyat-artan' === $sort || 'fiyat-azalan' === $sort ) {
 		// Fiyati olmayanlar her iki siralamada da sonda kalir.

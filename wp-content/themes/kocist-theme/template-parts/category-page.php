@@ -6,6 +6,7 @@
  *   /kategoriler/<grup>/<kategori>/  tek kategorinin urunleri
  *
  * Grup ve kategori sayfalarinda solda grubun kategori listesi, sagda urunler.
+ * Kategori sayfasinda urunlerin altinda kategorinin kendi sorulari (#sss).
  * Gorunum assets/css/category.css.
  *
  * @var array $args { group: ?array, sub: ?array }
@@ -180,41 +181,13 @@ else :
 			<div class="k-browse__main">
 			<?php if ( $products ) : ?>
 				<ul class="k-plist" <?php if ( $page_key ) { nwcs_edit_attr( $page_key, 'products', 'pool' ); } ?>>
-					<?php foreach ( $products as $product ) : ?>
-						<?php
-						$has_page = kocist_product_has_page( $product );
-						$href     = $has_page ? $product['url'] : kocist_quote_url( $product );
-						$sub_name = $group['subs'][ $product['sub'] ]['name'] ?? '';
-						?>
-						<li class="k-pcard">
-							<a class="k-pcard__link" href="<?php echo esc_url( $href ); ?>">
-								<span class="k-pcard__media" <?php kocist_product_attr( $product, 'Görsel' ); ?>>
-									<?php echo kocist_image_tag( kocist_product_image( $product ), 'k-pcard__img', 'Örnek görsel' ); // phpcs:ignore WordPress.Security.EscapingOutput ?>
-								</span>
-
-								<span class="k-pcard__body">
-									<?php if ( '' !== $sub_name && ! $sub ) : ?>
-										<span class="k-pcard__kind" <?php kocist_sub_edit_attr( $group['subs'][ $product['sub'] ] ); ?>><?php echo esc_html( $sub_name ); ?></span>
-									<?php endif; ?>
-
-									<span class="k-pcard__title" <?php kocist_product_attr( $product, 'Ürün adı' ); ?>><?php echo esc_html( $product['title'] ); ?></span>
-
-									<?php if ( $product['short'] ) : ?>
-										<span class="k-pcard__text" <?php kocist_product_attr( $product, 'Kısa açıklama' ); ?>><?php echo esc_html( $product['short'] ); ?></span>
-									<?php endif; ?>
-
-									<span class="k-pcard__foot">
-										<?php if ( $product['has_price'] ) : ?>
-											<span class="k-pcard__price" <?php kocist_product_attr( $product, 'Fiyat' ); ?>><?php echo esc_html( $product['price_label'] ); ?></span>
-										<?php else : ?>
-											<span class="k-pcard__price is-quote" <?php nwcs_edit_attr( 'kategoriler', 'texts', 'price_quote' ); ?>><?php echo esc_html( nwcs_field( 'kategoriler', 'texts', 'price_quote' ) ); ?></span>
-										<?php endif; ?>
-										<span class="k-pcard__go" <?php nwcs_edit_attr( 'kategoriler', 'texts', $has_page ? 'go_detail' : 'go_quote' ); ?>><?php echo esc_html( nwcs_field( 'kategoriler', 'texts', $has_page ? 'go_detail' : 'go_quote' ) ); ?></span>
-									</span>
-								</span>
-							</a>
-						</li>
-					<?php endforeach; ?>
+					<?php
+					// Kart inc/catalog.php'de (arama sonuclari da ayni karti kullanir);
+					// grup sayfasinda kartta urunun kategorisi yazar.
+					foreach ( $products as $product ) {
+						kocist_product_card( $product, ! $sub );
+					}
+					?>
 				</ul>
 			<?php else : ?>
 				<div class="k-empty">
@@ -229,6 +202,36 @@ else :
 						<?php endif; ?>
 					</div>
 				</div>
+			<?php endif; ?>
+
+			<?php
+			/*
+			 * Kategorinin kendi sorulari (Ürün Havuzu -> Kategoriler -> Sık sorulan
+			 * sorular), urunlerin altinda. Yalnizca sorusu ve cevabi dolu satirlar;
+			 * eklenti ayni sorulari bu sayfada FAQPage olarak isaretler. Urun
+			 * sayfasindaki "Tüm sorular" baglantisi #sss'ye gelir. Acma kapama
+			 * <details>: betik yok (gorunum assets/css/faq.css + category.css).
+			 */
+			$faq_rows = $sub && function_exists( 'nwcs_cat_faq_public' ) ? nwcs_cat_faq_public( (string) $sub['slug'] ) : array();
+			$faq_open = function_exists( 'nwcs_is_preview' ) && nwcs_is_preview();
+			?>
+			<?php if ( $faq_rows ) : ?>
+				<section class="k-catfaq" id="sss" aria-labelledby="sss-baslik">
+					<h2 class="k-catfaq__title" id="sss-baslik" <?php nwcs_edit_attr( 'kategoriler', 'texts', 'faq_title' ); ?>><?php echo esc_html( nwcs_field( 'kategoriler', 'texts', 'faq_title' ) ); ?></h2>
+					<div class="k-sss__list">
+						<?php foreach ( $faq_rows as $faq_row ) : ?>
+							<details class="k-sss__item"<?php echo $faq_open ? ' open' : ''; ?>>
+								<summary class="k-sss__q">
+									<span <?php nwcs_cat_faq_attr( (string) $sub['slug'] ); ?>><?php echo esc_html( $faq_row['question'] ); ?></span>
+									<span class="k-sss__icon" aria-hidden="true"></span>
+								</summary>
+								<div class="k-sss__a" <?php nwcs_cat_faq_attr( (string) $sub['slug'] ); ?>>
+									<?php echo kocist_paragraphs( $faq_row['answer'] ); // phpcs:ignore WordPress.Security.EscapingOutput -- kocist_paragraphs kacisli. ?>
+								</div>
+							</details>
+						<?php endforeach; ?>
+					</div>
+				</section>
 			<?php endif; ?>
 			</div>
 		</div>

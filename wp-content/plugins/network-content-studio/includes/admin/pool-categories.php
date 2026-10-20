@@ -524,6 +524,10 @@ function nwcs_render_category_detail( string $slug, array $term ): void {
 			<?php if ( $sites ) : ?>
 				· <?php echo esc_html( nwcs_category_where( $slug ) ); ?>
 			<?php endif; ?>
+			<?php $faq_fact = nwcs_cat_faq_header_fact( $slug ); ?>
+			<?php if ( '' !== $faq_fact ) : ?>
+				· <a class="nwcs-cat__faq" href="#nwcs-sss"><?php echo esc_html( $faq_fact ); ?></a>
+			<?php endif; ?>
 		</p>
 
 		<section class="nwcs-cat__section" aria-labelledby="nwcs-sec-sites">
@@ -565,6 +569,10 @@ function nwcs_render_category_detail( string $slug, array $term ): void {
 		</section>
 
 		<?php nwcs_render_photo_box( $slug, $products ); ?>
+
+		<?php nwcs_render_color_groups( $slug, $products ); ?>
+
+		<?php nwcs_render_cat_faq( $slug ); ?>
 
 		<section class="nwcs-cat__section" aria-labelledby="nwcs-sec-products">
 			<div class="nwcs-section__bar">
@@ -614,6 +622,7 @@ function nwcs_render_category_detail( string $slug, array $term ): void {
 									<td>
 										<?php echo '' !== $state ? '<span class="nwcs-badge nwcs-badge--' . ( 'yeni' === $state ? 'new' : 'changed' ) . '">' . esc_html( $state ) . '</span>' : ''; ?>
 										<?php echo in_array( (int) $id, $photoed, true ) ? '<span class="nwcs-badge nwcs-badge--new">fotoğraf</span>' : ''; ?>
+										<?php echo nwcs_color_badge( (int) $id, $slug ); // phpcs:ignore WordPress.Security.EscapingOutput -- nwcs_color_badge kacirir. ?>
 									</td>
 								</tr>
 							<?php endforeach; ?>
@@ -1008,7 +1017,10 @@ function nwcs_handle_category_delete(): void {
 	}
 
 	// Once yerlesimler kaldirilir (site secimleri yerlesim kuralina gore), sonra terim.
+	// Renk gruplari ve kategori sorulari terim meta'siyla birlikte silinir; geri alma icin kayitta durur.
 	$products = nwcs_category_product_ids( $slug );
+	$colors   = nwcs_color_groups( $slug );
+	$faq      = nwcs_cat_faq_all( $slug );
 	$result   = nwcs_placement_update( $slug, array_fill_keys( array_keys( nwcs_catalog_sites() ), null ) );
 
 	switch_to_blog( nwcs_pool_blog_id() );
@@ -1031,6 +1043,8 @@ function nwcs_handle_category_delete(): void {
 			'name'     => (string) $term['name'],
 			'before'   => $result['before'] ?: $term['placement'],
 			'products' => $products,
+			'colors'   => $colors,
+			'faq'      => $faq,
 			'sites'    => $result['sites'],
 			'facts'    => $facts,
 			'complete' => true,

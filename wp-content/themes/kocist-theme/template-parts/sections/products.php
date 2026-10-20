@@ -34,7 +34,9 @@ if ( ! $items && ! ( function_exists( 'nwcs_is_preview' ) && nwcs_is_preview() )
 						<?php echo kocist_image_tag( kocist_product_image( $item ), '', 'Örnek görsel' ); // phpcs:ignore WordPress.Security.EscapingOutput ?>
 					</div>
 					<div class="k-cat__body">
-						<h3 class="k-cat__title" <?php nwcs_edit_attr( 'home', 'products', 'pool' ); ?>><?php echo esc_html( $item['title'] ); ?></h3>
+						<h3 class="k-cat__title" <?php nwcs_edit_attr( 'home', 'products', 'pool' ); ?>><?php echo esc_html( kocist_card_title( $item ) ); ?></h3>
+
+						<?php kocist_card_colors( $item, 'k-cat__colors' ); ?>
 
 						<span class="k-cat__price<?php echo $item['has_price'] ? '' : ' is-quote'; ?>" <?php nwcs_edit_attr( 'home', 'products', 'pool' ); ?>>
 							<?php echo esc_html( $item['price_label'] ); ?>

@@ -45,6 +45,8 @@ require_once __DIR__ . '/inc/catalog.php';
 require_once __DIR__ . '/inc/katalog.php';
 require_once __DIR__ . '/inc/quote.php';
 require_once __DIR__ . '/inc/form.php';
+require_once __DIR__ . '/inc/search.php';
+require_once __DIR__ . '/inc/basket.php';
 
 add_action( 'after_setup_theme', 'kocist_setup' );
 function kocist_setup(): void {
@@ -64,8 +66,11 @@ function kocist_setup(): void {
  * Surum 4: Banka Bilgilerimiz sayfasi.
  * Surum 5: Sik Sorulan Sorular sayfasi (/sss/).
  * Surum 6: KVKK aydinlatma metni sayfasi (/kvkk/).
+ * Surum 7: Arama (/arama/) ve Teklif Sepeti (/teklif-sepeti/) sayfalari
+ * (inc/search.php, inc/basket.php). Acilana kadar ust menudeki arama ve sepet
+ * dugmeleri ile urun sayfasindaki "Teklif sepetine ekle" basilmaz.
  */
-const KOCIST_PAGES_VERSION = '6';
+const KOCIST_PAGES_VERSION = '7';
 
 add_action( 'after_switch_theme', 'kocist_ensure_pages' );
 add_action( 'admin_init', 'kocist_maybe_ensure_pages' );
@@ -103,6 +108,8 @@ function kocist_ensure_pages(): void {
 		'banka-bilgilerimiz' => 'Banka Bilgilerimiz',
 		'sss'              => 'Sık Sorulan Sorular',
 		'kvkk'             => 'KVKK Aydınlatma Metni',
+		'arama'            => 'Arama',
+		'teklif-sepeti'    => 'Teklif Sepeti',
 	);
 
 	$ids = array();
@@ -200,7 +207,7 @@ function kocist_assets(): void {
 		'kocist-header',
 		get_theme_file_uri( 'assets/css/header.css' ),
 		array( 'kocist-style' ),
-		wp_get_theme()->get( 'Version' )
+		(string) filemtime( get_theme_file_path( 'assets/css/header.css' ) )
 	);
 
 	// Footer ve ustundeki hareketli serit her sayfada.
@@ -218,6 +225,27 @@ function kocist_assets(): void {
 		array(),
 		(string) filemtime( get_theme_file_path( 'assets/js/nav.js' ) ),
 		true
+	);
+
+	// Ust menudeki arama kutusu ve teklif sepeti sayisi (cerezden) her sayfada;
+	// urun sayfasinda sepete ekleme, sepet sayfasinda adetler (inc/basket.php).
+	wp_enqueue_script(
+		'kocist-teklif',
+		get_theme_file_uri( 'assets/js/teklif.js' ),
+		array(),
+		(string) filemtime( get_theme_file_path( 'assets/js/teklif.js' ) ),
+		true
+	);
+
+	$is_search = is_page( 'arama' );
+	$is_basket = is_page( 'teklif-sepeti' );
+
+	// Sepete ekleme (urun sayfasi), sepet ve arama sayfasi.
+	wp_register_style(
+		'kocist-teklif',
+		get_theme_file_uri( 'assets/css/teklif.css' ),
+		array( 'kocist-style' ),
+		(string) filemtime( get_theme_file_path( 'assets/css/teklif.css' ) )
 	);
 
 	// Hero ve urun gamlari yalnizca ana sayfada; varliklari da orada yuklensin.
@@ -341,8 +369,10 @@ function kocist_assets(): void {
 		);
 	}
 
-	// Sik sorulan sorular.
-	if ( is_page( 'sss' ) ) {
+	// Sik sorulan sorular: /sss/ ve kategori sorulari (kategori sayfasi ve urun
+	// sayfasi ayni soru-cevap cizimini kullanir; template-parts/category-page.php,
+	// sections/product-faq-link.php).
+	if ( is_page( 'sss' ) || kocist_is_catalog_request() || get_query_var( 'nwcs_product' ) ) {
 		wp_enqueue_style(
 			'kocist-faq',
 			get_theme_file_uri( 'assets/css/faq.css' ),
@@ -377,7 +407,8 @@ function kocist_assets(): void {
 	// Kategori sayfalari, konum yolu ve urun detayindaki "ayni kategoride" seridi.
 	$is_product_detail = (bool) get_query_var( 'nwcs_product' );
 
-	if ( kocist_is_catalog_request() || $is_product_detail ) {
+	// Arama sonuclari ve sepet satirlari da kategori kartlari ve konum yoluyla cizilir.
+	if ( kocist_is_catalog_request() || $is_product_detail || $is_search || $is_basket ) {
 		wp_enqueue_style(
 			'kocist-category',
 			get_theme_file_uri( 'assets/css/category.css' ),
@@ -386,12 +417,13 @@ function kocist_assets(): void {
 		);
 	}
 
-	// Kategori sayfasinin bos durum butonlari urun sayfasinin buton stilini kullanir.
-	if ( kocist_is_catalog_request() ) {
+	// Kategori sayfasinin bos durum butonlari urun sayfasinin buton stilini
+	// kullanir; arama ve sepet sayfasi da (sepette e-posta formu: form.css).
+	if ( kocist_is_catalog_request() || $is_search || $is_basket ) {
 		wp_enqueue_style(
 			'kocist-product',
 			get_theme_file_uri( 'assets/css/product.css' ),
-			array( 'kocist-style' ),
+			$is_basket ? array( 'kocist-style', 'kocist-form' ) : array( 'kocist-style' ),
 			(string) filemtime( get_theme_file_path( 'assets/css/product.css' ) )
 		);
 	}
@@ -441,6 +473,11 @@ function kocist_assets(): void {
 				true
 			);
 		}
+	}
+
+	// Teklif sepeti ve arama gorunumu en sonda: urun ve kategori stillerinin ustune.
+	if ( $is_product_detail || $is_search || $is_basket ) {
+		wp_enqueue_style( 'kocist-teklif' );
 	}
 }
 
@@ -1416,10 +1453,11 @@ function kocist_post_thumbnail( $thumbnail_id, $post = null ) {
  * Ana sayfa seritleri icin sinirli urun listesi.
  *
  * 'latest' en son havuza eklenenler (kimlik buyukten kucuge), 'featured'
- * panelde bu site icin belirlenen siranin ilk N urunu.
+ * panelde bu site icin belirlenen siranin ilk N urunu. Renk grubu tek kart
+ * (kocist_catalog_cards).
  */
 function kocist_home_products( string $which, int $count ): array {
-	$products = function_exists( 'kocist_catalog_products' ) ? kocist_catalog_products() : array();
+	$products = function_exists( 'kocist_catalog_products' ) ? kocist_catalog_cards( kocist_catalog_products() ) : array();
 
 	if ( 'latest' === $which ) {
 		usort( $products, static fn( array $a, array $b ): int => (int) $b['id'] <=> (int) $a['id'] );

@@ -119,6 +119,16 @@ function nwcs_pool_categories_flush(): void {
 	nwcs_pool_categories( true );
 	nwcs_site_category_tree( 0, true );
 
+	// Renk gruplari kategorinin meta'sinda; urun-kategori baglari da onlari etkiler.
+	if ( function_exists( 'nwcs_color_flush' ) ) {
+		nwcs_color_flush();
+	}
+
+	// Kategoriye ozel sorular da kategorinin meta'sinda (includes/category-faq.php).
+	if ( function_exists( 'nwcs_cat_faq_flush' ) ) {
+		nwcs_cat_faq_flush();
+	}
+
 	if ( function_exists( 'nwcs_manifest_reset' ) ) {
 		nwcs_manifest_reset();
 	}
@@ -341,7 +351,8 @@ function nwcs_site_parents( int $blog_id ): array {
 
 /**
  * Sitenin iki seviyeli agaci: ust basliklar ve altlarina yerlesen havuz
- * kategorileri, bu sitede gosterilen urun sayilariyla.
+ * kategorileri, bu sitede gosterilen urun sayilariyla. Renk grubu (ayni
+ * urunun renkleri) kartta oldugu gibi tek urun sayilir (nwcs_color_count).
  *
  * Alt siralama manifestten ('catalog' => 'order'):
  *   'first_product' - sitedeki urun sirasinda ilk gorunuse gore (WK; urunu
@@ -378,13 +389,18 @@ function nwcs_site_category_tree( int $blog_id, bool $reset = false ): array {
 	$defaults   = array_keys( (array) ( $site['catalog']['defaults'] ?? array() ) );
 	$products   = nwcs_site_products( $blog_id );
 	$first      = array(); // slug => sitedeki ilk urunun sirasi
-	$count      = array(); // slug => urun sayisi
+	$count      = array(); // slug => kart sayisi (renk grubu tek kart: nwcs_color_count)
+	$members    = array(); // slug => kategorideki urunler
 
 	foreach ( $products as $position => $product ) {
 		foreach ( array_keys( (array) $product['categories'] ) as $slug ) {
 			$first[ $slug ] ??= $position;
-			$count[ $slug ]   = ( $count[ $slug ] ?? 0 ) + 1;
+			$members[ $slug ][] = $product;
 		}
+	}
+
+	foreach ( $members as $slug => $list ) {
+		$count[ $slug ] = nwcs_color_count( $list, $blog_id );
 	}
 
 	foreach ( $parents as $key => $parent ) {
@@ -439,17 +455,17 @@ function nwcs_site_category_tree( int $blog_id, bool $reset = false ): array {
 
 		// Ust basligin urunleri: kendi kategorisinde ya da bir alt kategoride.
 		$pool_slug = (string) $parent['pool_slug'];
-		$total     = 0;
+		$within    = array();
 
 		foreach ( $products as $product ) {
 			$own = (array) $product['categories'];
 
 			if ( ( '' !== $pool_slug && isset( $own[ $pool_slug ] ) ) || array_intersect_key( $own, $children ) ) {
-				++$total;
+				$within[] = $product;
 			}
 		}
 
-		$tree[ $key ]['count'] = $total;
+		$tree[ $key ]['count'] = nwcs_color_count( $within, $blog_id );
 	}
 
 	$cache[ $blog_id ] = $tree;
