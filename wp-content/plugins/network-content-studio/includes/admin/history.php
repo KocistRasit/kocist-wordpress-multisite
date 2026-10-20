@@ -4,8 +4,8 @@
  *
  * Kategori Excel'i (urunler), Ürün açıklamaları (aciklamalar), kategori
  * yerlesimi (yerlesim), kategori silme (kategori), Fotograf Kutusu
- * (fotograflar), Medya Havuzu alt metin Excel'i (alt), renk gruplari (renk)
- * ve kategori sorulari (sss) her uygulamada bir kayit birakir. En yeni en ustte;
+ * (fotograflar), Medya Havuzu alt metin Excel'i (alt), renk gruplari (renk),
+ * renk listesi (palet) ve kategori sorulari (sss) her uygulamada bir kayit birakir. En yeni en ustte;
  * en fazla NWCS_HISTORY_MAX kayit tutulur. Yalnizca en ustteki geri alinir
  * (son giren ilk cikar): sonraki islemler once geri alindigindan "yuklemeden
  * sonra elle duzenlendi" denetimi yanlis alarm vermez.
@@ -197,6 +197,12 @@ function nwcs_history_describe( array $record ): array {
 			$facts = (array) ( $record['facts'] ?? array() );
 			break;
 
+		case 'palet':
+			$what  = 'Renkler';
+			$kind  = 'renk listesi';
+			$facts = (array) ( $record['facts'] ?? array() );
+			break;
+
 		case 'sss':
 			$what  = (string) ( $record['category'] ?? '' );
 			$kind  = 'sık sorulan sorular';
@@ -271,6 +277,10 @@ function nwcs_history_undo( string $id ) {
 
 		case 'renk':
 			$report = nwcs_color_undo( $top );
+			break;
+
+		case 'palet':
+			$report = nwcs_color_palette_undo( $top );
 			break;
 
 		case 'sss':
@@ -469,6 +479,8 @@ function nwcs_render_history_result(): void {
 			'deleted_photos' => '%d fotoğraf dosyası silindi',
 			'alts'      => '%d görselin alt metni eski hâline döndü',
 			'colors'    => '%d kategorinin renk grupları eski hâline döndü',
+			'palette'   => 'Renk listesi eski hâline döndü',
+			'members'   => '%d ürünün rengi eski hâline döndü',
 			'faq'       => '%d sitenin kategori soruları eski hâline döndü',
 			'addresses' => '%d sayfa adresi eski hâline döndü',
 		) as $field => $format
@@ -504,7 +516,7 @@ function nwcs_render_history_card( string $back ): void {
 		<h3 class="nwcs-section__title" id="nwcs-history-title">Son işlemler</h3>
 
 		<?php if ( ! $list ) : ?>
-			<p class="nwcs-hint">Henüz geri alınabilecek bir işlem yok. Excel yüklemeleri, fotoğraf yüklemeleri, renk grupları, kategori soruları ve sitelerdeki yerleşim değişiklikleri burada listelenir.</p>
+			<p class="nwcs-hint">Henüz geri alınabilecek bir işlem yok. Excel yüklemeleri, fotoğraf yüklemeleri, renk grupları, renk listesi, kategori soruları ve sitelerdeki yerleşim değişiklikleri burada listelenir.</p>
 		<?php else : ?>
 			<p class="nwcs-hint">En yeniden eskiye. Yalnızca en üstteki geri alınır; daha eskisini geri almak için önce üsttekileri geri alın.</p>
 			<ol class="nwcs-history__list">

@@ -5,8 +5,14 @@
  * haliyle kaydeder). JS ile:
  * - ↑ ↓ satiri yerinde tasir; "Öne çıkan" etiketi ilk satira gecer; kayit
  *   "Grubu kaydet" ile yapilir (degisiklik notu gorunur);
- * - hazir renk secilince yuvarlak boyanir, renk adi bossa hazir rengin adi
- *   yazilir; ozel renk secici yalnizca "Özel renk"te gorunur;
+ * - listeden renk secilince yuvarlak boyanir, renk adi bossa rengin adi
+ *   yazilir; ozel renk secici yalnizca "Özel renk"te gorunur ("Bu rengi
+ *   listeye kaydet" de: CSS :has, JS'siz de calisir);
+ * - renk adi listedeki bir renge denk gelince (Turkce harf ve buyuk/kucuk
+ *   harf farki yok) secim listesi o renge gecer, yuvarlak boyanir. Yalnizca
+ *   ad ile secim "bagliyken": secim bos ya da secili rengin adi yaziliydi
+ *   (ad silinip yeniden yazilsa da). Ozel renge dokunulmaz. Liste
+ *   data-nwcs-colors'tan (Ürün Havuzu -> Renkler);
  * - urun secim listesi yazdikca suzulur (kod ve ad; Turkce harf farki yok);
  * - "Grubu oluştur" ikiden az urunle gonderilmez (sunucu da denetler);
  * - grup formu renk adi bos satirla gonderilmez (sunucu da denetler).
@@ -37,6 +43,36 @@
 			.replace( /ı/g, 'i' ).replace( /ğ/g, 'g' ).replace( /ü/g, 'u' )
 			.replace( /ş/g, 's' ).replace( /ö/g, 'o' ).replace( /ç/g, 'c' )
 			.replace( /â/g, 'a' ).replace( /î/g, 'i' ).replace( /û/g, 'u' );
+	}
+
+	/* Listede adi verilen renk (katlanmis karsilastirma); yoksa bos. */
+	function presetFor( name ) {
+		var key = fold( String( name ).trim() );
+
+		if ( ! key ) {
+			return '';
+		}
+
+		for ( var label in presets ) {
+			if ( Object.prototype.hasOwnProperty.call( presets, label ) && fold( label ) === key ) {
+				return label;
+			}
+		}
+
+		return '';
+	}
+
+	/*
+	 * Ad ile secim bagli mi: secim bos ya da secili rengin adi yazili. Bagliyken
+	 * listedeki bir rengin adi yazilinca secim o renge gecer. Elle ozel renk ya
+	 * da adla uyusmayan renk secilince bag kopar.
+	 */
+	function link( row ) {
+		var select = row.querySelector( '[data-nwcs-color-preset]' );
+		var name = row.querySelector( '[data-nwcs-color-name]' );
+		var linked = !! select && !! name && ( '' === select.value || ( !! presets[ select.value ] && fold( select.value ) === fold( name.value.trim() ) ) );
+
+		row.toggleAttribute( 'data-nwcs-color-linked', linked );
 	}
 
 	/* Acik renk (WCAG bagil parlaklik > 0,7): yuvarlagin cevresinde cizgi. */
@@ -92,6 +128,7 @@
 			select.setAttribute( 'data-was', select.value );
 		}
 
+		link( row );
 		paint( row );
 	} );
 
@@ -110,6 +147,7 @@
 			}
 
 			target.setAttribute( 'data-was', target.value );
+			link( row );
 			paint( row );
 		}
 
@@ -134,7 +172,20 @@
 				select.setAttribute( 'data-was', 'ozel' );
 			}
 
+			row.removeAttribute( 'data-nwcs-color-linked' );
 			paint( row );
+		}
+
+		// Ad listedeki bir renge denk geldi: ad ile secim bagliysa secim o renge gecer.
+		if ( row && target.matches( '[data-nwcs-color-name]' ) && row.hasAttribute( 'data-nwcs-color-linked' ) ) {
+			var picker = row.querySelector( '[data-nwcs-color-preset]' );
+			var match = presetFor( target.value );
+
+			if ( picker && match && picker.value !== match ) {
+				picker.value = match;
+				picker.setAttribute( 'data-was', match );
+				paint( row );
+			}
 		}
 
 		if ( target.matches( '[data-nwcs-color-filter]' ) ) {

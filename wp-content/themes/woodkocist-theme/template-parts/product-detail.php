@@ -73,7 +73,10 @@ $related = array_slice(
 $preview = function_exists( 'nwcs_is_preview' ) && nwcs_is_preview();
 
 // Urunun bu sitedeki kategorisinin ilk uc sorusu (Ürün Havuzu -> Kategoriler -> Sık sorulan sorular).
-$faq_rows = $place['child'] && function_exists( 'nwcs_cat_faq_public' ) ? nwcs_cat_faq_public( (string) $place['child']['slug'], null, NWCS_CAT_FAQ_PRODUCT ) : array();
+$faq_all_rows = $place['child'] && function_exists( 'nwcs_cat_faq_public' ) ? nwcs_cat_faq_public( (string) $place['child']['slug'] ) : array();
+$faq_rows     = array_slice( $faq_all_rows, 0, NWCS_CAT_FAQ_PRODUCT );
+// "Tüm sorular" yalnizca kategoride burada gosterilenden fazla soru varsa (onizlemede her zaman).
+$faq_more     = count( $faq_all_rows ) > count( $faq_rows ) || $preview;
 
 // Akordeon panelleri: kimlik => panel alani (baslik onizlemede bu alani acar).
 $tabs = array(
@@ -277,7 +280,9 @@ get_header();
 						<div class="wk-faq__answer" <?php nwcs_cat_faq_attr( (string) $place['child']['slug'] ); ?>><?php echo wk_paragraphs( $faq_row['answer'] ); // phpcs:ignore WordPress.Security.EscapingOutput ?></div>
 					</details>
 				<?php endforeach; ?>
+				<?php if ( $faq_more ) : ?>
 				<p class="wk-pfaq__all"><a href="<?php echo esc_url( $place['child']['url'] . '#sss' ); ?>" <?php nwcs_edit_attr( 'product', 'labels', 'faq_all' ); ?>><?php echo esc_html( nwcs_field( 'product', 'labels', 'faq_all' ) ); ?> <span aria-hidden="true">→</span></a></p>
+				<?php endif; ?>
 			</section>
 		<?php endif; ?>
 	</div>

@@ -510,6 +510,14 @@ try {
 	check( 'Kocist urun: eski grup baglantisi yerine', ! str_contains( $k_page, 'class="k-acc__faq">' ) );
 	check( 'Kocist urun JSON-LD: FAQPage yok, Product var', ! faq_nodes( graph( $k_page ) ) && (bool) array_filter( graph( $k_page ), static fn( array $node ): bool => 'Product' === ( $node['@type'] ?? '' ) ) );
 
+	// Uc ya da daha az soruda "Tüm sorular" yok: ayni sorulari tekrar gosteren sayfaya goturmesin.
+	fresh();
+	$save( $k_key, array( 'sss' => rows( $k_qa ) ) );
+	$k_three = page( '/kocist/urun/zz-sss-kamelya-bir/' );
+	check( 'Kocist urun: 3 soruda hepsi var, "Tüm sorular" yok', 3 === substr_count( $k_three, '<details class="k-sss__item">' ) && ! str_contains( $k_three, 'k-pfaq__all' ) );
+	fresh();
+	$save( $k_key, array( 'sss' => rows( $k_four ) ) );
+
 	switch_to_blog( K_BLOG );
 	$k_sss_page = get_page_by_path( 'sss', OBJECT, 'page' );
 	$k_has_sss  = $k_sss_page && 'publish' === $k_sss_page->post_status && nwcs_faq_groups( 'faq' );
@@ -534,6 +542,13 @@ try {
 	$w_page = page( '/woodkocist/urun/zz-sss-kamelya-iki/' );
 	check( 'WK urun: ilk uc soru ve "Tüm sorular"', str_contains( $w_page, '<section class="wk-faq wk-pfaq"' ) && 3 === substr_count( $w_page, '<details class="wk-faq__item">' ) && ! str_contains( $w_page, 'Garanti var mı?' ) && (bool) preg_match( '#<p class="wk-pfaq__all"><a href="[^"]*/woodkocist/urun-kategori/' . preg_quote( $w_parent, '#' ) . '/' . $slug . '/\#sss"[^>]*>Tüm sorular#', $w_page ) );
 	check( 'WK urun JSON-LD: FAQPage yok', '' !== $w_page && ! faq_nodes( graph( $w_page ) ) );
+
+	fresh();
+	$save( $w_key, array( 'sss' => rows( array_slice( $w_qa, 0, 3 ) ) ) );
+	$w_three = page( '/woodkocist/urun/zz-sss-kamelya-iki/' );
+	check( 'WK urun: 3 soruda "Tüm sorular" yok', 3 === substr_count( $w_three, '<details class="wk-faq__item">' ) && ! str_contains( $w_three, 'wk-pfaq__all' ) );
+	fresh();
+	$save( $w_key, array( 'sss' => rows( $w_qa ) ) );
 
 	$w_shop = page( '/woodkocist/magaza/' );
 	check( 'WK magaza: kategori sorusu yok', '' !== $w_shop && ! str_contains( $w_shop, 'wk-catfaq' ) && ! faq_nodes( graph( $w_shop ) ) );

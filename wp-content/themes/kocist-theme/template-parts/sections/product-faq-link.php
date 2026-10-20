@@ -18,12 +18,17 @@
 defined( 'ABSPATH' ) || exit;
 
 $faq_category = is_array( $args['category'] ?? null ) ? $args['category'] : null;
-$faq_rows     = $faq_category && function_exists( 'nwcs_cat_faq_public' ) ? nwcs_cat_faq_public( (string) $faq_category['slug'], null, NWCS_CAT_FAQ_PRODUCT ) : array();
+$faq_all_rows = $faq_category && function_exists( 'nwcs_cat_faq_public' ) ? nwcs_cat_faq_public( (string) $faq_category['slug'] ) : array();
+$faq_rows     = array_slice( $faq_all_rows, 0, NWCS_CAT_FAQ_PRODUCT );
 
 if ( $faq_rows ) :
 	$faq_slug = (string) $faq_category['slug'];
 	// Panel onizlemesinde cevaplar acik: tiklaninca kaynagi acilabilsin.
 	$faq_open = function_exists( 'nwcs_is_preview' ) && nwcs_is_preview();
+	// "Tüm sorular" yalnizca kategoride burada gosterilenden fazla soru varsa;
+	// yoksa ayni sorulari tekrar gosteren sayfaya goturur. Onizlemede metni
+	// duzenlenebilsin diye her zaman.
+	$faq_more = count( $faq_all_rows ) > count( $faq_rows ) || $faq_open;
 	?>
 	<section class="k-acc__faq k-pfaq" aria-labelledby="k-pfaq-title">
 		<h2 class="k-pfaq__title" id="k-pfaq-title" <?php nwcs_edit_attr( 'product', 'detail', 'faq_title' ); ?>><?php echo esc_html( nwcs_field( 'product', 'detail', 'faq_title' ) ); ?></h2>
@@ -40,10 +45,12 @@ if ( $faq_rows ) :
 				</details>
 			<?php endforeach; ?>
 		</div>
-		<a class="k-acc__faq-link k-pfaq__all" href="<?php echo esc_url( $faq_category['url'] . '#sss' ); ?>">
-			<span <?php nwcs_edit_attr( 'product', 'detail', 'faq_all' ); ?>><?php echo esc_html( nwcs_field( 'product', 'detail', 'faq_all' ) ); ?></span>
-			<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
-		</a>
+		<?php if ( $faq_more ) : ?>
+			<a class="k-acc__faq-link k-pfaq__all" href="<?php echo esc_url( $faq_category['url'] . '#sss' ); ?>">
+				<span <?php nwcs_edit_attr( 'product', 'detail', 'faq_all' ); ?>><?php echo esc_html( nwcs_field( 'product', 'detail', 'faq_all' ) ); ?></span>
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+			</a>
+		<?php endif; ?>
 	</section>
 	<?php
 	return;

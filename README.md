@@ -532,6 +532,30 @@ burada aynı ürünün renkleri tek gruba toplanır. Excel değişmez.
   haritadan (`nwcs_color_map`). Kod `includes/color-groups.php`, `includes/admin/color-groups.php`,
   `assets/color-groups.{js,css}`. Deneme `scripts/dev/check-color-groups.php`.
 
+## Renk listesi (0.27.1)
+
+**Ürün Havuzu → Renkler** (Kategoriler'in hemen altında). Renk grupları'ndaki renk seçim listesi
+buradan gelir: bir renk bir kez eklenir, her grupta tek tıkla seçilir.
+
+- **Satır:** renk yuvarlağı, ad, ton (renk seçici ve kodu), kaç üründe kullanıldığı ("6 üründe":
+  renk adı Türkçe harf ve büyük/küçük harf farkı gözetilmeden eşleşen grup üyeleri), ↑ ↓, "Sil";
+  altta "+ Renk ekle" ve "Kaydet". İlk açılışta eski 13 hazır renk; en fazla 60 renk. Ad zorunlu
+  ve tekil, ton geçerli olmalı; hata varsa hiçbir şey kaydedilmez, yazılanlar geri gelir.
+- Ürünler kendi renk adını ve tonunu saklar: listeden renk silmek grupları bozmaz. Kullanılan bir
+  rengin adı ya da tonu değişince önce onay sayfası gelir: renk başına etkilenen ürünler (kod, ad,
+  kategori) ve "Bu rengi kullanan N ürün de güncellensin" (işaretli gelir). İşaretli renklerde
+  bütün kategorilerdeki üyelerin tonu, ad değiştiyse adı da güncellenir; site önbelleği temizlenir.
+- **Renk grupları'nda:** "Özel renk" seçilince "Bu rengi listeye kaydet"; grup kaydedilince ad
+  listede yoksa eklenir. Aynı ad başka tonla kayıtlıysa liste değişmez, üye yine kaydedilir ve
+  "‘<ad>’ listede başka bir tonla kayıtlı; listeyi Renkler ekranından düzenleyin." uyarısı çıkar.
+  Grup kartında "Renk listesini düzenle ↗". Listedeki bir rengin adı yazılınca seçim o renge geçer.
+- Her kayıt "Son işlemler"e düşer (`palet`) ve geri alınır (liste ve güncellenen ürünler); o
+  ürünler sonradan değiştiyse geri alma yapılmaz, neden yazılır. JavaScript yoksa her düğme formu
+  kaydeder (↑ ↓, "Sil", sondaki boş satırla "+ Renk ekle").
+- Veri: ağ ayarı `nwcs_color_palette` = sıralı `[ { id, name, hex } ]` (yoksa ilk 13 renk). Kod
+  `includes/admin/color-palette.php`, `assets/color-palette.js`; okuma `includes/color-groups.php`
+  (`nwcs_color_palette`, `nwcs_color_presets`). Deneme `scripts/dev/check-color-palette.php`.
+
 ## Kategoriye özel sık sorulan sorular (0.27.0)
 
 **Ürün Havuzu → Kategoriler → kategori → Sık sorulan sorular** (Renk grupları'nın altında).

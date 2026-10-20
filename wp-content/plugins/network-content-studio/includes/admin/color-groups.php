@@ -11,9 +11,13 @@
  *     (kod ve ada gore aranir); baska grupta olan secilemez, nedeni yazar.
  *     Urun adinda hazir bir renk geciyorsa renk adi ve yuvarlagi dolar.
  *   - Grup karti: baslik, uye satirlari (sira ↑ ↓, kucuk resim, kod, ad,
- *     renk adi, renk yuvarlagi: hazir renkler ya da ozel renk), "Gruptan
+ *     renk adi, renk yuvarlagi: renk listesi ya da ozel renk), "Gruptan
  *     çıkar", "Gruba ürün ekle", "Grubu sil…" (onay sunucuda sorulur).
  *     1. satir "Öne çıkan"dir: kartta o gorunur.
+ *   - Renk listesi Ürün Havuzu -> Renkler'den gelir (includes/admin/color-palette.php;
+ *     "Renk listesini düzenle ↗"). "Özel renk"te "Bu rengi listeye kaydet":
+ *     grup kaydedilince ad listede yoksa listeye eklenir; ayni ad baska tonla
+ *     varsa liste degismez, uye yine kaydedilir ve bolum uyarir.
  *   - Copteki, silinmis ya da kategoriden cikmis uye uyariyla gosterilir;
  *     sitede yok sayilir.
  *
@@ -177,6 +181,29 @@ function nwcs_color_product_label( int $id ): string {
 }
 
 /**
+ * Uye satirinin secim listesinde secili olan: adi ve tonu listedeki bir
+ * renkle ayniysa o renk; degilse tonu listedeki bir renginkiyle ayniysa o;
+ * baska tonda 'ozel'; tonu yoksa bos ("Renk seçin").
+ *
+ * @param array<string, string> $presets nwcs_color_presets()
+ */
+function nwcs_color_preset_choice( string $name, string $hex, array $presets ): string {
+	if ( '' === $hex ) {
+		return '';
+	}
+
+	$found = nwcs_color_palette_find( $name );
+
+	if ( $found && $found['hex'] === $hex ) {
+		return $found['name'];
+	}
+
+	$key = array_search( $hex, $presets, true );
+
+	return false !== $key ? (string) $key : 'ozel';
+}
+
+/**
  * Turkce liste: "A", "A ve B", "A, B ve C".
  *
  * @param string[] $items
@@ -226,6 +253,7 @@ function nwcs_render_color_groups( string $slug, array $products ): void {
 		</p>
 
 		<?php nwcs_render_color_notice( $result ); ?>
+		<?php nwcs_render_palette_note( $slug ); ?>
 
 		<?php foreach ( $groups as $group ) : ?>
 			<?php
@@ -407,7 +435,7 @@ function nwcs_render_color_group( string $slug, array $group, array $products, a
 						$name   = '' !== $name ? $name : sprintf( 'Ürün #%d', $id );
 						$thumb  = $product ? nwcs_color_thumb( $product ) : '';
 						$hex    = (string) $member['color_hex'];
-						$preset = (string) ( array_search( $hex, $presets, true ) ?: ( '' !== $hex ? 'ozel' : '' ) );
+						$preset = nwcs_color_preset_choice( (string) $member['color_name'], $hex, $presets );
 						$field  = 'nwcs-renk-' . $gid . '-' . $id;
 						$warn   = array(
 							'trash' => 'Çöp kutusunda: sitede gösterilmiyor. Geri getirin ya da gruptan çıkarın.',
@@ -465,6 +493,11 @@ function nwcs_render_color_group( string $slug, array $group, array $products, a
 								</select>
 								<label class="screen-reader-text" for="<?php echo esc_attr( $field ); ?>-hex"><?php echo esc_html( 'Özel renk: ' . $name ); ?></label>
 								<input class="nwcs-colors__custom" type="color" id="<?php echo esc_attr( $field ); ?>-hex" name="uye[<?php echo (int) $id; ?>][hex]" value="<?php echo esc_attr( '' !== $hex ? $hex : '#ffffff' ); ?>" data-nwcs-color-custom />
+								<?php // Yalnizca "Özel renk" seciliyken gorunur (CSS :has; JS gerekmez). ?>
+								<label class="nwcs-colors__keep" for="<?php echo esc_attr( $field ); ?>-listeye">
+									<input type="checkbox" id="<?php echo esc_attr( $field ); ?>-listeye" name="uye[<?php echo (int) $id; ?>][listeye]" value="1" data-nwcs-color-keep />
+									Bu rengi listeye kaydet
+								</label>
 							</td>
 							<td class="nwcs-colors__out">
 								<button type="submit" name="cikar" value="<?php echo (int) $id; ?>" class="button-link nwcs-row__delete">Gruptan çıkar<span class="screen-reader-text">: <?php echo esc_html( $name ); ?></span></button>
@@ -474,6 +507,11 @@ function nwcs_render_color_group( string $slug, array $group, array $products, a
 				</tbody>
 			</table>
 		</div>
+
+		<p class="nwcs-colors__more">
+			Renk yuvarlakları renk listesinden gelir; listede olmayan tonu “Özel renk” ile seçip “Bu rengi listeye kaydet”i işaretleyin.
+			<a href="<?php echo esc_url( nwcs_palette_url() ); ?>" target="_blank" rel="noopener">Renk listesini düzenle<span class="screen-reader-text"> (yeni sekmede açılır)</span> ↗</a>
+		</p>
 
 		<p class="nwcs-colors__status" data-nwcs-color-status aria-live="polite"></p>
 		<p class="nwcs-colors__err" data-nwcs-color-missing role="alert" hidden></p>
@@ -494,7 +532,7 @@ function nwcs_render_color_group( string $slug, array $group, array $products, a
 	</form>
 	<?php
 
-	// Renk adi onerileri (hazir renkler); sayfada bir kez.
+	// Renk adi onerileri (renk listesi); sayfada bir kez.
 	static $datalist = false;
 
 	if ( ! $datalist ) {
@@ -608,7 +646,7 @@ function nwcs_render_color_create( string $slug, array $products, bool $has_grou
 
 				<p class="nwcs-hint">
 					Aynı ürünün renklerini işaretleyin (en az iki). İlk işaretlenen değil, listedeki ilk ürün öne çıkan olur; sırayı sonra ↑ ↓ ile değiştirirsiniz.
-					Ürün adında hazır bir renk geçiyorsa (Antrasit, Beyaz, Teak…) renk adı ve yuvarlağı kendiliğinden dolar.
+					Ürün adında renk listesindeki bir renk geçiyorsa (Antrasit, Beyaz, Teak…) renk adı ve yuvarlağı kendiliğinden dolar.
 				</p>
 
 				<div class="nwcs-colors__label">
@@ -955,6 +993,7 @@ function nwcs_handle_color_save(): void {
 	$order   = isset( $_POST['sira'] ) && is_array( $_POST['sira'] ) ? array_map( 'absint', wp_unslash( $_POST['sira'] ) ) : array();
 	$label   = isset( $_POST['baslik'] ) ? mb_substr( nwcs_clean_text( wp_unslash( $_POST['baslik'] ) ), 0, 40 ) : '';
 	$by_id   = array();
+	$keep    = array(); // "Bu rengi listeye kaydet" isaretli ozel renkler: urun => { name, hex }
 
 	foreach ( $old['members'] as $member ) {
 		$by_id[ $member['product_id'] ] = $member;
@@ -978,6 +1017,13 @@ function nwcs_handle_color_save(): void {
 				$name = '' !== $name ? $name : $choice;
 			} elseif ( 'ozel' === $choice ) {
 				$hex = nwcs_color_hex( (string) ( $row['hex'] ?? '' ) );
+
+				if ( ! empty( $row['listeye'] ) && '' !== $name && '' !== $hex ) {
+					$keep[ $id ] = array(
+						'name' => $name,
+						'hex'  => $hex,
+					);
+				}
 			} else {
 				// Yuvarlak secilmedi: renk adi hazir renklerden biriyse onun rengi.
 				$hex = nwcs_color_preset_hex( $name );
@@ -1060,6 +1106,18 @@ function nwcs_handle_color_save(): void {
 		}
 
 		$result = 'eklendi';
+	}
+
+	// "Bu rengi listeye kaydet": grup kaydindan once listeye yazilir (grup degismese de).
+	// Gruptan cikarilan satirin rengi eklenmez. Sonuc bolumde bir kez gosterilir.
+	unset( $keep[ $out ] );
+
+	if ( $keep ) {
+		$note = nwcs_palette_add_from_group( array_values( $keep ) );
+
+		if ( $note['added'] || $note['other'] || $note['full'] ) {
+			set_site_transient( NWCS_PALETTE_NOTE . get_current_user_id(), $note + array( 'slug' => $slug ), 10 * MINUTE_IN_SECONDS );
+		}
 	}
 
 	$group = array(

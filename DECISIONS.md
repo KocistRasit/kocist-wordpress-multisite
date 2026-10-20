@@ -2061,3 +2061,44 @@ Plan: `PLAN-renk-sss-teklif.md` §3. Koçist B2B: ürünlerin çoğu fiyatsız; 
 - Doğrulama: `scripts/dev/check-quote-basket.php` (arama yardımcıları, sayfalar, çerez,
   JS'siz işleyiciler, HTTP ile Set-Cookie ve yönlendirme, gönderim ve Mailpit, WhatsApp,
   WOOD KOCIST arama ve sepet, E_ALL); başsız Chrome ile masaüstü (JS'li ve JS'siz) ve 390 px.
+
+## Renk listesi: düzenlenebilir renkler (NWCS 0.27.1, 20 Ekim 2026)
+
+Plan: `PLAN-renk-sss-teklif.md` §1'in devamı. Hazır renkler kodda sabitti (13 renk); "Özel renk"
+her üyede ayrı girildiği için yeniden kullanılamıyor, liste kod değişmeden düzenlenemiyordu.
+
+- **Veri:** ağ ayarı `nwcs_color_palette` = sıralı `[ { id, name, hex } ]`. Ayar yoksa eski 13
+  renk (`nwcs_color_default_presets`; kimlik addan türer, her istekte aynı); okuma yazmaz, ayar
+  ilk kayıtta yazılır. Göç yok. `nwcs_color_presets()` imzası aynı (ad => ton) ve listeyi okur:
+  seçim listesi, ürün adından tahmin ve adla dolma değişmeden yeni renkleri de bilir.
+- **Üye kopya tutar, bağ değil:** üye kendi `color_name` ve `color_hex`'ini saklar; listeden silme
+  ya da ad değiştirme grupları bozmaz, sitede görünen hep üyenin kendi değeri. Üyede renk kimliği
+  tutulmadı: "kullanan" eşleşmesi katlanmış adla (`nwcs_search_fold`), böylece 0.27.0 verisi ve
+  elle yazılmış adlar da sayılır. Bedeli: aynı adı başka tonla yazan üye de "kullanan" sayılır;
+  onay sayfası onu da listeler, işaret kaldırılabilir.
+- **Yayılma onaylı ve renk başına:** kullanılan rengin adı ya da tonu değişince "Bu rengi kullanan
+  N ürün de güncellensin" (işaretli gelir); işaretsiz renkte yalnızca liste değişir. Ton değişince
+  üyenin adı korunur, ad değişince yeni ad yazılır. Tek geçiş: iki rengin adını takas etmek
+  zincirleme değişiklik yapmaz. Kullanan yoksa onay sorulmaz. Liste onay arasında başka sekmede
+  değiştiyse kaydedilmez.
+- **Kurallar:** ad zorunlu ve tekil (Türkçe harf, büyük/küçük harf farkı yok), ton `nwcs_color_hex`,
+  en fazla 60 renk (seçim listesi kullanışlı kalsın). Hata varsa hiçbir şey yazılmaz, taslak bir
+  kez geri gelir. Formda olmayan kayıtlı renk silinmiş sayılmaz (başka sekmede eklenmiş olabilir);
+  silme açık gelir (`sil`, JS'te `silinen[]`).
+- **Geri alma** (`kind=palet`): önceki liste ve bu işlemin güncellediği üyelerin önceki ad/tonu.
+  Liste ya da o üyeler sonradan değiştiyse hiçbir şeye dokunulmaz, neden yazılır, kayıt düşer
+  (diğer türler gibi yığını kilitlemesin). Aynı kişinin art arda kayıtları 30 dakika içinde
+  birleşir; oturumun başına dönen kayıt düşer, ilk kayıtsa ayar silinir (ilk 13 renge döner).
+  Üye değişince havuz ve site önbelleği temizlenir; yalnızca liste değişince gerekmez.
+- **Renk grupları'ndan "listeye kaydet":** grup kaydından önce ayrı bir `palet` kaydı ("Renk
+  grupları’ndan"), grup değişmese de. Aynı ad aynı tonla varsa sessiz; başka tonla varsa liste
+  değişmez, üye kaydedilir, uyarı Renkler ekranına bağlanır. Liste doluysa eklenmez, söylenir.
+  Kutucuk yalnızca "Özel renk" seçiliyken görünür (CSS `:has`, JS'siz de).
+- Panel JS'siz çalışır. JS: satır yerinde taşınır, eklenir, silinir; üye satırında ad ile seçim
+  "bağlıyken" (seçim boş ya da seçili rengin adı yazılı) listedeki bir ad yazılınca seçim o renge
+  geçer; özel renge dokunulmaz.
+- Doğrulama: `scripts/dev/check-color-palette.php` (90 kontrol: istek yolları, doğrulama, kullanım,
+  onay işaretli/işaretsiz/karışık, ad takası, geri alma ve reddi, birleşme, listeye kaydet, adla
+  dolma, menü; başka kategorilerin gruplarına dokunulmadığı denetlenir); `check-color-groups.php`,
+  `check-cat-faq.php`, `check-quote-basket.php` geçti; başsız Chrome ile Renkler ekranı, onay,
+  grup satırı (JS'li ve JS'siz) ve 390 px.

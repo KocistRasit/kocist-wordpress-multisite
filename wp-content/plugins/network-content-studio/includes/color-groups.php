@@ -35,6 +35,12 @@
  *   - nwcs_color_seo(): Product'a color/inProductGroupWithID ve ProductGroup
  *     (includes/seo.php cagirir). Her renk sayfasi kendi adresinde ve kendi
  *     canonical'inda kalir.
+ *
+ * Renk listesi (0.27.1): uye satirindaki secim listesi ag genelindeki
+ * 'nwcs_color_palette' site ayarindan gelir = sirali [ { id, name, hex } ]
+ * (Ürün Havuzu -> Renkler, includes/admin/color-palette.php). Ayar yoksa
+ * eski 13 hazir renk (nwcs_color_default_presets). Uyeler kendi color_name ve
+ * color_hex'ini saklar: listeden renk silmek gruplari bozmaz.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -42,18 +48,39 @@ defined( 'ABSPATH' ) || exit;
 const NWCS_COLOR_META      = '_nwcs_color_groups';
 const NWCS_COLOR_CACHE_KEY = 'nwcs_color_groups_v1';
 const NWCS_COLOR_LABEL     = 'Renk';
+const NWCS_COLOR_PALETTE   = 'nwcs_color_palette';
+// Renk listesinde en fazla bu kadar renk (secim listesi kullanisli kalsin).
+const NWCS_COLOR_PALETTE_MAX = 60;
+// Renk adi (liste ve uye satiri) en fazla bu kadar karakter.
+const NWCS_COLOR_NAME_MAX = 40;
 
 /* ====================================================================== *
  * Renkler
  * ====================================================================== */
 
 /**
- * Hazir renkler: ad => yuvarlagin rengi. Panelde secim listesi; adi bos
- * birakilan uyeye secilen hazir rengin adi yazilir.
+ * Renk listesi: ad => yuvarlagin rengi (liste sirasiyla). Panelde secim
+ * listesi; adi bos birakilan uyeye secilen rengin adi yazilir. Liste
+ * Ürün Havuzu -> Renkler'den gelir (nwcs_color_palette).
  *
  * @return array<string, string>
  */
 function nwcs_color_presets(): array {
+	$out = array();
+
+	foreach ( nwcs_color_palette() as $color ) {
+		$out[ $color['name'] ] = $color['hex'];
+	}
+
+	return $out;
+}
+
+/**
+ * Ilk renk listesi (0.27.0'daki hazir renkler): ayar yokken liste budur.
+ *
+ * @return array<string, string>
+ */
+function nwcs_color_default_presets(): array {
 	return array(
 		'Beyaz'             => '#ffffff',
 		'Siyah'             => '#1f1f1f',
@@ -69,6 +96,115 @@ function nwcs_color_presets(): array {
 		'Mavi'              => '#2f5f8f',
 		'Sarı'              => '#e6b42c',
 	);
+}
+
+/**
+ * Renk listesi, sirayla: [ { id, name, hex } ]. Ayar yoksa ilk liste
+ * (kimlikleri adindan turer, her istekte ayni); ayar ilk kayitta yazilir.
+ *
+ * @return array<int, array{id:string, name:string, hex:string}>
+ */
+function nwcs_color_palette(): array {
+	$raw = get_site_option( NWCS_COLOR_PALETTE, false );
+
+	return false === $raw ? nwcs_color_palette_defaults() : nwcs_color_palette_clean( $raw );
+}
+
+/**
+ * Ilk liste { id, name, hex } bicimiyle.
+ *
+ * @return array<int, array{id:string, name:string, hex:string}>
+ */
+function nwcs_color_palette_defaults(): array {
+	$out = array();
+
+	foreach ( nwcs_color_default_presets() as $name => $hex ) {
+		$out[] = array(
+			'id'   => 'c' . substr( md5( 'nwcs-renk-' . $name ), 0, 8 ),
+			'name' => (string) $name,
+			'hex'  => $hex,
+		);
+	}
+
+	return $out;
+}
+
+/**
+ * Yeni renk kimligi (liste icinde tekil, degismez).
+ */
+function nwcs_color_palette_new_id(): string {
+	return 'c' . bin2hex( random_bytes( 4 ) );
+}
+
+/**
+ * Renk listesini temizler (kayit ve okuma icin ayni kural): adi bos ya da
+ * renk kodu gecersiz satir atilir; ayni ad (Turkce harf ve buyuk/kucuk harf
+ * farki gozetilmez) ikinci kez gecerse ikincisi atilir; en fazla
+ * NWCS_COLOR_PALETTE_MAX renk.
+ *
+ * @param mixed $raw
+ * @return array<int, array{id:string, name:string, hex:string}>
+ */
+function nwcs_color_palette_clean( $raw ): array {
+	$out   = array();
+	$ids   = array();
+	$names = array();
+
+	foreach ( is_array( $raw ) ? $raw : array() as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+
+		$name = mb_substr( nwcs_clean_text( $row['name'] ?? '' ), 0, NWCS_COLOR_NAME_MAX );
+		$hex  = nwcs_color_hex( (string) ( $row['hex'] ?? '' ) );
+		$key  = nwcs_search_fold( $name );
+
+		if ( '' === $name || '' === $hex || isset( $names[ $key ] ) ) {
+			continue;
+		}
+
+		$id = sanitize_key( (string) ( $row['id'] ?? '' ) );
+
+		if ( '' === $id || isset( $ids[ $id ] ) ) {
+			$id = nwcs_color_palette_new_id();
+		}
+
+		$ids[ $id ]    = true;
+		$names[ $key ] = true;
+		$out[]         = array(
+			'id'   => $id,
+			'name' => $name,
+			'hex'  => $hex,
+		);
+
+		if ( count( $out ) >= NWCS_COLOR_PALETTE_MAX ) {
+			break;
+		}
+	}
+
+	return $out;
+}
+
+/**
+ * Listede adi verilen renk (Turkce harf ve buyuk/kucuk harf farki
+ * gozetilmez); yoksa null.
+ *
+ * @return array{id:string, name:string, hex:string}|null
+ */
+function nwcs_color_palette_find( string $name, ?array $palette = null ): ?array {
+	$key = nwcs_search_fold( trim( $name ) );
+
+	if ( '' === $key ) {
+		return null;
+	}
+
+	foreach ( $palette ?? nwcs_color_palette() as $color ) {
+		if ( nwcs_search_fold( $color['name'] ) === $key ) {
+			return $color;
+		}
+	}
+
+	return null;
 }
 
 /**
@@ -107,23 +243,15 @@ function nwcs_color_is_light( string $hex ): bool {
 }
 
 /**
- * Hazir renk adina gore yuvarlak rengi (Turkce harf ve buyuk/kucuk harf farki
- * gozetilmez); yoksa bos.
+ * Listedeki renk adina gore yuvarlak rengi (Turkce harf ve buyuk/kucuk harf
+ * farki gozetilmez); yoksa bos.
  */
 function nwcs_color_preset_hex( string $name ): string {
-	$name = nwcs_search_fold( trim( $name ) );
-
-	foreach ( nwcs_color_presets() as $label => $hex ) {
-		if ( '' !== $name && nwcs_search_fold( $label ) === $name ) {
-			return $hex;
-		}
-	}
-
-	return '';
+	return (string) ( nwcs_color_palette_find( $name )['hex'] ?? '' );
 }
 
 /**
- * Urun adinda gecen hazir renk (grup kurulurken uye satirini doldurmak icin):
+ * Urun adinda gecen listedeki renk (grup kurulurken uye satirini doldurmak icin):
  * en uzun eslesme kazanir ("Açık Meşe" "Meşe"den once). Yoksa bos.
  *
  * @return array{name:string, hex:string}
@@ -134,6 +262,7 @@ function nwcs_color_guess( string $title ): array {
 	$length   = 0;
 
 	foreach ( nwcs_color_presets() as $label => $hex ) {
+		$label = (string) $label; // "7016" gibi rakamli ad dizide sayi anahtar olur.
 		// "Amber (Açık Meşe)": parantezli adin iki parcasi da aranir.
 		$parts = array_filter( array_map( 'trim', preg_split( '/[()]/u', $label ) ?: array() ) );
 
