@@ -654,6 +654,33 @@ Sipariş ve ödeme **yok**: ziyaretçi ürünleri toplar, hepsi için tek seferd
   `assets/site.css`. Deneme `scripts/dev/check-live-search.php` (`keep` deneme ürünlerini
   bırakır, `clean` siler).
 
+## Ürün XML beslemesi (NWCS 0.27.3; Koçist ve WOOD KOCIST)
+
+Ailways asistanının ürün aktarıcısı için site başına ürün listesi. Ürün adresleri siteye göre
+değiştiği için her sitenin kendi adresi var:
+
+- **Adres:** `https://<site-alan-adı>/urunler.xml`; yerelde `http://localhost:8080/kocist/urunler.xml`
+  ve `http://localhost:8080/woodkocist/urunler.xml`. Yalnızca katalog sitelerinde
+  (`nwcs_catalog_site_key()` dolu); diğer sitelerde normal 404. Kalıcı bağlantı yenilemesi
+  gerekmez, tema değişikliği yok.
+- **Satırlar:** sitede görünen ürünler (`nwcs_site_products`: seçim, gizli ürünler, site başına
+  ad ve adres); renk grupları sadeleşmez, her renk ayrı `<urun>`. Alanlar ve aktarıcıdaki
+  karşılıkları: `ad` (Ürün Adı), `kod` (Ürün Kodu), `fiyat` (Fiyat), `indirimsiz_fiyat` (hep boş),
+  `gorsel` (Görsel URL), `ek_gorseller`, `gorseller`, `link` (Ürün Linki), `kategori`,
+  `aciklama` (Açıklama), `kdv_orani` (KDV Oranı, şimdilik hep boş), `renk`.
+- **Fiyat:** düz tutar `10250.00` (nokta, iki hane). Fiyatsız, "…'den başlayan", birden çok
+  tutarlı ve "$" (USD) fiyatta **boş = teklif**; 0 yazılmaz. Kural Koçist'in JSON-LD fiyatıyla
+  aynı (`kocist_price_number`), USD hariç: beslemede para birimi alanı yok.
+- **Görseller:** havuzdaki galeri sırasıyla tam boy (`full`), sitenin kendi adresinde. `gorsel`
+  ilki, `ek_gorseller` kalanlar `|` ile, `gorseller` hepsi iç içe `<url>`. Yer tutucu (seed)
+  görsel yazılmaz.
+- **Kategori:** `Üst başlık > Kategori` (Koçist ürün grubu, WOOD KOCIST seri); yerleşimi yoksa
+  kategori adı. **Açıklama:** kısa açıklama; boşsa uzun açıklamanın ilk ~300 karakteri. Metinler
+  düz yazı, UTF-8, XML için kaçırılmış.
+- **Başlıklar:** `Content-Type: application/xml; charset=UTF-8`, `X-Robots-Tag: noindex`,
+  `Cache-Control: public, max-age=900`. Site haritasında ve llms.txt'de yok.
+- Kod: `includes/product-feed.php`. Deneme `scripts/dev/check-product-feed.php`.
+
 ## Ürün açıklamaları (toplu)
 
 **Ürün Havuzu → Ürün açıklamaları**: bir kategori (ya da tüm ürünler) seçilip Excel indirilir:

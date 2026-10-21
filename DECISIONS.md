@@ -2175,3 +2175,45 @@ büyük bir liste, genişte yanında seçili ürünün önizlemesi ve sepete ekl
   `check-color-palette` geçti; başsız Chrome ile iki sitede 1280 px (liste, kalın eşleşme, ↑ ↓,
   Enter, Esc, dışarı tıklama, önizleme, teklif sepetine / sepete ekleme ve üst menü sayısı, sonuç
   yok) ve 390 px (yalnızca liste, yatay kaydırma yok), konsol hatası yok.
+
+## Ürün XML beslemesi: Ailways ürün aktarıcısı (NWCS 0.27.3, 20 Ekim 2026)
+
+Ailways asistanının ürün aktarıcısı her siteden ürün listesini XML olarak okur (alanlar: Ürün Adı*,
+Ürün Kodu*, Fiyat*, İndirimsiz Fiyat, Görsel URL, Ürün Linki, Kategori, Açıklama, KDV Oranı).
+
+- **Site başına adres:** `<site>/urunler.xml` (canlıda `https://<alan-adı>/urunler.xml`). Ürün
+  adresleri siteye göre değiştiği için tek ağ beslemesi değil. Yalnızca katalog siteleri
+  (`nwcs_catalog_site_key()` dolu: Koçist, WOOD KOCIST); diğerleri normal 404. Eklentide, tema
+  değişikliği yok (canlı aramadaki gibi tema süzgeci gerekmedi: katalog bilgisi manifestte).
+- **Yönlendirme:** `parse_request`'te tam eşitlik (sitenin ev yolu + `urunler.xml`; sorgu metni yok
+  sayılır). Yeniden yazma kuralı yok (kalıcı bağlantı yenilemesi gerekmez); sorgu ve kanonik
+  yönlendirmeden önce çıkıldığı için sona eğik çizgi ya da yönlendirme eklenmez. Alt klasörde
+  (yerel) ve eşlenmiş alan adında (canlı) aynı kod. `urunler.xml/` ve benzerleri besleme değil.
+- **Satırlar:** `nwcs_site_products()` (seçim, gizli ürünler, site başına ad ve adres). Renk grubu
+  sadeleşmez: her renk ayrı satır, `<renk>` renk adı (aktarıcıda her ürün kendi kodu ve sayfasıyla).
+  Kodsuz eski ürün satır olarak kalır, `<kod>` boş (uydurulmaz).
+- **Fiyat:** Koçist JSON-LD Offer kuralı (`kocist_price_number`; eklentinin `seo.php`'si yalnızca o
+  sayıyı alır) eklentiye taşındı (`nwcs_product_feed_price`): "10.250 ₺" → `10250.00`. Fiyatsız,
+  "…'den başlayan", birden çok tutar, birimsiz sayı ve 0 → **boş** (= teklif). "$" (USD) fiyat da
+  boş: beslemede para birimi alanı yok, aktarıcı TL sanardı. WOOD KOCIST'in `wk_price_number`'ı daha
+  gevşek (rakamları toplar); beslemede iki site aynı sıkı kuralı kullanır. `indirimsiz_fiyat` boş
+  (sistemde indirim yok); `kdv_orani` şimdilik boş (kullanıcı kararı).
+- **Görseller:** havuz sitesinde tam boy (`full`), galeri sırasıyla (site istisnası görseli önde).
+  Adres o sitenin sayfalarındaki gibi kurulur (istek o sitede; canlıda sitenin alan adı, yerelde
+  `/kocist/wp-content/uploads/...`). `gorsel` ilki, `ek_gorseller` kalanlar `|` ile, `gorseller`
+  hepsi iç içe `<url>` (liste okuyan aktarıcılar için; üst düzeydeki `<gorsel>` ile karışmasın). Yer tutucu yazılmaz: Koçist'in kuralı (alt metinde
+  "yer tutucu"/"örnek", temadaki demo dosya adı) ve seed dosyaları (`ornek-urun-*`).
+- **Kategori:** `Üst başlık > Kategori` (`nwcs_product_place`); yalnızca üst başlığın kendi
+  kategorisindeyse üst başlık; yerleşimi yoksa havuzdaki ilk kategori adı. **Açıklama:** sitedeki
+  kısa açıklama; boşsa uzun açıklamanın ilk ~300 karakteri, kelime sınırında "…".
+- **Metin:** düz yazı (etiketler atılır, etiket olmayan "<" korunur), UTF-8, `ENT_XML1` ile
+  kaçırılır; XML 1.0'da yasak kontrol karakterleri atılır.
+- **Başlıklar ve önbellek:** `application/xml; charset=UTF-8`, `X-Robots-Tag: noindex`,
+  `Cache-Control: public, max-age=900`; HEAD gövdesiz. Ayrı çıktı önbelleği (transient) yok:
+  liste önbellekli havuzdan kurulur, görsel kayıtları tek seferde okunur (`_prime_post_caches`);
+  panel değişikliğinden sonra besleme hiç eskimez. Site haritasında ve llms.txt'de yok.
+- Doğrulama: `scripts/dev/check-product-feed.php` (iki sitede HTTP: geçerli XML, satır sayısı ve
+  sıra, alanlar; fiyat (16 örnek, Koçist kuralıyla eşitlik); gizli ürün, site başına adres ve ad;
+  renk grubu; görsel sırası, tam boy, sitenin adresi, yer tutucu; kategori; açıklama; özel
+  karakterler; başlıklar, HEAD, tam eşitlik; katalog olmayan siteler 404; E_ALL);
+  `check-live-search`, `check-quote-basket`, `check-color-groups` geçti.
