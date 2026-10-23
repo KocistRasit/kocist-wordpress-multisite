@@ -524,3 +524,9 @@ a.ik-contact__value:hover { text-decoration: underline; text-decoration-color: v
 .ik-depo .ik-story__grid { align-items: start; }
 .ik-depo__areas { columns: 2; column-gap: 2rem; }
 .ik-depo__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+
+/* Ahsap Palet sayfasindaki palet sitesi notu */
+.ik-product__related { margin-top: 1.25rem; padding: 0.9rem 1rem; border-left: 3px solid var(--filiz); background: color-mix(in srgb, var(--filiz) 8%, transparent); }
+.ik-product__related a { color: var(--kabuk); font-weight: 600; margin-left: 0.25rem; }
+.ik-product__guides { list-style: disc; padding-left: 1.25rem; }
+.ik-product__guides a { color: var(--kabuk); }
