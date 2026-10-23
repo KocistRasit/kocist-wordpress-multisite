@@ -16,11 +16,16 @@
  *
  * Surum 2: Sik Sorulan Sorular sayfasi (/sss/). Kurulu sitede (surum 1)
  * yalnizca bu sayfa acilir; kurulumun geri kalani yeniden calismaz.
+ *
+ * Surum 3: rehber yazilari (content/blog-posts.php'ye sonradan eklenenler)
+ * kurulu siteye de eklenir; "Istanbul Kereste Fiyatlari" yazisi, metni ilk
+ * kurulumdaki haliyle duruyorsa yeni metne gecer. Elle duzenlenmis yaziya
+ * dokunulmaz.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-const IK_SETUP_VERSION = 2;
+const IK_SETUP_VERSION = 3;
 
 add_action( 'after_switch_theme', 'ik_run_setup' );
 add_action( 'admin_init', 'ik_maybe_setup' );
@@ -40,8 +45,16 @@ function ik_maybe_setup(): void {
 	}
 
 	if ( $installed >= 1 ) {
-		// Kurulu site: yalnizca sonradan eklenen sayfalar.
-		ik_setup_page( 'sss', 'Sık Sorulan Sorular' );
+		// Kurulu site: yalnizca sonradan eklenenler.
+		if ( $installed < 2 ) {
+			ik_setup_page( 'sss', 'Sık Sorulan Sorular' );
+		}
+
+		if ( $installed < 3 ) {
+			ik_setup_posts();
+			ik_setup_refresh_price_post();
+		}
+
 		update_option( 'ik_setup_version', IK_SETUP_VERSION );
 		return;
 	}
@@ -144,6 +157,14 @@ function ik_setup_demo_posts(): void {
 		wp_update_post( array( 'ID' => $hello->ID, 'post_status' => 'draft' ) );
 	}
 
+	ik_setup_posts();
+}
+
+/**
+ * content/blog-posts.php'deki yazilardan sitede olmayanlari acar. Adres adi
+ * (cop kutusundakiler dahil) varsa yazi yeniden olusturulmaz.
+ */
+function ik_setup_posts(): void {
 	// Metinler content/blog-posts.php'de; panel de ayni dosyadan okur.
 	$posts = (array) include get_theme_file_path( 'content/blog-posts.php' );
 
@@ -188,12 +209,61 @@ function ik_setup_demo_posts(): void {
 }
 
 /**
- * Bos satirla ayrilmis metni <p> paragraflarina cevirir.
+ * Yazi metnini HTML'e cevirir: paragraf, ara baslik, liste ve tablo
+ * (functions.php: ik_rich_html).
  */
 function ik_setup_paragraphs( string $text ): string {
-	$blocks = array_filter( array_map( 'trim', preg_split( '/\R\s*\R/u', trim( $text ) ) ) );
+	return ik_rich_html( $text );
+}
 
-	return implode( "\n", array_map( static fn( string $block ): string => '<p>' . esc_html( $block ) . '</p>', $blocks ) );
+/**
+ * "Istanbul Kereste Fiyatlari" yazisi ilk kurulumda 75 kelimelik bir girisle
+ * acilmisti; tek rakam bile icermiyordu. Yazi hala o metinle duruyorsa (baslik,
+ * ozet ve metin birebir) yeni metne gecer. Yonetimden ya da panelden
+ * degistirilmis yaziya dokunulmaz. Yayin tarihi korunur; guncelleme tarihi
+ * WordPress tarafindan yazilir.
+ */
+function ik_setup_refresh_price_post(): void {
+	$old = array(
+		'title'   => 'İstanbul Kereste Fiyatları Nedir?',
+		'excerpt' => 'Kereste tüm Türkiye genelinde oldukça yaygın kullanım alanına sahip bir üründür. İstanbul’da kereste fiyatları hakkında güncel bilgileri bu yazıda derledik.',
+		'body'    => "Kereste tüm Türkiye genelinde oldukça yaygın kullanım alanına sahip bir üründür. İstanbul içerisinde kereste fiyatları hakkında güncel bilgileri derlediğimiz bu yazımızda sizlere güncel kereste fiyatları hakkında bilgiler derledik.\n\nKereste pek çok alanda kullanıma uygun bir ürün olmasından ötürü kolay işleme alınarak hazırlanabilmektedir. Uygun fiyatlı olan bu keresteler mobilya, dekorasyon ve inşaat sektörlerinin kullanım alanlarında önemli bir yere sahiptir.",
+	);
+
+	$found = get_posts(
+		array(
+			'name'           => 'istanbul-kereste-fiyatlari',
+			'post_type'      => 'post',
+			'post_status'    => 'publish',
+			'posts_per_page' => 1,
+		)
+	);
+
+	if ( ! $found ) {
+		return;
+	}
+
+	$post = $found[0];
+	$text = static fn( string $html ): string => trim( (string) preg_replace( '/\s+/u', ' ', html_entity_decode( wp_strip_all_tags( $html ), ENT_QUOTES, 'UTF-8' ) ) );
+
+	if ( $post->post_title !== $old['title'] || $text( $post->post_content ) !== $text( ik_rich_html( $old['body'] ) ) ) {
+		return;
+	}
+
+	foreach ( (array) include get_theme_file_path( 'content/blog-posts.php' ) as $new ) {
+		if ( 'istanbul-kereste-fiyatlari' !== $new['slug'] ) {
+			continue;
+		}
+
+		wp_update_post(
+			array(
+				'ID'           => $post->ID,
+				'post_title'   => $new['title'],
+				'post_excerpt' => $post->post_excerpt === $old['excerpt'] ? $new['excerpt'] : $post->post_excerpt,
+				'post_content' => ik_setup_paragraphs( $new['body'] ),
+			)
+		);
+	}
 }
 
 /**

@@ -523,10 +523,7 @@ function ik_post_content( $content ) {
 		return $content;
 	}
 
-	ob_start();
-	ik_paragraphs( $body );
-
-	return (string) ob_get_clean();
+	return ik_rich_html( $body );
 }
 
 add_filter( 'post_thumbnail_id', 'ik_post_thumbnail', 10, 2 );
@@ -787,6 +784,62 @@ function ik_image_or_default( array $image, string $file, string $alt = '' ): ar
 /**
  * Bos satirla ayrilmis metni paragraflara boler.
  */
+/**
+ * Yazi metni icin hafif bicim: bos satirla ayrilan her blok bir paragraf;
+ * "## " ile baslayan blok ara baslik (h2), "### " h3, her satiri "- " ile
+ * baslayan blok madde listesi, her satiri "|" ile baslayan blok tablo (ilk
+ * satir baslik; "| --- |" ayirici satiri atlanir). Kurulumun yazdigi yazi
+ * icerigi ve paneldeki yazi metni ayni kurallarla cizilir.
+ */
+function ik_rich_html( string $text ): string {
+	$html = array();
+
+	foreach ( preg_split( '/\R\s*\R/u', trim( $text ) ) as $block ) {
+		$block = trim( $block );
+
+		if ( '' === $block ) {
+			continue;
+		}
+
+		$lines = array_map( 'trim', preg_split( '/\R/u', $block ) );
+
+		if ( preg_match( '/^(#{2,3}) (.+)$/u', $block, $m ) && 1 === count( $lines ) ) {
+			$level  = strlen( $m[1] );
+			$html[] = sprintf( '<h%1$d>%2$s</h%1$d>', $level, esc_html( $m[2] ) );
+			continue;
+		}
+
+		if ( count( $lines ) === count( preg_grep( '/^- /u', $lines ) ) ) {
+			$items  = array_map( static fn( string $line ): string => '<li>' . esc_html( substr( $line, 2 ) ) . '</li>', $lines );
+			$html[] = '<ul>' . implode( '', $items ) . '</ul>';
+			continue;
+		}
+
+		if ( count( $lines ) === count( preg_grep( '/^\|/u', $lines ) ) ) {
+			$rows = array();
+
+			foreach ( $lines as $line ) {
+				$cells = array_map( 'trim', explode( '|', trim( $line, '|' ) ) );
+
+				if ( preg_match( '/^[\s|:-]+$/u', $line ) ) {
+					continue;
+				}
+
+				$tag    = $rows ? 'td' : 'th';
+				$rows[] = '<tr>' . implode( '', array_map( static fn( string $cell ): string => "<$tag>" . esc_html( $cell ) . "</$tag>", $cells ) ) . '</tr>';
+			}
+
+			$head   = array_shift( $rows );
+			$html[] = '<div class="ik-table"><table><thead>' . $head . '</thead><tbody>' . implode( '', $rows ) . '</tbody></table></div>';
+			continue;
+		}
+
+		$html[] = '<p>' . nl2br( esc_html( $block ) ) . '</p>';
+	}
+
+	return implode( "\n", $html );
+}
+
 function ik_paragraphs( string $text, string $class = '' ): void {
 	foreach ( preg_split( '/\R\s*\R/u', trim( $text ) ) as $block ) {
 		$block = trim( $block );
