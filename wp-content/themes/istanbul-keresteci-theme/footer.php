@@ -37,9 +37,12 @@ defined( 'ABSPATH' ) || exit;
 			<div class="ik-footer__col">
 				<h2 class="ik-footer__title" <?php nwcs_edit_attr( 'global', 'footer', 'contact_title' ); ?>><?php echo esc_html( nwcs_field( 'global', 'footer', 'contact_title' ) ); ?></h2>
 				<address class="ik-footer__contact">
+					<?php // Adres Catalca depo sayfasina gider (yol tarifi ve teslim bolgeleri orada). ?>
 					<p <?php nwcs_edit_attr( 'global', 'footer', 'address' ); ?>>
-						<?php ik_icon( 'pin', 18 ); ?>
-						<span><?php echo nl2br( esc_html( nwcs_field( 'global', 'footer', 'address' ) ) ); ?></span>
+						<a href="<?php echo esc_url( ik_link( '/catalca-kereste-deposu/' ) ); ?>">
+							<?php ik_icon( 'pin', 18 ); ?>
+							<span><?php echo nl2br( esc_html( nwcs_field( 'global', 'footer', 'address' ) ) ); ?></span>
+						</a>
 					</p>
 					<?php foreach ( array( 'phone' => 'phone', 'whatsapp' => 'whatsapp', 'email' => 'mail' ) as $channel => $icon ) : ?>
 						<p>

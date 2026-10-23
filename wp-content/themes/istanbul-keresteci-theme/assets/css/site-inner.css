@@ -1729,3 +1729,9 @@ a.ik-contact__value:hover { text-decoration: underline; text-decoration-color: v
 }
 
 .ik-pagination .page-numbers.current { background: var(--golge); color: #fff; border-color: var(--golge); }
+
+/* Catalca depo sayfasi */
+.ik-depo { padding-top: 0; }
+.ik-depo .ik-story__grid { align-items: start; }
+.ik-depo__areas { columns: 2; column-gap: 2rem; }
+.ik-depo__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }

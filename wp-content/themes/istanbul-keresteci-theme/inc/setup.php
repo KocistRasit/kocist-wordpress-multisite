@@ -21,11 +21,13 @@
  * kurulu siteye de eklenir; "Istanbul Kereste Fiyatlari" yazisi, metni ilk
  * kurulumdaki haliyle duruyorsa yeni metne gecer. Elle duzenlenmis yaziya
  * dokunulmaz.
+ *
+ * Surum 4: Catalca kereste deposu sayfasi (/catalca-kereste-deposu/).
  */
 
 defined( 'ABSPATH' ) || exit;
 
-const IK_SETUP_VERSION = 3;
+const IK_SETUP_VERSION = 4;
 
 add_action( 'after_switch_theme', 'ik_run_setup' );
 add_action( 'admin_init', 'ik_maybe_setup' );
@@ -55,6 +57,10 @@ function ik_maybe_setup(): void {
 			ik_setup_refresh_price_post();
 		}
 
+		if ( $installed < 4 ) {
+			ik_setup_page( 'catalca-kereste-deposu', 'Çatalca Kereste Deposu' );
+		}
+
 		update_option( 'ik_setup_version', IK_SETUP_VERSION );
 		return;
 	}
@@ -79,6 +85,7 @@ function ik_run_setup(): void {
 		'blog'        => 'Blog',
 		'iletisim'    => 'İletişim',
 		'sss'         => 'Sık Sorulan Sorular',
+		'catalca-kereste-deposu' => 'Çatalca Kereste Deposu',
 	);
 
 	$ids = array();
