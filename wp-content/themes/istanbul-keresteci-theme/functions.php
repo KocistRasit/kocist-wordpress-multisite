@@ -340,6 +340,7 @@ function ik_seo_product_pages( array $pages ): array {
 		$pages[] = array(
 			'url'         => $product['url'],
 			'name'        => '' !== $seo_title ? $seo_title : $product['title'],
+			'title'       => '' !== $seo_title ? '' : ik_product_seo_title( $product['title'] ),
 			'description' => '' !== $seo_description ? $seo_description : ( '' !== trim( $product['short'] ) ? $product['short'] : $product['body'] ),
 			'image'       => $seo_image ? $seo_image : $image,
 			'type'        => 'Product',
@@ -351,6 +352,26 @@ function ik_seo_product_pages( array $pages ): array {
 	}
 
 	return $pages;
+}
+
+/**
+ * Urun sayfasinin arama basligi (panelde "Arama basligi" bossa).
+ *
+ * "Kereste - Istanbul Keresteci" aramada hicbir ticari kelime tasimiyor;
+ * insanlar "kereste satisi", "osb plaka fiyatlari" diye ariyor. Fiyat sayfada
+ * telefonla verildigi icin "fiyatlari" sozu yaniltici degil. 60 karakteri
+ * asarsa kisa kalip.
+ */
+function ik_product_seo_title( string $title ): string {
+	$title = trim( $title );
+
+	if ( '' === $title ) {
+		return '';
+	}
+
+	$long = $title . ' Satışı ve Fiyatları | İstanbul Keresteci';
+
+	return mb_strlen( $long ) <= 60 ? $long : $title . ' Satışı | İstanbul Keresteci';
 }
 
 /**
