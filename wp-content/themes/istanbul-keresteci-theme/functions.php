@@ -1477,3 +1477,37 @@ function ik_hide_missing_sss( array $rows ): array {
  */
 add_filter( 'wp_speculation_rules_configuration', '__return_null' );
 remove_action( 'wp_head', 'rsd_link' );
+
+/**
+ * Calisma saatleri (arama verisi). Sitede gorunen metin Iletisim sayfasindaki
+ * "Calisma Saatleri" alanidir; saat degisirse ikisi birlikte guncellenir.
+ */
+const IK_OPENING_HOURS = array(
+	array( array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ), '08:00', '19:00' ),
+	array( array( 'Sunday' ), '10:00', '19:00' ),
+);
+
+// Ortak eklentiye dokunmadan: eklentinin firma kaydiyla ayni @id'ye bagli
+// ayri bir JSON-LD blogu. Google ayni @id'li dugumleri birlestirir.
+add_action(
+	'wp_head',
+	static function (): void {
+		$data = array(
+			'@context'                  => 'https://schema.org',
+			'@type'                     => 'LocalBusiness',
+			'@id'                       => home_url( '/' ) . '#organization',
+			'openingHoursSpecification' => array_map(
+				static fn( array $row ): array => array(
+					'@type'     => 'OpeningHoursSpecification',
+					'dayOfWeek' => $row[0],
+					'opens'     => $row[1],
+					'closes'    => $row[2],
+				),
+				IK_OPENING_HOURS
+			),
+		);
+
+		echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . "</script>\n";
+	},
+	30
+);

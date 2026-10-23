@@ -44,6 +44,13 @@ defined( 'ABSPATH' ) || exit;
 							<span><?php echo nl2br( esc_html( nwcs_field( 'global', 'footer', 'address' ) ) ); ?></span>
 						</a>
 					</p>
+					<?php // Calisma saatleri Iletisim sayfasindaki alandan gelir (tek kaynak). ?>
+					<?php if ( '' !== trim( (string) nwcs_field( 'contact', 'info', 'hours' ) ) ) : ?>
+						<p <?php nwcs_edit_attr( 'contact', 'info', 'hours' ); ?>>
+							<?php ik_icon( 'clock', 18 ); ?>
+							<span><?php echo nl2br( esc_html( nwcs_field( 'contact', 'info', 'hours' ) ) ); ?></span>
+						</p>
+					<?php endif; ?>
 					<?php foreach ( array( 'phone' => 'phone', 'whatsapp' => 'whatsapp', 'email' => 'mail' ) as $channel => $icon ) : ?>
 						<p>
 							<a href="<?php echo esc_url( ik_link( nwcs_field( 'global', 'footer', $channel . '_url' ) ) ); ?>" <?php nwcs_edit_attr( 'global', 'footer', $channel . '_label' ); ?>>
