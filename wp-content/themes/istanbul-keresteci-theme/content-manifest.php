@@ -32,7 +32,7 @@ $ik_products = array(
 		'title' => 'Kereste',
 		'short' => 'Yumuşak ve sert kereste olarak ikiye ayrılan, inşaattan mobilyaya pek çok alanda kullanılan ürünler.',
 		'body'  => "Yumuşak ve sert kereste olarak ikiye ayrılan keresteler, pek çok alanda kullanıma uygun ürünlerdir. İnşaat, ambalaj, mobilya, dekorasyon alanlarında sıklıkla kullanılan keresteler birçok ağaç çeşidinden imal edilebilir.\n\nTomrukların boyuna biçilmesi ile oluşturulan keresteler, birbirine paralel gelen iki yüzeye sahip ağaç parçalarından oluşmaktadır.",
-		'specs' => "Ağaç türü: Çam, köknar, kayın, meşe\nSınıf: Yumuşak ve sert kereste\nKullanım: İnşaat, ambalaj, mobilya, dekorasyon\nKesim: İstenen boy ve kalınlıkta",
+		'specs' => "Ağaç türü: Çam, köknar, kayın, meşe\nSınıf: Yumuşak ve sert kereste\nKullanım: İnşaat, ambalaj, mobilya, dekorasyon\nKesim: İstenen boy ve kalınlıkta\nÖzel imalat: Her ebatta",
 		'image' => 0,
 	),
 	array(
@@ -40,7 +40,7 @@ $ik_products = array(
 		'title' => 'Ahşap Palet',
 		'short' => 'Hacmi yüksek ürünleri taşımak ve korumak için, standartlara uygun ve uzun ömürlü paletler.',
 		'body'  => "Hacmi yüksek ürünleri taşımak ve muhafaza etmek amacıyla kullanılan, standartlara uygun üretime sahip ahşap paletler uzun süreli kullanıma uygun ürünlerdir.\n\nTaşımacılık sektöründe, ürünlerin muhafaza edilme süreçlerinde, ürünün temiz, kuru ve zarar görmeden saklanması amacıyla ahşap palet kullanımı uygundur. Ahşap paletler uzun süreli kullanılabilir, verimli ve sürdürülebilir ürünlerdir.\n\nStandart boyutların yanında özel üretim ahşap paletler de imal edilmektedir.",
-		'specs' => "Ölçü: Standart ve özel ölçü\nKullanım: Taşıma, depolama, muhafaza",
+		'specs' => "Ölçü: Standart ve özel ölçü\nÖzel imalat: Her ebatta\nKullanım: Taşıma, depolama, muhafaza",
 		'image' => 0,
 	),
 	array(
@@ -48,7 +48,7 @@ $ik_products = array(
 		'title' => 'Ahşap Sandık',
 		'short' => 'Yüksek hacimli ürünlerin taşınması, korunması ve depolanması için verimli bir çözüm.',
 		'body'  => "Hacim yüksekliği fazla olan ürün veya malzemelerin taşımacılığında, muhafaza ve depolama süreçlerinde kullanıma uygun olan ahşap sandıklar iş alanında oldukça verimli kullanım imkanları sunmaktadır.\n\nZaman, maliyet ve mekân anlamında tasarruf imkanı sunarak düşük depolama maliyetleri sunmaktadır. Uzun süreli kullanım imkanının bulunmasından ötürü ahşap sandıklar, tamir edilebilir, dönüştürülebilir ve geri dönüşümü sağlanabilir.",
-		'specs' => "Ölçü: İstenen ölçüde\nKullanım: Taşıma, muhafaza, depolama\nÖmür: Tamir edilebilir, geri dönüştürülebilir",
+		'specs' => "Ölçü: İstenen ölçüde\nÖzel imalat: Her ebatta\nKullanım: Taşıma, muhafaza, depolama\nÖmür: Tamir edilebilir, geri dönüştürülebilir",
 		'image' => 0,
 	),
 	array(
@@ -56,7 +56,7 @@ $ik_products = array(
 		'title' => 'Ahşap Kafes',
 		'short' => 'Taşıma ve depolamayı birlikte çözen, paletin yetmediği yerde kullanılan kafesler.',
 		'body'  => "Aynı anda taşınma ve depolanma imkânı sunan ahşap kafesler iş yükünü azaltma konusu başta olmak üzere bir çok konuda pratik çözümler sunmaktadır. Ham madde tedarik eden firmalar ve ihracat yapan firmalar başta olmak üzere sevkiyat işlemlerinde kullanıma uygun ürünlerdir.\n\nPaletin uygun olmadığı durumlarda genellikle ahşap kafesler kullanılmaktadır. Transpalet ve forklift ile taşımaya uygun olan kafeslerin çevresi belli aralıklarla çivi ve keresteler ile desteklenmiştir.\n\nStandart ölçüleri dışında istenilen boyutta da üretimi gerçekleştirilebilir. İstiflenmesi zor ürünlerin yerleştirilmesi için uygundur.",
-		'specs' => "Ölçü: Standart ve özel ölçü\nTaşıma: Transpalet ve forklift ile\nKullanım: Ham madde ve ihracat sevkiyatı",
+		'specs' => "Ölçü: Standart ve özel ölçü\nÖzel imalat: Her ebatta\nTaşıma: Transpalet ve forklift ile\nKullanım: Ham madde ve ihracat sevkiyatı",
 		'image' => 0,
 	),
 	array(
@@ -72,7 +72,7 @@ $ik_products = array(
 		'title' => 'OSB Plaka',
 		'short' => 'Yongaların tutkalla preslenmesiyle üretilen, çatı ve döşemede kullanılan plaka.',
 		'body'  => "Ahşap parçalarının boyuna olacak şekilde rendelenmesiyle birlikte çıkan yongalar yapıştırıcı ve tutkallar ile birlikte bir araya getirilmektedir. Kimyasalların, sıcaklık ve basıncın da etkisiyle birleşen ufak parçalar OSB plakayı oluşturmaktadır.\n\nKolay uygulanabilir yapısı bulunmaktadır. Zımpara işlemi gerektirmeyen doğal bir yapıya sahiptir. Boyut olarak çeşitli boyutlarda veya istenilen ebatlarda üretimi gerçekleştirilebilir.\n\nEn fazla kullanıldığı alan ise çatı kaplamaları olmakla birlikte; dekor, döşeme, duvar ve panolarda kullanıma uygun parçalardandır.",
-		'specs' => "Yapı: Tutkalla preslenmiş ahşap yongalar\nYüzey: Zımpara gerektirmez\nKullanım: Çatı kaplaması, döşeme, duvar, pano\nÖlçü: İstenen ebatta",
+		'specs' => "Yapı: Tutkalla preslenmiş ahşap yongalar\nYüzey: Zımpara gerektirmez\nKullanım: Çatı kaplaması, döşeme, duvar, pano\nÖlçü: İstenen ebatta kesim",
 		'image' => 0,
 	),
 	array(
@@ -80,7 +80,7 @@ $ik_products = array(
 		'title' => 'Kontrplak',
 		'short' => 'Dik katmanlardan preslenen hafif, çatlamaya dayanıklı ve kolay işlenen levha.',
 		'body'  => "Kayın, kavak, huş ve egzotik çam ağaçlarının gövde kısımlarından imal edilerek özel makineler eşliğinde elde edilen levhalar; dik gelecek şekilde özel bir yapıştırıcı ile yapıştırılır. Ardından preslenerek levha haline getirilir.\n\nİstenilen boyut ve ebatlarda üretimi gerçekleştirilen kontrplaklar inşaat, dekorasyon, mobilya, zemin, parke, çatı, tekne inşaatı, otomotiv, iskele ve oyuncak gibi birçok alanda kullanıma uygun ürünlerdir.\n\nHafif olması sebebiyle tercih edilme oranı çok daha yüksektir. Çatlamaya karşı direncinin olması sebebiyle uzun süreli kullanıma sahiptir. Boya tutan üst yüzeyi cilaya uygundur. Suya karşı dayanıklıdır, kolaylıkla işlenir ve vida tutar.",
-		'specs' => "Ağaç türü: Kayın, kavak, huş, egzotik çam\nYapı: Dik katmanlar, yapıştırılıp preslenmiş\nÖzellik: Hafif, çatlamaya dayanıklı, vida tutar\nKullanım: İnşaat, mobilya, dekorasyon, zemin, çatı",
+		'specs' => "Ağaç türü: Kayın, kavak, huş, egzotik çam\nYapı: Dik katmanlar, yapıştırılıp preslenmiş\nÖzellik: Hafif, çatlamaya dayanıklı, vida tutar\nKullanım: İnşaat, mobilya, dekorasyon, zemin, çatı\nÖlçü: İstenen ebatta kesim",
 		'image' => 0,
 	),
 	array(
@@ -88,7 +88,7 @@ $ik_products = array(
 		'title' => 'Kalas',
 		'short' => 'Kalitesine göre ayrılıp kurutulan, birçok ağaç çeşidinden elde edilen kalaslar.',
 		'body'  => "Ağacın ahşap haline getirilmesiyle birlikte kalas olarak kullanıma uygun boyut ve şekillerde işlenmesinin ardından kalas elde edilmektedir. Ağacın kullanım alanı veya ömrü bittiğinde atölyelere götürülen malzeme kalas haline getirilmektedir.\n\nKalitesine göre ayrıştırılan kalaslar kurutularak müşterilerin erişebileceği şekilde satışa sunulmaktadır. Kullanım alanı oldukça geniş olan kalaslar bir çok ağaç çeşidinden elde edilebilirler.",
-		'specs' => "Ağaç türü: Birçok ağaç çeşidi\nAyrım: Kalitesine göre\nKurutma: Kurutulmuş",
+		'specs' => "Ağaç türü: Birçok ağaç çeşidi\nAyrım: Kalitesine göre\nKurutma: Kurutulmuş\nÖzel imalat: Her ebatta",
 		'image' => 0,
 	),
 	array(
@@ -96,7 +96,7 @@ $ik_products = array(
 		'title' => 'Plywood',
 		'short' => 'Çapraz tabakalardan preslenen, hafif, dayanıklı ve düz yüzeyli levha.',
 		'body'  => "Ahşap ince ağaç tabakalarının çapraz dik açıyla özel yapıştırıcılar eşliğinde yapıştırılarak preslenmesiyle tabaka haline getirilme işlemiyle elde edilen ahşaba plywood adı verilmektedir.\n\nDayanıklılığı oldukça yüksek olan plywoodların kullanım alanları oldukça geniştir. Tekrar tekrar kullanılarak işleme alınabilen çevreci ürünlerdir. İstenilen ölçü ve ebata getirilerek kullanıma sunulabilirler.\n\nHafif ve dayanıklı ahşap türlerindendir. Düz yüzeyli olduğu için geniş uygulama alanı sunar.",
-		'specs' => "Yapı: Çapraz dik ince tabakalar\nYüzey: Düz\nÖzellik: Hafif ve dayanıklı\nÖlçü: İstenen ölçü ve ebatta",
+		'specs' => "Yapı: Çapraz dik ince tabakalar\nYüzey: Düz\nÖzellik: Hafif ve dayanıklı\nÖlçü: İstenen ölçü ve ebatta kesim",
 		'image' => 0,
 	),
 	array(
@@ -104,7 +104,7 @@ $ik_products = array(
 		'title' => 'Çıta',
 		'short' => 'Çoğunlukla çamdan, silinmiş ve zımparalanmış; standart ve özel ölçüde çıta.',
 		'body'  => "Genellikle çam ağacından üretilen çıtalar silinmiş ve zımparalanmış şekliyle tüketiciye sunulabilir.\n\nStandart ölçülerinin yanı sıra farklı boyutlarda özel çıta üretimi imal edilebilir. Çıtalar günümüzde dekoratif amaçlı olarak sıklıkla kullanılmaktadır.",
-		'specs' => "Ağaç türü: Çoğunlukla çam\nYüzey: Silinmiş ve zımparalanmış\nÖlçü: Standart ve özel ölçü\nKullanım: Dekoratif",
+		'specs' => "Ağaç türü: Çoğunlukla çam\nYüzey: Silinmiş ve zımparalanmış\nÖlçü: Standart ve özel ölçü\nÖzel imalat: Her ebatta\nKullanım: Dekoratif",
 		'image' => 0,
 	),
 );
@@ -372,7 +372,7 @@ $manifest_data = array(
 					'fields' => array(
 						'heading'     => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Şantiyeye, atölyeye, fabrikaya kereste' ),
 						'company'     => array( 'label' => 'Ticari Unvan (küçük yazı)', 'type' => 'text', 'default' => 'Koçist Grup Dış Tic. ve San. Ltd. Şti.' ),
-						'text'        => array( 'label' => 'Metin', 'type' => 'textarea', 'default' => "Kereste ve kereste alanındaki bütün ürünlerde elli yıllık tecrübemizle hizmet veriyoruz.\n\nİstanbul’daki depomuzdan mobilya, dekorasyon, doğramalık, inşaatlık, kuyuluk ve kubbelik kereste satıyoruz. Ürün yelpazemizi her yıl genişletiyor, müşterimizin istediği ölçüyü ve kaliteyi zamanında teslim etmeyi esas alıyoruz." ),
+						'text'        => array( 'label' => 'Metin', 'type' => 'textarea', 'default' => "Dört nesildir kereste işindeyiz; kereste ve kereste alanındaki bütün ürünlerde bu tecrübeyle hizmet veriyoruz.\n\nİstanbul’daki depomuzdan mobilya, dekorasyon, doğramalık, inşaatlık, kuyuluk ve kubbelik kereste satıyoruz. Ürün yelpazemizi her yıl genişletiyor, müşterimizin istediği ölçüyü ve kaliteyi zamanında teslim etmeyi esas alıyoruz." ),
 						'image'       => array( 'label' => 'Fotoğraf', 'type' => 'image', 'default' => 0 ),
 						'link_label'  => array( 'label' => 'Bağlantı Metni', 'type' => 'text', 'default' => 'Hakkımızda daha fazlası' ),
 						'link_url'    => array( 'label' => 'Bağlantı', 'type' => 'url', 'default' => '/hakkimizda/' ),
@@ -444,7 +444,7 @@ $manifest_data = array(
 					'label'  => 'Sayfa Başlığı',
 					'fields' => array(
 						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Hakkımızda' ),
-						'text'  => array( 'label' => 'Açıklama', 'type' => 'textarea', 'default' => 'Elli yıldır kereste işindeyiz. Çatalca’daki depomuzdan İstanbul’un şantiyelerine, atölyelerine ve fabrikalarına ahşap taşıyoruz.' ),
+						'text'  => array( 'label' => 'Açıklama', 'type' => 'textarea', 'default' => 'Dört nesildir kereste işindeyiz. Çatalca’daki depomuzdan İstanbul’un şantiyelerine, atölyelerine ve fabrikalarına ahşap taşıyoruz.' ),
 						'image' => array( 'label' => 'Fotoğraf', 'type' => 'image', 'default' => 0 ),
 					),
 				),
@@ -452,7 +452,7 @@ $manifest_data = array(
 					'label'  => 'Hikâye',
 					'fields' => array(
 						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Koçist Grup’un kereste kolu' ),
-						'text'  => array( 'label' => 'Metin', 'type' => 'textarea', 'default' => "Sahip olduğumuz bilgi birikimini ve teknik imkânlarımızı her gün ileri taşıyarak kereste ve kereste alanındaki bütün ürünlerde hizmet veriyoruz.\n\nİstanbul’daki firmamız mobilya, dekorasyon, doğramalık, inşaatlık, kuyuluk ve kubbelik kereste satışı yapıyor. Aynı çatı altında ahşap palet, sandık ve kafes de üretiyoruz.\n\nMüşteri memnuniyetini temel ilke edinerek, her yıl genişleyen ürün seçeneklerimizle sektörde emin adımlarla ilerliyoruz." ),
+						'text'  => array( 'label' => 'Metin', 'type' => 'textarea', 'default' => "Dört nesildir biriktirdiğimiz bilgiyi ve teknik imkânlarımızı her gün ileri taşıyarak kereste ve kereste alanındaki bütün ürünlerde hizmet veriyoruz.\n\nİstanbul’daki firmamız mobilya, dekorasyon, doğramalık, inşaatlık, kuyuluk ve kubbelik kereste satışı yapıyor. Aynı çatı altında ahşap palet, sandık ve kafes de üretiyoruz.\n\nMüşteri memnuniyetini temel ilke edinerek, her yıl genişleyen ürün seçeneklerimizle sektörde emin adımlarla ilerliyoruz." ),
 					),
 				),
 				'values' => array(
@@ -564,6 +564,8 @@ $manifest_data = array(
 						'email_label'    => array( 'label' => 'E-posta Başlığı', 'type' => 'text', 'default' => 'E-posta' ),
 						'email'          => array( 'label' => 'E-posta', 'type' => 'text', 'default' => $email ),
 						'email_url'      => array( 'label' => 'E-posta Bağlantısı', 'type' => 'url', 'default' => 'mailto:' . $email ),
+						'hours_label'    => array( 'label' => 'Çalışma Saatleri Başlığı', 'type' => 'text', 'default' => 'Çalışma saatleri' ),
+						'hours'          => array( 'label' => 'Çalışma Saatleri', 'type' => 'textarea', 'default' => "Pazartesi–Cumartesi 08:00–19:00\nPazar 10:00–19:00", 'hint' => 'Sayfa altında ve Çalışma saatleri satırında da görünür. Arama verisindeki saatler functions.php içindeki IK_OPENING_HOURS sabitindedir; saat değişirse orayı da güncelleyin.' ),
 					),
 				),
 				'form' => array(
@@ -616,7 +618,7 @@ $manifest_data = array(
 					'label'  => 'Depo',
 					'fields' => array(
 						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Çatalca’dan İstanbul’a kereste' ),
-						'text'  => array( 'label' => 'Metin', 'type' => 'textarea', 'default' => "İstanbul Keresteci’nin deposu Çatalca Kestanelik Mahallesi’nde, Eski Edirne Asfaltı üzerinde. Koçist Grup’un kereste kolu olarak elli yıldır bu işteyiz.\n\nDepoda mobilya, dekorasyon, doğramalık, inşaatlık, kuyuluk ve kubbelik kereste; tomruk, kalas ve çıta; OSB, kontrplak ve plywood plaka bulunur. Aynı çatı altında ahşap palet, sandık ve kafes de üretiyoruz.\n\nKeresteyi ve plakayı istediğiniz boyda ve kalınlıkta kesiyoruz. Ürünü şantiyenize, atölyenize ya da fabrikanıza teslim ediyor ya da depoda aracınıza yüklüyoruz." ),
+						'text'  => array( 'label' => 'Metin', 'type' => 'textarea', 'default' => "İstanbul Keresteci’nin deposu Çatalca Kestanelik Mahallesi’nde, Eski Edirne Asfaltı üzerinde. Koçist Grup’un kereste kolu olarak dört nesildir bu işteyiz.\n\nDepoda mobilya, dekorasyon, doğramalık, inşaatlık, kuyuluk ve kubbelik kereste; tomruk, kalas ve çıta; OSB, kontrplak ve plywood plaka bulunur. Aynı çatı altında ahşap palet, sandık ve kafes de üretiyoruz.\n\nKeresteyi ve plakayı istediğiniz boyda ve kalınlıkta kesiyoruz. Ürünü şantiyenize, atölyenize ya da fabrikanıza teslim ediyor ya da depoda aracınıza yüklüyoruz." ),
 					),
 				),
 				'values' => array(
@@ -672,7 +674,7 @@ $manifest_data = array(
 					'label'  => 'Depoya Gelmek',
 					'fields' => array(
 						'title'            => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Depoya gelmek isterseniz' ),
-						'text'             => array( 'label' => 'Metin', 'type' => 'textarea', 'default' => "Adres: Kestanelik Mahallesi Eski Edirne Asfaltı Cad. 2125/1, Çatalca, İstanbul.\n\nGelmeden önce arayıp aradığınız ürünün stokta olup olmadığını sormanızı öneririz." ),
+						'text'             => array( 'label' => 'Metin', 'type' => 'textarea', 'default' => "Adres: Kestanelik Mahallesi Eski Edirne Asfaltı Cad. 2125/1, Çatalca, İstanbul.\n\nÇalışma saatleri: pazartesi–cumartesi 08:00–19:00, pazar 10:00–19:00.\n\nGelmeden önce arayıp aradığınız ürünün stokta olup olmadığını sormanızı öneririz." ),
 						'directions_label' => array( 'label' => 'Yol Tarifi Düğmesi', 'type' => 'text', 'default' => 'Yol tarifi alın' ),
 					),
 				),
@@ -721,7 +723,7 @@ $manifest_data = array(
 								array( 'group' => 'Ürünler', 'question' => 'OSB ile kontrplak arasındaki fark nedir?', 'answer' => 'OSB, boyuna rendelenen ahşap yongalarının tutkalla, ısı ve basınçla birleştirilmesiyle üretilir; en çok çatı kaplamasında, ayrıca döşeme, duvar ve panolarda kullanılır. Kontrplak ise ağaç katmanlarının birbirine dik gelecek şekilde yapıştırılıp preslenmesiyle elde edilir; hafiftir, çatlamaya dirençlidir, suya dayanıklıdır ve vida tutar.' ),
 								array( 'group' => 'Ürünler', 'question' => 'Plywood nedir, nerede kullanılır?', 'answer' => 'Plywood, ince ağaç tabakalarının çapraz dik açıyla yapıştırılıp preslenmesiyle elde edilir. Hafif, dayanıklı ve düz yüzeylidir; bu yüzden kullanım alanı geniştir. İstenen ölçü ve ebata getirilebilir.' ),
 								array( 'group' => 'Ürünler', 'question' => 'Tomruk hangi ağaçlardan?', 'answer' => 'Ağırlıklı olarak kayın, kızılçam, meşe ve karaçam. Tomruk inşaatlık kereste ve palet üretiminde kullanılır; ağaç ev yapmak isteyenler de tercih eder.' ),
-								array( 'group' => 'Sipariş ve fiyat', 'question' => 'Özel ölçüde çıta ya da kalas hazırlanır mı?', 'answer' => 'Evet. Keresteyi ve plakayı istediğiniz boyda ve kalınlıkta kesiyoruz; çıtada standart ölçülerin yanında farklı boyutlarda özel üretim de yapılır.' ),
+								array( 'group' => 'Sipariş ve fiyat', 'question' => 'Özel ölçüde çıta ya da kalas hazırlanır mı?', 'answer' => 'Evet. Her ebatta özel imalat yapıyoruz: keresteyi ve plakayı istediğiniz boyda ve kalınlıkta kesiyoruz; çıtada standart ölçülerin yanında farklı boyutlarda özel üretim de yapılır.' ),
 								array( 'group' => 'Sipariş ve fiyat', 'question' => 'Fiyat neye göre belirlenir?', 'answer' => 'Kereste fiyatı ağaç türüne, ölçüye ve miktara göre değişir. Güncel fiyat için arayın ya da iletişim formundan ürün, ölçü ve adedi yazın.' ),
 								array( 'group' => 'Sipariş ve fiyat', 'question' => 'Sipariş nasıl verilir?', 'answer' => 'Üç adımda: ürünü seçin; ölçüyü ve adedi iletişim formundan ya da telefonla bildirin; ürün adresinize teslim edilir ya da depoda aracınıza yüklenir.' ),
 								array( 'group' => 'Sipariş ve fiyat', 'question' => 'Fiyat almak için hangi bilgileri vermeliyim?', 'answer' => 'Ürünü, ağaç türünü, ölçüyü (kalınlık × genişlik × boy), adedi ve teslim yerini yazmanız yeterli. Güncel fiyatı ve stok durumunu bu bilgilere göre söyleriz.' ),
@@ -729,7 +731,10 @@ $manifest_data = array(
 								array( 'group' => 'Teslimat', 'question' => 'Depodan gelip kendim alabilir miyim?', 'answer' => 'Evet. Ürünü Çatalca Kestanelik’teki depomuzda aracınıza yüklüyoruz. Gelmeden önce arayıp stoğu sormanızı öneririz.' ),
 								array( 'group' => 'Ölçü ve hesap', 'question' => 'Kereste metreküpü nasıl hesaplanır?', 'answer' => 'Kalınlığı ve genişliği santimetreden metreye çevirip boy ve adetle çarpın. Örneğin 5 × 10 cm kesitli, 4 m boyunda 100 adet kereste: 0,05 × 0,10 × 4 × 100 = 2 m³.' ),
 								array( 'group' => 'Ölçü ve hesap', 'question' => '1 metreküp kerestede kaç adet var?', 'answer' => 'Kesite ve boya göre değişir. 4 m boyunda 5 × 10 cm kereste 1 m³’te 50 adet, 10 × 10 cm kereste 25 adet eder. 3 m boyunda 5 × 10 cm keresteden yaklaşık 66 adet çıkar.' ),
-								array( 'group' => 'Sipariş ve fiyat', 'question' => 'Sevkiyat süresi nedir, teslimat nasıl yapılıyor?', 'answer' => '' ),
+								array( 'group' => 'Teslimat', 'question' => 'Sevkiyat süresi nedir, teslimat nasıl yapılıyor?', 'answer' => 'Siparişleri aynı gün teslim ediyoruz. Ürünü Çatalca’daki depomuzdan şantiyenize, atölyenize ya da fabrikanıza getiriyoruz; isterseniz depoda aracınıza yüklüyoruz.' ),
+								array( 'group' => 'Teslimat', 'question' => 'Çalışma saatleriniz nedir?', 'answer' => 'Pazartesiden cumartesiye 08:00–19:00, pazar günü 10:00–19:00 arası açığız. Depoya gelmeden önce arayıp stoğu sormanızı öneririz.' ),
+								array( 'group' => 'Sipariş ve fiyat', 'question' => 'İnşaatlık kereste fiyatı ne kadar?', 'answer' => 'Ekim 2026 itibarıyla inşaatlık çam kerestenin metreküp fiyatı 10.000–15.000 TL + KDV aralığındadır. Kesin fiyat ölçüye, kaliteye ve miktara göre değişir; ölçüyü ve adedi bildirin, fiyatı söyleyelim.' ),
+								array( 'group' => 'Firma', 'question' => 'Ne zamandır kereste işindesiniz?', 'answer' => 'Dört nesildir kereste işindeyiz. İstanbul Keresteci, Koçist Grup’un kereste koludur; depomuz Çatalca Kestanelik’tedir.' ),
 							),
 						),
 					),

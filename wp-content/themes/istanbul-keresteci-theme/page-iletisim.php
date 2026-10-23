@@ -26,6 +26,7 @@ $info = array(
 	array( 'icon' => 'phone', 'label' => 'phone_label', 'value' => 'phone', 'url' => 'phone_url' ),
 	array( 'icon' => 'whatsapp', 'label' => 'whatsapp_label', 'value' => 'whatsapp', 'url' => 'whatsapp_url' ),
 	array( 'icon' => 'mail', 'label' => 'email_label', 'value' => 'email', 'url' => 'email_url' ),
+	array( 'icon' => 'clock', 'label' => 'hours_label', 'value' => 'hours', 'url' => '' ),
 );
 
 /**

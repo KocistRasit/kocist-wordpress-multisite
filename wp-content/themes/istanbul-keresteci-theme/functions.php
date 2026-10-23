@@ -1477,3 +1477,33 @@ function ik_hide_missing_sss( array $rows ): array {
  */
 add_filter( 'wp_speculation_rules_configuration', '__return_null' );
 remove_action( 'wp_head', 'rsd_link' );
+
+/**
+ * Calisma saatleri (arama verisi). Sitede gorunen metin Iletisim sayfasindaki
+ * "Calisma Saatleri" alanidir; saat degisirse ikisi birlikte guncellenir.
+ */
+const IK_OPENING_HOURS = array(
+	array( array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ), '08:00', '19:00' ),
+	array( array( 'Sunday' ), '10:00', '19:00' ),
+);
+
+add_filter(
+	'nwcs_seo_business',
+	static function ( array $business ): array {
+		if ( 'LocalBusiness' !== ( $business['@type'] ?? '' ) ) {
+			return $business;
+		}
+
+		$business['openingHoursSpecification'] = array_map(
+			static fn( array $row ): array => array(
+				'@type'     => 'OpeningHoursSpecification',
+				'dayOfWeek' => $row[0],
+				'opens'     => $row[1],
+				'closes'    => $row[2],
+			),
+			IK_OPENING_HOURS
+		);
+
+		return $business;
+	}
+);

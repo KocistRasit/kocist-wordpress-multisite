@@ -810,6 +810,10 @@ function nwcs_seo_graph( array $context ): array {
 		);
 	}
 
+	// Temanin eklemesi icin (orn. openingHoursSpecification). Panelde alani
+	// olmayan, siteye ozgu bilgiler buradan gelir.
+	$business = (array) apply_filters( 'nwcs_seo_business', $business, $org );
+
 	$graph = array(
 		$business,
 		array(
