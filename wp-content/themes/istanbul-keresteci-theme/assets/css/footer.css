@@ -51,10 +51,23 @@
 .ik-footer__contact .ik-icon { margin-top: 0.2rem; color: var(--filiz); }
 
 .ik-footer__legal {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 0.5rem 1.5rem;
 	margin-top: 3rem;
 	padding-top: 1.5rem;
 	border-top: 1px solid var(--cizgi-koyu);
 	font-size: 0.875rem;
+}
+
+.ik-footer__legal p {
+	margin: 0;
+}
+
+.ik-footer .ik-footer__group {
+	text-decoration: underline;
+	text-underline-offset: 0.2em;
 }
 
 /* Telefonda her baglanti en az 44px yuksekliginde dokunma alani */
