@@ -586,6 +586,94 @@ $manifest_data = array(
 		),
 
 		/*
+		 * Catalca depo sayfasi (/catalca-kereste-deposu/). Depo Catalca'da ama
+		 * sitede "Catalca kereste" aramasina cevap veren bir sayfa yoktu. Metinler
+		 * yalnizca sitenin mevcut bilgilerinden (adres, urunler, kesim, teslim,
+		 * yukleme). Teslim suresi ve ucreti firmadan gelmeden yazilmaz.
+		 */
+		'depo' => array(
+			'label'      => 'Çatalca Kereste Deposu',
+			'path'       => '/catalca-kereste-deposu/',
+			'seo_source' => array(
+				'title'       => 'head.title',
+				'description' => 'head.text',
+			),
+			'components' => array(
+				'head'   => array(
+					'label'  => 'Sayfa Başlığı',
+					'fields' => array(
+						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Çatalca Kereste Deposu' ),
+						'text'  => array( 'label' => 'Açıklama', 'type' => 'textarea', 'default' => 'Kestanelik’teki depomuzda çam, köknar, kayın ve meşe kereste; tomruk, OSB, kontrplak ve plywood stokta. İstediğiniz ölçüde kesip İstanbul’a teslim ediyoruz.' ),
+					),
+				),
+				'story'  => array(
+					'label'  => 'Depo',
+					'fields' => array(
+						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Çatalca’dan İstanbul’a kereste' ),
+						'text'  => array( 'label' => 'Metin', 'type' => 'textarea', 'default' => "İstanbul Keresteci’nin deposu Çatalca Kestanelik Mahallesi’nde, Eski Edirne Asfaltı üzerinde. Koçist Grup’un kereste kolu olarak elli yıldır bu işteyiz.\n\nDepoda mobilya, dekorasyon, doğramalık, inşaatlık, kuyuluk ve kubbelik kereste; tomruk, kalas ve çıta; OSB, kontrplak ve plywood plaka bulunur. Aynı çatı altında ahşap palet, sandık ve kafes de üretiyoruz.\n\nKeresteyi ve plakayı istediğiniz boyda ve kalınlıkta kesiyoruz. Ürünü şantiyenize, atölyenize ya da fabrikanıza teslim ediyor ya da depoda aracınıza yüklüyoruz." ),
+					),
+				),
+				'values' => array(
+					'label'  => 'Depoda Neler Yapılır',
+					'fields' => array(
+						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Depoda neler yapıyoruz' ),
+						'items' => array(
+							'label'   => 'Maddeler',
+							'type'    => 'repeater',
+							'max'     => 6,
+							'fields'  => array(
+								'icon'  => array( 'label' => 'İkon', 'type' => 'icon' ),
+								'title' => array( 'label' => 'Başlık', 'type' => 'text' ),
+								'text'  => array( 'label' => 'Açıklama', 'type' => 'textarea' ),
+							),
+							'default' => array(
+								array( 'icon' => 'tree', 'title' => 'Stoktan satış', 'text' => 'Çam, köknar, kayın, meşe kereste ve plakalar depoda hazır.' ),
+								array( 'icon' => 'ruler', 'title' => 'Ölçüye kesim', 'text' => 'Kereste ve plaka istediğiniz boy ve kalınlıkta kesilir.' ),
+								array( 'icon' => 'truck', 'title' => 'Teslimat ya da yükleme', 'text' => 'İstanbul’un her yerine teslim; dilerseniz depoda aracınıza yükleme.' ),
+							),
+						),
+					),
+				),
+				'areas'  => array(
+					'label'  => 'Teslim Bölgeleri',
+					'fields' => array(
+						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Teslim ettiğimiz bölgeler' ),
+						'text'  => array( 'label' => 'Açıklama', 'type' => 'textarea', 'default' => 'Çatalca’daki depomuzdan İstanbul’un her yerine teslim ediyoruz. Depoya yakın ilçeler:' ),
+						'items' => array(
+							'label'   => 'İlçeler',
+							'type'    => 'repeater',
+							'max'     => 40,
+							'fields'  => array(
+								'name' => array( 'label' => 'İlçe ya da semt', 'type' => 'text' ),
+							),
+							'default' => array(
+								array( 'name' => 'Çatalca' ),
+								array( 'name' => 'Silivri' ),
+								array( 'name' => 'Büyükçekmece' ),
+								array( 'name' => 'Arnavutköy' ),
+								array( 'name' => 'Hadımköy' ),
+								array( 'name' => 'Esenyurt' ),
+								array( 'name' => 'Beylikdüzü' ),
+								array( 'name' => 'Başakşehir' ),
+								array( 'name' => 'Avcılar' ),
+								array( 'name' => 'Küçükçekmece' ),
+							),
+						),
+						'note'  => array( 'label' => 'Alt not', 'type' => 'textarea', 'default' => 'Anadolu Yakası dahil İstanbul’un diğer ilçelerine de teslim ediyoruz. Teslim günü için arayın.' ),
+					),
+				),
+				'visit'  => array(
+					'label'  => 'Depoya Gelmek',
+					'fields' => array(
+						'title'            => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Depoya gelmek isterseniz' ),
+						'text'             => array( 'label' => 'Metin', 'type' => 'textarea', 'default' => "Adres: Kestanelik Mahallesi Eski Edirne Asfaltı Cad. 2125/1, Çatalca, İstanbul.\n\nGelmeden önce arayıp aradığınız ürünün stokta olup olmadığını sormanızı öneririz." ),
+						'directions_label' => array( 'label' => 'Yol Tarifi Düğmesi', 'type' => 'text', 'default' => 'Yol tarifi alın' ),
+					),
+				),
+			),
+		),
+
+		/*
 		 * Sik sorulan sorular (/sss/). Cevaplar yalnizca sitenin mevcut
 		 * metinlerinden (urun metinleri, Hakkimizda, fiyat seridi). Cevabi bos
 		 * soru firmadan cevap bekliyor (DEVAM.md): sitede ve arama verisinde
