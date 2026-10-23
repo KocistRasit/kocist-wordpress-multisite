@@ -28,11 +28,14 @@
  * "dort nesil", fiyat araligi). Panelde kayitli metin eski varsayilanla
  * birebir duruyorsa yenisine gecer; SSS listesine eksik sorular eklenir,
  * cevabi bos sorular doldurulur. Elle degistirilmis metne dokunulmaz.
+ *
+ * Surum 6: blog yazilari 2026 metnine gecer (ik_setup_refresh_posts). Yazi
+ * temanin daha once yazdigi bir surumle birebir duruyorsa guncellenir.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-const IK_SETUP_VERSION = 5;
+const IK_SETUP_VERSION = 6;
 
 add_action( 'after_switch_theme', 'ik_run_setup' );
 add_action( 'admin_init', 'ik_maybe_setup' );
@@ -59,7 +62,6 @@ function ik_maybe_setup(): void {
 
 		if ( $installed < 3 ) {
 			ik_setup_posts();
-			ik_setup_refresh_price_post();
 		}
 
 		if ( $installed < 4 ) {
@@ -69,7 +71,10 @@ function ik_maybe_setup(): void {
 		if ( $installed < 5 ) {
 			ik_setup_refresh_fields();
 			ik_setup_merge_faq();
-			ik_setup_refresh_price_post();
+		}
+
+		if ( $installed < 6 ) {
+			ik_setup_refresh_posts();
 		}
 
 		update_option( 'ik_setup_version', IK_SETUP_VERSION );
@@ -235,51 +240,98 @@ function ik_setup_paragraphs( string $text ): string {
 }
 
 /**
- * "Istanbul Kereste Fiyatlari" yazisini guncel metne gecirir; yalnizca yazi
- * temanin daha once yazdigi bir surumle birebir duruyorsa (baslik ve metin).
- * Yonetimden degistirilmis yaziya dokunulmaz. Yayin tarihi korunur.
+ * Blog yazilarini content/blog-posts.php'deki guncel metne gecirir. Yalnizca
+ * yazi temanin daha once yazdigi bir surumle birebir duruyorsa: baslik ve
+ * gorunen metin (md5 ozeti) eslesmeli. Ozet de eski surumdeyse degisir.
+ * Yonetimden degistirilmis yaziya dokunulmaz; yayin tarihi korunur,
+ * guncelleme tarihini (dateModified) WordPress yazar.
  *
- * Bilinen surumler: ilk kurulumdaki 75 kelimelik giris (metin birebir) ve
- * surum 3 metni (gorunen metnin md5 ozeti; metin artik dosyada yok).
+ * Panelde yazinin gizli sayfasina eski metin kaydedilmisse o da yeni
+ * varsayilana gecer; yoksa panel metni yaziyi ezmeye devam ederdi.
  */
-function ik_setup_refresh_price_post(): void {
-	$original = array(
-		'title'   => 'İstanbul Kereste Fiyatları Nedir?',
-		'excerpt' => 'Kereste tüm Türkiye genelinde oldukça yaygın kullanım alanına sahip bir üründür. İstanbul’da kereste fiyatları hakkında güncel bilgileri bu yazıda derledik.',
-		'body'    => "Kereste tüm Türkiye genelinde oldukça yaygın kullanım alanına sahip bir üründür. İstanbul içerisinde kereste fiyatları hakkında güncel bilgileri derlediğimiz bu yazımızda sizlere güncel kereste fiyatları hakkında bilgiler derledik.\n\nKereste pek çok alanda kullanıma uygun bir ürün olmasından ötürü kolay işleme alınarak hazırlanabilmektedir. Uygun fiyatlı olan bu keresteler mobilya, dekorasyon ve inşaat sektörlerinin kullanım alanlarında önemli bir yere sahiptir.",
-	);
-	$v3 = array(
-		'title'   => 'İstanbul Kereste Fiyatları 2026: Fiyatı Ne Belirler?',
-		'excerpt' => 'İstanbul’da kereste fiyatını ağaç türü, ölçü, kalite, kurutma ve miktar belirler. Metreküp hesabı, 1 m³’teki adet tablosu ve fiyat almak için gerekenler.',
-		'md5'     => 'f039cdf49cb05793c75bc0fd2048130f',
+function ik_setup_refresh_posts(): void {
+	// slug => surumler: array( baslik, gorunen metnin md5'i, ozetin md5'i ).
+	$known = array(
+		'mese-agaci-nedir' => array(
+			array( 'Meşe Ağacı Nedir? Meşe Ağacı Özellikleri Nelerdir?', 'd58ca5fca3711c5432371e688f5267a5', 'd6cbaef02dc4c79c5f1427188209fe4b' ),
+		),
+		'istanbul-kereste-fiyatlari' => array(
+			array( 'İstanbul Kereste Fiyatları Nedir?', '2f6e3b29727282e04f90f52a1668f51f', '4016227422a81c0b8b91a545cbf692c7' ),
+			array( 'İstanbul Kereste Fiyatları 2026: Fiyatı Ne Belirler?', 'f039cdf49cb05793c75bc0fd2048130f', 'e7f71b9b7885b7cf8d9daf8039ae0914' ),
+		),
+		'ahsap-insaatlik-kereste-nedir' => array(
+			array( 'Ahşap İnşaatlık Kereste Nedir?', 'eb3c7d74129c02ecfedfb3f61d3cbfaf', '815ea29158e92cb9fc98f1e7456841f7' ),
+		),
+		'kereste-metrekup-hesaplama' => array(
+			array( 'Kereste Metreküp Hesaplama: 1 m³ Kereste Kaç Adet?', '11a5ca219e53a290f791e91917f914c8', '65c8223c9fa6891d6b52fac03fe965cd' ),
+		),
+		'osb-kontrplak-plywood-farki' => array(
+			array( 'OSB, Kontrplak ve Plywood Arasındaki Fark Nedir?', '539bbc7db5bd152c0f57e2b0c5f119e1', '16bcd8638baf5ddec080ce29d4a92167' ),
+		),
+		'insaatlik-kereste-olculeri' => array(
+			array( 'İnşaatlık Kereste Ölçüleri ve Kullanım Yerleri', '8321335e81d9fc80b16162a043dabe0f', '809ba003e448d87cbfc948fbceb8f896' ),
+		),
+		'firinlanmis-ve-emprenyeli-kereste' => array(
+			array( 'Fırınlanmış Kereste ve Emprenyeli Kereste Nedir?', '2e433b892459dc5ff3477b4cef6a8eb4', '1df9be1064bfe9d093f0d54245bd9961' ),
+		),
+		'kereste-turleri' => array(
+			array( 'Kereste Türleri: Çam, Köknar, Kayın ve Meşe Farkı', '16df5794f58edcd651fc617771941e22', '51e0f91d7991c3966cd62de2e09ffff4' ),
+		),
 	);
 
-	$found = get_posts(
-		array(
-			'name'           => 'istanbul-kereste-fiyatlari',
-			'post_type'      => 'post',
-			'post_status'    => 'publish',
-			'posts_per_page' => 1,
-		)
-	);
-
-	if ( ! $found ) {
-		return;
-	}
-
-	$post = $found[0];
 	$text = static fn( string $html ): string => trim( (string) preg_replace( '/\s+/u', ' ', html_entity_decode( wp_strip_all_tags( $html ), ENT_QUOTES, 'UTF-8' ) ) );
-	$body = $text( $post->post_content );
+	$hash = static fn( string $html ): string => md5( $text( $html ) );
+	$news = array();
 
-	$is_original = $post->post_title === $original['title'] && $body === $text( ik_rich_html( $original['body'] ) );
-	$is_v3       = $post->post_title === $v3['title'] && md5( $body ) === $v3['md5'];
-
-	if ( ! $is_original && ! $is_v3 ) {
-		return;
+	foreach ( (array) include get_theme_file_path( 'content/blog-posts.php' ) as $row ) {
+		$news[ $row['slug'] ] = $row;
 	}
 
-	foreach ( (array) include get_theme_file_path( 'content/blog-posts.php' ) as $new ) {
-		if ( 'istanbul-kereste-fiyatlari' !== $new['slug'] ) {
+	foreach ( $known as $slug => $versions ) {
+		$new = $news[ $slug ] ?? null;
+
+		if ( ! $new ) {
+			continue;
+		}
+
+		$titles   = array_column( $versions, 0 );
+		$bodies   = array_column( $versions, 1 );
+		$excerpts = array_column( $versions, 2 );
+
+		// Paneldeki gizli yazi sayfasi (ik_post_override).
+		if ( function_exists( 'nwcs_raw' ) && function_exists( 'nwcs_update_field' ) ) {
+			$key = 'yazi-' . $slug;
+			$old = array(
+				'title'   => static fn( string $v ): bool => in_array( trim( $v ), $titles, true ),
+				'excerpt' => static fn( string $v ): bool => in_array( md5( trim( $v ) ), $excerpts, true ),
+				'body'    => static fn( string $v ): bool => in_array( $hash( ik_rich_html( $v ) ), $bodies, true ),
+			);
+
+			foreach ( $old as $field => $is_old ) {
+				$saved = nwcs_raw( $key, 'post', $field );
+
+				if ( is_string( $saved ) && '' !== trim( $saved ) && $is_old( str_replace( "\r\n", "\n", $saved ) ) ) {
+					nwcs_update_field( $key, 'post', $field, $new[ $field ] );
+				}
+			}
+		}
+
+		$found = get_posts(
+			array(
+				'name'           => $slug,
+				'post_type'      => 'post',
+				'post_status'    => 'publish',
+				'posts_per_page' => 1,
+			)
+		);
+
+		if ( ! $found ) {
+			continue;
+		}
+
+		$post = $found[0];
+
+		if ( ! in_array( $post->post_title, $titles, true ) || ! in_array( $hash( $post->post_content ), $bodies, true ) ) {
 			continue;
 		}
 
@@ -287,7 +339,7 @@ function ik_setup_refresh_price_post(): void {
 			array(
 				'ID'           => $post->ID,
 				'post_title'   => $new['title'],
-				'post_excerpt' => in_array( $post->post_excerpt, array( $original['excerpt'], $v3['excerpt'] ), true ) ? $new['excerpt'] : $post->post_excerpt,
+				'post_excerpt' => in_array( md5( trim( $post->post_excerpt ) ), $excerpts, true ) ? $new['excerpt'] : $post->post_excerpt,
 				'post_content' => ik_setup_paragraphs( $new['body'] ),
 			)
 		);
