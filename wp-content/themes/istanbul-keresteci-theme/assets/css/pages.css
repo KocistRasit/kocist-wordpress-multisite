@@ -57,6 +57,12 @@
 .ik-prose--page a { color: var(--kabuk); }
 .ik-prose--page ul { list-style: disc; padding-left: 1.25rem; }
 .ik-prose--page img { border-radius: var(--kose); }
+.ik-prose--page ul li + li { margin-top: 0.25rem; }
+.ik-prose--page .ik-table { overflow-x: auto; margin-block: 1.25rem; }
+.ik-prose--page table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.ik-prose--page th,
+.ik-prose--page td { padding: 0.5rem 0.75rem; text-align: left; vertical-align: top; border-bottom: 1px solid color-mix(in srgb, var(--murekkep) 15%, transparent); }
+.ik-prose--page th { font-weight: 700; border-bottom-width: 2px; }
 
 /* Urun listesi sayfasi */
 .ik-catalog .ik-stack { background: var(--kabuk); }
