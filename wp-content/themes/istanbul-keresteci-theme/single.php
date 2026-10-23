@@ -35,7 +35,14 @@ while ( have_posts() ) :
 					</ol>
 				</nav>
 				<h1 class="ik-pagehead__title ik-article__title" <?php ik_post_edit_attr( $current, 'title' ); ?>><?php the_title(); ?></h1>
-				<time class="ik-article__date" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>" <?php nwcs_post_attr( (int) $current->ID, 'Yayın tarihi' ); ?>><?php echo esc_html( ik_date( $current ) ); ?></time>
+				<?php // Guncelleme tarihi yayin gununden farkliysa gorunur (dateModified ile ayni tarih). ?>
+				<?php $updated = ik_date( $current, 'modified' ); ?>
+				<p class="ik-article__date">
+					<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>" <?php nwcs_post_attr( (int) $current->ID, 'Yayın tarihi' ); ?>><?php echo esc_html( ik_date( $current ) ); ?></time>
+					<?php if ( '' !== $updated && ik_date( $current ) !== $updated ) : ?>
+						<span class="ik-article__updated">· Güncellendi: <time datetime="<?php echo esc_attr( get_the_modified_date( 'c' ) ); ?>"><?php echo esc_html( $updated ); ?></time></span>
+					<?php endif; ?>
+				</p>
 			</div>
 		</header>
 

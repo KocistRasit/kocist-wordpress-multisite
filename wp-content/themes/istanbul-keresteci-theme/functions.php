@@ -147,6 +147,21 @@ function ik_product_default_specs( string $slug ): string {
 }
 
 /**
+ * Urun sayfasinin kisa cevabi, olcu tablosu ve SSS'si (content/product-extras.php).
+ *
+ * @return array{answer:string, sizes:string, faq:array<int, array{0:string, 1:string}>}|null
+ */
+function ik_product_extras( string $slug ): ?array {
+	static $extras = null;
+
+	if ( null === $extras ) {
+		$extras = (array) include get_theme_file_path( 'content/product-extras.php' );
+	}
+
+	return $extras[ $slug ] ?? null;
+}
+
+/**
  * Urun sayfasindan ilgili rehber yazilarina baglanti (content/blog-posts.php).
  * Yalnizca sitede yayinda olan yazilar listelenir.
  *
@@ -866,7 +881,7 @@ function ik_rich_html( string $text ): string {
 		}
 
 		if ( count( $lines ) === count( preg_grep( '/^- /u', $lines ) ) ) {
-			$items  = array_map( static fn( string $line ): string => '<li>' . esc_html( substr( $line, 2 ) ) . '</li>', $lines );
+			$items  = array_map( static fn( string $line ): string => '<li>' . ik_inline_html( substr( $line, 2 ) ) . '</li>', $lines );
 			$html[] = '<ul>' . implode( '', $items ) . '</ul>';
 			continue;
 		}
@@ -882,7 +897,7 @@ function ik_rich_html( string $text ): string {
 				}
 
 				$tag    = $rows ? 'td' : 'th';
-				$rows[] = '<tr>' . implode( '', array_map( static fn( string $cell ): string => "<$tag>" . esc_html( $cell ) . "</$tag>", $cells ) ) . '</tr>';
+				$rows[] = '<tr>' . implode( '', array_map( static fn( string $cell ): string => "<$tag>" . ik_inline_html( $cell ) . "</$tag>", $cells ) ) . '</tr>';
 			}
 
 			$head   = array_shift( $rows );
@@ -890,10 +905,23 @@ function ik_rich_html( string $text ): string {
 			continue;
 		}
 
-		$html[] = '<p>' . nl2br( esc_html( $block ) ) . '</p>';
+		$html[] = '<p>' . nl2br( ik_inline_html( $block ) ) . '</p>';
 	}
 
 	return implode( "\n", $html );
+}
+
+/**
+ * Satir ici metin: kacislanir, [yazi](/adres/) bicimindeki site ici
+ * baglantilar <a> olur. Yalnizca "/" ile baslayan adresler (dis adres ve
+ * "//" kabul edilmez); baslik ve metin kisimlari zaten kacislanmis olur.
+ */
+function ik_inline_html( string $text ): string {
+	return (string) preg_replace_callback(
+		'~\[([^\]\n]+)\]\((/(?!/)[^()\s]*)\)~u',
+		static fn( array $m ): string => sprintf( '<a href="%s">%s</a>', esc_url( ik_link( html_entity_decode( $m[2], ENT_QUOTES, 'UTF-8' ) ) ), $m[1] ),
+		esc_html( $text )
+	);
 }
 
 function ik_paragraphs( string $text, string $class = '' ): void {
@@ -1104,9 +1132,9 @@ function ik_post_image( WP_Post $post, string $size = 'medium_large' ): array {
  * Demo sitelerinin dili Ingilizce kurulu; Turkce dil paketi olmadan ay
  * adlari dogru ciksin diye elle cevrilir.
  */
-function ik_date( WP_Post $post ): string {
+function ik_date( WP_Post $post, string $field = 'date' ): string {
 	$months = array( 'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık' );
-	$time   = get_post_timestamp( $post );
+	$time   = get_post_timestamp( $post, 'modified' === $field ? 'modified' : 'date' );
 
 	if ( ! $time ) {
 		return '';
