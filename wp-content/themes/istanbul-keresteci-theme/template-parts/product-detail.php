@@ -107,6 +107,22 @@ get_template_part(
 		<article class="ik-product__main<?php echo $specs ? ' ik-product__main--split' : ''; ?>">
 			<div class="ik-prose ik-product__body" <?php nwcs_edit_attr( 'products', 'catalog', 'items', $product['index'], 'body' ); ?>>
 				<?php ik_paragraphs( $product['body'] ); ?>
+				<?php $palet_note = 'ahsap-palet' === $product['slug'] ? trim( (string) nwcs_field( 'products', 'detail', 'palet_note' ) ) : ''; ?>
+				<?php if ( '' !== $palet_note ) : ?>
+					<p class="ik-product__related">
+						<span <?php nwcs_edit_attr( 'products', 'detail', 'palet_note' ); ?>><?php echo esc_html( $palet_note ); ?></span>
+						<a href="<?php echo esc_url( (string) nwcs_field( 'products', 'detail', 'palet_url' ) ); ?>" <?php nwcs_edit_attr( 'products', 'detail', 'palet_label' ); ?>><?php echo esc_html( (string) nwcs_field( 'products', 'detail', 'palet_label' ) ); ?></a>
+					</p>
+				<?php endif; ?>
+				<?php $guides = ik_product_guides( $product['slug'] ); ?>
+				<?php if ( $guides ) : ?>
+					<h2 class="ik-product__subtitle" <?php nwcs_edit_attr( 'products', 'detail', 'guides_title' ); ?>><?php echo esc_html( nwcs_field( 'products', 'detail', 'guides_title' ) ); ?></h2>
+					<ul class="ik-product__guides">
+						<?php foreach ( $guides as $guide ) : ?>
+							<li><a href="<?php echo esc_url( $guide['url'] ); ?>"><?php echo esc_html( $guide['title'] ); ?></a></li>
+						<?php endforeach; ?>
+					</ul>
+				<?php endif; ?>
 			</div>
 			<?php if ( $specs ) : ?>
 				<div class="ik-product__specs">

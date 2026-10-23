@@ -124,6 +124,62 @@ function ik_head_early(): void {
  * ====================================================================== */
 
 /**
+ * Urunun temadaki varsayilan ozellikleri (content-manifest.php: $ik_products).
+ *
+ * Urun Listesi panelden kaydedilmisse varsayilan satirlar okunmaz; ozellikler
+ * kutusu bos kalan urun sayfasi "Olcu ve kullanim" tablosu ve Product
+ * verisinin ozellik satirlari olmadan cikar. Bos kutuda temanin degeri,
+ * panelde ozellik girilmis urunde panel degeri gecerlidir.
+ */
+function ik_product_default_specs( string $slug ): string {
+	static $defaults = null;
+
+	if ( null === $defaults ) {
+		$defaults = array();
+		$rows     = ik_manifest()['pages']['products']['components']['catalog']['fields']['items']['default'] ?? array();
+
+		foreach ( (array) $rows as $row ) {
+			$defaults[ (string) ( $row['slug'] ?? '' ) ] = (string) ( $row['specs'] ?? '' );
+		}
+	}
+
+	return $defaults[ $slug ] ?? '';
+}
+
+/**
+ * Urun sayfasindan ilgili rehber yazilarina baglanti (content/blog-posts.php).
+ * Yalnizca sitede yayinda olan yazilar listelenir.
+ *
+ * @return array<int, array{title:string, url:string}>
+ */
+function ik_product_guides( string $slug ): array {
+	$map = array(
+		'kereste'    => array( 'kereste-turleri', 'kereste-metrekup-hesaplama', 'istanbul-kereste-fiyatlari' ),
+		'kalas'      => array( 'insaatlik-kereste-olculeri', 'kereste-metrekup-hesaplama' ),
+		'cita'       => array( 'insaatlik-kereste-olculeri' ),
+		'tomruk'     => array( 'kereste-turleri' ),
+		'osb-plaka'  => array( 'osb-kontrplak-plywood-farki' ),
+		'kontrplak'  => array( 'osb-kontrplak-plywood-farki' ),
+		'plywood'    => array( 'osb-kontrplak-plywood-farki' ),
+	);
+
+	$guides = array();
+
+	foreach ( $map[ $slug ] ?? array() as $post_slug ) {
+		$post = get_page_by_path( $post_slug, OBJECT, 'post' );
+
+		if ( $post && 'publish' === $post->post_status ) {
+			$guides[] = array(
+				'title' => (string) get_the_title( $post ),
+				'url'   => (string) get_permalink( $post ),
+			);
+		}
+	}
+
+	return $guides;
+}
+
+/**
  * Urun satirlari; adres adi bos olanlar atlanir.
  */
 function ik_products(): array {
@@ -148,7 +204,7 @@ function ik_products(): array {
 			'title' => (string) ( $row['title'] ?? '' ),
 			'short' => (string) ( $row['short'] ?? '' ),
 			'body'  => (string) ( $row['body'] ?? '' ),
-			'specs' => (string) ( $row['specs'] ?? '' ),
+			'specs' => '' !== trim( (string) ( $row['specs'] ?? '' ) ) ? (string) $row['specs'] : ik_product_default_specs( $slug ),
 			'image' => (int) ( $row['image'] ?? 0 ),
 			'file'  => ik_product_file( $slug ),
 			'url'   => ik_link( '/urunlerimiz/' . $slug . '/' ),

@@ -32,7 +32,7 @@ $ik_products = array(
 		'title' => 'Kereste',
 		'short' => 'Yumuşak ve sert kereste olarak ikiye ayrılan, inşaattan mobilyaya pek çok alanda kullanılan ürünler.',
 		'body'  => "Yumuşak ve sert kereste olarak ikiye ayrılan keresteler, pek çok alanda kullanıma uygun ürünlerdir. İnşaat, ambalaj, mobilya, dekorasyon alanlarında sıklıkla kullanılan keresteler birçok ağaç çeşidinden imal edilebilir.\n\nTomrukların boyuna biçilmesi ile oluşturulan keresteler, birbirine paralel gelen iki yüzeye sahip ağaç parçalarından oluşmaktadır.",
-		'specs' => '',
+		'specs' => "Ağaç türü: Çam, köknar, kayın, meşe\nSınıf: Yumuşak ve sert kereste\nKullanım: İnşaat, ambalaj, mobilya, dekorasyon\nKesim: İstenen boy ve kalınlıkta",
 		'image' => 0,
 	),
 	array(
@@ -40,7 +40,7 @@ $ik_products = array(
 		'title' => 'Ahşap Palet',
 		'short' => 'Hacmi yüksek ürünleri taşımak ve korumak için, standartlara uygun ve uzun ömürlü paletler.',
 		'body'  => "Hacmi yüksek ürünleri taşımak ve muhafaza etmek amacıyla kullanılan, standartlara uygun üretime sahip ahşap paletler uzun süreli kullanıma uygun ürünlerdir.\n\nTaşımacılık sektöründe, ürünlerin muhafaza edilme süreçlerinde, ürünün temiz, kuru ve zarar görmeden saklanması amacıyla ahşap palet kullanımı uygundur. Ahşap paletler uzun süreli kullanılabilir, verimli ve sürdürülebilir ürünlerdir.\n\nStandart boyutların yanında özel üretim ahşap paletler de imal edilmektedir.",
-		'specs' => '',
+		'specs' => "Ölçü: Standart ve özel ölçü\nKullanım: Taşıma, depolama, muhafaza",
 		'image' => 0,
 	),
 	array(
@@ -48,7 +48,7 @@ $ik_products = array(
 		'title' => 'Ahşap Sandık',
 		'short' => 'Yüksek hacimli ürünlerin taşınması, korunması ve depolanması için verimli bir çözüm.',
 		'body'  => "Hacim yüksekliği fazla olan ürün veya malzemelerin taşımacılığında, muhafaza ve depolama süreçlerinde kullanıma uygun olan ahşap sandıklar iş alanında oldukça verimli kullanım imkanları sunmaktadır.\n\nZaman, maliyet ve mekân anlamında tasarruf imkanı sunarak düşük depolama maliyetleri sunmaktadır. Uzun süreli kullanım imkanının bulunmasından ötürü ahşap sandıklar, tamir edilebilir, dönüştürülebilir ve geri dönüşümü sağlanabilir.",
-		'specs' => '',
+		'specs' => "Ölçü: İstenen ölçüde\nKullanım: Taşıma, muhafaza, depolama\nÖmür: Tamir edilebilir, geri dönüştürülebilir",
 		'image' => 0,
 	),
 	array(
@@ -56,7 +56,7 @@ $ik_products = array(
 		'title' => 'Ahşap Kafes',
 		'short' => 'Taşıma ve depolamayı birlikte çözen, paletin yetmediği yerde kullanılan kafesler.',
 		'body'  => "Aynı anda taşınma ve depolanma imkânı sunan ahşap kafesler iş yükünü azaltma konusu başta olmak üzere bir çok konuda pratik çözümler sunmaktadır. Ham madde tedarik eden firmalar ve ihracat yapan firmalar başta olmak üzere sevkiyat işlemlerinde kullanıma uygun ürünlerdir.\n\nPaletin uygun olmadığı durumlarda genellikle ahşap kafesler kullanılmaktadır. Transpalet ve forklift ile taşımaya uygun olan kafeslerin çevresi belli aralıklarla çivi ve keresteler ile desteklenmiştir.\n\nStandart ölçüleri dışında istenilen boyutta da üretimi gerçekleştirilebilir. İstiflenmesi zor ürünlerin yerleştirilmesi için uygundur.",
-		'specs' => '',
+		'specs' => "Ölçü: Standart ve özel ölçü\nTaşıma: Transpalet ve forklift ile\nKullanım: Ham madde ve ihracat sevkiyatı",
 		'image' => 0,
 	),
 	array(
@@ -64,7 +64,7 @@ $ik_products = array(
 		'title' => 'Tomruk',
 		'short' => 'Kayın, kızılçam, meşe ve karaçam ağırlıklı; kereste ve palet üretiminin ham maddesi.',
 		'body'  => "Kayın, kızılçam, meşe ve karaçam ağaçlarından üretimi ağırlıklı olmak üzere birçok farklı çeşitte tomruk imal edilebilir.\n\nOrman ürünleri arasında en değerli ürün olan tomruk; inşaatlık kereste ve palet imal edilirken kullanılır. Ayrıca ağaç ev yapmak isteyenler de tomruk tercih etmektedirler. Tomrukların kesim işlemine göre işlevselliği farklılıklar gösterir ve bu sayede kereste oluşturulur.",
-		'specs' => '',
+		'specs' => "Ağaç türü: Kayın, kızılçam, meşe, karaçam\nKullanım: İnşaatlık kereste, palet, ağaç ev",
 		'image' => 0,
 	),
 	array(
@@ -72,7 +72,7 @@ $ik_products = array(
 		'title' => 'OSB Plaka',
 		'short' => 'Yongaların tutkalla preslenmesiyle üretilen, çatı ve döşemede kullanılan plaka.',
 		'body'  => "Ahşap parçalarının boyuna olacak şekilde rendelenmesiyle birlikte çıkan yongalar yapıştırıcı ve tutkallar ile birlikte bir araya getirilmektedir. Kimyasalların, sıcaklık ve basıncın da etkisiyle birleşen ufak parçalar OSB plakayı oluşturmaktadır.\n\nKolay uygulanabilir yapısı bulunmaktadır. Zımpara işlemi gerektirmeyen doğal bir yapıya sahiptir. Boyut olarak çeşitli boyutlarda veya istenilen ebatlarda üretimi gerçekleştirilebilir.\n\nEn fazla kullanıldığı alan ise çatı kaplamaları olmakla birlikte; dekor, döşeme, duvar ve panolarda kullanıma uygun parçalardandır.",
-		'specs' => '',
+		'specs' => "Yapı: Tutkalla preslenmiş ahşap yongalar\nYüzey: Zımpara gerektirmez\nKullanım: Çatı kaplaması, döşeme, duvar, pano\nÖlçü: İstenen ebatta",
 		'image' => 0,
 	),
 	array(
@@ -80,7 +80,7 @@ $ik_products = array(
 		'title' => 'Kontrplak',
 		'short' => 'Dik katmanlardan preslenen hafif, çatlamaya dayanıklı ve kolay işlenen levha.',
 		'body'  => "Kayın, kavak, huş ve egzotik çam ağaçlarının gövde kısımlarından imal edilerek özel makineler eşliğinde elde edilen levhalar; dik gelecek şekilde özel bir yapıştırıcı ile yapıştırılır. Ardından preslenerek levha haline getirilir.\n\nİstenilen boyut ve ebatlarda üretimi gerçekleştirilen kontrplaklar inşaat, dekorasyon, mobilya, zemin, parke, çatı, tekne inşaatı, otomotiv, iskele ve oyuncak gibi birçok alanda kullanıma uygun ürünlerdir.\n\nHafif olması sebebiyle tercih edilme oranı çok daha yüksektir. Çatlamaya karşı direncinin olması sebebiyle uzun süreli kullanıma sahiptir. Boya tutan üst yüzeyi cilaya uygundur. Suya karşı dayanıklıdır, kolaylıkla işlenir ve vida tutar.",
-		'specs' => '',
+		'specs' => "Ağaç türü: Kayın, kavak, huş, egzotik çam\nYapı: Dik katmanlar, yapıştırılıp preslenmiş\nÖzellik: Hafif, çatlamaya dayanıklı, vida tutar\nKullanım: İnşaat, mobilya, dekorasyon, zemin, çatı",
 		'image' => 0,
 	),
 	array(
@@ -88,7 +88,7 @@ $ik_products = array(
 		'title' => 'Kalas',
 		'short' => 'Kalitesine göre ayrılıp kurutulan, birçok ağaç çeşidinden elde edilen kalaslar.',
 		'body'  => "Ağacın ahşap haline getirilmesiyle birlikte kalas olarak kullanıma uygun boyut ve şekillerde işlenmesinin ardından kalas elde edilmektedir. Ağacın kullanım alanı veya ömrü bittiğinde atölyelere götürülen malzeme kalas haline getirilmektedir.\n\nKalitesine göre ayrıştırılan kalaslar kurutularak müşterilerin erişebileceği şekilde satışa sunulmaktadır. Kullanım alanı oldukça geniş olan kalaslar bir çok ağaç çeşidinden elde edilebilirler.",
-		'specs' => '',
+		'specs' => "Ağaç türü: Birçok ağaç çeşidi\nAyrım: Kalitesine göre\nKurutma: Kurutulmuş",
 		'image' => 0,
 	),
 	array(
@@ -96,7 +96,7 @@ $ik_products = array(
 		'title' => 'Plywood',
 		'short' => 'Çapraz tabakalardan preslenen, hafif, dayanıklı ve düz yüzeyli levha.',
 		'body'  => "Ahşap ince ağaç tabakalarının çapraz dik açıyla özel yapıştırıcılar eşliğinde yapıştırılarak preslenmesiyle tabaka haline getirilme işlemiyle elde edilen ahşaba plywood adı verilmektedir.\n\nDayanıklılığı oldukça yüksek olan plywoodların kullanım alanları oldukça geniştir. Tekrar tekrar kullanılarak işleme alınabilen çevreci ürünlerdir. İstenilen ölçü ve ebata getirilerek kullanıma sunulabilirler.\n\nHafif ve dayanıklı ahşap türlerindendir. Düz yüzeyli olduğu için geniş uygulama alanı sunar.",
-		'specs' => '',
+		'specs' => "Yapı: Çapraz dik ince tabakalar\nYüzey: Düz\nÖzellik: Hafif ve dayanıklı\nÖlçü: İstenen ölçü ve ebatta",
 		'image' => 0,
 	),
 	array(
@@ -104,7 +104,7 @@ $ik_products = array(
 		'title' => 'Çıta',
 		'short' => 'Çoğunlukla çamdan, silinmiş ve zımparalanmış; standart ve özel ölçüde çıta.',
 		'body'  => "Genellikle çam ağacından üretilen çıtalar silinmiş ve zımparalanmış şekliyle tüketiciye sunulabilir.\n\nStandart ölçülerinin yanı sıra farklı boyutlarda özel çıta üretimi imal edilebilir. Çıtalar günümüzde dekoratif amaçlı olarak sıklıkla kullanılmaktadır.",
-		'specs' => '',
+		'specs' => "Ağaç türü: Çoğunlukla çam\nYüzey: Silinmiş ve zımparalanmış\nÖlçü: Standart ve özel ölçü\nKullanım: Dekoratif",
 		'image' => 0,
 	),
 );
@@ -518,6 +518,12 @@ $manifest_data = array(
 						'quote_url'      => array( 'label' => 'Fiyat Düğmesi Bağlantısı', 'type' => 'url', 'default' => '/iletisim/#form' ),
 						'whatsapp_label' => array( 'label' => 'WhatsApp Düğmesi Metni', 'type' => 'text', 'default' => 'WhatsApp’tan sorun' ),
 						'others_title'   => array( 'label' => 'Diğer Ürünler Başlığı', 'type' => 'text', 'default' => 'Depodaki diğer ürünler' ),
+						'guides_title'   => array( 'label' => 'Rehber Yazılar Başlığı', 'type' => 'text', 'default' => 'Rehber yazılar', 'hint' => 'Kereste, kalas, çıta, tomruk ve plaka sayfalarında ilgili blog yazılarının üstünde görünür.' ),
+						// Palet aramalarinda grubun palet sitesi zaten cikiyor; iki site
+						// birbiriyle yarismasin diye Ahsap Palet sayfasi oraya yonlendirir.
+						'palet_note'     => array( 'label' => 'Ahşap Palet Sayfası: Palet Sitesi Notu', 'type' => 'textarea', 'default' => 'Palet çeşitleri, Euro palet ve özel ölçü palet üretimi için grubumuzun palet sitesi İstanbul Paletçi’ye bakın.', 'hint' => 'Yalnızca Ahşap Palet ürün sayfasında, metnin altında görünür. Boş bırakılırsa not görünmez.' ),
+						'palet_label'    => array( 'label' => 'Ahşap Palet Sayfası: Bağlantı Metni', 'type' => 'text', 'default' => 'istanbulpaletci.com' ),
+						'palet_url'      => array( 'label' => 'Ahşap Palet Sayfası: Bağlantı', 'type' => 'url', 'default' => 'https://istanbulpaletci.com/' ),
 					),
 				),
 				'help'    => array(
