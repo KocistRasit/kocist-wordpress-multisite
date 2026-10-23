@@ -319,6 +319,40 @@ $manifest_data = array(
 			'sortable_sections' => array( 'about', 'products', 'process', 'blog', 'ctaband' ),
 			'components'        => array(
 
+				/*
+				 * Arama ve Paylasim: eklentinin bileseniyle ayni alanlar, yalnizca
+				 * ana sayfanin ilk degerleri dolu. Bos birakilinca baslik site
+				 * adina ("Istanbul Keresteci") dusuyordu; aramada ticari kelime
+				 * tasimiyordu. Panelden degistirilen deger bunun yerine gecer.
+				 * Eklenti temanin kendi 'seo' bilesenine dokunmaz
+				 * (nwcs_seo_augment_manifest).
+				 */
+				'seo' => array(
+					'label'  => 'Arama ve Paylaşım',
+					'fields' => array(
+						'title'       => array(
+							'label'   => 'Arama başlığı',
+							'type'    => 'text',
+							'default' => 'İstanbul Keresteci | Çatalca Kereste Satışı ve Fiyatları',
+							'count'   => 60,
+							'hint'    => 'Google sonucunda mavi görünen başlık. Boş bırakırsanız sayfa başlığı ve site adı kullanılır.',
+						),
+						'description' => array(
+							'label'   => 'Arama açıklaması',
+							'type'    => 'textarea',
+							'default' => 'Çatalca’daki depomuzdan çam, köknar, kayın ve meşe kereste; tomruk, OSB, kontrplak ve plywood. İstediğiniz ölçüde kesip İstanbul’a teslim ediyoruz.',
+							'count'   => 160,
+							'hint'    => 'Başlığın altındaki özet. Boş bırakırsanız sayfanın öne çıkan cümlesi kullanılır.',
+						),
+						'image'       => array(
+							'label'   => 'Paylaşım görseli',
+							'type'    => 'image',
+							'default' => 0,
+							'hint'    => 'Bağlantı WhatsApp, LinkedIn gibi yerlerde paylaşılınca görünen görsel. Boşsa sayfanın ana görseli kullanılır.',
+						),
+					),
+				),
+
 				'hero' => array(
 					'label'  => 'Giriş (Hero)',
 					'fields' => array(
@@ -595,6 +629,12 @@ $manifest_data = array(
 								array( 'group' => 'Ürünler', 'question' => 'Tomruk hangi ağaçlardan?', 'answer' => 'Ağırlıklı olarak kayın, kızılçam, meşe ve karaçam. Tomruk inşaatlık kereste ve palet üretiminde kullanılır; ağaç ev yapmak isteyenler de tercih eder.' ),
 								array( 'group' => 'Sipariş ve fiyat', 'question' => 'Özel ölçüde çıta ya da kalas hazırlanır mı?', 'answer' => 'Evet. Keresteyi ve plakayı istediğiniz boyda ve kalınlıkta kesiyoruz; çıtada standart ölçülerin yanında farklı boyutlarda özel üretim de yapılır.' ),
 								array( 'group' => 'Sipariş ve fiyat', 'question' => 'Fiyat neye göre belirlenir?', 'answer' => 'Kereste fiyatı ağaç türüne, ölçüye ve miktara göre değişir. Güncel fiyat için arayın ya da iletişim formundan ürün, ölçü ve adedi yazın.' ),
+								array( 'group' => 'Sipariş ve fiyat', 'question' => 'Sipariş nasıl verilir?', 'answer' => 'Üç adımda: ürünü seçin; ölçüyü ve adedi iletişim formundan ya da telefonla bildirin; ürün adresinize teslim edilir ya da depoda aracınıza yüklenir.' ),
+								array( 'group' => 'Sipariş ve fiyat', 'question' => 'Fiyat almak için hangi bilgileri vermeliyim?', 'answer' => 'Ürünü, ağaç türünü, ölçüyü (kalınlık × genişlik × boy), adedi ve teslim yerini yazmanız yeterli. Güncel fiyatı ve stok durumunu bu bilgilere göre söyleriz.' ),
+								array( 'group' => 'Teslimat', 'question' => 'Hangi bölgelere teslimat yapıyorsunuz?', 'answer' => 'Çatalca’daki depomuzdan İstanbul’un her yerine; şantiyeye, atölyeye ya da fabrikaya teslim ediyoruz.' ),
+								array( 'group' => 'Teslimat', 'question' => 'Depodan gelip kendim alabilir miyim?', 'answer' => 'Evet. Ürünü Çatalca Kestanelik’teki depomuzda aracınıza yüklüyoruz. Gelmeden önce arayıp stoğu sormanızı öneririz.' ),
+								array( 'group' => 'Ölçü ve hesap', 'question' => 'Kereste metreküpü nasıl hesaplanır?', 'answer' => 'Kalınlığı ve genişliği santimetreden metreye çevirip boy ve adetle çarpın. Örneğin 5 × 10 cm kesitli, 4 m boyunda 100 adet kereste: 0,05 × 0,10 × 4 × 100 = 2 m³.' ),
+								array( 'group' => 'Ölçü ve hesap', 'question' => '1 metreküp kerestede kaç adet var?', 'answer' => 'Kesite ve boya göre değişir. 4 m boyunda 5 × 10 cm kereste 1 m³’te 50 adet, 10 × 10 cm kereste 25 adet eder. 3 m boyunda 5 × 10 cm keresteden yaklaşık 66 adet çıkar.' ),
 								array( 'group' => 'Sipariş ve fiyat', 'question' => 'Sevkiyat süresi nedir, teslimat nasıl yapılıyor?', 'answer' => '' ),
 							),
 						),
