@@ -35,7 +35,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const IK_SETUP_VERSION = 6;
+const IK_SETUP_VERSION = 7;
 
 add_action( 'after_switch_theme', 'ik_run_setup' );
 add_action( 'admin_init', 'ik_maybe_setup' );
@@ -73,7 +73,8 @@ function ik_maybe_setup(): void {
 			ik_setup_merge_faq();
 		}
 
-		if ( $installed < 6 ) {
+		// 7: ayni adim; yazi ici baglantilar (gorunen metin degismez).
+		if ( $installed < 7 ) {
 			ik_setup_refresh_posts();
 		}
 
@@ -254,6 +255,8 @@ function ik_setup_refresh_posts(): void {
 	$known = array(
 		'mese-agaci-nedir' => array(
 			array( 'Meşe Ağacı Nedir? Meşe Ağacı Özellikleri Nelerdir?', 'd58ca5fca3711c5432371e688f5267a5', 'd6cbaef02dc4c79c5f1427188209fe4b' ),
+			// Surum 6 (2026 metni); surum 7 ayni metne yazi ici baglanti ekler.
+			array( 'Meşe Ağacı ve Meşe Kereste: Özellikleri ve Kullanım Alanları (2026)', 'b920cef94873ec2145fd9686e8183a5c', '04155a924355f3be698099b82007c1c9' ),
 		),
 		'istanbul-kereste-fiyatlari' => array(
 			array( 'İstanbul Kereste Fiyatları Nedir?', '2f6e3b29727282e04f90f52a1668f51f', '4016227422a81c0b8b91a545cbf692c7' ),
@@ -261,6 +264,7 @@ function ik_setup_refresh_posts(): void {
 		),
 		'ahsap-insaatlik-kereste-nedir' => array(
 			array( 'Ahşap İnşaatlık Kereste Nedir?', 'eb3c7d74129c02ecfedfb3f61d3cbfaf', '815ea29158e92cb9fc98f1e7456841f7' ),
+			array( 'Ahşap İnşaatlık Kereste Nedir? Kullanım Alanları ve Ölçüleri (2026)', 'fe3fae4fef80a0ea5e1e9f65aed8d579', 'fe084a08f8f5d8098db116fecb18f886' ),
 		),
 		'kereste-metrekup-hesaplama' => array(
 			array( 'Kereste Metreküp Hesaplama: 1 m³ Kereste Kaç Adet?', '11a5ca219e53a290f791e91917f914c8', '65c8223c9fa6891d6b52fac03fe965cd' ),

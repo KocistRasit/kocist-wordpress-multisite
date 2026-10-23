@@ -106,7 +106,25 @@ get_template_part(
 	<div class="ik-wrap ik-product__below">
 		<article class="ik-product__main<?php echo $specs ? ' ik-product__main--split' : ''; ?>">
 			<div class="ik-prose ik-product__body" <?php nwcs_edit_attr( 'products', 'catalog', 'items', $product['index'], 'body' ); ?>>
+				<?php $extras = ik_product_extras( $product['slug'] ); ?>
+				<?php if ( $extras && '' !== $extras['answer'] ) : ?>
+					<?php // Kisa cevap: arama ve yapay zeka ozetleri sayfanin ilk paragrafini alir. ?>
+					<p class="ik-product__answer"><?php echo esc_html( $extras['answer'] ); ?></p>
+				<?php endif; ?>
 				<?php ik_paragraphs( $product['body'] ); ?>
+				<?php if ( $extras && '' !== $extras['sizes'] ) : ?>
+					<h2 class="ik-product__subtitle">Ölçüler</h2>
+					<?php echo ik_rich_html( $extras['sizes'] ); // phpcs:ignore WordPress.Security.EscapingOutput ?>
+				<?php endif; ?>
+				<?php if ( $extras && $extras['faq'] ) : ?>
+					<h2 class="ik-product__subtitle">Sık sorulan sorular</h2>
+					<div class="ik-product__faq">
+						<?php foreach ( $extras['faq'] as $item ) : ?>
+							<h3><?php echo esc_html( $item[0] ); ?></h3>
+							<?php echo ik_rich_html( $item[1] ); // phpcs:ignore WordPress.Security.EscapingOutput ?>
+						<?php endforeach; ?>
+					</div>
+				<?php endif; ?>
 				<?php $palet_note = 'ahsap-palet' === $product['slug'] ? trim( (string) nwcs_field( 'products', 'detail', 'palet_note' ) ) : ''; ?>
 				<?php if ( '' !== $palet_note ) : ?>
 					<p class="ik-product__related">
