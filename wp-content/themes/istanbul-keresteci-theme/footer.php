@@ -56,7 +56,11 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 		</div>
 
-		<p class="ik-footer__legal" <?php nwcs_edit_attr( 'global', 'footer', 'copyright' ); ?>><?php echo esc_html( nwcs_field( 'global', 'footer', 'copyright' ) ); ?></p>
+		<div class="ik-footer__legal">
+			<p <?php nwcs_edit_attr( 'global', 'footer', 'copyright' ); ?>><?php echo esc_html( nwcs_field( 'global', 'footer', 'copyright' ) ); ?></p>
+			<?php // Ana marka kocist.com.tr; grup siteleri ona baglanir. ?>
+			<a class="ik-footer__group" href="https://kocist.com.tr/" <?php nwcs_edit_attr( 'global', 'footer', 'parent_link' ); ?>><?php echo esc_html( nwcs_field( 'global', 'footer', 'parent_link' ) ); ?></a>
+		</div>
 	</div>
 </footer>
 

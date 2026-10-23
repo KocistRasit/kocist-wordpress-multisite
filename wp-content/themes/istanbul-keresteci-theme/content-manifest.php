@@ -308,6 +308,7 @@ $manifest_data = array(
 						'email_label'    => array( 'label' => 'E-posta Metni', 'type' => 'text', 'default' => $email ),
 						'email_url'      => array( 'label' => 'E-posta Bağlantısı', 'type' => 'url', 'default' => 'mailto:' . $email ),
 						'copyright'      => array( 'label' => 'Telif Satırı', 'type' => 'text', 'default' => '© Koçist Grup Dış Ticaret ve Sanayi Ltd. Şti.' ),
+						'parent_link'    => array( 'label' => 'Koçist Grup Bağlantı Metni', 'type' => 'text', 'default' => 'Bir Koçist Grup şirketidir', 'hint' => 'Sayfa altında kocist.com.tr adresine gider.' ),
 					),
 				),
 			),
