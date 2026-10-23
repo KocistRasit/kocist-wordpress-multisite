@@ -1487,23 +1487,27 @@ const IK_OPENING_HOURS = array(
 	array( array( 'Sunday' ), '10:00', '19:00' ),
 );
 
-add_filter(
-	'nwcs_seo_business',
-	static function ( array $business ): array {
-		if ( 'LocalBusiness' !== ( $business['@type'] ?? '' ) ) {
-			return $business;
-		}
-
-		$business['openingHoursSpecification'] = array_map(
-			static fn( array $row ): array => array(
-				'@type'     => 'OpeningHoursSpecification',
-				'dayOfWeek' => $row[0],
-				'opens'     => $row[1],
-				'closes'    => $row[2],
+// Ortak eklentiye dokunmadan: eklentinin firma kaydiyla ayni @id'ye bagli
+// ayri bir JSON-LD blogu. Google ayni @id'li dugumleri birlestirir.
+add_action(
+	'wp_head',
+	static function (): void {
+		$data = array(
+			'@context'                  => 'https://schema.org',
+			'@type'                     => 'LocalBusiness',
+			'@id'                       => home_url( '/' ) . '#organization',
+			'openingHoursSpecification' => array_map(
+				static fn( array $row ): array => array(
+					'@type'     => 'OpeningHoursSpecification',
+					'dayOfWeek' => $row[0],
+					'opens'     => $row[1],
+					'closes'    => $row[2],
+				),
+				IK_OPENING_HOURS
 			),
-			IK_OPENING_HOURS
 		);
 
-		return $business;
-	}
+		echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . "</script>\n";
+	},
+	30
 );
