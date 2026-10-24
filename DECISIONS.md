@@ -2217,3 +2217,13 @@ Ailways asistanının ürün aktarıcısı her siteden ürün listesini XML olar
   renk grubu; görsel sırası, tam boy, sitenin adresi, yer tutucu; kategori; açıklama; özel
   karakterler; başlıklar, HEAD, tam eşitlik; katalog olmayan siteler 404; E_ALL);
   `check-live-search`, `check-quote-basket`, `check-color-groups` geçti.
+
+## İstanbul Keresteci: SSS işareti, llms.txt sayfaları, IndexNow (24 Ekim 2026)
+
+Denetim raporunun panelden yapılamayan kalemleri; hepsi temada (`inc/seo-extra.php`), ortak eklentiye dokunulmadı.
+
+- **SSS işareti:** ürün sayfalarının soruları (`content/product-extras.php`) ve yönetimden yazılan sayfaların "Sık sorulan sorular" bölümü (h2 altındaki h3 + paragraf; ilçe sayfaları) ayrı bir `FAQPage` bloğu olarak yazılır. Panelin SSS sayfasını eklenti zaten işaretliyor; ona dokunulmaz.
+- **llms.txt:** eklenti yalnızca manifest ve ürün sayfalarını listeliyor. Yönetimden yazılan yayındaki sayfalar (ilçe sayfaları) "Bölge ve bilgi sayfaları" bölümü olarak eklenir (eklenti çıktısı tamponla yakalanır).
+- **sameAs:** Üst Bilgi Şeridi'ne girilen sosyal ağ adresleri firma kaydına `sameAs` olarak eklenir.
+- **IndexNow:** yazı ya da sayfa yayınlanınca, güncellenince ya da yayından kalkınca adres api.indexnow.org'a (Bing, Yandex) bildirilir. Anahtar `ik_indexnow_key` seçeneğinde, dosyası `/<anahtar>.txt`. Arama motorlarına kapalı ya da yerel sitede çalışmaz. Panelden (İçerik Stüdyosu) yapılan değişiklikler bildirilmez.
+- **Ana sayfa görseli:** tema fotoğrafına alt metin.

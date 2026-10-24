@@ -8,7 +8,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$image = ik_image_or_default( nwcs_image( 'home', 'hero', 'image', 'full' ), 'hero-orman.jpg' );
+$image = ik_image_or_default( nwcs_image( 'home', 'hero', 'image', 'full' ), 'hero-orman.jpg', 'Orman yolunun kenarında istiflenmiş tomruklar' );
 
 // Telefonda tema fotografinin dar kirpimi (hero-orman-telefon.webp, 520 x 500).
 // Kutu en az min(82vh, 46rem) yuksek; ekran 30em'den dar ve dikeyse (en/boy
@@ -19,7 +19,7 @@ $image = ik_theme_mobile_source( $image, '(max-width: 30em) and (max-aspect-rati
 ?>
 <?php // Zemine (fotografa) tiklaninca fotograf alani acilir; yazilar kendi alanlarini acar. ?>
 <section class="ik-hero" aria-labelledby="ik-hero-title" <?php nwcs_edit_attr( 'home', 'hero', 'image' ); ?>>
-	<?php echo ik_image_tag( $image, 'ik-hero__image', '', 'eager', ik_edit_attrs( 'home', 'hero', 'image' ) ); // phpcs:ignore WordPress.Security.EscapingOutput ?>
+	<?php echo ik_image_tag( $image, 'ik-hero__image', null, 'eager', ik_edit_attrs( 'home', 'hero', 'image' ) ); // phpcs:ignore WordPress.Security.EscapingOutput ?>
 
 	<div class="ik-wrap ik-hero__inner">
 		<h1 class="ik-hero__title" id="ik-hero-title">
