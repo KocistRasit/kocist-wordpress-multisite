@@ -1,6 +1,6 @@
 /*
- * Hero: kenardan kenara tesis videosu, sol altta logo levhasi + slogan +
- * buton, altinda guven seridi.
+ * Hero: kenardan kenara tesis videosu, sol altta slogan + buton, altinda
+ * guven seridi. Logo yalnizca ust menude.
  *
  * Renk degiskenleri style.css icindeki :root blogundan gelir.
  */
@@ -65,25 +65,6 @@
 }
 
 /*
- * Logo levhasi: tesisin cephesindeki beyaz KOCIST tabelasinin kucuk bir
- * yankisi. Koyu logo yazisi video ustunde ancak boyle okunur.
- */
-.k-hero__plate {
-	display: inline-flex;
-	padding: 12px 18px;
-	border-radius: 6px;
-	background: #fff;
-	box-shadow: 0 12px 28px rgba(15, 61, 33, .28);
-	animation: k-plate-in .55s cubic-bezier(.22, 1, .36, 1) both;
-}
-
-.k-hero__logo {
-	display: block;
-	width: auto;
-	height: 48px;
-}
-
-/*
  * Slogan alttan maskeyle yukari cikiyor: baslik kirpma maskesi, ic span
  * kayiyor. Sayfadaki tek giris hareketi bu siralama.
  */
@@ -107,11 +88,6 @@
 
 .k-hero__body .k-hero__btn {
 	animation: k-cta-in .5s ease .8s both;
-}
-
-@keyframes k-plate-in {
-	from { opacity: 0; transform: translateY(8px); }
-	to   { opacity: 1; transform: none; }
 }
 
 @keyframes k-slogan-in {
@@ -219,8 +195,6 @@
 
 	.k-hero__inner { padding-top: 32px; padding-bottom: 28px; }
 	.k-hero__body { gap: 16px; }
-	.k-hero__plate { padding: 9px 13px; }
-	.k-hero__logo { height: 36px; }
 	.k-hero__btn { padding: 12px 20px; font-size: 14px; }
 	.k-hero__toggle { width: 40px; height: 40px; }
 	.k-trust { padding: 18px 0; }
@@ -233,7 +207,6 @@
 	}
 
 	/* Giris animasyonlari kapanir; video da kendiliginden baslamaz (hero.js). */
-	.k-hero__plate,
 	.k-hero__title-inner,
 	.k-hero__body .k-hero__btn {
 		animation: none !important;

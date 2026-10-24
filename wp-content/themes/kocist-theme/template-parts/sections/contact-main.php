@@ -9,13 +9,12 @@
  * Form gercek gonderim yapar (inc/form.php): kayit olarak saklanir, bildirim
  * info@kocist.com.tr adresine gider. Hata olursa girilen degerler korunur.
  *
- * Harita gomme adresi panelden gelmiyor; panelde yalnizca konum METNI ya da
- * koordinat tutuluyor, adres burada kuruluyor. Boylece iframe kaynagi her
- * zaman google.com kalir.
- *
- * Yol tarifi isletmenin Google Haritalar kaydina gider: "KOÇİST Kereste, Orman
- * Ürünleri ve İnşaat Malzemeleri" (ana kayit; ambalaj ve kamelya atolyeleri
- * ayni tesiste, kendi sitelerinde).
+ * Harita: ayni tesisteki uc isletme (kereste, ambalaj ve sandik, kamelya ve
+ * dekorasyon) haritanin ustunde sekme sekme. Gomme adresi panelden gelmiyor;
+ * panelde isletmenin adi, koordinati ve Google kaydi tutuluyor, adres burada
+ * kuruluyor. Boylece iframe kaynagi her zaman google.com kalir. Sekmeler
+ * assets/js/contact.js; betik yoksa ilk harita gorunur, kartta uc isletme de
+ * yol tarifiyle listelenir.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,16 +45,76 @@ $kocist_strip_item = static function ( string $icon, string $title, string $text
 	<?php
 };
 
-// Harita hedefi: koordinat girilmisse o, yoksa adres metni.
-$query  = trim( (string) nwcs_field( 'contact', 'map', 'query' ) );
-$coords = trim( (string) nwcs_field( 'contact', 'map', 'coords' ) );
-
 /*
- * Bicim dogrulaniyor; "41.14,28.46" disinda bir sey yazilirsa yok sayilir
- * ve adrese geri donulur.
+ * Haritadaki isletmeler (panelde contact.map.places). Adi bos satir atlanir.
+ * Eski tek konum alanlari (query, coords) kayitliysa da okunmaz.
+ *
+ * Gomme adresi (Ekim 2026'da basliksiz Chrome'la, uc isletmeyle denendi):
+ *   - Google kayit kodu (0x…:0x…) ve koordinat varsa Google'in kendi "Haritayi
+ *     yerlestir" bicimi (/maps/embed?pb=…): harita isletmenin Google kartiyla
+ *     (ad, adres, puan) acilir; uc isletmede de dogru kayit.
+ *   - Kod yoksa ad + koordinat aramasi (maps?q=<ad>&ll=<koordinat>&z=17):
+ *     isletme adiyla isaretli gorunur, ama "Kereste" ve "Ambalaj" tesisteki
+ *     diger KOÇİST kayitlariyla birlikte arama sonucu olarak (kartsiz) cikiyor;
+ *     yalnizca "Kamelya" kartla aciliyor. Ada ", Kestanelik, Çatalca, İstanbul"
+ *     eklemek "Kamelya"yi da coklu sonuca ceviriyordu; eklenmiyor.
+ * Ikisinde de koordinatli ciplak isaret yok.
  */
-$has_coords = (bool) preg_match( '/^-?\d{1,2}(\.\d+)?\s*,\s*-?\d{1,3}(\.\d+)?$/', $coords );
-$place      = $has_coords ? preg_replace( '/\s+/', '', $coords ) : $query;
+$map_places = array();
+
+foreach ( nwcs_rows( 'contact', 'map', 'places' ) as $row_index => $row ) {
+	$row  = is_array( $row ) ? $row : array();
+	$name = trim( (string) ( $row['name'] ?? '' ) );
+
+	if ( '' === $name ) {
+		continue;
+	}
+
+	// Bicim dogrulaniyor; "41.14,28.46" disinda bir sey yazilirsa yok sayilir.
+	$coords = trim( (string) ( $row['coords'] ?? '' ) );
+	$coords = preg_match( '/^-?\d{1,2}(\.\d+)?\s*,\s*-?\d{1,3}(\.\d+)?$/', $coords ) ? preg_replace( '/\s+/', '', $coords ) : '';
+
+	// Yol tarifi yalnizca Google adresine; degilse isletmenin adiyla Google aramasi.
+	$link  = trim( (string) ( $row['url'] ?? '' ) );
+	$parts = wp_parse_url( $link );
+	$host  = strtolower( (string) ( $parts['host'] ?? '' ) );
+	$valid = 'https' === strtolower( (string) ( $parts['scheme'] ?? '' ) )
+		&& ( 'google.com' === $host || str_ends_with( $host, '.google.com' ) || 'maps.app.goo.gl' === $host || 'goo.gl' === $host );
+
+	if ( ! $valid ) {
+		$link = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( $name );
+	}
+
+	// Google kayit kodu: alana kod ya da isletmenin uzun Google Haritalar adresi yazilabilir.
+	$ftid = '';
+
+	foreach ( array( $row['place'] ?? '', $link ) as $source ) {
+		if ( preg_match( '/0x[0-9a-f]{1,16}:0x[0-9a-f]{1,16}/i', rawurldecode( (string) $source ), $found ) ) {
+			$ftid = strtolower( $found[0] );
+			break;
+		}
+	}
+
+	if ( '' !== $ftid && '' !== $coords ) {
+		list( $lat, $lng ) = explode( ',', $coords );
+
+		$embed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1200!2d' . $lng . '!3d' . $lat
+			. '!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s' . str_replace( ':', '%3A', $ftid )
+			. '!2s' . rawurlencode( $name ) . '!5e0!3m2!1str!2str';
+	} else {
+		$embed = 'https://www.google.com/maps?q=' . rawurlencode( $name ) . ( '' !== $coords ? '&ll=' . $coords : '' ) . '&z=17&output=embed';
+	}
+
+	$label = trim( (string) ( $row['label'] ?? '' ) );
+
+	$map_places[] = array(
+		'row'   => (int) $row_index,
+		'label' => '' !== $label ? $label : $name,
+		'name'  => $name,
+		'link'  => $link,
+		'embed' => $embed,
+	);
+}
 
 // Urunden "Teklif Al" ile gelindiyse (?urun=<slug>) konu ve mesaj o urunle dolar (inc/quote.php).
 $prefill = function_exists( 'kocist_quote_prefill' ) ? kocist_quote_prefill() : array( 'product' => null, 'context' => array(), 'subject' => '', 'message' => '' );
@@ -224,33 +283,71 @@ $form_field  = static function ( string $key ) use ( $form_errors ): void {
 				</form>
 			</div>
 
-			<?php if ( '' !== $place ) : ?>
-				<div class="k-contact__map-col" id="harita" data-nwcs-section="map">
-					<div class="k-map">
+			<?php if ( $map_places ) : ?>
+				<div class="k-contact__map-col" id="harita" data-nwcs-section="map" data-k-map>
+					<?php
+					/*
+					 * Sekmeler betikle acilir (assets/js/contact.js); betik yoksa
+					 * ise yaramayacaklari icin gizli kalir. Kendiliginden donmez:
+					 * her geciste harita yeniden yukleniyor.
+					 */
+					?>
+					<?php if ( count( $map_places ) > 1 ) : ?>
+						<div class="k-map__tabs" role="tablist" aria-label="Tesisteki işletmeler" data-k-map-tabs hidden>
+							<?php foreach ( $map_places as $place_index => $map_place ) : ?>
+								<button
+									type="button"
+									class="k-map__tab"
+									id="k-map-tab-<?php echo (int) $place_index; ?>"
+									role="tab"
+									aria-controls="k-map-panel"
+									aria-selected="<?php echo 0 === $place_index ? 'true' : 'false'; ?>"
+									tabindex="<?php echo 0 === $place_index ? '0' : '-1'; ?>"
+									data-k-map-tab
+									data-k-map-src="<?php echo esc_url( $map_place['embed'] ); ?>"
+									data-k-map-name="<?php echo esc_attr( $map_place['name'] ); ?>"
+								>
+									<span <?php nwcs_edit_attr( 'contact', 'map', 'places', $map_place['row'], 'label' ); ?>><?php echo esc_html( $map_place['label'] ); ?></span>
+								</button>
+							<?php endforeach; ?>
+						</div>
+					<?php endif; ?>
+
+					<div class="k-map" id="k-map-panel">
 						<iframe
 							class="k-map__frame"
-							src="<?php echo esc_url( 'https://www.google.com/maps?q=' . rawurlencode( $place ) . '&z=16&output=embed' ); ?>"
-							title="<?php echo esc_attr( '' !== $query ? $query : $place ); ?>"
+							src="<?php echo esc_url( $map_places[0]['embed'] ); ?>"
+							title="<?php echo esc_attr( $map_places[0]['name'] ); ?>"
 							loading="lazy"
 							referrerpolicy="no-referrer-when-downgrade"
 							allowfullscreen
+							data-k-map-frame
 						></iframe>
 
-						<?php /* Adres ve yol tarifi haritanin uzerine biniyor. */ ?>
+						<?php /* Adres ve yol tarifi haritanin uzerine biniyor. Betikle yalnizca secili isletme gorunur. */ ?>
 						<div class="k-map__card">
 							<p class="k-map__title" <?php nwcs_edit_attr( 'contact', 'map', 'title' ); ?>><?php echo esc_html( nwcs_field( 'contact', 'map', 'title' ) ); ?></p>
 							<p class="k-map__address" <?php nwcs_edit_attr( 'contact', 'info', 'address' ); ?>><?php echo esc_html( nwcs_field( 'contact', 'info', 'address' ) ); ?></p>
 
-							<a
-								class="k-map__link"
-								href="https://maps.app.goo.gl/goTd8wPiXnbDb8BY9"
-								target="_blank"
-								rel="noopener noreferrer"
-								<?php nwcs_edit_attr( 'contact', 'map', 'link_label' ); ?>
-							>
-								<?php echo esc_html( nwcs_field( 'contact', 'map', 'link_label' ) ); ?>
-								<span aria-hidden="true">→</span>
-							</a>
+							<ul class="k-map__places">
+								<?php foreach ( $map_places as $place_index => $map_place ) : ?>
+									<li class="k-map__place" data-k-map-place>
+										<span class="k-map__name" <?php nwcs_edit_attr( 'contact', 'map', 'places', $map_place['row'], 'name' ); ?>><?php echo esc_html( $map_place['name'] ); ?></span>
+
+										<a
+											class="k-map__link"
+											href="<?php echo esc_url( $map_place['link'] ); ?>"
+											target="_blank"
+											rel="noopener noreferrer"
+											<?php nwcs_edit_attr( 'contact', 'map', 'link_label' ); ?>
+										>
+											<?php echo esc_html( nwcs_field( 'contact', 'map', 'link_label' ) ); ?>
+											<span class="screen-reader-text">: <?php echo esc_html( $map_place['name'] ); ?></span>
+											<span aria-hidden="true">→</span>
+										</a>
+									</li>
+								<?php endforeach; ?>
+							</ul>
 						</div>
 					</div>
 				</div>

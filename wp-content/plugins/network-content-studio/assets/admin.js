@@ -703,8 +703,18 @@
 		var button = event.target.closest ? event.target.closest( 'button' ) : null;
 		var form = currentForm();
 
-		if ( ! button || ! form || ! form.contains( button ) ) {
+		if ( ! button ) {
 			return;
+		}
+
+		// Duzenleyici disindaki formlar (SEO ve GEO sekmesindeki firma bilgisi):
+		// yalnizca satir dugmeleri (ekle, sil, tasi) calisir; "Vazgec" duzenleyiciye ozel.
+		if ( ! form || ! form.contains( button ) ) {
+			form = button.closest( '[data-nwcs-form]' );
+
+			if ( ! form || button.hasAttribute( 'data-nwcs-discard' ) ) {
+				return;
+			}
 		}
 
 		// Vazgec
@@ -739,7 +749,7 @@
 			var newRow = holder.querySelector( '[data-nwcs-row]' );
 			list.appendChild( newRow );
 			renumber( repeater );
-			setDirty( true );
+			setDirty( true, form );
 
 			var first = newRow.querySelector( 'input[type="text"], textarea' );
 			if ( first ) {
@@ -757,7 +767,7 @@
 			var repeaterOfRow = button.closest( '[data-nwcs-repeater]' );
 			button.closest( '[data-nwcs-row]' ).remove();
 			renumber( repeaterOfRow );
-			setDirty( true );
+			setDirty( true, form );
 			return;
 		}
 
@@ -779,7 +789,7 @@
 			}
 
 			renumber( button.closest( '[data-nwcs-repeater]' ) );
-			setDirty( true );
+			setDirty( true, form );
 		}
 	}
 

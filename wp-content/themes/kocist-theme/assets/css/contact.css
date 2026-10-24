@@ -186,6 +186,53 @@ a.k-strip__item:focus-visible {
 }
 
 /* ---------- Harita ---------- */
+
+/*
+ * Isletme sekmeleri: katalog sekmeleriyle ayni dil (secili olan koyu yesil).
+ * Koseler harita ve kartla ayni yumusaklikta; dar ekranda uzun ad iki satira
+ * iner, yatay kaydirma olmaz.
+ */
+.k-map__tabs {
+	display: flex;
+	gap: 4px;
+	margin-bottom: 14px;
+	padding: 4px;
+	border: 1.5px solid var(--line);
+	border-radius: 16px;
+	background: var(--paper);
+}
+
+.k-map__tabs[hidden] { display: none; }
+
+.k-map__tab {
+	flex: 1 1 auto;
+	min-width: 0;
+	min-height: 44px;
+	padding: 6px 16px;
+	border: 0;
+	border-radius: 12px;
+	background: transparent;
+	color: var(--forest);
+	font: inherit;
+	font-size: 14.5px;
+	font-weight: 700;
+	line-height: 1.25;
+	cursor: pointer;
+	transition: background .15s, color .15s;
+}
+
+.k-map__tab:hover { background: var(--leaf-soft); }
+
+.k-map__tab[aria-selected="true"] {
+	background: var(--forest);
+	color: #fff;
+}
+
+.k-map__tab:focus-visible {
+	outline: 3px solid var(--leaf);
+	outline-offset: 2px;
+}
+
 .k-map {
 	position: relative;
 	overflow: hidden;
@@ -231,14 +278,46 @@ a.k-strip__item:focus-visible {
 }
 
 .k-map__address {
-	margin: 0 0 14px;
+	margin: 0 0 12px;
 	font-size: 15px;
 	line-height: 1.5;
 	color: var(--forest);
 	font-weight: 600;
 }
 
+/*
+ * Isletme satirlari: ad ve yol tarifi. Betik yoksa uc isletme alt alta,
+ * betikle yalnizca secili sekmeninki (digerleri hidden).
+ */
+.k-map__places {
+	display: grid;
+	gap: 10px;
+	margin: 0;
+	padding: 12px 0 0;
+	border-top: 1px solid var(--line);
+	list-style: none;
+}
+
+.k-map__place {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px 16px;
+}
+
+.k-map__place[hidden] { display: none; }
+
+.k-map__name {
+	flex: 1 1 220px;
+	font-size: 14.5px;
+	font-weight: 800;
+	line-height: 1.35;
+	color: var(--forest);
+}
+
 .k-map__link {
+	flex: none;
 	display: inline-flex;
 	align-items: center;
 	gap: 9px;
@@ -339,15 +418,39 @@ a.k-quote-item__name:focus-visible {
 	.k-map__frame { height: 380px; }
 }
 
+/*
+ * Sekmeler tek satira sigmayinca (dar iki sutun ve telefon) esit genislik:
+ * uzun ad iki satira iner, kisa sekme cilizlasmaz.
+ */
+@media (min-width: 900px) and (max-width: 1059.98px), (max-width: 599.98px) {
+	.k-map__tab { flex: 1 1 0; padding: 6px 10px; }
+}
+
 @media (max-width: 599.98px) {
 	.k-strip { grid-template-columns: 1fr; }
 	.k-strip__item { border-left: 0; border-top: 1px solid var(--line); }
 	.k-strip__item:first-child { border-top: 0; }
 	.k-contact__form { grid-template-columns: 1fr; }
+
+	.k-map__tab { font-size: 13.5px; }
+
+	/*
+	 * Telefonda kart haritanin altina iner: ustune binince Google'in kendi
+	 * isletme karti ve isaretiyle cakisiyordu.
+	 */
+	.k-map__card {
+		position: static;
+		border-radius: 0;
+		border-top: 1px solid var(--line);
+		background: #fff;
+		backdrop-filter: none;
+		box-shadow: none;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.k-strip__item,
+	.k-map__tab,
 	.k-map__link {
 		transition-duration: .01ms !important;
 	}

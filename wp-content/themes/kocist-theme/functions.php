@@ -314,8 +314,8 @@ function kocist_assets(): void {
 		);
 	}
 
-	// Iletisim sayfasi varliklari yalnizca o sayfada. Betik yok: form duz POST,
-	// harita kendi iframe'i icinde calisiyor.
+	// Iletisim sayfasi varliklari yalnizca o sayfada. Form duz POST; betik
+	// yalnizca haritadaki isletme sekmeleri icin (assets/js/contact.js).
 	// Form alanlari (assets/css/form.css) iletisim ve urun sayfasinda ortak.
 	wp_register_style(
 		'kocist-form',
@@ -329,7 +329,15 @@ function kocist_assets(): void {
 			'kocist-contact',
 			get_theme_file_uri( 'assets/css/contact.css' ),
 			array( 'kocist-style', 'kocist-form' ),
-			wp_get_theme()->get( 'Version' )
+			(string) filemtime( get_theme_file_path( 'assets/css/contact.css' ) )
+		);
+
+		wp_enqueue_script(
+			'kocist-contact',
+			get_theme_file_uri( 'assets/js/contact.js' ),
+			array(),
+			(string) filemtime( get_theme_file_path( 'assets/js/contact.js' ) ),
+			true
 		);
 	}
 
@@ -616,6 +624,22 @@ function kocist_product_title_parts( array $parts ): array {
 	unset( $parts['tagline'] );
 
 	return $parts;
+}
+
+/*
+ * /urun/ (urunsuz) panelde duzenlenen ornek urun sablonu, yayinda bir urun
+ * degil: ziyaretci ve arama motoru urun kategorilerine gider. Panel
+ * onizlemesi sablonu gormeye devam eder. Havuz urunleri (/urun/<slug>/)
+ * eklentinin sorgu degiskeniyle acilir, bu sayfaya dusmez.
+ */
+add_action( 'template_redirect', 'kocist_sample_product_redirect' );
+function kocist_sample_product_redirect(): void {
+	if ( ! is_page( 'urun' ) || get_query_var( 'nwcs_product' ) || ( function_exists( 'nwcs_is_preview' ) && nwcs_is_preview() ) ) {
+		return;
+	}
+
+	wp_safe_redirect( home_url( '/kategoriler/' ), 301 );
+	exit;
 }
 
 /**

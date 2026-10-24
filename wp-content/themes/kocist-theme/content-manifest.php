@@ -1275,10 +1275,17 @@ $manifest_data = array(
 		 *
 		 * Fiyat ve sepet alani bilincli olarak yok: bu bir e-ticaret degil,
 		 * teklif toplayan bir kurumsal site.
+		 *
+		 * Yayinda ornek urun yok: /urun/ adresi /kategoriler/'e 301 ile gider
+		 * (functions.php, panel onizlemesi haric). 'seo' => false: SEO sayfasi
+		 * sayilmaz (meta, JSON-LD, llms.txt, site haritasi, SEO puani; NWCS
+		 * 0.27.5). Butonlar ve ortak yazilar tum havuz urunlerinde
+		 * (/urun/<slug>/) kullanildigi icin sayfa panelde duruyor.
 		 */
 		'product' => array(
 			'label'      => 'Ürün Sayfaları',
 			'path'       => '/urun/',
+			'seo'        => false,
 			'components' => array(
 
 				'main' => array(
@@ -1516,10 +1523,11 @@ $manifest_data = array(
 		/*
 		 * Iletisim sayfasi.
 		 *
-		 * Harita adresten uretiliyor: panelde iframe adresi degil yalnizca
-		 * konum metni tutuluyor, gomme adresini tema kuruyor. Boylece iframe
-		 * kaynagi her zaman google.com kaliyor; panele girilen bir deger
-		 * sayfaya keyfi bir site gomemiyor.
+		 * Harita: ayni tesisteki uc isletme sekme sekme. Panelde iframe adresi
+		 * degil isletmenin adi, koordinati ve Google kaydi tutuluyor; gomme
+		 * adresini tema kuruyor (template-parts/sections/contact-main.php).
+		 * Boylece iframe kaynagi her zaman google.com kaliyor; panele girilen
+		 * bir deger sayfaya keyfi bir site gomemiyor.
 		 *
 		 * Form bilincli olarak DEMO: hicbir yere gonderilmiyor, kaydedilmiyor
 		 * ve "gonderildi" basarisi gosterilmiyor (paletci temasindaki teklif
@@ -1529,6 +1537,8 @@ $manifest_data = array(
 		'contact' => array(
 			'label'      => 'İletişim Sayfası',
 			'path'       => '/iletisim/',
+			// Arama aciklamasi bandin alt basligindan baslar; tek basina form metni (66 karakter) kisa kaliyordu.
+			'seo_source' => array( 'description' => 'head.subtitle' ),
 			'components' => array(
 
 				'head' => array(
@@ -1590,8 +1600,47 @@ $manifest_data = array(
 					'label'  => 'Harita',
 					'fields' => array(
 						'title'      => array( 'label' => 'Bölüm Başlığı', 'type' => 'text', 'default' => 'Tesisimiz' ),
-						'query'      => array( 'label' => 'Harita Konumu (adres olarak yazın)', 'type' => 'text', 'default' => 'Kestanelik Mahallesi, Çatalca, İstanbul' ),
-						'coords'     => array( 'label' => 'Koordinat (enlem,boylam — doldurulursa adres yerine bu kullanılır)', 'type' => 'text', 'default' => '41.2311136,28.5012366' ), // KOÇİST Kereste, Orman Ürünleri ve İnşaat Malzemeleri
+						/*
+						 * Eski tek konum alanlari (query, coords) kaldirildi; kayitli
+						 * degerleri okunmuyor. Bu liste kaydedilmemisse asagidaki
+						 * varsayilan uc isletme gorunur.
+						 */
+						'places'     => array(
+							'label'   => 'İşletmeler (haritanın üstündeki sekmeler)',
+							'type'    => 'repeater',
+							'max'     => 3,
+							'hint'    => 'İlk satır sayfa açılınca gösterilir. Tek satır kalırsa sekmeler görünmez.',
+							'fields'  => array(
+								'label'  => array( 'label' => 'Sekme Adı (kısa)', 'type' => 'text' ),
+								'name'   => array( 'label' => 'İşletmenin Tam Adı', 'type' => 'text', 'hint' => 'Google Haritalar’daki adıyla aynı yazın: harita bu adla arar ve kartta görünür.' ),
+								'coords' => array( 'label' => 'Koordinat (enlem,boylam)', 'type' => 'text', 'hint' => 'Örn. 41.2309908,28.5009723. Harita bu noktayı ortalar.' ),
+								'url'    => array( 'label' => 'Google Haritalar Bağlantısı (Yol tarifi al)', 'type' => 'url', 'hint' => 'Google Haritalar’da “Paylaş” ile alınan bağlantı (maps.app.goo.gl/...). Boş ya da Google dışı bir adres olursa işletmenin adıyla arama bağlantısı kullanılır.' ),
+								'place'  => array( 'label' => 'Google Kayıt Kodu (isteğe bağlı)', 'type' => 'text', 'hint' => 'Doluysa harita işletmenin kendi Google kartıyla açılır. İşletme Google Haritalar’da açıkken adres çubuğundaki bağlantının tamamını buraya yapıştırın (içindeki 0x…:0x… kodu kullanılır). Boşsa harita adla arar. Bağlantıyı başka işletmeye çevirirseniz bunu da güncelleyin.' ),
+							),
+							'default' => array(
+								array(
+									'label'  => 'Kereste',
+									'name'   => 'KOÇİST Kereste, Orman Ürünleri ve İnşaat Malzemeleri',
+									'coords' => '41.2309908,28.5009723',
+									'url'    => 'https://maps.app.goo.gl/twqD4fMuUQ4prbVeA',
+									'place'  => '0x14caaf39a0c83359:0x34d4e59176236bdc',
+								),
+								array(
+									'label'  => 'Ambalaj ve Sandık',
+									'name'   => 'KOÇİST Ahşap Ambalaj Ürünleri ve Sandık İmalatı Atölyesi',
+									'coords' => '41.23092,28.5007532',
+									'url'    => 'https://maps.app.goo.gl/iq9kGdNRHxXEyTN8A',
+									'place'  => '0x14caa64d17e1232b:0x40f34e17a74dcad1',
+								),
+								array(
+									'label'  => 'Kamelya ve Dekorasyon',
+									'name'   => 'KOÇİST Kamelya ve Ahşap Dekorasyon',
+									'coords' => '41.2312164,28.5016346',
+									'url'    => 'https://maps.app.goo.gl/n5S9BacDQXZNqJvj7',
+									'place'  => '0x14caaf977eb226a3:0xc9d691df9b0f8f0d',
+								),
+							),
+						),
 						'link_label' => array( 'label' => 'Yol Tarifi Buton Metni', 'type' => 'text', 'default' => 'Yol tarifi al' ),
 					),
 				),

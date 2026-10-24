@@ -2,8 +2,8 @@
 /**
  * Ana sayfa hero bolumu.
  *
- * Kenardan kenara Catalca tesisinin drone videosu; logo, slogan ve buton sol
- * altta. Altinda guven seridi. Davranis assets/js/hero.js, gorunum
+ * Kenardan kenara Catalca tesisinin drone videosu; slogan ve buton sol altta
+ * (logo yalnizca ust menude). Altinda guven seridi. Davranis assets/js/hero.js, gorunum
  * assets/css/hero.css.
  *
  * Video temaya gomulu (assets/video/): panelde video alani yok. Telefona kare
@@ -24,12 +24,6 @@ $cta_url = nwcs_field( 'home', 'hero', 'cta_url' );
 if ( kocist_is_catalog_placeholder( $cta_url ) && kocist_catalog_groups() ) {
 	$cta_url = home_url( '/kategoriler/' );
 }
-
-/*
- * Logo, ust menudekiyle ayni alandan okunuyor: marka gorseli tek yerden
- * yonetilsin diye hero'ya ayri bir alan acilmadi.
- */
-$brand = kocist_image_or_default( nwcs_image( 'global', 'header', 'logo_image', 'medium' ), 'logo.png', 'Koçist Orman Ürünleri logosu' );
 ?>
 <section class="k-hero" id="hero" data-nwcs-section="hero">
 	<div class="k-hero__stage" data-k-hero-video>
@@ -48,24 +42,6 @@ $brand = kocist_image_or_default( nwcs_image( 'global', 'header', 'logo_image', 
 
 		<div class="k-wrap k-hero__inner">
 			<div class="k-hero__body">
-				<?php
-				/*
-				 * Logo beyaz bir levhanin ustunde: videodaki tesis tabelasiyla
-				 * ayni dili konusuyor, koyu logo yazisi da video ustunde
-				 * okunur kaliyor.
-				 */
-				?>
-				<?php if ( ! empty( $brand['url'] ) ) : ?>
-					<span class="k-hero__plate">
-						<img
-							<?php nwcs_edit_attr( 'global', 'header', 'logo_image' ); ?>
-							class="k-hero__logo"
-							src="<?php echo esc_url( $brand['url'] ); ?>"
-							alt="<?php echo esc_attr( $brand['alt'] ); ?>"
-						/>
-					</span>
-				<?php endif; ?>
-
 				<h1 class="k-hero__title">
 					<span class="k-hero__title-inner" <?php nwcs_edit_attr( 'home', 'hero', 'title' ); ?>><?php echo esc_html( nwcs_field( 'home', 'hero', 'title' ) ); ?></span>
 				</h1>

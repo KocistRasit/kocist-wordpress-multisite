@@ -28,14 +28,13 @@ $lead     = $page_key ? trim( (string) nwcs_field( $page_key, 'head', 'lead' ) )
 get_header();
 
 if ( ! $group ) :
-	$sub_total = array_sum( array_map( static fn( array $item ): int => count( $item['subs'] ), $groups ) );
 	?>
 	<div class="k-pagehead">
 		<div class="k-wrap">
 			<?php kocist_the_trail( kocist_catalog_trail(), 'k-crumbs--on-dark' ); ?>
 			<h1 class="k-pagehead__title" <?php nwcs_edit_attr( 'kategoriler', 'index', 'title' ); ?>><?php echo esc_html( nwcs_field( 'kategoriler', 'index', 'title' ) ); ?></h1>
 			<p class="k-pagehead__sub" <?php nwcs_edit_attr( 'kategoriler', 'index', 'lead' ); ?>>
-				<?php echo esc_html( kocist_text( 'kategoriler', 'index', 'lead', array( 'grup' => count( $groups ), 'kategori' => $sub_total ) ) ); ?>
+				<?php echo esc_html( kocist_text( 'kategoriler', 'index', 'lead', kocist_catalog_index_vars() ) ); ?>
 			</p>
 		</div>
 	</div>

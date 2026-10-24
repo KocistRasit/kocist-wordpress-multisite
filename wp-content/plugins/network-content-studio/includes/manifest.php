@@ -139,7 +139,8 @@ const NWCS_SEO_SITE_PAGE = 'site_seo';
 
 /**
  * Manifeste SEO bilesenlerini ekler. Temanin kendi 'seo' bileseni varsa
- * ona dokunulmaz.
+ * ona dokunulmaz. 'seo' => false isaretli sayfa arama sonucuna cikmadigi
+ * icin "Arama ve Paylaşım" bileseni almaz (bkz. nwcs_seo_pages).
  */
 function nwcs_seo_augment_manifest( array $manifest ): array {
 	if ( empty( $manifest['pages'] ) || ! is_array( $manifest['pages'] ) ) {
@@ -147,7 +148,7 @@ function nwcs_seo_augment_manifest( array $manifest ): array {
 	}
 
 	foreach ( $manifest['pages'] as $key => $page ) {
-		if ( 'global' === $key || isset( $page['components'][ NWCS_SEO_COMPONENT ] ) ) {
+		if ( 'global' === $key || isset( $page['components'][ NWCS_SEO_COMPONENT ] ) || false === ( $page['seo'] ?? true ) ) {
 			continue;
 		}
 

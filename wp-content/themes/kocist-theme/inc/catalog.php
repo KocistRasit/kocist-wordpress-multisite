@@ -736,6 +736,42 @@ function kocist_catalog_seo_head_end(): void {
 }
 
 /**
+ * /kategoriler/ alt metnindeki degiskenler: {grup} grup sayisi, {kategori}
+ * toplam kategori sayisi. Sayfa ve SEO aciklamasi ayni sayilari kullanir.
+ *
+ * @return array{grup:int, kategori:int}
+ */
+function kocist_catalog_index_vars(): array {
+	$groups = kocist_catalog_groups();
+
+	return array(
+		'grup'     => count( $groups ),
+		'kategori' => array_sum( array_map( static fn( array $item ): int => count( $item['subs'] ), $groups ) ),
+	);
+}
+
+/*
+ * /kategoriler/ panelde bir sayfa ('kategoriler'); eklenti aciklamasini o
+ * sayfanin alt metninden alir. Sayfadaki gibi doldurulsun: yoksa arama
+ * sonucunda ve llms.txt'te ham "{grup} ürün grubunda {kategori} kategori"
+ * gorunuyordu. Suzgec NWCS 0.27.5'ten beri var.
+ */
+add_filter( 'nwcs_seo_field_text', 'kocist_seo_field_text', 10, 4 );
+function kocist_seo_field_text( string $text, string $page, string $component, string $field ): string {
+	if ( 'kategoriler' !== $page || 'index' !== $component || 'lead' !== $field ) {
+		return $text;
+	}
+
+	$map = array();
+
+	foreach ( kocist_catalog_index_vars() as $key => $value ) {
+		$map[ '{' . $key . '}' ] = (string) $value;
+	}
+
+	return trim( strtr( $text, $map ) );
+}
+
+/**
  * SEO eklentisine kategori ve urun sayfalarini bildirir: baslik, aciklama,
  * canonical, paylasim gorseli ve llms.txt bunlardan uretilir.
  */
@@ -758,14 +794,16 @@ function kocist_catalog_seo_pages( array $pages ): array {
 	);
 
 	foreach ( $groups as $group ) {
-		$custom  = kocist_catalog_seo_custom( $group['slug'] );
-		$pages[] = array(
+		$custom    = kocist_catalog_seo_custom( $group['slug'] );
+		$sub_names = array_slice( wp_list_pluck( $group['subs'], 'name' ), 0, 8 );
+		$pages[]   = array(
 			'url'         => $group['url'],
 			'name'        => $group['name'],
-			'description' => '' !== $custom['description'] ? $custom['description'] : sprintf(
-				'%s grubundaki ürünler: %s.',
-				$group['name'],
-				implode( ', ', array_slice( wp_list_pluck( $group['subs'], 'name' ), 0, 8 ) )
+			// Kategorisiz grupta "ürünler: ." kalmasin.
+			'description' => '' !== $custom['description'] ? $custom['description'] : (
+				$sub_names
+					? sprintf( '%s grubundaki ürünler: %s.', $group['name'], implode( ', ', $sub_names ) )
+					: sprintf( '%s grubunda ölçü ve adede göre üretim ve tedarik.', $group['name'] )
 			),
 			'image'       => $custom['image'] ? $custom['image'] : ( $group['image']['url'] ? array( 'url' => $group['image']['url'], 'alt' => $group['image']['alt'] ) : 0 ),
 		);

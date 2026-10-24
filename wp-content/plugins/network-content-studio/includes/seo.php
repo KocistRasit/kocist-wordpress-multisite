@@ -57,6 +57,25 @@ function nwcs_seo_path_value( string $page_key, string $path ) {
 }
 
 /**
+ * Sayfa alaninin baslik ve aciklamada kullanilan metni.
+ *
+ * Tema bir alani sayfada {degisken} doldurarak gosteriyorsa ("{sayi} ürün"),
+ * ayni dolu metni suzgecle verir; vermezse aciklamada ham "{sayi}" gorunur:
+ *
+ *   add_filter( 'nwcs_seo_field_text', function ( string $text, string $page, string $component, string $field ): string {
+ *       return 'kategoriler' === $page && 'lead' === $field ? strtr( $text, array( '{sayi}' => '12' ) ) : $text;
+ *   }, 10, 4 );
+ *
+ * Panelde (ag yonetimi) temanin suzgeci yuklu degildir; orada ham metin gorunur.
+ */
+function nwcs_seo_field_text( string $page_key, string $component, string $field ): string {
+	$value = nwcs_field( $page_key, $component, $field );
+	$value = is_scalar( $value ) ? (string) $value : '';
+
+	return nwcs_seo_clean( (string) apply_filters( 'nwcs_seo_field_text', $value, $page_key, $component, $field ) );
+}
+
+/**
  * Deger bir gorsel kimligi ya da gorselli tekrarli satirlarsa ilk gorsel.
  */
 function nwcs_seo_first_image( $value ): int {
@@ -100,18 +119,54 @@ function nwcs_seo_image( int $attachment_id ): array {
 
 /**
  * Manifestteki, kendi adresi olan sayfalar (ortak ve gizli sayfalar haric).
+ *
+ * Temanin 'seo' => false isaretledigi sayfa da haric: panelde duzenlenen ama
+ * kendisi yayinda olmayan bir sablon (Kocist'in ornek urun sayfasi /urun/).
+ * Meta ve JSON-LD, llms.txt, site haritasi ve SEO puani onu saymaz; adresi
+ * noindex olur (bkz. nwcs_seo_excluded_page_ids).
  */
 function nwcs_seo_pages( ?array $manifest = null ): array {
 	$manifest = $manifest ?? nwcs_manifest();
 	$pages    = array();
 
 	foreach ( nwcs_visible_pages( $manifest ) as $key => $page ) {
-		if ( 'global' !== $key && isset( $page['path'] ) ) {
+		if ( 'global' !== $key && isset( $page['path'] ) && false !== ( $page['seo'] ?? true ) ) {
 			$pages[ $key ] = $page;
 		}
 	}
 
 	return $pages;
+}
+
+/**
+ * 'seo' => false isaretli manifest sayfalarinin WordPress sayfa kimlikleri
+ * (yolu bir WordPress sayfasina denk gelenler).
+ *
+ * @return int[]
+ */
+function nwcs_seo_excluded_page_ids(): array {
+	$ids = array();
+
+	foreach ( (array) ( nwcs_manifest()['pages'] ?? array() ) as $page ) {
+		if ( false !== ( $page['seo'] ?? true ) || empty( $page['path'] ) ) {
+			continue;
+		}
+
+		$found = get_page_by_path( trim( (string) $page['path'], '/' ), OBJECT, 'page' );
+
+		if ( $found ) {
+			$ids[] = (int) $found->ID;
+		}
+	}
+
+	return $ids;
+}
+
+/**
+ * Bu istek 'seo' => false isaretli bir sayfa mi?
+ */
+function nwcs_seo_is_excluded_request(): bool {
+	return is_page() && in_array( (int) get_queried_object_id(), nwcs_seo_excluded_page_ids(), true );
 }
 
 /**
@@ -150,7 +205,7 @@ function nwcs_seo_page_auto( string $page_key, ?array $manifest = null ): array 
 				$type = $component['fields'][ $name ]['type'] ?? '';
 
 				if ( 'text' === $type || 'textarea' === $type ) {
-					$value = nwcs_seo_clean( nwcs_field( $page_key, $component_key, $name ) );
+					$value = nwcs_seo_field_text( $page_key, $component_key, $name );
 
 					if ( '' !== $value && ! in_array( $value, $found, true ) ) {
 						$found[] = $value;
@@ -405,8 +460,8 @@ function nwcs_seo_context(): array {
 	$context = array();
 
 	// Beslemede sayfa bilgisi kullanilmaz; olmayan yazinin beslemesi (/x/feed/)
-	// 404 sayilmaz ve sorgulanan yazi bos gelir.
-	if ( is_admin() || is_feed() || is_404() || empty( nwcs_manifest()['pages'] ) ) {
+	// 404 sayilmaz ve sorgulanan yazi bos gelir. SEO disi sablon sayfasi da bos.
+	if ( is_admin() || is_feed() || is_404() || empty( nwcs_manifest()['pages'] ) || nwcs_seo_is_excluded_request() ) {
 		return $context;
 	}
 
@@ -1185,6 +1240,16 @@ function nwcs_seo_robots( array $robots ): array {
 		$robots['follow']  = true;
 	}
 
+	// SEO disi sablon sayfasi ('seo' => false). Site arama motorlarina kapaliysa nofollow kalir.
+	if ( nwcs_seo_is_excluded_request() ) {
+		$robots['noindex'] = true;
+		unset( $robots['max-image-preview'] );
+
+		if ( empty( $robots['nofollow'] ) ) {
+			$robots['follow'] = true;
+		}
+	}
+
 	return $robots;
 }
 
@@ -1350,6 +1415,24 @@ function nwcs_seo_extra_sitemap_urls(): array {
 add_filter( 'wp_sitemaps_add_provider', 'nwcs_seo_sitemap_providers', 10, 2 );
 function nwcs_seo_sitemap_providers( $provider, string $name ) {
 	return in_array( $name, array( 'users', 'taxonomies' ), true ) ? false : $provider;
+}
+
+/**
+ * 'seo' => false isaretli sayfa site haritasinda yok.
+ */
+add_filter( 'wp_sitemaps_posts_query_args', 'nwcs_seo_sitemap_skip_excluded', 10, 2 );
+function nwcs_seo_sitemap_skip_excluded( array $args, string $post_type ): array {
+	if ( 'page' !== $post_type || empty( nwcs_manifest()['pages'] ) ) {
+		return $args;
+	}
+
+	$ids = nwcs_seo_excluded_page_ids();
+
+	if ( $ids ) {
+		$args['post__not_in'] = array_merge( (array) ( $args['post__not_in'] ?? array() ), $ids );
+	}
+
+	return $args;
 }
 
 /* ====================================================================== *
