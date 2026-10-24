@@ -14,6 +14,7 @@
 defined( 'ABSPATH' ) || exit;
 
 require_once get_theme_file_path( 'inc/setup.php' );
+require_once get_theme_file_path( 'inc/seo-extra.php' );
 
 /**
  * Manifest dizisi (content-manifest.php), istek basina bir kez okunur.
@@ -1520,6 +1521,10 @@ const IK_OPENING_HOURS = array(
 add_action(
 	'wp_head',
 	static function (): void {
+		// Panelde girilen sosyal ag adresleri (Ust Bilgi Seridi) firma kaydina
+		// sameAs olarak eklenir; SEO sekmesindeki "diger adresler" ile birlesir.
+		$same_as = array_values( array_map( static fn( array $link ): string => esc_url_raw( $link['url'] ), ik_social_links() ) );
+
 		$data = array(
 			'@context'                  => 'https://schema.org',
 			'@type'                     => 'LocalBusiness',
@@ -1534,6 +1539,10 @@ add_action(
 				IK_OPENING_HOURS
 			),
 		);
+
+		if ( $same_as ) {
+			$data['sameAs'] = $same_as;
+		}
 
 		echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . "</script>\n";
 	},
