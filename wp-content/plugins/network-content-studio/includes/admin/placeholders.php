@@ -31,10 +31,8 @@ function nwcs_placeholders_save(): void {
 
 		update_blog_option( $id, NWCS_PLACEHOLDER_OPTION, $new );
 
-		// Sayfa onbellegi eklentisi varsa (LiteSpeed Cache) degisen site temizlenir.
-		switch_to_blog( $id );
-		do_action( 'litespeed_purge_all' );
-		restore_current_blog();
+		// Sayfa onbellegi eklentisi varsa (LiteSpeed Cache) degisen site temizlenir (includes/cache-purge.php).
+		nwcs_cache_mark_blog_dirty( $id );
 	}
 
 	wp_safe_redirect( add_query_arg( array( 'page' => NWCS_PLACEHOLDER_SLUG, 'kaydedildi' => 1 ), network_admin_url( 'admin.php' ) ) );

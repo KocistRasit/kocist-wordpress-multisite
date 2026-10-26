@@ -75,8 +75,14 @@ function nwcs_preview_setup(): void {
 		return;
 	}
 
-	// Anahtarli adres onbellege ve arama motoruna girmesin.
+	// Anahtarli adres onbellege ve arama motoruna girmesin. LiteSpeed Cache
+	// nocache_headers()'a bakmaz; sabit ve kendi basligi gerekir.
+	if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+		define( 'DONOTCACHEPAGE', true );
+	}
+
 	nocache_headers();
+	header( 'X-LiteSpeed-Cache-Control: no-cache' );
 	header( 'X-Robots-Tag: noindex, nofollow' );
 
 	add_filter( 'body_class', 'nwcs_preview_body_class' );

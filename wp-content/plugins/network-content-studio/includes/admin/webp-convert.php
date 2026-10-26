@@ -487,13 +487,8 @@ function nwcs_webp_flush( int $blog_id ): void {
 		nwcs_pool_flush_cache();
 	}
 
-	if ( has_action( 'litespeed_purge_all' ) ) {
-		switch_to_blog( $blog_id );
-		do_action( 'litespeed_purge_all' );
-		restore_current_blog();
-	}
-
 	if ( function_exists( 'nwcs_purge_site_caches' ) ) {
+		nwcs_cache_mark_blog_dirty( $blog_id );
 		nwcs_purge_site_caches();
 	}
 }

@@ -440,10 +440,8 @@ function nwcs_package_apply( array $package, bool $apply ): array {
 		);
 		restore_current_blog();
 
-		// Sayfa onbellegi eklentisi varsa (LiteSpeed Cache) site temizlenir.
-		switch_to_blog( $blog_id );
-		do_action( 'litespeed_purge_all' );
-		restore_current_blog();
+		// Sayfa onbellegi eklentisi varsa (LiteSpeed Cache) site temizlenir (includes/cache-purge.php).
+		nwcs_cache_mark_blog_dirty( $blog_id );
 	}
 
 	return $report;
