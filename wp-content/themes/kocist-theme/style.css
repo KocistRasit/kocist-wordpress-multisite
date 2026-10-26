@@ -3,7 +3,7 @@ Theme Name: Kocist Theme
 Theme URI: http://localhost:8081/
 Author: Demo
 Description: Kocist demo sitesi icin kurumsal/endustriyel tema. Icerik degerleri Network Content Studio veri katmanindan okunur.
-Version: 0.6.2
+Version: 0.7.0
 Requires at least: 6.5
 Requires PHP: 8.1
 Text Domain: kocist
@@ -16,7 +16,9 @@ Text Domain: kocist
 	--forest-2: #1e6b3c;
 	--forest-3: #0f3d21;
 	--leaf: #7ab648;
-	--leaf-dark: #5e9433;
+	/* Kucuk yesil yazilarin rengi: beyazda 5.5, --leaf-soft ve --paper-2 zeminde
+	   en az 4.8 kontrast (WCAG AA 4.5). Eski #5e9433 3.2-3.6'da kaliyordu. */
+	--leaf-dark: #477524;
 	--leaf-soft: #eaf5e1;
 	--paper: #ffffff;
 	--paper-2: #f4f6f3;

@@ -182,9 +182,10 @@ else :
 				<ul class="k-plist" <?php if ( $page_key ) { nwcs_edit_attr( $page_key, 'products', 'pool' ); } ?>>
 					<?php
 					// Kart inc/catalog.php'de (arama sonuclari da ayni karti kullanir);
-					// grup sayfasinda kartta urunun kategorisi yazar.
-					foreach ( $products as $product ) {
-						kocist_product_card( $product, ! $sub );
+					// grup sayfasinda kartta urunun kategorisi yazar. Ilk kartin gorseli
+					// sayfanin en buyuk ogesi: oncelikli iner.
+					foreach ( array_values( $products ) as $index => $product ) {
+						kocist_product_card( $product, ! $sub, false, 0 === $index );
 					}
 					?>
 				</ul>

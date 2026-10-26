@@ -360,8 +360,9 @@ function kocist_card_colors( array $product, string $class ): void {
  *
  * @param bool $show_kind      Kartta urunun kategorisi yazsin mi (grup sayfasi, arama).
  * @param bool $group_fallback Kategorisi yoksa grubun adi yazsin mi (arama).
+ * @param bool $priority       Listenin ilk karti: gorsel tembel degil, oncelikli iner (LCP).
  */
-function kocist_product_card( array $product, bool $show_kind = false, bool $group_fallback = false ): void {
+function kocist_product_card( array $product, bool $show_kind = false, bool $group_fallback = false, bool $priority = false ): void {
 	$groups   = kocist_catalog_groups();
 	$group    = $groups[ $product['group'] ?? '' ] ?? null;
 	$sub_item = $group['subs'][ $product['sub'] ?? '' ] ?? null;
@@ -372,7 +373,7 @@ function kocist_product_card( array $product, bool $show_kind = false, bool $gro
 	<li class="k-pcard">
 		<a class="k-pcard__link" href="<?php echo esc_url( $href ); ?>">
 			<span class="k-pcard__media" <?php kocist_product_attr( $product, 'Görsel' ); ?>>
-				<?php echo kocist_image_tag( kocist_product_image( $product ), 'k-pcard__img', 'Örnek görsel' ); // phpcs:ignore WordPress.Security.EscapingOutput ?>
+				<?php echo kocist_image_tag( kocist_product_image( $product ), 'k-pcard__img', 'Örnek görsel', $priority ); // phpcs:ignore WordPress.Security.EscapingOutput ?>
 			</span>
 
 			<span class="k-pcard__body">
@@ -838,23 +839,27 @@ function kocist_catalog_seo_pages( array $pages ): array {
 		$image     = kocist_product_image( $product );
 		$meta_desc = trim( (string) ( $product['meta_desc'] ?? '' ) );
 		$pages[]   = array(
-			'url'         => $product['url'],
-			'name'        => $product['title'],
+			'url'          => $product['url'],
+			'name'         => $product['title'],
 			// Havuzdaki meta baslik oldugu gibi; bossa eklenti "ad – site" uretir.
-			'title'       => (string) ( $product['meta_title'] ?? '' ),
-			'description' => '' !== $meta_desc ? $meta_desc : ( $product['short'] ?: ( trim( (string) $product['body'] ) ? wp_strip_all_tags( $product['body'] ) : $product['title'] ) ),
-			'image'       => $image['url'] ? array( 'url' => $image['url'], 'alt' => $image['alt'] ) : 0,
-			'type'        => 'Product',
+			'title'        => (string) ( $product['meta_title'] ?? '' ),
+			'description'  => '' !== $meta_desc ? $meta_desc : ( $product['short'] ?: ( trim( (string) $product['body'] ) ? wp_strip_all_tags( $product['body'] ) : $product['title'] ) ),
+			'image'        => $image['url'] ? array( 'url' => $image['url'], 'alt' => $image['alt'] ) : 0,
+			'type'         => 'Product',
 			// Site haritasina girer (/urun/<slug>/ WordPress sayfasi degil).
-			'sitemap'     => true,
-			'sku'         => (string) ( $product['code'] ?? '' ),
+			'sitemap'      => true,
+			'sku'          => (string) ( $product['code'] ?? '' ),
 			// Yalnizca duz tutar (kocist_price_number); fiyatsiz ya da "...'den baslayan" urunde 0: offers yazilmaz.
-			'price'       => $product['has_price'] ? kocist_price_number( (string) $product['price'] ) : 0,
-			'currency'    => kocist_price_currency( (string) $product['price'] ),
+			'price'        => $product['has_price'] ? kocist_price_number( (string) $product['price'] ) : 0,
+			'currency'     => kocist_price_currency( (string) $product['price'] ),
+			// "449 ₺ + KDV": Offer'a KDV haric bilgisi; KDV'den soz etmeyen fiyatta yazilmaz.
+			'vat_included' => kocist_price_vat_included( (string) $product['price'] ),
+			// Site haritasinda lastmod: havuzdaki son degisiklik.
+			'lastmod'      => (string) ( $product['modified'] ?? '' ),
 			// Sayfadaki Teknik Detaylar ile ayni kural (serbest not "Ölçü"; numarali aktarim artigi yok).
-			'properties'  => array_map( static fn( array $pair ): array => array( 'name' => $pair[0], 'value' => $pair[1] ), kocist_product_table_specs( $product ) ),
+			'properties'   => array_map( static fn( array $pair ): array => array( 'name' => $pair[0], 'value' => $pair[1] ), kocist_product_table_specs( $product ) ),
 			// Urun videosu: Product'a VideoObject olarak eklenir (sayfadaki galeriyle ayni video).
-			'video'       => (array) ( $product['video'] ?? array() ),
+			'video'        => (array) ( $product['video'] ?? array() ),
 		);
 	}
 

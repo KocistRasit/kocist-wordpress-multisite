@@ -210,7 +210,8 @@ get_header();
 						<span class="k-product__video-start-text">Ürün videosunu izle<?php echo '' !== $video_length ? esc_html( ' (' . $video_length . ')' ) : ''; ?></span>
 					</button>
 				<?php else : ?>
-					<?php echo kocist_image_tag( $main, 'k-product__photo', 'Örnek görsel — ürün' ); // phpcs:ignore WordPress.Security.EscapingOutput ?>
+					<?php // Sayfanin en buyuk ogesi: hemen iner; telefon kucuk kopyayi alir (masaustunde alan en fazla 690px). ?>
+					<?php echo kocist_image_tag( $main, 'k-product__photo', 'Örnek görsel — ürün', true, '(min-width: 1024px) 690px, 100vw' ); // phpcs:ignore WordPress.Security.EscapingOutput ?>
 
 					<?php kocist_zoom_button( $main ); ?>
 				<?php endif; ?>

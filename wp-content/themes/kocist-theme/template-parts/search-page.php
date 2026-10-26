@@ -53,8 +53,8 @@ $trail = array(
 
 			<ul class="k-plist k-results__list">
 				<?php
-				foreach ( $shown as $product ) {
-					kocist_product_card( $product, true, true );
+				foreach ( array_values( $shown ) as $index => $product ) {
+					kocist_product_card( $product, true, true, 0 === $index );
 				}
 				?>
 			</ul>

@@ -173,33 +173,19 @@ function kocist_ensure_page( string $slug, string $title ): int {
 add_action( 'wp_enqueue_scripts', 'kocist_assets' );
 function kocist_assets(): void {
 	/*
-	 * Tailwind tarayici derlemesi (CDN). Tasarim asamasi icin; derleme adimi yok.
-	 * Footer'a degil head'e aliniyor: JIT tarayicisi sayfa boyanmadan calismali,
-	 * aksi halde stilsiz an (FOUC) uzuyor. Surum null -> CDN URL'ine ?ver eklenmez.
-	 */
-	wp_enqueue_script(
-		'tailwind-browser',
-		'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4',
-		array(),
-		null,
-		false
-	);
-
-	/*
-	 * Yazi tipi: Archivo. Saglam govdeli, endustriyel bir grotesk; basliklarda
-	 * sikca dizilir, govdede rahat okunur. Tek aile: baslik ve govde arasinda
-	 * kopukluk olmaz. Google Fonts latin-ext alt kumesini unicode-range ile verir.
-	 * Surum null: URL'e ?ver eklenmesin, aksi halde onbellek anahtari bozulur.
+	 * Yazi tipi (Archivo) ve Tailwind sifirlamasi: sabit dosya, kendi
+	 * sunucumuzdan (assets/css/base.css). Eskiden Tailwind CDN betigi ve
+	 * Google Fonts sayfanin boyanmasini geciktiriyordu.
 	 */
 	wp_enqueue_style(
-		'kocist-fonts',
-		'https://fonts.googleapis.com/css2?family=Archivo:wght@400..800&display=swap',
+		'kocist-base',
+		get_theme_file_uri( 'assets/css/base.css' ),
 		array(),
-		null
+		(string) filemtime( get_theme_file_path( 'assets/css/base.css' ) )
 	);
 
 	// Surum dosyanin degisim zamani: stil degisince tarayici eski kopyayi tutmasin.
-	wp_enqueue_style( 'kocist-style', get_stylesheet_uri(), array( 'kocist-fonts' ), (string) filemtime( get_stylesheet_directory() . '/style.css' ) );
+	wp_enqueue_style( 'kocist-style', get_stylesheet_uri(), array( 'kocist-base' ), (string) filemtime( get_stylesheet_directory() . '/style.css' ) );
 
 	// Header kendi dosyasinda: style.css bolum bolum Tailwind'e tasinirken
 	// kucultulecek, header kurallari onunla birlikte dagilmasin.
@@ -486,6 +472,29 @@ function kocist_assets(): void {
 	// Teklif sepeti ve arama gorunumu en sonda: urun ve kategori stillerinin ustune.
 	if ( $is_product_detail || $is_search || $is_basket ) {
 		wp_enqueue_style( 'kocist-teklif' );
+	}
+}
+
+/**
+ * Erken yukleme: yazi tipi dosyalari ve ana sayfada hero kapak karesi
+ * (sayfanin en buyuk ogesi, LCP). Ucu de CSS icinden istenir; tarayici
+ * onlari ancak CSS inince bulurdu. Turkce metin iki alt kumeyi de kullanir
+ * (ç ö ü latin, ğ ş İ latin-ext).
+ */
+add_action( 'wp_head', 'kocist_preload_assets', 1 );
+function kocist_preload_assets(): void {
+	foreach ( array( 'archivo-latin', 'archivo-latin-ext' ) as $font ) {
+		printf(
+			'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin />' . PHP_EOL,
+			esc_url( get_theme_file_uri( 'assets/fonts/' . $font . '.woff2' ) )
+		);
+	}
+
+	if ( is_front_page() ) {
+		printf(
+			'<link rel="preload" href="%s" as="image" fetchpriority="high" />' . PHP_EOL,
+			esc_url( get_theme_file_uri( 'assets/video/tesis-kapak.jpg' ) )
+		);
 	}
 }
 
@@ -945,11 +954,27 @@ function kocist_image_or_default( array $image, string $file, string $alt = '', 
 		return $image;
 	}
 
+	// Boyut img etiketine yazilir: gorsel inene kadar yeri ayrilir, sayfa kaymaz.
+	$size = wp_getimagesize( get_theme_file_path( 'assets/img/' . $file ) );
+
 	return array(
-		'id'  => 0,
-		'url' => get_theme_file_uri( 'assets/img/' . $file ),
-		'alt' => '' !== ( $image['alt'] ?? '' ) ? $image['alt'] : $alt,
+		'id'     => 0,
+		'url'    => get_theme_file_uri( 'assets/img/' . $file ),
+		'alt'    => '' !== ( $image['alt'] ?? '' ) ? $image['alt'] : $alt,
+		'width'  => $size ? (int) $size[0] : 0,
+		'height' => $size ? (int) $size[1] : 0,
 	);
+}
+
+/**
+ * img etiketi icin width/height nitelikleri (biliniyorsa); bilinmiyorsa bos.
+ */
+function kocist_image_size_attr( array $image ): string {
+	if ( empty( $image['width'] ) || empty( $image['height'] ) ) {
+		return '';
+	}
+
+	return sprintf( ' width="%d" height="%d"', (int) $image['width'], (int) $image['height'] );
 }
 
 /**
@@ -1080,12 +1105,13 @@ function kocist_product_pairs( array $product ): array {
 
 /**
  * Havuzdaki fiyat metninden arama motoruna bildirilecek tutar. Yalnizca
- * duz tutar ayrilir: "450 TL", "450 tl", "3.500 ₺", "24,50 $", "2.80 $".
+ * duz tutar ayrilir: "450 TL", "450 tl", "3.500 ₺", "24,50 $", "2.80 $";
+ * sonunda KDV notu olabilir: "449 ₺ + KDV", "449 TL (KDV hariç)".
  * "1.250 TL'den başlayan" gibi aralik/baslangic ya da birden cok tutar
  * iceren metinde 0 doner; o urunde JSON-LD "offers" yazilmaz.
  */
 function kocist_price_number( string $price ): float {
-	if ( ! preg_match( '/^\s*([0-9][0-9.,]*)\s*(?:TL|₺|\$)\s*$/iu', $price, $match ) ) {
+	if ( ! preg_match( '/^\s*([0-9][0-9.,]*)\s*(?:TL|₺|\$)\s*' . KOCIST_PRICE_VAT_NOTE . '?\s*$/iu', $price, $match ) ) {
 		return 0.0;
 	}
 
@@ -1101,6 +1127,19 @@ function kocist_price_number( string $price ): float {
 	}
 
 	return (float) $number;
+}
+
+/**
+ * Fiyat metnindeki KDV notu: "+ KDV", "+KDV", "KDV hariç", "(KDV hariç)".
+ */
+const KOCIST_PRICE_VAT_NOTE = '(?:\+\s*KDV|\(?\s*KDV\s+hari[çc]\s*\)?)';
+
+/**
+ * Fiyat KDV haric mi: metin KDV notuyla bitiyorsa false (KDV dahil degil),
+ * notu yoksa null (bilinmiyor; JSON-LD'ye KDV bilgisi yazilmaz).
+ */
+function kocist_price_vat_included( string $price ): ?bool {
+	return preg_match( '/' . KOCIST_PRICE_VAT_NOTE . '\s*$/iu', $price ) ? false : null;
 }
 
 /**
@@ -1507,14 +1546,26 @@ function kocist_product_first_spec( array $product ): string {
 
 /**
  * Gorsel alani icin img etiketi; deger yoksa isaretli yer tutucu.
+ *
+ * Varsayilan tembel yukleme. Sayfa acilir acilmaz gorunen gorselde (urun
+ * fotografi, listenin ilk karti) $priority true: hemen ve oncelikli iner,
+ * en buyuk oge (LCP) gecikmez. Gorselde srcset varsa $sizes ile yazilir:
+ * telefon kucuk kopyayi indirir.
  */
-function kocist_image_tag( array $image, string $class = '', string $placeholder = 'Örnek görsel' ): string {
+function kocist_image_tag( array $image, string $class = '', string $placeholder = 'Örnek görsel', bool $priority = false, string $sizes = '' ): string {
 	if ( ! empty( $image['url'] ) && ! kocist_is_placeholder_image( $image ) ) {
+		$srcset = '' !== $sizes && ! empty( $image['srcset'] )
+			? sprintf( ' srcset="%s" sizes="%s"', esc_attr( $image['srcset'] ), esc_attr( $sizes ) )
+			: '';
+
 		return sprintf(
-			'<img src="%1$s" alt="%2$s" class="%3$s" loading="lazy" decoding="async" />',
+			'<img src="%1$s"%2$s alt="%3$s" class="%4$s"%5$s %6$s decoding="async" />',
 			esc_url( $image['url'] ),
+			$srcset,
 			esc_attr( $image['alt'] ),
-			esc_attr( $class )
+			esc_attr( $class ),
+			kocist_image_size_attr( $image ),
+			$priority ? 'fetchpriority="high"' : 'loading="lazy"'
 		);
 	}
 

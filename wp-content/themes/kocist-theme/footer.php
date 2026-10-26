@@ -57,7 +57,7 @@ if ( ! ( function_exists( 'nwcs_is_preview' ) && nwcs_is_preview() ) ) {
 
 			<div class="k-footer__brand">
 				<?php if ( ! empty( $logo['url'] ) ) : ?>
-					<img class="k-footer__logo" src="<?php echo esc_url( $logo['url'] ); ?>" alt="<?php echo esc_attr( $logo['alt'] ?: get_bloginfo( 'name' ) ); ?>" <?php nwcs_edit_attr( 'global', 'header', 'logo_image' ); ?> />
+					<img class="k-footer__logo" src="<?php echo esc_url( $logo['url'] ); ?>" alt="<?php echo esc_attr( $logo['alt'] ?: get_bloginfo( 'name' ) ); ?>"<?php echo kocist_image_size_attr( $logo ); // phpcs:ignore WordPress.Security.EscapingOutput -- tamsayi. ?> <?php nwcs_edit_attr( 'global', 'header', 'logo_image' ); ?> />
 				<?php endif; ?>
 
 				<p class="k-footer__about" <?php nwcs_edit_attr( 'global', 'footer', 'about_text' ); ?>><?php echo esc_html( nwcs_field( 'global', 'footer', 'about_text' ) ); ?></p>

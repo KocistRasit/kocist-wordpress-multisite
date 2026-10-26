@@ -35,23 +35,6 @@ $has_basket = kocist_page_ready( 'teklif-sepeti' );
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<?php wp_head(); ?>
-
-	<?php /* Tasarim token'lari: hem Tailwind renk adi (bg-forest, text-leaf) hem CSS degiskeni. */ ?>
-	<style type="text/tailwindcss">
-		@theme {
-			--color-forest: #17542f;
-			--color-forest-2: #1e6b3c;
-			--color-forest-3: #0f3d21;
-			--color-leaf: #7ab648;
-			--color-leaf-dark: #5e9433;
-			--color-leaf-soft: #eaf5e1;
-			--color-paper: #ffffff;
-			--color-paper-2: #f4f6f3;
-			--color-ktext: #1f2a24;
-			--color-muted: #5f6b63;
-			--color-line: #dfe5e0;
-		}
-	</style>
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
@@ -97,7 +80,7 @@ $has_basket = kocist_page_ready( 'teklif-sepeti' );
 
 		<a class="k-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
 			<?php if ( ! empty( $logo['url'] ) ) : ?>
-				<img class="k-logo__img" src="<?php echo esc_url( $logo['url'] ); ?>" alt="<?php echo esc_attr( $logo['alt'] ?: get_bloginfo( 'name' ) ); ?>" <?php nwcs_edit_attr( 'global', 'header', 'logo_image' ); ?> />
+				<img class="k-logo__img" src="<?php echo esc_url( $logo['url'] ); ?>" alt="<?php echo esc_attr( $logo['alt'] ?: get_bloginfo( 'name' ) ); ?>"<?php echo kocist_image_size_attr( $logo ); // phpcs:ignore WordPress.Security.EscapingOutput -- tamsayi. ?> <?php nwcs_edit_attr( 'global', 'header', 'logo_image' ); ?> />
 			<?php else : ?>
 				<span class="k-logo__mark" aria-hidden="true"></span>
 			<?php endif; ?>

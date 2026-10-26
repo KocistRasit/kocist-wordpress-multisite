@@ -155,6 +155,9 @@
 				var loader = new window.Image();
 
 				loader.onload = function () {
+					// Ilk gorselin srcset'i kalirsa tarayici onu gostermeye devam eder.
+					photo.removeAttribute( 'srcset' );
+					photo.removeAttribute( 'sizes' );
 					photo.src = full;
 					photo.alt = thumb.getAttribute( 'data-alt' ) || '';
 					stage.classList.remove( 'is-swapping' );
