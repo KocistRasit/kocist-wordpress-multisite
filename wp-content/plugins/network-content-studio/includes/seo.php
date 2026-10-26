@@ -383,6 +383,8 @@ function nwcs_seo_page_for_path( string $path ): string {
  *           'sku'         => 'W-ADR-FB01',  // istege bagli: urun kodu
  *           'price'       => 10250,         // istege bagli: sayi; varsa Offer uretilir
  *           'currency'    => 'TRY',
+ *           'vat_included' => false,        // istege bagli: fiyat KDV haric ("+ KDV"); verilmezse KDV bilgisi yazilmaz
+ *           'lastmod'     => '2026-10-26 09:00:00', // istege bagli: son degisiklik (GMT); site haritasina yazilir
  *           'video'       => $product['video'], // istege bagli: nwcs_video_by_id(); Product'a VideoObject eklenir
  *       );
  *       return $pages;
@@ -547,17 +549,19 @@ function nwcs_seo_context_extra( string $path, string $site, array $base ): arra
 		$title = nwcs_seo_clean( (string) ( $page['title'] ?? '' ) );
 
 		return array(
-			'schema'      => (string) ( $page['type'] ?? '' ),
-			'properties'  => (array) ( $page['properties'] ?? array() ),
-			'name'        => $name,
-			'title'       => '' !== $title ? $title : nwcs_seo_title_with_site( $name, $site ),
-			'description' => nwcs_seo_clean( (string) ( $page['description'] ?? '' ), 160 ),
-			'image'       => $page['image'] ?? 0,
-			'url'         => (string) $page['url'],
-			'sku'         => nwcs_seo_clean( (string) ( $page['sku'] ?? '' ) ),
-			'price'       => is_numeric( $page['price'] ?? null ) && (float) $page['price'] > 0 ? (float) $page['price'] : 0.0,
-			'currency'    => (string) ( $page['currency'] ?? 'TRY' ),
-			'video'       => is_array( $page['video'] ?? null ) ? $page['video'] : array(),
+			'schema'       => (string) ( $page['type'] ?? '' ),
+			'properties'   => (array) ( $page['properties'] ?? array() ),
+			'name'         => $name,
+			'title'        => '' !== $title ? $title : nwcs_seo_title_with_site( $name, $site ),
+			'description'  => nwcs_seo_clean( (string) ( $page['description'] ?? '' ), 160 ),
+			'image'        => $page['image'] ?? 0,
+			'url'          => (string) $page['url'],
+			'sku'          => nwcs_seo_clean( (string) ( $page['sku'] ?? '' ) ),
+			'price'        => is_numeric( $page['price'] ?? null ) && (float) $page['price'] > 0 ? (float) $page['price'] : 0.0,
+			'currency'     => (string) ( $page['currency'] ?? 'TRY' ),
+			// null: fiyat metni KDV'den soz etmiyor; Offer'a KDV bilgisi yazilmaz.
+			'vat_included' => isset( $page['vat_included'] ) ? (bool) $page['vat_included'] : null,
+			'video'        => is_array( $page['video'] ?? null ) ? $page['video'] : array(),
 		) + $base;
 	}
 
@@ -1050,16 +1054,38 @@ function nwcs_seo_product( array $context, string $org_id, string $page_id ): ar
 			'additionalProperty' => $properties,
 			'sku'                => (string) ( $context['sku'] ?? '' ),
 			// Yalnizca temanin bildirdigi gercek fiyat; fiyat yoksa teklif yok.
-			'offers'             => ! empty( $context['price'] ) ? array(
-				'@type'         => 'Offer',
-				'price'         => (string) round( (float) $context['price'], 2 ),
-				'priceCurrency' => (string) ( $context['currency'] ?? 'TRY' ),
-				'url'           => $context['url'],
-				'seller'        => array( '@id' => $org_id ),
-			) : array(),
+			'offers'             => ! empty( $context['price'] ) ? nwcs_seo_product_offer( $context, $org_id ) : array(),
 			'subjectOf'          => nwcs_seo_product_video( $context ),
 		)
 	);
+}
+
+/**
+ * Urunun teklifi (Offer). Fiyat metni KDV'den soz ediyorsa ("449 ₺ + KDV")
+ * tutar oldugu gibi yazilir ve priceSpecification KDV'nin dahil olmadigini
+ * bildirir; KDV hesaplanip eklenmez (oran urune gore degisebilir).
+ */
+function nwcs_seo_product_offer( array $context, string $org_id ): array {
+	$price    = (string) round( (float) $context['price'], 2 );
+	$currency = (string) ( $context['currency'] ?? 'TRY' );
+	$offer    = array(
+		'@type'         => 'Offer',
+		'price'         => $price,
+		'priceCurrency' => $currency,
+		'url'           => $context['url'],
+		'seller'        => array( '@id' => $org_id ),
+	);
+
+	if ( is_bool( $context['vat_included'] ?? null ) ) {
+		$offer['priceSpecification'] = array(
+			'@type'                 => 'UnitPriceSpecification',
+			'price'                 => $price,
+			'priceCurrency'         => $currency,
+			'valueAddedTaxIncluded' => $context['vat_included'],
+		);
+	}
+
+	return $offer;
 }
 
 /**
@@ -1391,20 +1417,31 @@ function nwcs_seo_register_extra_sitemap(): void {
 }
 
 /**
- * Site haritasina girecek ek sayfa adresleri.
+ * Site haritasina girecek ek sayfalar: adres ve (tema verdiyse) son
+ * degisiklik tarihi. Ayni adres bir kez girer.
  *
- * @return string[]
+ * @return array<int, array{loc:string, lastmod?:string}>
  */
-function nwcs_seo_extra_sitemap_urls(): array {
-	$urls = array();
+function nwcs_seo_extra_sitemap_entries(): array {
+	$entries = array();
 
 	foreach ( nwcs_seo_extra_pages() as $page ) {
-		if ( ! empty( $page['sitemap'] ) ) {
-			$urls[] = esc_url_raw( (string) $page['url'] );
+		$loc = ! empty( $page['sitemap'] ) ? esc_url_raw( (string) $page['url'] ) : '';
+
+		if ( '' === $loc || isset( $entries[ $loc ] ) ) {
+			continue;
+		}
+
+		$entries[ $loc ] = array( 'loc' => $loc );
+		$modified        = strtotime( (string) ( $page['lastmod'] ?? '' ) . ' UTC' );
+
+		// Bos ya da "0000-00-00 00:00:00" tarih yazilmaz.
+		if ( '' !== (string) ( $page['lastmod'] ?? '' ) && $modified > 0 ) {
+			$entries[ $loc ]['lastmod'] = gmdate( DATE_W3C, $modified );
 		}
 	}
 
-	return array_values( array_unique( array_filter( $urls ) ) );
+	return array_values( $entries );
 }
 
 /**

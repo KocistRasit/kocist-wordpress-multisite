@@ -79,7 +79,7 @@ function nwcs_register_product_type(): void {
 
 // Anahtar surumlu: urun verisinin sekli degistiginde eski onbellek kendiliginden
 // gecersiz olur, elle temizlemek gerekmez.
-const NWCS_POOL_CACHE_KEY = 'nwcs_pool_products_v6';
+const NWCS_POOL_CACHE_KEY = 'nwcs_pool_products_v7';
 
 /**
  * Havuz onbellegini temizler. Urun/gorsel degisikliklerinden sonra cagrilir.
@@ -156,7 +156,7 @@ function nwcs_pool_products( bool $reset = false ): array {
 	// Onceki anahtarlarin onbellegi artik okunmuyor, kendiliginden de silinmiyor
 	// (her biri ~750 KB): anahtar degistikten sonraki ilk kurulumda bir kez silinir.
 	if ( NWCS_POOL_CACHE_KEY !== get_option( 'nwcs_pool_cache_pruned' ) ) {
-		foreach ( array( '', '_v2', '_v3', '_v4', '_v5' ) as $old ) {
+		foreach ( array( '', '_v2', '_v3', '_v4', '_v5', '_v6' ) as $old ) {
 			delete_transient( 'nwcs_pool_products' . $old );
 		}
 
@@ -349,6 +349,8 @@ function nwcs_pool_product_data( WP_Post $post ): array {
 		'tables'      => nwcs_sanitize_product_tables( (array) get_post_meta( $post->ID, '_nwcs_tables', true ) ),
 		'video'       => nwcs_video_by_id( (int) get_post_meta( $post->ID, '_nwcs_video', true ) ),
 		'order'       => (int) $post->menu_order,
+		// Son degisiklik (GMT): site haritasindaki lastmod.
+		'modified'    => (string) $post->post_modified_gmt,
 	);
 }
 
@@ -788,7 +790,8 @@ function nwcs_sanitize_product_tables( array $raw ): array {
  * Sitenin gosterecegi urunler: kip + secim sirasi + site istisnalari uygulanmis.
  *
  * Her satir: id, title, short, price, price_label, has_price, spec, image, url,
- * meta_title, meta_desc (havuzdaki arama basligi ve aciklamasi; bos olabilir)
+ * meta_title, meta_desc (havuzdaki arama basligi ve aciklamasi; bos olabilir),
+ * modified (havuzdaki son degisiklik, GMT)
  */
 function nwcs_site_products( ?int $blog_id = null ): array {
 	$blog_id  = $blog_id ?? get_current_blog_id();
@@ -869,6 +872,7 @@ function nwcs_site_products( ?int $blog_id = null ): array {
 			'categories'  => $product['categories'],
 			'tables'      => $product['tables'] ?? array(),
 			'video'       => $product['video'] ?? array(),
+			'modified'    => $product['modified'] ?? '',
 		);
 	}
 
