@@ -1137,6 +1137,7 @@ function nwcs_seo_merchant_offer_fields(): array {
 			'@type'                => 'MerchantReturnPolicy',
 			'applicableCountry'    => 'TR',
 			'returnPolicyCategory' => 'https://schema.org/MerchantReturnNotPermitted',
+			'description'          => 'Ürünler özel olarak imal edilir; müşteri ürünü renk ve görünüm olarak görüp onayladıktan sonra sevk edilir.',
 		),
 	);
 
