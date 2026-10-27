@@ -1122,12 +1122,12 @@ function nwcs_seo_merchant_offer_fields(): array {
 				'handlingTime' => array(
 					'@type'    => 'QuantitativeValue',
 					'minValue' => 0,
-					'maxValue' => 3,
+					'maxValue' => 1,
 					'unitCode' => 'DAY',
 				),
 				'transitTime'  => array(
 					'@type'    => 'QuantitativeValue',
-					'minValue' => 0,
+					'minValue' => 1,
 					'maxValue' => 2,
 					'unitCode' => 'DAY',
 				),
