@@ -31,7 +31,6 @@ $art = array();
 ob_start();
 ?>
 <svg class="k-process__svg" viewBox="0 0 160 120" aria-hidden="true" focusable="false">
-	<text class="f k-process__label" x="80" y="26" text-anchor="middle" style="--d:1.1s">120 cm</text>
 	<path class="d d--accent" pathLength="1" d="M20 40H140M20 34v12M140 34v12M26 36l-6 4 6 4M134 36l6 4-6 4" style="--d:.7s" />
 	<rect class="d" pathLength="1" x="20" y="52" width="120" height="10" rx="1.5" />
 	<rect class="d" pathLength="1" x="24" y="62" width="16" height="14" style="--d:.15s" />
