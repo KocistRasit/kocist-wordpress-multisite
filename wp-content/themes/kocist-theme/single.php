@@ -43,6 +43,7 @@ while ( have_posts() ) :
 						<a class="k-post-card__cat" href="<?php echo esc_url( get_category_link( $term ) ); ?>" <?php kocist_term_attr( $term ); ?>><?php echo esc_html( $term->name ); ?></a>
 					<?php endif; ?>
 					<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>" <?php nwcs_post_attr( (int) $post_id, 'Yayın tarihi' ); ?>><?php echo esc_html( kocist_post_date( $post_id ) ); ?></time>
+<span class="k-post__author">Yazar: Koçist Grup</span>
 				</p>
 			</div>
 		</header>
