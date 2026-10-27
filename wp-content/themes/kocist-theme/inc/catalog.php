@@ -578,7 +578,7 @@ function kocist_catalog_template(): void {
 
 	if ( null === $current ) {
 		// Adresi degisen eski kategori (kamelya -> kamelyalar): kalici yonlendirme.
-		$legacy = (array) ( nwcs_manifest()['catalog']['legacy'] ?? array() );
+		$legacy = (array) ( kocist_manifest()['catalog']['legacy'] ?? array() );
 		$old    = sanitize_title( (string) get_query_var( 'kocist_sub' ) );
 
 		if ( '' !== $old && isset( $legacy[ $old ] ) ) {

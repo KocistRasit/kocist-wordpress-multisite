@@ -710,6 +710,11 @@ function ip_handle_quote(): void {
 		$errors['size'] = 'Ölçü ve adet bilgisini yazın.';
 	}
 
+	// Hiz siniri (eklenti, nwcs_form_rate_*): yalnizca gecerli talepte.
+	if ( ! $errors && function_exists( 'nwcs_form_rate_limited' ) && nwcs_form_rate_limited() ) {
+		$errors['form'] = function_exists( 'nwcs_form_rate_message' ) ? nwcs_form_rate_message() : 'Lütfen biraz sonra yeniden deneyin.';
+	}
+
 	if ( $errors ) {
 		ip_quote_redirect( $redirect, $token, array( 'errors' => $errors, 'values' => $values ) );
 	}
@@ -730,6 +735,10 @@ function ip_handle_quote(): void {
 		$values['size'],
 		$values['message'] ?: '—'
 	);
+
+	if ( function_exists( 'nwcs_form_rate_hit' ) ) {
+		nwcs_form_rate_hit();
+	}
 
 	$post_id = wp_insert_post(
 		array(

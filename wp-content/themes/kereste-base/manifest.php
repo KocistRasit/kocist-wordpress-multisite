@@ -399,6 +399,7 @@ return static function ( array $s ): array {
 						'error_contact' => $text( 'Hata: Telefon ya da E-posta Eksik', 'Size dönebilmemiz için telefon ya da e-posta yazın.' ),
 						'error_size'    => $text( 'Hata: Ölçü Eksik', 'Ölçü ve adet bilgisini yazın.' ),
 						'error_session' => $text( 'Hata: Oturum Zaman Aşımı', 'Form oturumu zaman aşımına uğradı. Lütfen tekrar gönderin.' ),
+						'error_rate'    => $text( 'Hata: Çok Sık Gönderim', 'Az önce bir talep gönderdiniz; lütfen biraz sonra yeniden deneyin.' ),
 						'error_save'    => $text( 'Hata: Kayıt Sorunu', 'Kayıt sırasında bir sorun oldu. Lütfen telefonla ulaşın.' ),
 					),
 				),

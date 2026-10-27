@@ -511,12 +511,21 @@ function kr_handle_quote(): void {
 		$errors['size'] = 'error_size';
 	}
 
+	// Hiz siniri (eklenti, nwcs_form_rate_*): yalnizca gecerli talepte.
+	if ( ! $errors && function_exists( 'nwcs_form_rate_limited' ) && nwcs_form_rate_limited() ) {
+		$errors['form'] = 'error_rate';
+	}
+
 	if ( $errors ) {
 		kr_quote_redirect( $redirect, array( 'errors' => $errors, 'values' => $values ) );
 	}
 
 	if ( ! in_array( $values['product'], wp_list_pluck( kr_products(), 'name' ), true ) ) {
 		$values['product'] = 'Belirtilmedi';
+	}
+
+	if ( function_exists( 'nwcs_form_rate_hit' ) ) {
+		nwcs_form_rate_hit();
 	}
 
 	$post_id = wp_insert_post(

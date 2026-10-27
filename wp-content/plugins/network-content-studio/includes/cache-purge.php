@@ -149,6 +149,53 @@ function nwcs_cache_purge_endpoint(): void {
 }
 
 /**
+ * Sayfa onbellegi omru: en fazla 8 saat (LiteSpeed varsayilani 7 gun).
+ *
+ * Temalarin iletisim ve teklif formlari WordPress nonce'u tasir; nonce 12-24
+ * saat gecerlidir. Daha uzun saklanan bir sayfadan gonderilen form "oturum
+ * zaman asimina ugradi" diye reddedilir; sayfayi yenilemek de ise yaramaz,
+ * ayni kopya gelir. 8 saat, en kisa nonce omrunun (12 saat) altinda kalir.
+ * Panelden degisiklikte sayfa zaten hemen temizlenir (yukarisi).
+ */
+add_action( 'template_redirect', 'nwcs_cache_page_ttl', 0 );
+function nwcs_cache_page_ttl(): void {
+	if ( ! is_admin() ) {
+		do_action( 'litespeed_control_set_ttl', 8 * HOUR_IN_SECONDS );
+	}
+}
+
+/**
+ * Form sonucu sayfalari onbellege girmez. Temalar hatali/basarili gonderimden
+ * sonra ziyaretciyi tek kullanimlik anahtarla geri gonderir (?kc=, ?aas=,
+ * ?ak=, ?mesaj=, ?ip=, ?pc=, ?teklif=, ?wk=); sayfada ziyaretcinin yazdigi ad,
+ * telefon, mesaj gorunur. Paylasimli onbellekte kalmamali; anahtar da tek
+ * kullanimlik olmaktan cikardi (ikinci istek onbellekten geliyordu).
+ * LiteSpeed Cache nocache_headers()'a bakmaz: sabit + kendi basligi gerekir.
+ * Temalar listeyi 'nwcs_cache_nocache_query_keys' ile genisletebilir.
+ */
+add_action( 'template_redirect', 'nwcs_cache_nocache_state_pages', 0 );
+function nwcs_cache_nocache_state_pages(): void {
+	$keys = (array) apply_filters( 'nwcs_cache_nocache_query_keys', array( 'kc', 'aas', 'ak', 'mesaj', 'ip', 'pc', 'teklif', 'wk' ) );
+
+	foreach ( $keys as $key ) {
+		if ( ! isset( $_GET[ $key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- yalnizca var/yok.
+			continue;
+		}
+
+		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+			define( 'DONOTCACHEPAGE', true );
+		}
+
+		if ( ! headers_sent() ) {
+			nocache_headers();
+			header( 'X-LiteSpeed-Cache-Control: no-cache' );
+		}
+
+		return;
+	}
+}
+
+/**
  * Kirli siteler: havuz degistiyse urun gosteren butun siteler, ustune tek
  * tek isaretlenenler.
  *

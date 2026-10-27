@@ -447,3 +447,59 @@ function nwcs_default_timezone( $value ) {
 // Ayar kayitli ama bos / hic kayitli degil: ikisi ayri kanca.
 add_filter( 'option_timezone_string', 'nwcs_default_timezone' );
 add_filter( 'default_option_timezone_string', 'nwcs_default_timezone' );
+
+/* ======================================================================
+ * Form hiz siniri (butun temalar icin ortak)
+ *
+ * Anonim nonce butun ziyaretcilerde ortaktir ve 12-24 saat gecerlidir; bal
+ * kupu basit bir botu durdurmaz. Betikle saniyede yuzlerce POST her biri bir
+ * kayit + bildirim e-postasi olurdu. Adres basina: iki talep arasi en az
+ * 30 saniye, saatte en fazla 10. Adres tuzlu ozetle tutulur (acik IP yok).
+ * Cloudflare arkasinda REMOTE_ADDR Cloudflare'in adresi; gercek ziyaretci
+ * CF-Connecting-IP'de (yalnizca hiz siniri; baska yetki yok). Koçist temasinin
+ * kocist_form_rate_* kalibi; temalar bunu kullanir.
+ * ====================================================================== */
+
+const NWCS_FORM_RATE_GAP    = 30;
+const NWCS_FORM_RATE_HOURLY = 10;
+
+function nwcs_form_rate_key(): string {
+	$ip = (string) ( $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? '' );
+
+	return 'nwcs_rate_' . substr( wp_hash( 'nwcs-form|' . $ip ), 0, 24 );
+}
+
+/**
+ * Son bir saatteki talep zamanlari.
+ *
+ * @return int[]
+ */
+function nwcs_form_rate_times(): array {
+	$times = get_transient( nwcs_form_rate_key() );
+
+	return array_values( array_filter( array_map( 'intval', is_array( $times ) ? $times : array() ), static fn( int $time ): bool => $time > time() - HOUR_IN_SECONDS ) );
+}
+
+/**
+ * Bu adres sinirda mi? Temalar yalnizca gecerli (hatasiz) talepte sorar:
+ * hatasini duzelten ziyaretci beklemez.
+ */
+function nwcs_form_rate_limited(): bool {
+	$times = nwcs_form_rate_times();
+
+	return ( $times && time() - max( $times ) < NWCS_FORM_RATE_GAP ) || count( $times ) >= NWCS_FORM_RATE_HOURLY;
+}
+
+/**
+ * Kaydedilen talebi sayar (kayittan hemen once cagrilir).
+ */
+function nwcs_form_rate_hit(): void {
+	$times   = nwcs_form_rate_times();
+	$times[] = time();
+
+	set_transient( nwcs_form_rate_key(), $times, HOUR_IN_SECONDS );
+}
+
+function nwcs_form_rate_message(): string {
+	return 'Az önce bir talep gönderdiniz; lütfen biraz sonra yeniden deneyin.';
+}

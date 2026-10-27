@@ -35,6 +35,7 @@ if ( ! function_exists( 'nwcs_field' ) ) {
 	}
 	function nwcs_the_icon( $key, $class = '', $size = 24 ) {}
 	function nwcs_edit_attr( $page, $component, $field = '', $row = null, $sub = '' ) {}
+	function nwcs_post_attr( $post_id, $label = '' ) {}
 	function nwcs_section_order( $page = 'home' ) {
 		return array( 'catalog', 'latest', 'process', 'products', 'blog' );
 	}

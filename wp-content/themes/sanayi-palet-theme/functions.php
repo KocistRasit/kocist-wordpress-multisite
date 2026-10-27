@@ -236,7 +236,16 @@ function sanayi_palet_handle_message(): void {
 	$token = bin2hex( random_bytes( 8 ) );
 	$back  = add_query_arg( 'mesaj', $token, $redirect ) . '#form';
 
+	// Hiz siniri (eklenti, nwcs_form_rate_*): yalnizca gecerli talepte.
+	if ( ! $errors && function_exists( 'nwcs_form_rate_limited' ) && nwcs_form_rate_limited() ) {
+		$errors['form'] = function_exists( 'nwcs_form_rate_message' ) ? nwcs_form_rate_message() : 'Lütfen biraz sonra yeniden deneyin.';
+	}
+
 	if ( ! $errors ) {
+		if ( function_exists( 'nwcs_form_rate_hit' ) ) {
+			nwcs_form_rate_hit();
+		}
+
 		$post_id = wp_insert_post(
 			array(
 				'post_type'    => 'sp_message',

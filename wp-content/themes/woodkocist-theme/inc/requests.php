@@ -198,6 +198,11 @@ function wk_handle_request(): void {
 
 	$upload = null;
 
+	// Hiz siniri (eklenti): dosya yuklemeden ONCE, disk dolmasin.
+	if ( ! $errors && function_exists( 'nwcs_form_rate_limited' ) && nwcs_form_rate_limited() ) {
+		$errors['form'] = wk_form_error( 'err_rate' );
+	}
+
 	if ( $def['file'] && ! empty( $_FILES['wk_file']['name'] ) && ! $errors ) {
 		$upload = wk_request_upload();
 
@@ -227,6 +232,10 @@ function wk_handle_request(): void {
 
 	if ( $upload ) {
 		$lines[] = 'Ek dosya: ' . $upload['url'];
+	}
+
+	if ( function_exists( 'nwcs_form_rate_hit' ) ) {
+		nwcs_form_rate_hit();
 	}
 
 	$post_id = wp_insert_post(

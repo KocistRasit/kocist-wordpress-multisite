@@ -1456,6 +1456,14 @@ add_action( 'send_headers', 'nwcs_seo_noindex_main_site' );
 remove_action( 'wp_head', 'wp_generator' );
 add_filter( 'the_generator', '__return_empty_string' );
 
+// Emoji betigi ve stili (her sayfada ~10 KB JS + bir istek): sitelerde emoji
+// yok; modern tarayicilar emojiyi zaten kendileri cizer.
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+remove_action( 'wp_print_styles', 'print_emoji_styles' );
+remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+remove_action( 'admin_print_styles', 'print_emoji_styles' );
+add_filter( 'emoji_svg_url', '__return_false' );
+
 add_filter( 'style_loader_src', 'nwcs_seo_strip_core_version', 20 );
 add_filter( 'script_loader_src', 'nwcs_seo_strip_core_version', 20 );
 function nwcs_seo_strip_core_version( $src ) {

@@ -36,6 +36,10 @@ function ik_manifest_default( string $page, string $component, string $field ) {
 	return ik_manifest()['pages'][ $page ]['components'][ $component ]['fields'][ $field ]['default'] ?? '';
 }
 
+if ( ! function_exists( 'nwcs_post_attr' ) ) {
+	function nwcs_post_attr( $post_id, $label = '' ) {}
+}
+
 if ( ! function_exists( 'nwcs_field' ) ) {
 	function nwcs_field( $page, $component, $field, $fallback = null ) {
 		return null === $fallback ? ik_manifest_default( $page, $component, $field ) : $fallback;
@@ -1352,7 +1356,16 @@ function ik_handle_message(): void {
 	$token = bin2hex( random_bytes( 8 ) );
 	$back  = add_query_arg( 'mesaj', $token, $redirect ) . '#form';
 
+	// Hiz siniri (eklenti, nwcs_form_rate_*): yalnizca gecerli talepte.
+	if ( ! $errors && function_exists( 'nwcs_form_rate_limited' ) && nwcs_form_rate_limited() ) {
+		$errors['form'] = function_exists( 'nwcs_form_rate_message' ) ? nwcs_form_rate_message() : 'Lütfen biraz sonra yeniden deneyin.';
+	}
+
 	if ( ! $errors ) {
+		if ( function_exists( 'nwcs_form_rate_hit' ) ) {
+			nwcs_form_rate_hit();
+		}
+
 		$post_id = wp_insert_post(
 			array(
 				'post_type'    => 'ik_message',

@@ -77,7 +77,7 @@ if ( ! ( function_exists( 'nwcs_is_preview' ) && nwcs_is_preview() ) ) {
 			</div>
 
 			<div class="k-footer__col">
-				<h3 class="k-footer__heading" <?php nwcs_edit_attr( 'global', 'footer', 'links_title' ); ?>><?php echo esc_html( nwcs_field( 'global', 'footer', 'links_title' ) ); ?></h3>
+				<h2 class="k-footer__heading" <?php nwcs_edit_attr( 'global', 'footer', 'links_title' ); ?>><?php echo esc_html( nwcs_field( 'global', 'footer', 'links_title' ) ); ?></h2>
 				<ul class="k-footer__list">
 					<?php foreach ( $links as $index => $link ) : ?>
 						<li><a href="<?php echo esc_url( kocist_link( $link['url'] ?? '' ) ); ?>" <?php nwcs_edit_attr( 'global', 'footer', 'links', $index, 'label' ); ?>><?php echo esc_html( $link['label'] ?? '' ); ?></a></li>
@@ -86,7 +86,7 @@ if ( ! ( function_exists( 'nwcs_is_preview' ) && nwcs_is_preview() ) ) {
 			</div>
 
 			<div class="k-footer__col">
-				<h3 class="k-footer__heading" <?php nwcs_edit_attr( 'global', 'footer', 'corporate_title' ); ?>><?php echo esc_html( nwcs_field( 'global', 'footer', 'corporate_title' ) ); ?></h3>
+				<h2 class="k-footer__heading" <?php nwcs_edit_attr( 'global', 'footer', 'corporate_title' ); ?>><?php echo esc_html( nwcs_field( 'global', 'footer', 'corporate_title' ) ); ?></h2>
 				<ul class="k-footer__list">
 					<?php foreach ( $corporate as $index => $link ) : ?>
 						<li><a href="<?php echo esc_url( kocist_link( $link['url'] ?? '' ) ); ?>" <?php nwcs_edit_attr( 'global', 'footer', 'corporate', $index, 'label' ); ?>><?php echo esc_html( $link['label'] ?? '' ); ?></a></li>
@@ -95,7 +95,7 @@ if ( ! ( function_exists( 'nwcs_is_preview' ) && nwcs_is_preview() ) ) {
 			</div>
 
 			<div class="k-footer__col">
-				<h3 class="k-footer__heading" <?php nwcs_edit_attr( 'global', 'footer', 'contact_title' ); ?>><?php echo esc_html( nwcs_field( 'global', 'footer', 'contact_title' ) ); ?></h3>
+				<h2 class="k-footer__heading" <?php nwcs_edit_attr( 'global', 'footer', 'contact_title' ); ?>><?php echo esc_html( nwcs_field( 'global', 'footer', 'contact_title' ) ); ?></h2>
 				<ul class="k-footer__list k-footer__list--contact">
 					<li class="k-footer__address" <?php nwcs_edit_attr( 'global', 'footer', 'address' ); ?>>
 						<?php nwcs_the_icon( nwcs_field( 'global', 'footer', 'address_icon' ), 'k-footer__icon', 17 ); ?>

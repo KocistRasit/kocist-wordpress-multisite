@@ -610,6 +610,11 @@ function ahsapambalaj_handle_quote(): void {
 	// belirtec nesne onbellegi (Redis, LiteSpeed) olan sunucuda bulunamazdi.
 	$token = bin2hex( random_bytes( 10 ) );
 
+	// Hiz siniri (eklenti, nwcs_form_rate_*): yalnizca gecerli talepte.
+	if ( ! $errors && function_exists( 'nwcs_form_rate_limited' ) && nwcs_form_rate_limited() ) {
+		$errors['form'] = function_exists( 'nwcs_form_rate_message' ) ? nwcs_form_rate_message() : 'Lütfen biraz sonra yeniden deneyin.';
+	}
+
 	if ( $errors ) {
 		set_transient( 'ahsapambalaj_quote_' . $token, array( 'errors' => $errors, 'values' => $values ), 10 * MINUTE_IN_SECONDS );
 		wp_safe_redirect( add_query_arg( 'aas', $token, $redirect ) . '#teklif' );
@@ -637,6 +642,10 @@ function ahsapambalaj_handle_quote(): void {
 		$values['size'],
 		$values['message'] ?: '—'
 	);
+
+	if ( function_exists( 'nwcs_form_rate_hit' ) ) {
+		nwcs_form_rate_hit();
+	}
 
 	$post_id = wp_insert_post(
 		array(

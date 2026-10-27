@@ -392,6 +392,7 @@ return array(
 						'thanks'          => array( 'label' => 'Gönderildi kutusu: ilk kelime', 'type' => 'text', 'default' => 'Teşekkürler.' ),
 						'errors_count'    => array( 'label' => 'Hata kutusu', 'type' => 'text', 'default' => 'Formda düzeltilmesi gereken {sayi} alan var; aşağıda kırmızıyla işaretli.', 'hint' => '{sayi} hatalı alan sayısıdır; silmeyin.' ),
 						'err_nonce'       => array( 'label' => 'Uyarı: form süresi doldu', 'type' => 'text', 'default' => 'Form oturumu zaman aşımına uğradı. Lütfen tekrar gönderin.' ),
+						'err_rate'        => array( 'label' => 'Uyarı: çok sık gönderim', 'type' => 'text', 'default' => 'Az önce bir talep gönderdiniz; lütfen biraz sonra yeniden deneyin.' ),
 						'err_name'        => array( 'label' => 'Uyarı: ad soyad', 'type' => 'text', 'default' => 'Adınızı ve soyadınızı yazın.' ),
 						'err_email'       => array( 'label' => 'Uyarı: e-posta boş', 'type' => 'text', 'default' => 'E-posta adresinizi yazın.' ),
 						'err_email_bad'   => array( 'label' => 'Uyarı: e-posta geçersiz', 'type' => 'text', 'default' => 'E-posta adresi geçerli görünmüyor (ör. ad@alanadi.com).' ),

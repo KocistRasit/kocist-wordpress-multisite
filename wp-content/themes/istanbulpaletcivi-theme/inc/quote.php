@@ -114,6 +114,11 @@ function pc_handle_quote(): void {
 		$errors['size'] = 'Ölçü ve adedi ya da sorunuzu yazın.';
 	}
 
+	// Hiz siniri (eklenti, nwcs_form_rate_*): yalnizca gecerli talepte.
+	if ( ! $errors && function_exists( 'nwcs_form_rate_limited' ) && nwcs_form_rate_limited() ) {
+		$errors['form'] = function_exists( 'nwcs_form_rate_message' ) ? nwcs_form_rate_message() : 'Lütfen biraz sonra yeniden deneyin.';
+	}
+
 	if ( $errors ) {
 		pc_quote_redirect( $redirect, array( 'errors' => $errors, 'values' => $values ) );
 	}
@@ -121,6 +126,10 @@ function pc_handle_quote(): void {
 	// Urun secenekleri manifestten gelir; baska deger kabul edilmez.
 	if ( ! in_array( $values['product'], wp_list_pluck( pc_products(), 'name' ), true ) ) {
 		$values['product'] = 'Belirtilmedi';
+	}
+
+	if ( function_exists( 'nwcs_form_rate_hit' ) ) {
+		nwcs_form_rate_hit();
 	}
 
 	$post_id = wp_insert_post(
