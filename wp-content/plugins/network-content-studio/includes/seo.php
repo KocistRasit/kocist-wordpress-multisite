@@ -923,13 +923,21 @@ function nwcs_seo_graph( array $context ): array {
 
 	if ( 'post' === $context['kind'] ) {
 		$graph[] = nwcs_seo_article( $context, $org_id, $page_id, $language );
+	} elseif ( 'Product' === $context['schema'] && nwcs_seo_merchant_enabled() && empty( $context['price'] ) ) {
+		// Teklifle satilan urun (fiyat yok): Google'in Product kurali fiyat,
+		// puan ya da yorum ister; uydurmak yerine hizmet olarak isaretlenir.
+		$graph[] = nwcs_seo_quote_service( $context, $org_id, $page_id );
 	} elseif ( 'Product' === $context['schema'] ) {
 		$product = nwcs_seo_product( $context, $org_id, $page_id );
 		// Renk grubundaki urun: kendi rengi ve grubu (ProductGroup, sitedeki
 		// renkleriyle). Her renk sayfasi kendi adresinde ve canonical'inda kalir.
 		$colors = function_exists( 'nwcs_color_seo' ) ? nwcs_color_seo( $context ) : array();
 
-		if ( $colors ) {
+		if ( $colors && nwcs_seo_merchant_enabled() ) {
+			// Varyantlarin fiyati burada bilinmez (hasVariant.offers zorunlu);
+			// grup dugumu yazilmaz, urun yalnizca kendi rengini tasir.
+			$graph[] = $product + array_intersect_key( $colors['product'], array( 'color' => true ) );
+		} elseif ( $colors ) {
 			$graph[] = $product + $colors['product'];
 			$graph[] = $colors['group'] + array( 'brand' => array( '@id' => $org_id ) );
 		} else {
@@ -1048,7 +1056,7 @@ function nwcs_seo_product( array $context, string $org_id, string $page_id ): ar
 			'description'        => $context['description'],
 			'image'              => $context['image']['url'] ?? '',
 			'url'                => $context['url'],
-			'brand'              => array( '@id' => $org_id ),
+			'brand'              => nwcs_seo_merchant_enabled() ? nwcs_seo_brand() : array( '@id' => $org_id ),
 			'manufacturer'       => array( '@id' => $org_id ),
 			'mainEntityOfPage'   => array( '@id' => $page_id ),
 			'additionalProperty' => $properties,
@@ -1085,7 +1093,100 @@ function nwcs_seo_product_offer( array $context, string $org_id ): array {
 		);
 	}
 
+	if ( nwcs_seo_merchant_enabled() ) {
+		$offer += nwcs_seo_merchant_offer_fields();
+	}
+
 	return $offer;
+}
+
+/**
+ * Satici girisi (merchant listing) icin teklife eklenen alanlar: stok,
+ * nakliye ve iade. Degerler 'nwcs_seo_merchant_offer_fields' filtresiyle
+ * degistirilebilir.
+ *
+ * @return array<string, mixed>
+ */
+function nwcs_seo_merchant_offer_fields(): array {
+	$fields = array(
+		'itemCondition'           => 'https://schema.org/NewCondition',
+		'availability'            => 'https://schema.org/InStock',
+		'shippingDetails'         => array(
+			'@type'               => 'OfferShippingDetails',
+			'shippingDestination' => array(
+				'@type'          => 'DefinedRegion',
+				'addressCountry' => 'TR',
+			),
+			'deliveryTime'        => array(
+				'@type'        => 'ShippingDeliveryTime',
+				'handlingTime' => array(
+					'@type'    => 'QuantitativeValue',
+					'minValue' => 0,
+					'maxValue' => 3,
+					'unitCode' => 'DAY',
+				),
+				'transitTime'  => array(
+					'@type'    => 'QuantitativeValue',
+					'minValue' => 0,
+					'maxValue' => 2,
+					'unitCode' => 'DAY',
+				),
+			),
+		),
+		'hasMerchantReturnPolicy' => array(
+			'@type'                => 'MerchantReturnPolicy',
+			'applicableCountry'    => 'TR',
+			'returnPolicyCategory' => 'https://schema.org/MerchantReturnNotPermitted',
+		),
+	);
+
+	return (array) apply_filters( 'nwcs_seo_merchant_offer_fields', $fields );
+}
+
+/**
+ * Satici girisi alanlari yalnizca kocist.com.tr'de acik; ag genelindeki
+ * diger siteler eskisi gibi kalir. 'nwcs_seo_merchant_enabled' filtresiyle
+ * baska bir site de acilabilir.
+ */
+function nwcs_seo_merchant_enabled(): bool {
+	$host = strtolower( (string) wp_parse_url( home_url( '/' ), PHP_URL_HOST ) );
+	$host = preg_replace( '/^www\./', '', $host );
+
+	return (bool) apply_filters( 'nwcs_seo_merchant_enabled', 'kocist.com.tr' === $host );
+}
+
+/**
+ * Marka: Google 'brand' icin Brand ya da Organization turu ister; yerel
+ * isletme dugumune baglanti gecerli sayilmaz.
+ */
+function nwcs_seo_brand(): array {
+	return array(
+		'@type' => 'Brand',
+		'name'  => nwcs_seo_site_name(),
+	);
+}
+
+/**
+ * Teklifle satilan urunun hizmet dugumu. Fiyat, puan ve yorum yazilmaz.
+ */
+function nwcs_seo_quote_service( array $context, string $org_id, string $page_id ): array {
+	return array_filter(
+		array(
+			'@type'            => 'Service',
+			'@id'              => $context['url'] . '#product',
+			'name'             => $context['name'],
+			'serviceType'      => $context['name'],
+			'description'      => $context['description'],
+			'image'            => $context['image']['url'] ?? '',
+			'url'              => $context['url'],
+			'provider'         => array( '@id' => $org_id ),
+			'areaServed'       => array(
+				'@type' => 'Country',
+				'name'  => 'Türkiye',
+			),
+			'mainEntityOfPage' => array( '@id' => $page_id ),
+		)
+	);
 }
 
 /**
