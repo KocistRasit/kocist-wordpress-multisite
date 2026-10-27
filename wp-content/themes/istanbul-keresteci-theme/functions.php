@@ -1516,20 +1516,22 @@ const IK_OPENING_HOURS = array(
 	array( array( 'Sunday' ), '10:00', '19:00' ),
 );
 
-// Ortak eklentiye dokunmadan: eklentinin firma kaydiyla ayni @id'ye bagli
-// ayri bir JSON-LD blogu. Google ayni @id'li dugumleri birlestirir.
-add_action(
-	'wp_head',
-	static function (): void {
+// Eklentinin firma dugumune (ayni JSON-LD, nwcs_seo_graph suzgeci) calisma
+// saatleri ve sosyal ag adresleri eklenir. Ayri blok basilmaz: ayni @id'li
+// ikinci dugum (adsiz, adressiz LocalBusiness) denetimde eksik sayiliyordu.
+add_filter(
+	'nwcs_seo_graph',
+	static function ( array $graph ): array {
 		// Panelde girilen sosyal ag adresleri (Ust Bilgi Seridi) firma kaydina
 		// sameAs olarak eklenir; SEO sekmesindeki "diger adresler" ile birlesir.
 		$same_as = array_values( array_map( static fn( array $link ): string => esc_url_raw( $link['url'] ), ik_social_links() ) );
 
-		$data = array(
-			'@context'                  => 'https://schema.org',
-			'@type'                     => 'LocalBusiness',
-			'@id'                       => home_url( '/' ) . '#organization',
-			'openingHoursSpecification' => array_map(
+		foreach ( $graph as $index => $node ) {
+			if ( ! str_ends_with( (string) ( $node['@id'] ?? '' ), '#organization' ) ) {
+				continue;
+			}
+
+			$graph[ $index ]['openingHoursSpecification'] = array_map(
 				static fn( array $row ): array => array(
 					'@type'     => 'OpeningHoursSpecification',
 					'dayOfWeek' => $row[0],
@@ -1537,14 +1539,13 @@ add_action(
 					'closes'    => $row[2],
 				),
 				IK_OPENING_HOURS
-			),
-		);
+			);
 
-		if ( $same_as ) {
-			$data['sameAs'] = $same_as;
+			if ( $same_as ) {
+				$graph[ $index ]['sameAs'] = array_values( array_unique( array_merge( (array) ( $node['sameAs'] ?? array() ), $same_as ) ) );
+			}
 		}
 
-		echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . "</script>\n";
-	},
-	30
+		return $graph;
+	}
 );

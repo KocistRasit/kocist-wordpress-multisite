@@ -1637,6 +1637,79 @@ add_filter(
 );
 
 /**
+ * Calisma saatleri (arama verisi). Sitede gorunen metin ust seritteki ve
+ * Iletisim sayfasindaki "Calisma Saatleri": Hafta ici-Cumartesi 08:00 - 19:00,
+ * Pazar 10:00 - 19:00. Saat degisirse ikisi birlikte guncellenir.
+ */
+const KOCIST_OPENING_HOURS = array(
+	array( array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ), '08:00', '19:00' ),
+	array( array( 'Sunday' ), '10:00', '19:00' ),
+);
+
+add_filter( 'nwcs_seo_graph', 'kocist_seo_opening_hours' );
+function kocist_seo_opening_hours( array $graph ): array {
+	foreach ( $graph as $index => $node ) {
+		if ( str_ends_with( (string) ( $node['@id'] ?? '' ), '#organization' ) ) {
+			$graph[ $index ]['openingHoursSpecification'] = array_map(
+				static fn( array $row ): array => array(
+					'@type'     => 'OpeningHoursSpecification',
+					'dayOfWeek' => $row[0],
+					'opens'     => $row[1],
+					'closes'    => $row[2],
+				),
+				KOCIST_OPENING_HOURS
+			);
+		}
+	}
+
+	return $graph;
+}
+
+/*
+ * Fiyatli urunlerde satici girisi alanlari (Search Console "Satici girisleri").
+ * Degerler Rasit Bey'in 27 Ekim'de bildirdigi kosullar (eklentiye elle
+ * eklenmisti, buraya tasindi). DIKKAT: sitedeki sayfalarla henuz ayni degil;
+ * Odeme ve Teslimat "Istanbul ve Trakya'ya, sure teklifte", Iptal-Iade
+ * "her talep ayri degerlendirilir" diyor. Firma dogru bilgiyi verince sayfa
+ * ile bu alanlar birlikte esitlenmeli.
+ */
+add_filter(
+	'nwcs_seo_merchant_offer_fields',
+	static fn(): array => array(
+		'itemCondition'           => 'https://schema.org/NewCondition',
+		'availability'            => 'https://schema.org/InStock',
+		'shippingDetails'         => array(
+			'@type'               => 'OfferShippingDetails',
+			'shippingDestination' => array(
+				'@type'          => 'DefinedRegion',
+				'addressCountry' => 'TR',
+			),
+			'deliveryTime'        => array(
+				'@type'        => 'ShippingDeliveryTime',
+				'handlingTime' => array(
+					'@type'    => 'QuantitativeValue',
+					'minValue' => 0,
+					'maxValue' => 1,
+					'unitCode' => 'DAY',
+				),
+				'transitTime'  => array(
+					'@type'    => 'QuantitativeValue',
+					'minValue' => 1,
+					'maxValue' => 2,
+					'unitCode' => 'DAY',
+				),
+			),
+		),
+		'hasMerchantReturnPolicy' => array(
+			'@type'                => 'MerchantReturnPolicy',
+			'applicableCountry'    => 'TR',
+			'returnPolicyCategory' => 'https://schema.org/MerchantReturnNotPermitted',
+			'description'          => 'Ürünler özel olarak imal edilir; müşteri ürünü renk ve görünüm olarak görüp onayladıktan sonra sevk edilir.',
+		),
+	)
+);
+
+/**
  * Menu ve alt bilgi satirlarindan /sss/ baglantisini, sayfa henuz acilmamissa
  * (yayinda degilse) cikarir. Sayfa yonetici panele ilk girdiginde acilir;
  * o zamana kadar ziyaretci 404'e gitmesin, onbellege 404 baglantisi girmesin.

@@ -822,6 +822,8 @@ $manifest_data = array(
 		'kategoriler' => array(
 			'label'      => 'Kategoriler',
 			'path'       => '/kategoriler/',
+			// Liste sayfasi: gruplar ItemList olur (ogeleri inc/catalog.php bildirir).
+			'seo_source' => array( 'type' => 'CollectionPage' ),
 			'components' => array(
 				'index' => array(
 					'label'  => 'Kategoriler Sayfası',

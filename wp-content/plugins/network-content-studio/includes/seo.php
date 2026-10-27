@@ -377,7 +377,8 @@ function nwcs_seo_page_for_path( string $path ): string {
  *           'title'       => 'Kalas | Çam ve Göknar', // istege bagli: arama basligi, oldugu gibi yazilir (site adi eklenmez); bossa "ad – site"
  *           'description' => '…',
  *           'image'       => 12,            // ek kimligi ya da array( url, width, height, alt )
- *           'type'        => 'Product',     // istege bagli
+ *           'type'        => 'Product',     // istege bagli; liste sayfasinda 'CollectionPage'
+ *           'items'       => array( array( 'url' => '…', 'name' => '…' ) ), // CollectionPage: sayfadaki ogeler (ItemList)
  *           'properties'  => array( array( 'name' => 'Ağaç', 'value' => 'Çam' ) ),
  *           'sitemap'     => true,          // istege bagli, asagiya bakin
  *           'sku'         => 'W-ADR-FB01',  // istege bagli: urun kodu
@@ -507,6 +508,11 @@ function nwcs_seo_context(): array {
 				'image'       => $resolved['image'],
 				'url'         => home_url( $page['path'] ),
 			) + $base;
+
+			// Liste sayfasi: ogelerini tema ayni adresteki ek sayfayla bildirir.
+			if ( 'CollectionPage' === $context['schema'] ) {
+				$context['items'] = (array) ( nwcs_seo_context_extra( $path, $site, $base )['items'] ?? array() );
+			}
 		} else {
 			$context = nwcs_seo_context_extra( $path, $site, $base ) ?: nwcs_seo_context_wordpress( $site, $base );
 		}
@@ -562,6 +568,8 @@ function nwcs_seo_context_extra( string $path, string $site, array $base ): arra
 			// null: fiyat metni KDV'den soz etmiyor; Offer'a KDV bilgisi yazilmaz.
 			'vat_included' => isset( $page['vat_included'] ) ? (bool) $page['vat_included'] : null,
 			'video'        => is_array( $page['video'] ?? null ) ? $page['video'] : array(),
+			// CollectionPage: sayfada listelenen ogeler (url, name) -> ItemList.
+			'items'        => array_values( array_filter( (array) ( $page['items'] ?? array() ), static fn( $item ): bool => is_array( $item ) && ! empty( $item['url'] ) ) ),
 		) + $base;
 	}
 
@@ -836,6 +844,13 @@ function nwcs_seo_graph( array $context ): array {
 		);
 	}
 
+	// Yerel isletme gorseli (Google onerir): sitenin paylasim gorseli, yoksa logo.
+	$photo = nwcs_seo_image( (int) nwcs_field( NWCS_SEO_SITE_PAGE, 'defaults', 'share_image', 0 ) ) ?: $logo;
+
+	if ( 'LocalBusiness' === $business['@type'] && $photo ) {
+		$business['image'] = $photo['url'];
+	}
+
 	if ( $has_address ) {
 		$business['address'] = array_filter(
 			array(
@@ -923,26 +938,19 @@ function nwcs_seo_graph( array $context ): array {
 
 	if ( 'post' === $context['kind'] ) {
 		$graph[] = nwcs_seo_article( $context, $org_id, $page_id, $language );
-	} elseif ( 'Product' === $context['schema'] && nwcs_seo_merchant_enabled() && empty( $context['price'] ) ) {
+	} elseif ( 'Product' === $context['schema'] && empty( $context['price'] ) ) {
 		// Teklifle satilan urun (fiyat yok): Google'in Product kurali fiyat,
 		// puan ya da yorum ister; uydurmak yerine hizmet olarak isaretlenir.
+		// Butun sitelerde (Search Console "Urun snippet'leri" hatasi).
 		$graph[] = nwcs_seo_quote_service( $context, $org_id, $page_id );
 	} elseif ( 'Product' === $context['schema'] ) {
 		$product = nwcs_seo_product( $context, $org_id, $page_id );
-		// Renk grubundaki urun: kendi rengi ve grubu (ProductGroup, sitedeki
-		// renkleriyle). Her renk sayfasi kendi adresinde ve canonical'inda kalir.
+		// Renk grubundaki urun yalnizca kendi rengini tasir. ProductGroup
+		// yazilmaz: varyantlarin fiyati burada bilinmez, Google hasVariant'ta
+		// her varyant icin offers istiyor (Satici girisleri hatasi).
 		$colors = function_exists( 'nwcs_color_seo' ) ? nwcs_color_seo( $context ) : array();
 
-		if ( $colors && nwcs_seo_merchant_enabled() ) {
-			// Varyantlarin fiyati burada bilinmez (hasVariant.offers zorunlu);
-			// grup dugumu yazilmaz, urun yalnizca kendi rengini tasir.
-			$graph[] = $product + array_intersect_key( $colors['product'], array( 'color' => true ) );
-		} elseif ( $colors ) {
-			$graph[] = $product + $colors['product'];
-			$graph[] = $colors['group'] + array( 'brand' => array( '@id' => $org_id ) );
-		} else {
-			$graph[] = $product;
-		}
+		$graph[] = $colors ? $product + array_intersect_key( $colors['product'], array( 'color' => true ) ) : $product;
 	} else {
 		// Soru-cevap: sitenin SSS sayfasi (FAQPage) ya da kategori sayfasinin
 		// kendi sorulari (Ürün Havuzu -> Kategoriler -> Sık sorulan sorular,
@@ -952,10 +960,23 @@ function nwcs_seo_graph( array $context ): array {
 			? nwcs_seo_faq( $context['page_key'] )
 			: ( function_exists( 'nwcs_cat_faq_for_context' ) ? nwcs_cat_faq_for_context( $context ) : array() );
 
+		$last       = array_key_last( $graph );
+		$collection = 'CollectionPage' === $context['schema'];
+
+		// Liste sayfasi (kategori): WebPage yerine CollectionPage, listesi ItemList.
+		// Sorulari da varsa ana oge sorular kalir, liste sayfanin parcasi olur.
+		if ( $collection ) {
+			$graph[ $last ]['@type'] = 'CollectionPage';
+
+			if ( ! empty( $context['items'] ) ) {
+				$graph[ $last ][ $faq ? 'hasPart' : 'mainEntity' ] = nwcs_seo_item_list( $context['items'] );
+			}
+		}
+
 		if ( $faq ) {
 			// Sayfanin kendisi soru-cevap sayfasi: WebPage yerine FAQPage.
-			$graph[ array_key_last( $graph ) ]['@type'] = array( 'WebPage', 'FAQPage' );
-			$graph[ array_key_last( $graph ) ]['mainEntity'] = array_map(
+			$graph[ $last ]['@type'] = array( $collection ? 'CollectionPage' : 'WebPage', 'FAQPage' );
+			$graph[ $last ]['mainEntity'] = array_map(
 				static fn( array $item ): array => array(
 					'@type'          => 'Question',
 					'name'           => nwcs_seo_clean( $item['question'] ),
@@ -969,9 +990,40 @@ function nwcs_seo_graph( array $context ): array {
 		}
 	}
 
+	/*
+	 * Tema eki: firma dugumune calisma saati, sayfaya kendi sorulari gibi
+	 * bilgiler ayni @graph'a eklenir. Ayri JSON-LD blogu basilmaz: ayni @id'li
+	 * ikinci dugum (adi, adresi olmayan "LocalBusiness") denetimde eksik sayilir.
+	 */
+	$graph = (array) apply_filters( 'nwcs_seo_graph', $graph, $context );
+
 	return array(
 		'@context' => 'https://schema.org',
-		'@graph'   => $graph,
+		'@graph'   => array_values( $graph ),
+	);
+}
+
+/**
+ * Liste sayfasinin ogeleri (ItemList), sayfadaki sirayla.
+ *
+ * @param array<int, array{url:string, name?:string}> $items
+ */
+function nwcs_seo_item_list( array $items ): array {
+	return array(
+		'@type'           => 'ItemList',
+		'numberOfItems'   => count( $items ),
+		'itemListElement' => array_map(
+			static fn( array $item, int $index ): array => array_filter(
+				array(
+					'@type'    => 'ListItem',
+					'position' => $index + 1,
+					'url'      => (string) $item['url'],
+					'name'     => nwcs_seo_clean( (string) ( $item['name'] ?? '' ) ),
+				)
+			),
+			array_values( $items ),
+			array_keys( array_values( $items ) )
+		),
 	);
 }
 
@@ -1056,7 +1108,7 @@ function nwcs_seo_product( array $context, string $org_id, string $page_id ): ar
 			'description'        => $context['description'],
 			'image'              => $context['image']['url'] ?? '',
 			'url'                => $context['url'],
-			'brand'              => nwcs_seo_merchant_enabled() ? nwcs_seo_brand() : array( '@id' => $org_id ),
+			'brand'              => nwcs_seo_brand(),
 			'manufacturer'       => array( '@id' => $org_id ),
 			'mainEntityOfPage'   => array( '@id' => $page_id ),
 			'additionalProperty' => $properties,
@@ -1093,72 +1145,28 @@ function nwcs_seo_product_offer( array $context, string $org_id ): array {
 		);
 	}
 
-	if ( nwcs_seo_merchant_enabled() ) {
-		$offer += nwcs_seo_merchant_offer_fields();
-	}
-
-	return $offer;
+	// Stok, nakliye ve iade: yalnizca tema firmanin gercek kosullarini verirse.
+	return $offer + nwcs_seo_merchant_offer_fields();
 }
 
 /**
- * Satici girisi (merchant listing) icin teklife eklenen alanlar: stok,
- * nakliye ve iade. Degerler 'nwcs_seo_merchant_offer_fields' filtresiyle
- * degistirilebilir.
+ * Satici girisi (merchant listing) icin teklife eklenen alanlar: stok durumu,
+ * urun durumu, nakliye (shippingDetails) ve iade (hasMerchantReturnPolicy).
+ *
+ * Bunlar firmanin kosullaridir; eklenti uydurmaz, varsayilan bos. Tema
+ * 'nwcs_seo_merchant_offer_fields' suzgeciyle verir (bkz. kocist-theme) ve
+ * degerler sitenin Odeme/Teslimat ve Iade sayfalarindaki metinle ayni olmali:
+ * Google yapilandirilmis verinin sayfada gorunenle tutarli olmasini ister.
  *
  * @return array<string, mixed>
  */
 function nwcs_seo_merchant_offer_fields(): array {
-	$fields = array(
-		'itemCondition'           => 'https://schema.org/NewCondition',
-		'availability'            => 'https://schema.org/InStock',
-		'shippingDetails'         => array(
-			'@type'               => 'OfferShippingDetails',
-			'shippingDestination' => array(
-				'@type'          => 'DefinedRegion',
-				'addressCountry' => 'TR',
-			),
-			'deliveryTime'        => array(
-				'@type'        => 'ShippingDeliveryTime',
-				'handlingTime' => array(
-					'@type'    => 'QuantitativeValue',
-					'minValue' => 0,
-					'maxValue' => 1,
-					'unitCode' => 'DAY',
-				),
-				'transitTime'  => array(
-					'@type'    => 'QuantitativeValue',
-					'minValue' => 1,
-					'maxValue' => 2,
-					'unitCode' => 'DAY',
-				),
-			),
-		),
-		'hasMerchantReturnPolicy' => array(
-			'@type'                => 'MerchantReturnPolicy',
-			'applicableCountry'    => 'TR',
-			'returnPolicyCategory' => 'https://schema.org/MerchantReturnNotPermitted',
-			'description'          => 'Ürünler özel olarak imal edilir; müşteri ürünü renk ve görünüm olarak görüp onayladıktan sonra sevk edilir.',
-		),
-	);
-
-	return (array) apply_filters( 'nwcs_seo_merchant_offer_fields', $fields );
-}
-
-/**
- * Satici girisi alanlari yalnizca kocist.com.tr'de acik; ag genelindeki
- * diger siteler eskisi gibi kalir. 'nwcs_seo_merchant_enabled' filtresiyle
- * baska bir site de acilabilir.
- */
-function nwcs_seo_merchant_enabled(): bool {
-	$host = strtolower( (string) wp_parse_url( home_url( '/' ), PHP_URL_HOST ) );
-	$host = preg_replace( '/^www\./', '', $host );
-
-	return (bool) apply_filters( 'nwcs_seo_merchant_enabled', 'kocist.com.tr' === $host );
+	return (array) apply_filters( 'nwcs_seo_merchant_offer_fields', array() );
 }
 
 /**
  * Marka: Google 'brand' icin Brand ya da Organization turu ister; yerel
- * isletme dugumune baglanti gecerli sayilmaz.
+ * isletme dugumune @id baglantisi Satici girislerinde hata veriyordu.
  */
 function nwcs_seo_brand(): array {
 	return array(
@@ -1181,11 +1189,10 @@ function nwcs_seo_quote_service( array $context, string $org_id, string $page_id
 			'image'            => $context['image']['url'] ?? '',
 			'url'              => $context['url'],
 			'provider'         => array( '@id' => $org_id ),
-			'areaServed'       => array(
-				'@type' => 'Country',
-				'name'  => 'Türkiye',
-			),
+			// Hizmet bolgesi yazilmaz: sitelerin teslimat sayfalari farkli
+			// bolgeler soyluyor (Koçist: Istanbul ve Trakya); uydurulmaz.
 			'mainEntityOfPage' => array( '@id' => $page_id ),
+			'subjectOf'        => nwcs_seo_product_video( $context ),
 		)
 	);
 }

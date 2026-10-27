@@ -5,7 +5,7 @@
  *
  * - SSS isareti (FAQPage): urun sayfalarindaki sorular (content/product-extras.php)
  *   ve yonetimden yazilan sayfalarin "Sik sorulan sorular" bolumu (ilce
- *   sayfalari gibi). Eklentinin sayfa kaydiyla ayni adrese bagli ayri blok.
+ *   sayfalari gibi). Eklentinin sayfa dugumune eklenir (nwcs_seo_graph).
  * - llms.txt: eklentinin listesine yonetimden yazilan sayfalar eklenir
  *   (eklenti yalnizca manifest ve urun sayfalarini yaziyor).
  * - IndexNow: yazi ya da sayfa yayinlaninca, guncellenince ya da kaldirilinca
@@ -98,27 +98,32 @@ function ik_seo_is_manifest_page( WP_Post $post ): bool {
 	return '' !== nwcs_seo_page_for_path( $path );
 }
 
-add_action(
-	'wp_head',
-	static function (): void {
+/*
+ * Sorular eklentinin sayfa dugumune eklenir (nwcs_seo_graph): WebPage ayni
+ * zamanda FAQPage olur, eklentinin SSS ve kategori sorularindaki gibi. Ayri
+ * blok basilmaz; sayfa iki ayri varlik gibi gorunmesin. Sayfanin ana ogesi
+ * zaten varsa (eklentinin kendi sorulari, liste) dokunulmaz.
+ */
+add_filter(
+	'nwcs_seo_graph',
+	static function ( array $graph ): array {
 		if ( is_admin() || is_404() ) {
-			return;
+			return $graph;
 		}
 
 		$faq = ik_seo_page_faq();
 
 		if ( ! $faq ) {
-			return;
+			return $graph;
 		}
 
-		$url  = ik_current_product() ? (string) ik_current_product()['url'] : (string) get_permalink( get_queried_object() );
-		$data = array(
-			'@context'   => 'https://schema.org',
-			'@type'      => 'FAQPage',
-			'@id'        => $url . '#sss',
-			'url'        => $url,
-			'inLanguage' => 'tr-TR',
-			'mainEntity' => array_map(
+		foreach ( $graph as $index => $node ) {
+			if ( ! str_ends_with( (string) ( $node['@id'] ?? '' ), '#webpage' ) || isset( $node['mainEntity'] ) ) {
+				continue;
+			}
+
+			$graph[ $index ]['@type']      = array_values( array_unique( array_merge( (array) $node['@type'], array( 'FAQPage' ) ) ) );
+			$graph[ $index ]['mainEntity'] = array_map(
 				static fn( array $item ): array => array(
 					'@type'          => 'Question',
 					'name'           => $item[0],
@@ -128,12 +133,11 @@ add_action(
 					),
 				),
 				$faq
-			),
-		);
+			);
+		}
 
-		echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . "</script>\n";
-	},
-	31
+		return $graph;
+	}
 );
 
 /* ======================================================================

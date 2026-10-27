@@ -600,6 +600,18 @@ function kocist_catalog_template(): void {
 		exit;
 	}
 
+	// Tek adres: egik cizgisiz istek (/kategoriler/kereste) egik cizgiliye 301.
+	// Kural iki bicimi de karsilar; WordPress sanal sayfayi kendisi duzeltmez.
+	$canonical = (string) ( $current['sub']['url'] ?? $current['group']['url'] ?? home_url( '/kategoriler/' ) );
+	$request   = (string) wp_parse_url( (string) ( $_SERVER['REQUEST_URI'] ?? '' ), PHP_URL_PATH ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- yalnizca karsilastirma.
+
+	if ( '' !== $request && ! str_ends_with( $request, '/' ) && untrailingslashit( (string) wp_parse_url( $canonical, PHP_URL_PATH ) ) === $request ) {
+		$query = (string) wp_parse_url( (string) ( $_SERVER['REQUEST_URI'] ?? '' ), PHP_URL_QUERY ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+
+		wp_safe_redirect( $canonical . ( '' !== $query ? '?' . $query : '' ), 301 );
+		exit;
+	}
+
 	status_header( 200 );
 
 	get_template_part( 'template-parts/category-page', null, $current );
@@ -773,8 +785,54 @@ function kocist_seo_field_text( string $text, string $page, string $component, s
 }
 
 /**
+ * Kategori sayfasindaki urun kartlari, JSON-LD ItemList icin: sayfadaki
+ * sirayla, yalnizca kendi sayfasi olan urunler (digerleri teklif formuna gider).
+ *
+ * @return array<int, array{url:string, name:string}>
+ */
+function kocist_catalog_item_list( string $group, string $sub = '' ): array {
+	$items = array();
+
+	foreach ( kocist_catalog_products_in( $group, $sub ) as $card ) {
+		if ( kocist_product_has_page( $card ) ) {
+			$items[] = array( 'url' => $card['url'], 'name' => kocist_card_title( $card ) );
+		}
+	}
+
+	return $items;
+}
+
+/**
+ * Grup ve kategori basina havuzdaki en yeni urun degisikligi (GMT): site
+ * haritasinda lastmod. Anahtarlar: '' (butun katalog), '<grup>', '<grup>/<kategori>'.
+ *
+ * @return array<string, string>
+ */
+function kocist_catalog_lastmod(): array {
+	$lastmod = array();
+
+	foreach ( kocist_catalog_products() as $product ) {
+		$modified = (string) ( $product['modified'] ?? '' );
+
+		if ( '' === $modified || '' === $product['group'] ) {
+			continue;
+		}
+
+		foreach ( array( '', $product['group'], $product['group'] . '/' . $product['sub'] ) as $key ) {
+			if ( $modified > ( $lastmod[ $key ] ?? '' ) ) {
+				$lastmod[ $key ] = $modified;
+			}
+		}
+	}
+
+	return $lastmod;
+}
+
+/**
  * SEO eklentisine kategori ve urun sayfalarini bildirir: baslik, aciklama,
- * canonical, paylasim gorseli ve llms.txt bunlardan uretilir.
+ * canonical, paylasim gorseli, site haritasi (lastmod ile) ve llms.txt
+ * bunlardan uretilir. Kategori sayfalari CollectionPage; listesi (ItemList)
+ * yalnizca o sayfa acikken hesaplanir.
  */
 add_filter( 'nwcs_seo_extra_pages', 'kocist_catalog_seo_pages' );
 function kocist_catalog_seo_pages( array $pages ): array {
@@ -785,6 +843,12 @@ function kocist_catalog_seo_pages( array $pages ): array {
 		return $pages;
 	}
 
+	$lastmod = kocist_catalog_lastmod();
+	$current = kocist_is_catalog_request() ? kocist_catalog_current() : null;
+	$showing = static fn( string $group, string $sub = '' ): bool => null !== $current
+		&& $group === (string) ( $current['group']['slug'] ?? '' )
+		&& $sub === (string) ( $current['sub']['slug'] ?? '' );
+
 	$pages[] = array(
 		'url'         => home_url( '/kategoriler/' ),
 		'name'        => 'Ürün Kategorileri',
@@ -792,6 +856,11 @@ function kocist_catalog_seo_pages( array $pages ): array {
 			'%s ürün gruplarımız ve alt kategorileri.',
 			implode( ', ', wp_list_pluck( $groups, 'name' ) )
 		),
+		'type'        => 'CollectionPage',
+		'items'       => array_map( static fn( array $group ): array => array( 'url' => $group['url'], 'name' => $group['name'] ), array_values( $groups ) ),
+		// Sanal sayfa (/kategoriler/ WordPress sayfasi degil): site haritasina eklenti koyar.
+		'sitemap'     => true,
+		'lastmod'     => $lastmod[''] ?? '',
 	);
 
 	foreach ( $groups as $group ) {
@@ -807,6 +876,10 @@ function kocist_catalog_seo_pages( array $pages ): array {
 					: sprintf( '%s grubunda ölçü ve adede göre üretim ve tedarik.', $group['name'] )
 			),
 			'image'       => $custom['image'] ? $custom['image'] : ( $group['image']['url'] ? array( 'url' => $group['image']['url'], 'alt' => $group['image']['alt'] ) : 0 ),
+			'type'        => 'CollectionPage',
+			'items'       => $showing( $group['slug'] ) ? kocist_catalog_item_list( $group['slug'] ) : array(),
+			'sitemap'     => true,
+			'lastmod'     => $lastmod[ $group['slug'] ] ?? '',
 		);
 
 		foreach ( $group['subs'] as $sub ) {
@@ -820,6 +893,10 @@ function kocist_catalog_seo_pages( array $pages ): array {
 						? sprintf( '%s kategorisinde %d ürün. Ölçü ve adede göre fiyat için bize ulaşın.', $sub['name'], $count )
 						: sprintf( '%s için ölçü ve adede göre fiyat teklifi alın.', $sub['name'] )
 				),
+				'type'        => 'CollectionPage',
+				'items'       => $showing( $group['slug'], $sub['slug'] ) ? kocist_catalog_item_list( $group['slug'], $sub['slug'] ) : array(),
+				'sitemap'     => true,
+				'lastmod'     => $lastmod[ $group['slug'] . '/' . $sub['slug'] ] ?? '',
 			);
 
 			if ( $custom['image'] ) {
