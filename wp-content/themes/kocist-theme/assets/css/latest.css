@@ -182,6 +182,16 @@
 
 .k-latest__card:hover .k-latest__cta { color: var(--leaf-dark); }
 
+/* Fiyatli urun: kategori kartindaki fiyat etiketiyle ayni agirlik ve renk. */
+.k-latest__price {
+	margin-top: auto;
+	padding-top: 16px;
+	font-size: 16px;
+	font-weight: 800;
+	color: var(--forest);
+	letter-spacing: -.01em;
+}
+
 /* Kaydirma konumu: ince ray, ustunde yesil dolgu. */
 .k-latest__progress {
 	position: relative;

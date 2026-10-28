@@ -8,6 +8,9 @@
  *
  * Kartlar merkezi Urun Havuzu'ndan gelir: bu siteye secilmis urunlerden
  * havuza en son eklenenler. Kac kart gorunecegi panelden secilir.
+ *
+ * Kart alti kategori kartlariyla ayni kurali izler: fiyati olan urunde fiyat
+ * (price_label), fiyatsiz urunde panelden gelen "Teklif alin" baglanti metni.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -64,7 +67,9 @@ if ( ! $items ) {
 							<span class="k-latest__spec" <?php kocist_product_attr( $item, 'Özellikler' ); ?>><?php echo esc_html( $spec ); ?></span>
 						<?php endif; ?>
 
-						<?php if ( $link_label ) : ?>
+						<?php if ( ! empty( $item['has_price'] ) ) : ?>
+							<span class="k-latest__price" <?php kocist_product_attr( $item, 'Fiyat' ); ?>><?php echo esc_html( $item['price_label'] ); ?></span>
+						<?php elseif ( $link_label ) : ?>
 							<span class="k-latest__cta" <?php nwcs_edit_attr( 'home', 'latest', 'link_label' ); ?>><?php echo esc_html( $link_label ); ?></span>
 						<?php endif; ?>
 					</span>
