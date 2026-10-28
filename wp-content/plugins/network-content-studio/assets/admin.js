@@ -268,6 +268,68 @@
 	wrap.addEventListener( 'mousedown', fillMediaSelect );
 	wrap.addEventListener( 'focusin', fillMediaSelect );
 
+	/*
+	 * Paylasim fotografi (urun + fotograf): fotograf listesi secili urunun
+	 * grubuna daraltilir, urun degisince ilk fotografi secilir, onizleme
+	 * secili fotografi gosterir. Secenekler sunucudan gelir; burada yalnizca
+	 * gorunurluk degisir.
+	 */
+	function syncProductPhoto( field, productChanged ) {
+		var product = field.querySelector( '[data-nwcs-pp-product]' );
+		var image = field.querySelector( '[data-nwcs-pp-image]' );
+		var preview = field.querySelector( '[data-nwcs-pp-preview]' );
+
+		if ( ! product || ! image || ! preview ) {
+			return;
+		}
+
+		var current = product.value;
+		var first = null;
+
+		Array.prototype.forEach.call( image.querySelectorAll( 'optgroup' ), function ( group ) {
+			var mine = group.getAttribute( 'data-nwcs-pp-of' ) === current && '0' !== current;
+
+			group.hidden = ! mine;
+			Array.prototype.forEach.call( group.children, function ( option ) {
+				option.hidden = ! mine;
+				option.disabled = ! mine;
+
+				if ( mine && ! first ) {
+					first = option;
+				}
+			} );
+		} );
+
+		var selected = image.options[ image.selectedIndex ];
+
+		if ( productChanged || ! selected || selected.disabled ) {
+			image.value = first ? first.value : '';
+			selected = first;
+		}
+
+		var thumb = selected && ! selected.disabled ? selected.getAttribute( 'data-thumb' ) : '';
+
+		preview.innerHTML = thumb
+			? '<img alt="" />'
+			: '<span class="nwcs-image__empty">Ürün seçilmedi</span>';
+
+		if ( thumb ) {
+			preview.querySelector( 'img' ).src = thumb;
+		}
+	}
+
+	wrap.addEventListener( 'change', function ( event ) {
+		var field = event.target.closest && event.target.closest( '[data-nwcs-product-photo]' );
+
+		if ( field ) {
+			syncProductPhoto( field, event.target.matches( '[data-nwcs-pp-product]' ) );
+		}
+	} );
+
+	wrap.querySelectorAll( '[data-nwcs-product-photo]' ).forEach( function ( field ) {
+		syncProductPhoto( field, false );
+	} );
+
 	// Arama kutusunda Enter formu gondermesin.
 	wrap.addEventListener( 'keydown', function ( event ) {
 		if ( 'Enter' === event.key && event.target.matches && event.target.matches( '[data-nwcs-products-search]' ) ) {

@@ -49,6 +49,12 @@ function nwcs_render_field( string $field_key, array $definition, $value, array 
 		return;
 	}
 
+	if ( 'product_photo' === $type ) {
+		nwcs_render_product_photo_field( $field_key, $definition, is_array( $value ) ? $value : array(), $blog_id );
+
+		return;
+	}
+
 	// data-nwcs-field: onizlemeden gelen tiklamada dogru alana odaklanmak icin.
 	printf(
 		'<div class="nwcs-field nwcs-field--%1$s" data-nwcs-field="%2$s"%3$s>',
@@ -151,6 +157,94 @@ function nwcs_render_image_field( string $id, string $name, string $path, int $v
 				name="img_alt__<?php echo esc_attr( $path ); ?>"
 				value="<?php echo esc_attr( $current['alt'] ?? '' ); ?>" />
 		</div>
+	</div>
+	<?php
+}
+
+/**
+ * Paylasim fotografi: once bu sitede gorunen urunlerden (alan 'category'
+ * verilmisse yalnizca o havuz kategorisindekiler) bir urun, sonra o urunun
+ * galerisinden bir fotograf secilir. Deger: array( product, image ) — ikisi de
+ * havuz sitesindeki kimlikler. Fotograf listesi butun urunler icin basilir;
+ * panel betigi (admin.js) secili urune gore daraltir ve onizlemeyi gunceller.
+ */
+function nwcs_render_product_photo_field( string $field_key, array $definition, array $value, int $blog_id ): void {
+	$id       = 'nwcs-' . sanitize_html_class( $field_key );
+	$name     = nwcs_field_name( $field_key );
+	$category = trim( (string) ( $definition['category'] ?? '' ) );
+	$picked   = array( 'product' => (int) ( $value['product'] ?? 0 ), 'image' => (int) ( $value['image'] ?? 0 ) );
+	$products = array();
+	$preview  = '';
+
+	foreach ( nwcs_site_products( $blog_id ) as $product ) {
+		if ( '' !== $category && ! in_array( $category, (array) $product['categories'], true ) ) {
+			continue;
+		}
+
+		$images = array_values( array_filter( (array) ( $product['images'] ?? array() ), static fn( $image ): bool => is_array( $image ) && ! empty( $image['url'] ) && ! empty( $image['id'] ) ) );
+
+		if ( ! $images ) {
+			continue;
+		}
+
+		$products[] = array( 'id' => (int) $product['id'], 'title' => (string) $product['title'], 'code' => (string) ( $product['code'] ?? '' ), 'images' => $images );
+
+		if ( (int) $product['id'] === $picked['product'] ) {
+			foreach ( $images as $image ) {
+				if ( (int) $image['id'] === $picked['image'] ) {
+					$preview = (string) $image['url'];
+				}
+			}
+
+			$preview = '' !== $preview ? $preview : (string) $images[0]['url'];
+		}
+	}
+	?>
+	<div class="nwcs-field nwcs-field--product_photo" data-nwcs-field="<?php echo esc_attr( $field_key ); ?>" data-nwcs-product-photo>
+		<label class="nwcs-field__label" for="<?php echo esc_attr( $id ); ?>"><?php echo esc_html( (string) ( $definition['label'] ?? $field_key ) ); ?></label>
+
+		<?php if ( ! $products ) : ?>
+			<p class="nwcs-hint">Bu sitede <?php echo '' !== $category ? 'bu kategoride ' : ''; ?>fotoğraflı ürün yok. Ürünü ve fotoğrafını <a href="<?php echo esc_url( nwcs_pool_url() ); ?>">Ürün Havuzu</a>'nda ekleyin.</p>
+		<?php else : ?>
+			<div class="nwcs-image">
+				<div class="nwcs-image__preview" data-nwcs-pp-preview>
+					<?php if ( '' !== $preview ) : ?>
+						<img src="<?php echo esc_url( $preview ); ?>" alt="" />
+					<?php else : ?>
+						<span class="nwcs-image__empty">Ürün seçilmedi</span>
+					<?php endif; ?>
+				</div>
+
+				<div class="nwcs-image__controls">
+					<label class="nwcs-sublabel" for="<?php echo esc_attr( $id ); ?>">Ürün</label>
+					<select class="nwcs-input" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>[product]" data-nwcs-pp-product>
+						<option value="0">— Seçilmedi —</option>
+						<?php foreach ( $products as $product ) : ?>
+							<option value="<?php echo esc_attr( (string) $product['id'] ); ?>" <?php selected( $product['id'], $picked['product'] ); ?>>
+								<?php echo esc_html( $product['title'] . ( '' !== $product['code'] ? ' (' . $product['code'] . ')' : '' ) ); ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+
+					<label class="nwcs-sublabel" for="<?php echo esc_attr( $id ); ?>-image">Fotoğraf</label>
+					<select class="nwcs-input" id="<?php echo esc_attr( $id ); ?>-image" name="<?php echo esc_attr( $name ); ?>[image]" data-nwcs-pp-image>
+						<?php foreach ( $products as $product ) : ?>
+							<optgroup label="<?php echo esc_attr( $product['title'] ); ?>" data-nwcs-pp-of="<?php echo esc_attr( (string) $product['id'] ); ?>"<?php echo $product['id'] === $picked['product'] ? '' : ' hidden'; ?>>
+								<?php foreach ( $product['images'] as $index => $image ) : ?>
+									<option value="<?php echo esc_attr( (string) $image['id'] ); ?>" data-thumb="<?php echo esc_url( (string) $image['url'] ); ?>" <?php selected( $product['id'] === $picked['product'] && (int) $image['id'] === $picked['image'] ); ?>>
+										<?php echo esc_html( sprintf( '%d. fotoğraf', $index + 1 ) . ( '' !== trim( (string) ( $image['alt'] ?? '' ) ) ? ' — ' . $image['alt'] : '' ) ); ?>
+									</option>
+								<?php endforeach; ?>
+							</optgroup>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+		<?php endif; ?>
+
+		<?php if ( ! empty( $definition['hint'] ) ) : ?>
+			<p class="nwcs-hint"><?php echo esc_html( (string) $definition['hint'] ); ?></p>
+		<?php endif; ?>
 	</div>
 	<?php
 }

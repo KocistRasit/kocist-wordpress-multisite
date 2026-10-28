@@ -650,7 +650,11 @@ function kocist_catalog_title_parts( array $parts ): array {
  * gizlileri atlar); bu sayfalar ona ek sayfa olarak bildirildigi icin
  * degerleri tema aktarir.
  *
- * @return array{title:string, description:string, image:int}
+ * Gorsel: panelde "Paylasim gorseli" (bu sitenin medyasindan ek kimligi)
+ * secilmisse o; degilse "Paylasim fotografi: urun" ile o kategoriden secilen
+ * urunun fotografi (havuz sitesinde; url/alt dizisi, kocist_catalog_share_photo).
+ *
+ * @return array{title:string, description:string, image:int|array}
  */
 function kocist_catalog_seo_custom( string $group, string $sub = '' ): array {
 	$key    = kocist_catalog_page_key( $group, $sub );
@@ -666,7 +670,79 @@ function kocist_catalog_seo_custom( string $group, string $sub = '' ): array {
 	$image                 = (int) nwcs_field( $key, 'seo', 'image', 0 );
 	$custom['image']       = $image > 0 && wp_attachment_is_image( $image ) ? $image : 0;
 
+	if ( ! $custom['image'] ) {
+		$share           = nwcs_field( $key, 'seo', 'share_product', null );
+		$custom['image'] = kocist_catalog_share_photo( $group, $sub, is_array( $share ) ? $share : array() );
+	}
+
 	return $custom;
+}
+
+/**
+ * Panelde kategori ya da grup icin secilen "paylasim urunu"nun fotografi.
+ * Urun bu sitede goruyor ve gercekten o grup/kategoride olmali; secilen
+ * fotograf urunun galerisinde yoksa ilk fotografi kullanilir. Yoksa 0.
+ *
+ * @param array{product?:int, image?:int} $share Paneldeki secim.
+ * @return array{url:string, alt:string, width:int, height:int}|int
+ */
+function kocist_catalog_share_photo( string $group, string $sub, array $share ) {
+	$product_id = (int) ( $share['product'] ?? 0 );
+	$image_id   = (int) ( $share['image'] ?? 0 );
+
+	if ( $product_id <= 0 ) {
+		return 0;
+	}
+
+	foreach ( kocist_catalog_products() as $product ) {
+		if ( (int) $product['id'] !== $product_id ) {
+			continue;
+		}
+
+		if ( $product['group'] !== $group || ( '' !== $sub && $product['sub'] !== $sub ) ) {
+			return 0;
+		}
+
+		// Yer tutucu (temadaki demo fotografin kopyasi) paylasima cikmaz.
+		$images = array_values( array_filter( (array) ( $product['images'] ?? array() ), static fn( $image ): bool => is_array( $image ) && ! empty( $image['url'] ) && ! kocist_is_placeholder_image( $image ) ) );
+
+		if ( ! $images ) {
+			return 0;
+		}
+
+		$picked = $images[0];
+
+		foreach ( $images as $image ) {
+			if ( (int) ( $image['id'] ?? 0 ) === $image_id ) {
+				$picked = $image;
+				break;
+			}
+		}
+
+		// Havuzdaki ekten 'large' kopya ve olculeri (og:image:width/height).
+		$photo = array(
+			'url'    => (string) $picked['url'],
+			'alt'    => '' !== trim( (string) ( $picked['alt'] ?? '' ) ) ? (string) $picked['alt'] : (string) $product['title'],
+			'width'  => 0,
+			'height' => 0,
+		);
+
+		if ( (int) ( $picked['id'] ?? 0 ) > 0 && function_exists( 'nwcs_pool_blog_id' ) ) {
+			switch_to_blog( (int) nwcs_pool_blog_id() );
+			$src = wp_get_attachment_image_src( (int) $picked['id'], 'large' );
+			restore_current_blog();
+
+			if ( $src ) {
+				$photo['url']    = (string) $src[0];
+				$photo['width']  = (int) $src[1];
+				$photo['height'] = (int) $src[2];
+			}
+		}
+
+		return $photo;
+	}
+
+	return 0;
 }
 
 /**

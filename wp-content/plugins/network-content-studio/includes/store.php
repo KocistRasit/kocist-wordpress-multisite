@@ -137,6 +137,15 @@ function nwcs_sanitize_value( $value, array $definition ) {
 		case 'image':
 			return absint( $value );
 
+		// Havuzdaki urun ve o urunun fotografi (ek kimlikleri havuz sitesinde).
+		case 'product_photo':
+			$value = is_array( $value ) ? $value : array();
+
+			return array(
+				'product' => absint( $value['product'] ?? 0 ),
+				'image'   => absint( $value['image'] ?? 0 ),
+			);
+
 		case 'icon':
 			return nwcs_sanitize_icon( (string) $value );
 

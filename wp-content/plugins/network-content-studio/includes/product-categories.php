@@ -578,6 +578,19 @@ function nwcs_catalog_page( array $template, array $vars, array $defaults, strin
 	// Her sayfaya "Arama ve Paylasim" (manifest yuklenirken eklenenle ayni).
 	if ( function_exists( 'nwcs_seo_page_component' ) ) {
 		$page['components'][ NWCS_SEO_COMPONENT ] = nwcs_seo_page_component();
+
+		// Havuz kategorisi olan sayfada paylasim gorseli o kategorinin bir
+		// urununden secilebilir (urun + fotograf). Tema bu secimi sayfanin
+		// 'image' degeri olarak bildirir; "Paylasim gorseli" doluysa o kazanir.
+		if ( '' !== $pool ) {
+			$page['components'][ NWCS_SEO_COMPONENT ]['fields']['share_product'] = array(
+				'label'    => 'Paylaşım fotoğrafı: ürün',
+				'type'     => 'product_photo',
+				'category' => $pool,
+				'default'  => array( 'product' => 0, 'image' => 0 ),
+				'hint'     => 'Bağlantı paylaşılınca bu kategorideki seçtiğiniz ürünün seçtiğiniz fotoğrafı görünür. Yukarıdaki Paylaşım görseli doluysa o öne geçer; ikisi de boşsa sitenin genel paylaşım görseli kullanılır.',
+			);
+		}
 	}
 
 	return $page;
