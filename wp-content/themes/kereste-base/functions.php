@@ -666,4 +666,42 @@ function kr_favicon(): void {
  * baglantisi (xmlrpc.php?rsd) sunucuda kapali oldugu icin 403 donuyor.
  */
 add_filter( 'wp_speculation_rules_configuration', '__return_null' );
+
+/**
+ * Firma dugumune calisma saatleri ve harita baglantisi (arama verisi).
+ *
+ * Saatler cocuk temanin manifestindeki 'opening_hours' listesinden gelir;
+ * sitede gorunen metin panelin "Calisma Saatleri" alanidir, saat degisirse
+ * ikisi birlikte guncellenir. Liste bossa (ithalkeresteci) dugume dokunulmaz.
+ * Harita: Iletisim sayfasindaki "Harita Baglantisi" alani.
+ */
+add_filter( 'nwcs_seo_graph', 'kr_seo_opening_hours' );
+function kr_seo_opening_hours( array $graph ): array {
+	$hours = (array) ( kr_manifest()['opening_hours'] ?? array() );
+	$map   = esc_url_raw( (string) nwcs_field( 'contact', 'details', 'map_url' ) );
+
+	foreach ( $graph as $index => $node ) {
+		if ( ! str_ends_with( (string) ( $node['@id'] ?? '' ), '#organization' ) ) {
+			continue;
+		}
+
+		if ( $hours ) {
+			$graph[ $index ]['openingHoursSpecification'] = array_map(
+				static fn( array $row ): array => array(
+					'@type'     => 'OpeningHoursSpecification',
+					'dayOfWeek' => $row[0],
+					'opens'     => $row[1],
+					'closes'    => $row[2],
+				),
+				$hours
+			);
+		}
+
+		if ( '' !== $map ) {
+			$graph[ $index ]['hasMap'] = $map;
+		}
+	}
+
+	return $graph;
+}
 remove_action( 'wp_head', 'rsd_link' );

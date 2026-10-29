@@ -435,6 +435,8 @@ return static function ( array $s ): array {
 		// Panelde gorunen kisa ad: logodaki ad ("İthal Keresteci"), alan adi olmadan.
 		'panel_label'       => $s['panel_label'] ?? implode( ' ', (array) ( $s['logo'] ?? array() ) ),
 		'seo_site_defaults' => $s['seo'],
+		// Calisma saatleri (arama verisi, bkz. kr_seo_opening_hours): gun listesi, acilis, kapanis.
+		'opening_hours'     => $s['opening_hours'] ?? array(),
 		'pages'             => $pages,
 	);
 
