@@ -925,9 +925,9 @@ $manifest_data = array(
 							),
 							'default' => array(
 								array( 'title' => 'Ahşap Ambalaj Malzemesi İşaretleme İzin Belgesi', 'url' => '/tema/isaretleme-izin-belgesi.jpg' ),
-								array( 'title' => 'Kapasite Raporu', 'url' => '/tema/belgeler/kapasite-raporu.pdf' ),
+								
 								array( 'title' => 'Sanayi Sicil Belgesi', 'url' => '/tema/belgeler/sanayi-sicil-belgesi.pdf' ),
-								array( 'title' => 'Vida, Somun ve Bits Uç Listesi 2025', 'url' => '/tema/belgeler/vida-somun-bits-uc-listesi-2025.pdf' ),
+								
 							),
 						),
 					),
