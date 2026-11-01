@@ -50,3 +50,19 @@ function kocist_katalog_active_tab(): string {
 
 	return 'belgeler' === $tab ? 'belgeler' : 'sertifikalar';
 }
+
+
+/**
+ * /katalog/ ile /belgelerimiz/ ayni belgeleri gosteriyordu (cift icerik).
+ * Ziyaretci ve arama motoru tek adres olan /belgelerimiz/ sayfasina 301 ile
+ * gider; panel onizlemesi sayfayi gormeye devam eder.
+ */
+add_action( 'template_redirect', 'kocist_katalog_redirect' );
+function kocist_katalog_redirect(): void {
+	if ( ! is_page( 'katalog' ) || ( function_exists( 'nwcs_is_preview' ) && nwcs_is_preview() ) ) {
+		return;
+	}
+
+	wp_safe_redirect( home_url( '/belgelerimiz/' ), 301 );
+	exit;
+}
