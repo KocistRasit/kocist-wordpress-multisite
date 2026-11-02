@@ -77,3 +77,85 @@
 
 	document.querySelectorAll( '[data-nwcs-count]' ).forEach( updateCounter );
 }() );
+
+/**
+ * SEO ve GEO > Paylasim gorselleri: kartlari suzme (elle secilen / otomatik)
+ * ve ad ya da adrese gore arama. Yalnizca gorunurluk degisir.
+ */
+( function () {
+	'use strict';
+
+	var tools = document.querySelector( '[data-nwcs-share-tools]' );
+
+	if ( ! tools ) {
+		return;
+	}
+
+	var filter = '';
+	var query = '';
+
+	var fold = function ( text ) {
+		return String( text || '' )
+			.replace( /İ/g, 'i' ).replace( /I/g, 'ı' )
+			.toLowerCase()
+			.replace( /ı/g, 'i' ).replace( /ğ/g, 'g' ).replace( /ü/g, 'u' )
+			.replace( /ş/g, 's' ).replace( /ö/g, 'o' ).replace( /ç/g, 'c' );
+	};
+
+	var apply = function () {
+		document.querySelectorAll( '[data-nwcs-share-section]' ).forEach( function ( section ) {
+			var shown = 0;
+
+			section.querySelectorAll( '[data-nwcs-share]' ).forEach( function ( card ) {
+				var ok = ( ! filter || card.getAttribute( 'data-share-filter' ) === filter )
+					&& ( ! query || fold( card.getAttribute( 'data-share-text' ) ).indexOf( query ) !== -1 );
+
+				card.hidden = ! ok;
+				shown += ok ? 1 : 0;
+			} );
+
+			var count = section.querySelector( '[data-nwcs-share-count]' );
+			var empty = section.querySelector( '[data-nwcs-share-empty]' );
+
+			if ( count ) {
+				count.textContent = shown;
+			}
+			if ( empty ) {
+				empty.hidden = shown > 0;
+			}
+		} );
+	};
+
+	tools.addEventListener( 'click', function ( event ) {
+		var button = event.target.closest( '[data-nwcs-share-filter]' );
+
+		if ( ! button ) {
+			return;
+		}
+
+		filter = button.getAttribute( 'data-nwcs-share-filter' ) || '';
+		tools.querySelectorAll( '[data-nwcs-share-filter]' ).forEach( function ( other ) {
+			other.classList.toggle( 'is-active', other === button );
+		} );
+		apply();
+	} );
+
+	var search = tools.querySelector( '[data-nwcs-share-search]' );
+
+	if ( search ) {
+		search.addEventListener( 'input', function () {
+			query = fold( search.value.trim() );
+			apply();
+		} );
+	}
+
+	// Yer isaretiyle (#share-kat-x) gelindiyse kartin duzenleyicisi acik olsun.
+	if ( window.location.hash && /^#share-/.test( window.location.hash ) ) {
+		var target = document.querySelector( window.location.hash );
+		var details = target ? target.querySelector( 'details' ) : null;
+
+		if ( details ) {
+			details.open = true;
+		}
+	}
+}() );

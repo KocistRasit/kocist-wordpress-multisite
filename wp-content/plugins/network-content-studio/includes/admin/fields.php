@@ -141,7 +141,7 @@ function nwcs_render_image_field( string $id, string $name, string $path, int $v
 			<select class="nwcs-input" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>">
 				<option value="0"><?php echo esc_html( '— Görsel yok (kaldır) —' ); ?></option>
 				<?php foreach ( $media as $item ) : ?>
-					<option value="<?php echo esc_attr( (string) $item['id'] ); ?>" <?php selected( $item['id'], $value ); ?>>
+					<option value="<?php echo esc_attr( (string) $item['id'] ); ?>" data-thumb="<?php echo esc_url( (string) $item['thumb'] ); ?>" <?php selected( $item['id'], $value ); ?>>
 						<?php echo esc_html( $item['title'] ); ?>
 					</option>
 				<?php endforeach; ?>

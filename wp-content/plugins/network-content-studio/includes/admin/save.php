@@ -45,9 +45,15 @@ function nwcs_validate_target( int $blog_id, string $page_key, string $component
  *
  * @return array{fields:int, media:int, errors:string[]}
  */
-function nwcs_save_component( int $blog_id, array $manifest, string $page_key, string $component_key, array $posted ): array {
+function nwcs_save_component( int $blog_id, array $manifest, string $page_key, string $component_key, array $posted, array $only = array() ): array {
 	$fields        = $manifest['pages'][ $page_key ]['components'][ $component_key ]['fields'];
 	$media_updates = 0;
+
+	// Kismi kayit: yalnizca listelenen alanlar yazilir (SEO ve GEO > Paylasim
+	// gorselleri yalnizca gorsel alanlarini gonderir; baslik ve aciklama kalir).
+	if ( $only ) {
+		$fields = array_intersect_key( $fields, array_flip( $only ) );
+	}
 
 	switch_to_blog( $blog_id );
 
@@ -90,6 +96,18 @@ function nwcs_save_component( int $blog_id, array $manifest, string $page_key, s
 		'media'  => $media_updates,
 		'errors' => nwcs_add_save_error( '' ),
 	);
+}
+
+/**
+ * Formun "yalnizca su alanlari kaydet" listesi (virgulle ayrilmis alan
+ * anahtarlari); yoksa bos: bilesenin butun alanlari yazilir.
+ *
+ * @return string[]
+ */
+function nwcs_posted_only(): array {
+	$raw = isset( $_POST['only'] ) && is_string( $_POST['only'] ) ? wp_unslash( $_POST['only'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- cagiran dogrular.
+
+	return array_values( array_filter( array_map( 'sanitize_key', explode( ',', $raw ) ) ) );
 }
 
 /**
@@ -152,7 +170,7 @@ function nwcs_handle_save(): void {
 		nwcs_redirect_error( $blog_id, $page_key, $component_key, $manifest->get_error_message() );
 	}
 
-	$result = nwcs_save_component( $blog_id, $manifest, $page_key, $component_key, nwcs_posted_fields() );
+	$result = nwcs_save_component( $blog_id, $manifest, $page_key, $component_key, nwcs_posted_fields(), nwcs_posted_only() );
 
 	$args = array(
 		'nwcs_saved' => $result['fields'],
@@ -220,7 +238,7 @@ function nwcs_ajax_save(): void {
 		wp_send_json_error( array( 'message' => $manifest->get_error_message() ), 400 );
 	}
 
-	$result = nwcs_save_component( $blog_id, $manifest, $page_key, $component_key, nwcs_posted_fields() );
+	$result = nwcs_save_component( $blog_id, $manifest, $page_key, $component_key, nwcs_posted_fields(), nwcs_posted_only() );
 
 	wp_send_json_success(
 		array(

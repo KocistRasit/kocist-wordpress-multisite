@@ -368,6 +368,228 @@ function nwcs_seo_page_for_path( string $path ): string {
 }
 
 /**
+ * Adresi verilen yola denk gelen GIZLI manifest sayfasi: kategori, grup,
+ * urun ve yazi sayfalari gibi "Sayfa bul" ile acilan, sekme listesinde
+ * olmayan sayfalar. Bunlarin on yuzunu tema cizer; paneldeki "Arama ve
+ * Paylasim" alanlari nwcs_seo_apply_hidden_page ile uygulanir.
+ */
+function nwcs_seo_hidden_page_for_path( string $path ): string {
+	foreach ( (array) ( nwcs_manifest()['pages'] ?? array() ) as $key => $page ) {
+		if ( empty( $page['hidden'] ) || empty( $page['path'] ) || false === ( $page['seo'] ?? true ) || ! isset( $page['components'][ NWCS_SEO_COMPONENT ] ) ) {
+			continue;
+		}
+
+		if ( untrailingslashit( (string) wp_parse_url( home_url( $page['path'] ), PHP_URL_PATH ) ) === $path ) {
+			return $key;
+		}
+	}
+
+	return '';
+}
+
+/**
+ * Gizli manifest sayfasinin panelde girilen degerlerini baglama isler:
+ * baslik, aciklama ve paylasim gorseli (yoksa "Paylasim fotografi: urun").
+ * Dolu olan alan temadan ya da WordPress'ten gelenin onune gecer; tema ayni
+ * alanlari kendisi uyguluyorsa sonuc degismez. Boylece panelde her sayfanin
+ * gorseli degistirilebilir, temanin bunu ayrica desteklemesi gerekmez.
+ */
+function nwcs_seo_apply_hidden_page( array $context, string $path ): array {
+	$key = nwcs_seo_hidden_page_for_path( $path );
+
+	if ( '' === $key ) {
+		return $context;
+	}
+
+	$title       = nwcs_seo_clean( nwcs_field( $key, NWCS_SEO_COMPONENT, 'title' ) );
+	$description = nwcs_seo_clean( nwcs_field( $key, NWCS_SEO_COMPONENT, 'description' ), 160 );
+	$image       = (int) nwcs_field( $key, NWCS_SEO_COMPONENT, 'image', 0 );
+
+	if ( '' !== $title ) {
+		$context['title'] = $title;
+	}
+
+	if ( '' !== $description ) {
+		$context['description'] = $description;
+	}
+
+	if ( $image > 0 && wp_attachment_is_image( $image ) ) {
+		$context['image'] = $image;
+	} elseif ( empty( $context['image'] ) ) {
+		$photo = nwcs_seo_page_product_photo( $key );
+
+		if ( $photo ) {
+			$context['image'] = $photo;
+		}
+	}
+
+	return $context;
+}
+
+/**
+ * Sayfanin "Paylasim fotografi: urun" secimi (varsa): o urunun secilen
+ * fotografi, url/alt/olcu dizisi. Urun bu sitede gorunmuyorsa ya da alanin
+ * kategorisinde degilse bos.
+ *
+ * @return array{id:int, url:string, width:int, height:int, alt:string}|array{}
+ */
+function nwcs_seo_page_product_photo( string $page_key, ?array $manifest = null ): array {
+	$manifest   = $manifest ?? nwcs_manifest();
+	$definition = $manifest['pages'][ $page_key ]['components'][ NWCS_SEO_COMPONENT ]['fields']['share_product'] ?? null;
+
+	if ( ! is_array( $definition ) || ! function_exists( 'nwcs_site_products' ) ) {
+		return array();
+	}
+
+	$share      = (array) nwcs_field( $page_key, NWCS_SEO_COMPONENT, 'share_product', array() );
+	$product_id = absint( $share['product'] ?? 0 );
+	$image_id   = absint( $share['image'] ?? 0 );
+	$category   = trim( (string) ( $definition['category'] ?? '' ) );
+
+	if ( ! $product_id ) {
+		return array();
+	}
+
+	foreach ( nwcs_site_products() as $product ) {
+		if ( (int) $product['id'] !== $product_id ) {
+			continue;
+		}
+
+		if ( '' !== $category && ! in_array( $category, (array) ( $product['categories'] ?? array() ), true ) ) {
+			return array();
+		}
+
+		$images = array_values( array_filter( (array) ( $product['images'] ?? array() ), static fn( $image ): bool => is_array( $image ) && ! empty( $image['url'] ) ) );
+
+		if ( ! $images ) {
+			return array();
+		}
+
+		$picked = $images[0];
+
+		foreach ( $images as $image ) {
+			if ( (int) ( $image['id'] ?? 0 ) === $image_id ) {
+				$picked = $image;
+				break;
+			}
+		}
+
+		$info = array(
+			'id'     => 0,
+			'url'    => (string) $picked['url'],
+			'width'  => 0,
+			'height' => 0,
+			'alt'    => '' !== trim( (string) ( $picked['alt'] ?? '' ) ) ? (string) $picked['alt'] : (string) $product['title'],
+		);
+
+		// Fotograf havuz sitesinde: paylasim icin 'large' kopya ve olculeri.
+		if ( ! empty( $picked['id'] ) && function_exists( 'nwcs_pool_blog_id' ) ) {
+			switch_to_blog( nwcs_pool_blog_id() );
+			$src = wp_get_attachment_image_src( (int) $picked['id'], 'large' );
+			restore_current_blog();
+
+			if ( $src ) {
+				$info['url']    = (string) $src[0];
+				$info['width']  = (int) $src[1];
+				$info['height'] = (int) $src[2];
+			}
+		}
+
+		return $info;
+	}
+
+	return array();
+}
+
+/**
+ * Sayfanin kendi gorseli yokken siradaki gorsel (on yuzdeki zincirle ayni):
+ * site varsayilani, logo, ana sayfanin ilk gorseli, temanin yedek gorseli.
+ * Ag yonetiminde sitenin temasi yuklu olmadigindan tema gorseli gosterilemez;
+ * tema functions.php'de suzgeci bildiriyorsa kaynak 'theme', gorsel bos.
+ *
+ * @return array{image:array, source:string}
+ */
+function nwcs_seo_share_fallback(): array {
+	$default = (int) nwcs_field( NWCS_SEO_SITE_PAGE, 'defaults', 'share_image', 0 );
+
+	if ( $default && nwcs_seo_image( $default ) ) {
+		return array( 'image' => nwcs_seo_image( $default ), 'source' => 'default' );
+	}
+
+	$logo = nwcs_seo_logo_id();
+
+	if ( $logo && nwcs_seo_image( $logo ) ) {
+		return array( 'image' => nwcs_seo_image( $logo ), 'source' => 'logo' );
+	}
+
+	$home = isset( nwcs_manifest()['pages']['home'] ) ? (int) nwcs_seo_page_auto( 'home' )['image'] : 0;
+
+	if ( $home && nwcs_seo_image( $home ) ) {
+		return array( 'image' => nwcs_seo_image( $home ), 'source' => 'home' );
+	}
+
+	$theme = nwcs_seo_image_any( apply_filters( 'nwcs_seo_default_image', 0 ) );
+
+	if ( $theme ) {
+		return array( 'image' => $theme, 'source' => 'theme' );
+	}
+
+	if ( function_exists( 'nwcs_seo_score_theme_declares' ) && nwcs_seo_score_theme_declares( 'nwcs_seo_default_image' ) ) {
+		return array( 'image' => array(), 'source' => 'theme' );
+	}
+
+	return array( 'image' => array(), 'source' => 'none' );
+}
+
+/**
+ * Bir manifest sayfasi paylasilinca gorunecek gorsel ve nereden geldigi
+ * (panel: SEO ve GEO > Paylasim gorselleri). Site baglaminda cagrilir.
+ *
+ * Kaynaklar: own (sayfa icin secilen), product (secilen urun fotografi),
+ * page (gorunur sayfanin ilk gorseli), post (gizli yazi sayfasinin kapagi),
+ * sonra nwcs_seo_share_fallback zinciri. Gizli sayfalarda tema araya kendi
+ * gorselini koyabilir (orn. grup kapagi); panel bunu "Otomatik" diye gosterir.
+ *
+ * @return array{image:array, source:string}
+ */
+function nwcs_seo_share_image_for_page( string $page_key, ?array $manifest = null ): array {
+	$manifest = $manifest ?? nwcs_manifest();
+	$page     = $manifest['pages'][ $page_key ] ?? array();
+	$own      = (int) nwcs_field( $page_key, NWCS_SEO_COMPONENT, 'image', 0 );
+
+	if ( $own > 0 && nwcs_seo_image( $own ) ) {
+		return array( 'image' => nwcs_seo_image( $own ), 'source' => 'own' );
+	}
+
+	$photo = nwcs_seo_page_product_photo( $page_key, $manifest );
+
+	if ( $photo ) {
+		return array( 'image' => $photo, 'source' => 'product' );
+	}
+
+	if ( empty( $page['hidden'] ) ) {
+		$auto = (int) nwcs_seo_page_auto( $page_key, $manifest )['image'];
+
+		if ( $auto && nwcs_seo_image( $auto ) ) {
+			return array( 'image' => nwcs_seo_image( $auto ), 'source' => 'page' );
+		}
+	} elseif ( ! empty( $page['path'] ) ) {
+		// Gizli yazi sayfasi: adresi bir yaziya denk geliyorsa kapak gorseli.
+		$post = get_page_by_path( basename( untrailingslashit( (string) $page['path'] ) ), OBJECT, 'post' );
+
+		if ( $post instanceof WP_Post && 'publish' === $post->post_status ) {
+			$thumb = (int) get_post_thumbnail_id( $post );
+
+			if ( $thumb && nwcs_seo_image( $thumb ) ) {
+				return array( 'image' => nwcs_seo_image( $thumb ), 'source' => 'post' );
+			}
+		}
+	}
+
+	return nwcs_seo_share_fallback();
+}
+
+/**
  * Manifestte olmayan ama temanin cizdigi sayfalar. Tema suzgecle liste verir:
  *
  *   add_filter( 'nwcs_seo_extra_pages', function ( array $pages ): array {
@@ -520,6 +742,12 @@ function nwcs_seo_context(): array {
 
 	if ( ! $context ) {
 		return $context;
+	}
+
+	// Gizli manifest sayfasi (kategori, grup, urun, yazi): paneldeki baslik,
+	// aciklama ve paylasim gorseli temadan / WordPress'ten gelenin onune gecer.
+	if ( '' === (string) ( $context['page_key'] ?? '' ) ) {
+		$context = nwcs_seo_apply_hidden_page( $context, nwcs_seo_request_path() );
 	}
 
 	// Aciklama yoksa firma tanimi; sayfa bos gorunmesin.

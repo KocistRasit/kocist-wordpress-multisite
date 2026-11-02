@@ -52,11 +52,15 @@ function nwcs_seo_admin_assets( string $hook ): void {
 /**
  * Sekme adresi. $blog_id 0 ise ag ozeti.
  */
-function nwcs_seo_url( int $blog_id = 0 ): string {
+function nwcs_seo_url( int $blog_id = 0, string $view = '' ): string {
 	$args = array( 'page' => NWCS_SEO_SLUG );
 
 	if ( $blog_id ) {
 		$args['site'] = $blog_id;
+	}
+
+	if ( '' !== $view ) {
+		$args['gorunum'] = $view;
 	}
 
 	return add_query_arg( $args, network_admin_url( 'admin.php' ) );
@@ -756,6 +760,7 @@ function nwcs_render_seo(): void {
 
 	$sites   = nwcs_editable_sites();
 	$blog_id = isset( $_GET['site'] ) ? absint( $_GET['site'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- yalnizca gorunum.
+	$view    = isset( $_GET['gorunum'] ) ? sanitize_key( wp_unslash( $_GET['gorunum'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- yalnizca gorunum.
 
 	if ( ! isset( $sites[ $blog_id ] ) ) {
 		$blog_id = 0;
@@ -788,7 +793,17 @@ function nwcs_render_seo(): void {
 		if ( ! $sites ) {
 			echo '<p class="nwcs-empty">Düzenlenebilecek site bulunamadı; geliştiriciye haber verin. (Teknik: alan manifesti olan site yok)</p>';
 		} elseif ( $blog_id ) {
-			nwcs_render_seo_site( $blog_id, $sites[ $blog_id ] );
+			?>
+			<nav class="nwcs-subnav" aria-label="Site görünümü">
+				<a class="nwcs-subnav__link<?php echo 'gorseller' !== $view ? ' is-active' : ''; ?>" href="<?php echo esc_url( nwcs_seo_url( $blog_id ) ); ?>">Başlık ve açıklama</a>
+				<a class="nwcs-subnav__link<?php echo 'gorseller' === $view ? ' is-active' : ''; ?>" href="<?php echo esc_url( nwcs_seo_url( $blog_id, 'gorseller' ) ); ?>">Paylaşım görselleri</a>
+			</nav>
+			<?php
+			if ( 'gorseller' === $view ) {
+				nwcs_render_seo_images( $blog_id, $sites[ $blog_id ] );
+			} else {
+				nwcs_render_seo_site( $blog_id, $sites[ $blog_id ] );
+			}
 		} else {
 			nwcs_render_seo_overview( $sites );
 		}
@@ -1066,17 +1081,26 @@ function nwcs_render_seo_site( int $blog_id, array $site ): void {
  * Bir bilesenin formu; Icerik Studyosu'nun kaydetme yolunu kullanir.
  * $placeholders: bos alanlarda gri gorunecek otomatik degerler.
  */
-function nwcs_seo_render_form( int $blog_id, array $manifest, string $page_key, string $component_key, array $values, array $media, array $placeholders = array() ): void {
+function nwcs_seo_render_form( int $blog_id, array $manifest, string $page_key, string $component_key, array $values, array $media, array $placeholders = array(), array $only = array() ): void {
 	$component = $manifest['pages'][ $page_key ]['components'][ $component_key ] ?? null;
 
 	if ( ! $component ) {
 		return;
 	}
+
+	// Kismi form: yalnizca verilen alanlar gosterilir ve kaydedilir; kayit
+	// sonrasi sayfa yenilenir ki kartlardaki gorsel ve kaynak guncellensin.
+	if ( $only ) {
+		$component['fields'] = array_intersect_key( $component['fields'], array_flip( $only ) );
+	}
 	?>
 	<form class="nwcs-form nwcs-seo__form" method="post" enctype="multipart/form-data"
-		action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" data-nwcs-form>
+		action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" data-nwcs-form<?php echo $only ? ' data-nwcs-reload' : ''; ?>>
 
 		<input type="hidden" name="action" value="nwcs_save" />
+		<?php if ( $only ) : ?>
+			<input type="hidden" name="only" value="<?php echo esc_attr( implode( ',', $only ) ); ?>" />
+		<?php endif; ?>
 		<input type="hidden" name="site" value="<?php echo esc_attr( (string) $blog_id ); ?>" />
 		<input type="hidden" name="content_page" value="<?php echo esc_attr( $page_key ); ?>" />
 		<input type="hidden" name="component" value="<?php echo esc_attr( $component_key ); ?>" />

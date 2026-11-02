@@ -946,6 +946,18 @@
 			}
 		}
 
+		// Kitapliktan secilen gorselin onizlemesi (secenekte kucuk resim adresi var).
+		if ( event.target.matches( '.nwcs-image select' ) ) {
+			var picked = event.target.options[ event.target.selectedIndex ];
+			var pickedThumb = picked ? picked.getAttribute( 'data-thumb' ) : '';
+			var pickedBox = event.target.closest( '.nwcs-image' ).querySelector( '.nwcs-image__preview' );
+
+			pickedBox.innerHTML = pickedThumb ? '<img alt="" />' : '<span class="nwcs-image__empty">Görsel yok</span>';
+			if ( pickedThumb ) {
+				pickedBox.querySelector( 'img' ).src = pickedThumb;
+			}
+		}
+
 		// Yeni gorsel onizlemesi
 		if ( event.target.matches( '.nwcs-image input[type="file"]' ) && event.target.files && event.target.files[0] ) {
 			var box = event.target.closest( '.nwcs-image' ).querySelector( '.nwcs-image__preview' );
@@ -980,6 +992,14 @@
 				setDirty( false, form );
 				showToast( result.data.message, result.data.hasError ? 'error' : null );
 				reloadPreview();
+
+				// Kart gorunumleri (SEO ve GEO > Paylasim gorselleri): kaynak rozeti
+				// ve buyuk onizleme sunucuda hesaplanir, sayfa yenilenir.
+				if ( form.hasAttribute( 'data-nwcs-reload' ) && ! result.data.hasError ) {
+					window.setTimeout( function () {
+						window.location.reload();
+					}, 700 );
+				}
 
 				// Yuklenen dosya girdileri temizlensin ki tekrar gonderilmesin.
 				form.querySelectorAll( 'input[type="file"]' ).forEach( function ( input ) {
