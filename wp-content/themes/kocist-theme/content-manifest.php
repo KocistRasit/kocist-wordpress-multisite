@@ -868,6 +868,9 @@ $manifest_data = array(
 		'katalog' => array(
 			'label'      => 'Katalog',
 			'path'       => '/katalog/',
+			// Adres /belgelerimiz/ sayfasina 301 gider (inc/katalog.php); arama
+			// listelerine (site haritasi, llms.txt, SEO ve GEO) girmez.
+			'seo'        => false,
 			'components' => array(
 
 				'page_head' => array(
@@ -925,9 +928,7 @@ $manifest_data = array(
 							),
 							'default' => array(
 								array( 'title' => 'Ahşap Ambalaj Malzemesi İşaretleme İzin Belgesi', 'url' => '/tema/isaretleme-izin-belgesi.jpg' ),
-								
 								array( 'title' => 'Sanayi Sicil Belgesi', 'url' => '/tema/belgeler/sanayi-sicil-belgesi.pdf' ),
-								
 							),
 						),
 					),
@@ -1489,7 +1490,7 @@ $manifest_data = array(
 								array( 'group' => 'Kereste', 'question' => 'Emprenyeli ya da fırınlanmış kereste var mı?', 'answer' => '' ),
 								array( 'group' => 'Kereste', 'question' => 'Levha ölçüleri nelerdir?', 'answer' => '' ),
 
-								array( 'group' => 'Ambalaj', 'question' => 'İhracat için ısıl işlem (ISPM 15) yapıyor musunuz?', 'answer' => 'Evet, ihracata uygun ısıl işlem uyguluyoruz. ISPM-15 ve HT yetki belgelerimiz ile ısıl işlem tesisimizin görselleri Katalog sayfasında.' ),
+								array( 'group' => 'Ambalaj', 'question' => 'İhracat için ısıl işlem (ISPM 15) yapıyor musunuz?', 'answer' => 'Evet, ihracata uygun ısıl işlem uyguluyoruz. ISPM-15 ve HT yetki belgelerimiz ile ısıl işlem tesisimizin görselleri Belgelerimiz sayfasında.' ),
 								array( 'group' => 'Ambalaj', 'question' => 'Sandık ve kafes ölçüye göre yapılıyor mu?', 'answer' => 'Evet. Palet, sandık ve kafesi ihtiyacınıza göre tasarlıyor ya da mevcut ölçülerinizi, şartnamenizi veya proje çiziminizi alarak üretiyoruz. Tüm elemanları içeren demonte paketleri hazırlayıp sevk ediyoruz.' ),
 								array( 'group' => 'Ambalaj', 'question' => 'Euro paletin ölçüsü ve yük kapasitesi nedir?', 'answer' => '' ),
 								array( 'group' => 'Ambalaj', 'question' => 'İkinci el palet alıyor ya da satıyor musunuz?', 'answer' => '' ),
@@ -1501,7 +1502,7 @@ $manifest_data = array(
 								array( 'group' => 'Dekorasyon', 'question' => 'Sevkiyat süresi nedir?', 'answer' => '' ),
 								array( 'group' => 'Dekorasyon', 'question' => 'Teslimat hangi illere yapılıyor?', 'answer' => '' ),
 
-								array( 'group' => 'Hırdavat', 'question' => 'Katalog ya da ürün listesi var mı?', 'answer' => 'Vida, somun ve bits uç listemiz (2025) Katalog sayfasında, Belgeler sekmesinde.' ),
+								array( 'group' => 'Hırdavat', 'question' => 'Katalog ya da ürün listesi var mı?', 'answer' => 'Güncel ürünlerimiz ve fiyatlar Kategoriler sayfasında; ürün listesi için teklif formundan ya da telefonla ulaşın.' ),
 								array( 'group' => 'Hırdavat', 'question' => 'Çivi ve zımba teli hangi tabancalara uyar?', 'answer' => '' ),
 								array( 'group' => 'Hırdavat', 'question' => 'Koli ve paket adetleri nedir?', 'answer' => '' ),
 								array( 'group' => 'Hırdavat', 'question' => 'Yalnızca toptan mı satıyorsunuz?', 'answer' => '' ),
