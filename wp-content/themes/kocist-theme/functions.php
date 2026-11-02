@@ -1106,13 +1106,14 @@ function kocist_product_pairs( array $product ): array {
 
 /**
  * Havuzdaki fiyat metninden arama motoruna bildirilecek tutar. Yalnizca
- * duz tutar ayrilir: "450 TL", "450 tl", "3.500 ₺", "24,50 $", "2.80 $";
+ * duz tutar ayrilir: "2100", "450 TL", "450 tl", "3.500 ₺", "24,50 $", "2.80 $";
  * sonunda KDV notu olabilir: "449 ₺ + KDV", "449 TL (KDV hariç)".
  * "1.250 TL'den başlayan" gibi aralik/baslangic ya da birden cok tutar
  * iceren metinde 0 doner; o urunde JSON-LD "offers" yazilmaz.
  */
 function kocist_price_number( string $price ): float {
-	if ( ! preg_match( '/^\s*([0-9][0-9.,]*)\s*(?:TL|₺|\$)\s*' . KOCIST_PRICE_VAT_NOTE . '?\s*$/iu', $price, $match ) ) {
+	// Para birimi yazilmamissa Turk lirasi ("2100"); eklenti zaten "2.100 ₺" yapar.
+	if ( ! preg_match( '/^\s*([0-9][0-9.,]*)\s*(?:TL|TRY|₺|\$|USD)?\s*' . KOCIST_PRICE_VAT_NOTE . '?\s*$/iu', $price, $match ) ) {
 		return 0.0;
 	}
 

@@ -787,6 +787,73 @@ function nwcs_sanitize_product_tables( array $raw ): array {
 }
 
 /**
+ * Fiyat metnindeki KDV notu: "+ KDV", "+KDV", "KDV hariç", "(KDV hariç)".
+ */
+const NWCS_PRICE_VAT_NOTE = '(?:\+\s*KDV|\(?\s*KDV\s+hari[çc]\s*\)?)';
+
+/**
+ * Duz fiyat metnini ayristirir: "2100", "2.100", "2100 TL", "3.500 ₺",
+ * "1.299,90 ₺", "24,50 $", "2.80 $", sonunda KDV notu olabilir ("449 ₺ + KDV",
+ * "449 TL (KDV hariç)"). Para birimi yazilmamissa Turk lirasi kabul edilir.
+ * Aralik ya da baslangic fiyati ("1.250 TL'den başlayan", "450-600 TL") ve
+ * baska serbest metin ayristirilmaz: null.
+ *
+ * @return array{amount:float, currency:string, vat_included:?bool}|null
+ */
+function nwcs_price_parse( string $price ): ?array {
+	if ( ! preg_match( '/^\s*([0-9][0-9.,]*)\s*(TL|TRY|₺|\$|USD)?\s*(' . NWCS_PRICE_VAT_NOTE . ')?\s*$/iu', trim( $price ), $match ) ) {
+		return null;
+	}
+
+	$number = $match[1];
+
+	if ( preg_match( '/^\d{1,3}(?:\.\d{3})+(?:,\d{1,2})?$/', $number ) ) {
+		// Binlik noktali: "3.500", "48.500,00".
+		$number = str_replace( array( '.', ',' ), array( '', '.' ), $number );
+	} elseif ( preg_match( '/^\d+(?:,\d{1,2})?$/', $number ) ) {
+		// Duz ya da virgullu ondalik: "2100", "24,50".
+		$number = str_replace( ',', '.', $number );
+	} elseif ( ! preg_match( '/^\d+\.\d{1,2}$/', $number ) ) {
+		// Kalan tek bicim noktali ondalik: "2.80". Digerleri ("1.2.3") okunmaz.
+		return null;
+	}
+
+	$amount = (float) $number;
+
+	if ( $amount <= 0 ) {
+		return null;
+	}
+
+	$unit = strtoupper( (string) ( $match[2] ?? '' ) );
+
+	return array(
+		'amount'       => $amount,
+		'currency'     => in_array( $unit, array( '$', 'USD' ), true ) ? 'USD' : 'TRY',
+		'vat_included' => '' !== (string) ( $match[3] ?? '' ) ? false : null,
+	);
+}
+
+/**
+ * Fiyat metnini sitelerde gorunecek tek bicime getirir: "2100" ve "2100 TL"
+ * -> "2.100 ₺", "1299,9 ₺" -> "1.299,90 ₺", "24.5 $" -> "24,50 $", KDV notu
+ * varsa "+ KDV" eki. Ayristirilamayan metin ("1.250 TL'den başlayan") oldugu
+ * gibi kalir. Havuzdaki kayit degismez; yalnizca sitelere giden deger.
+ */
+function nwcs_price_normalize( string $price ): string {
+	$parsed = nwcs_price_parse( $price );
+
+	if ( null === $parsed ) {
+		return trim( $price );
+	}
+
+	$amount   = $parsed['amount'];
+	$decimals = abs( $amount - round( $amount ) ) < 0.005 ? 0 : 2;
+	$text     = number_format( $amount, $decimals, ',', '.' ) . ( 'USD' === $parsed['currency'] ? ' $' : ' ₺' );
+
+	return false === $parsed['vat_included'] ? $text . ' + KDV' : $text;
+}
+
+/**
  * Sitenin gosterecegi urunler: kip + secim sirasi + site istisnalari uygulanmis.
  *
  * Her satir: id, title, short, price, price_label, has_price, spec, image, url,
@@ -820,9 +887,13 @@ function nwcs_site_products( ?int $blog_id = null ): array {
 		$short = '' !== ( $override['short'] ?? '' ) ? $override['short'] : $product['short'];
 
 		// Fiyat: istisna isaretliyse (bos olsa bile) istisna kazanir.
-		$price = ! empty( $override['price_override'] )
-			? (string) ( $override['price'] ?? '' )
-			: $product['price'];
+		// Havuzda nasil yazilmis olursa olsun ("2100", "2100 TL", "2.100 ₺")
+		// sitelere tek bicimde gider: "2.100 ₺". Temalar ve besleme bunu okur.
+		$price = nwcs_price_normalize(
+			! empty( $override['price_override'] )
+				? (string) ( $override['price'] ?? '' )
+				: (string) $product['price']
+		);
 
 		// Site istisnasi varsa o gorsel one gecer; galerinin kalani korunur.
 		$images = $product['images'] ?? array();

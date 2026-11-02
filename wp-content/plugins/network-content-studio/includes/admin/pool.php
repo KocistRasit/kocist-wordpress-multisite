@@ -422,8 +422,8 @@ function nwcs_render_pool_form( ?array $product, array $categories, bool $is_new
 			<div class="nwcs-field">
 				<label class="nwcs-field__label" for="nwcs-p-price">Fiyat</label>
 				<input class="nwcs-input" type="text" id="nwcs-p-price" name="price"
-					value="<?php echo esc_attr( $product['price'] ?? '' ); ?>" placeholder="örn. 450 TL" />
-				<p class="nwcs-hint"><strong>Boş bırakırsanız</strong> sitede fiyat yerine <em>“Teklif al”</em> görünür.</p>
+					value="<?php echo esc_attr( $product['price'] ?? '' ); ?>" placeholder="örn. 2100" />
+				<p class="nwcs-hint">Yalnızca sayı yeterli: <code>2100</code>, <code>2100 TL</code> ve <code>2.100 ₺</code> sitede <strong>2.100 ₺</strong> olarak görünür; KDV hariçse sonuna <code>+ KDV</code> yazın. <strong>Boş bırakırsanız</strong> sitede fiyat yerine <em>“Teklif al”</em> görünür.</p>
 			</div>
 
 			<?php nwcs_render_product_details_field( $product ); ?>

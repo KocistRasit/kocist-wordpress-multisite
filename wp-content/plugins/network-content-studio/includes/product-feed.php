@@ -173,22 +173,10 @@ function nwcs_product_feed_rows( ?int $blog_id = null ): array {
  * birimi alani yok, aktarici TL sanardi.
  */
 function nwcs_product_feed_price( string $price ): string {
-	if ( ! preg_match( '/^\s*([0-9][0-9.,]*)\s*(?:TL|₺)\s*$/iu', $price, $match ) ) {
-		return '';
-	}
+	$parsed = nwcs_price_parse( $price );
 
-	$number = $match[1];
-
-	if ( preg_match( '/^\d{1,3}(?:\.\d{3})+(?:,\d{1,2})?$/', $number ) ) {
-		// Binlik noktali: "3.500", "48.500,00".
-		$number = str_replace( array( '.', ',' ), array( '', '.' ), $number );
-	} elseif ( preg_match( '/^\d+(?:,\d{1,2})?$/', $number ) ) {
-		$number = str_replace( ',', '.', $number );
-	} elseif ( ! preg_match( '/^\d+\.\d{1,2}$/', $number ) ) {
-		return '';
-	}
-
-	return (float) $number > 0 ? number_format( (float) $number, 2, '.', '' ) : '';
+	// Besleme Turk lirasi: dolar fiyati ve serbest metin bos gider.
+	return null !== $parsed && 'TRY' === $parsed['currency'] ? number_format( $parsed['amount'], 2, '.', '' ) : '';
 }
 
 /**
