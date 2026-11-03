@@ -79,7 +79,7 @@ $tabs = array(
 									<?php nwcs_edit_attr( 'katalog', 'certificates', 'items', $index, 'image' ); ?>
 								>
 									<span class="k-cert__media">
-										<img class="k-cert__img" src="<?php echo esc_url( $image['url'] ); ?>" alt="<?php echo esc_attr( $title ); ?>"<?php echo kocist_image_size_attr( $image ); // phpcs:ignore WordPress.Security.EscapingOutput -- tamsayi. ?> loading="lazy" decoding="async" />
+										<img class="k-cert__img" src="<?php echo esc_url( $image['url'] ); ?>" alt="<?php echo esc_attr( $title ); ?>" loading="lazy" decoding="async" />
 									</span>
 									<?php if ( '' !== $title ) : ?>
 										<span class="k-cert__title" <?php nwcs_edit_attr( 'katalog', 'certificates', 'items', $index, 'title' ); ?>><?php echo esc_html( $title ); ?></span>

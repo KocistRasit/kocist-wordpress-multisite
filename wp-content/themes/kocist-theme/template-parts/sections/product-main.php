@@ -65,7 +65,7 @@ $features   = nwcs_rows( 'product', 'main', 'features' );
 							data-alt="<?php echo esc_attr( $thumb_alt ); ?>"
 							aria-label="<?php echo esc_attr( $thumb_alt ); ?>"
 						>
-							<img src="<?php echo esc_url( $thumb_image['url'] ); ?>" alt=""<?php echo kocist_image_size_attr( $thumb_image ); // phpcs:ignore WordPress.Security.EscapingOutput -- tamsayi. ?> loading="lazy" decoding="async" />
+							<img src="<?php echo esc_url( $thumb_image['url'] ); ?>" alt="" loading="lazy" decoding="async" />
 						</button>
 					<?php endforeach; ?>
 				</div>
