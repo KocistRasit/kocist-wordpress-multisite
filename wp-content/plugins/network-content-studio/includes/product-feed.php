@@ -35,6 +35,9 @@
  *                     havuzdaki ilk kategori adi;
  *   aciklama          sitedeki kisa aciklama; bossa uzun aciklamanin ilk ~300
  *                     karakteri (kelime sinirinda);
+ *   uzun_aciklama     sitedeki uzun aciklamanin tamami, HTML'siz; paragraf
+ *                     ve satir sonlari tek satir sonuna indirgenir, kesilmez
+ *                     (nwcs_product_feed_long_text). Uzun aciklama yoksa bos;
  *   kdv_orani         simdilik bos (kullanici karari);
  *   renk              renk grubundaysa renk adi.
  * Metinler duz yazi (HTML yok), ENT_XML1 ile kacirilir; XML 1.0'da yasak
@@ -184,7 +187,7 @@ function nwcs_product_feed_xml( array $groups = array() ): string {
 /**
  * Beslemenin satirlari, sitedeki sirayla. Her satir: ad, kod, fiyat,
  * indirimsiz_fiyat, gorsel, ek_gorseller, gorseller (dizi), link, kategori,
- * aciklama, kdv_orani, renk.
+ * aciklama, uzun_aciklama, kdv_orani, renk.
  *
  * @param string[] $groups Yalnizca bu ust basliklardaki urunler (nwcs_product_place
  *                         parent; bos dizi: hepsi).
@@ -240,6 +243,7 @@ function nwcs_product_feed_rows( ?int $blog_id = null, array $groups = array() )
 			'link'             => nwcs_product_has_page( $product, $blog_id ) ? esc_url_raw( (string) $product['url'] ) : '',
 			'kategori'         => nwcs_product_feed_category( $product, $blog_id ),
 			'aciklama'         => $text,
+			'uzun_aciklama'    => nwcs_product_feed_long_text( (string) ( $product['body'] ?? '' ) ),
 			'kdv_orani'        => '',
 			'renk'             => nwcs_product_feed_color( $product ),
 		);
@@ -269,6 +273,28 @@ function nwcs_product_feed_price( string $price ): string {
  * karakterleri cozulur, bosluklar toplanir. $max verilirse kelime sinirinda
  * kesilir ("…"). Blok sonlari bosluk olur: "<p>a</p><p>b</p>" -> "a b".
  */
+/**
+ * Uzun aciklamanin tamami duz yazi olarak: blok kapanislari (p, br, li, baslik,
+ * tablo satiri) satir sonu olur, etiketler ve blok yorumlari atilir, varliklar
+ * cozulur; satir ici bosluklar teke, bos satirlar teke indirilir. Kesilmez.
+ */
+function nwcs_product_feed_long_text( string $html ): string {
+	$text  = (string) preg_replace( '#<(?:br|/p|/div|/li|/h[1-6]|/tr|/blockquote)\b[^>]*>#i', "$0\n", $html );
+	$text  = (string) preg_replace( '#</t[dh]\b[^>]*>#i', '$0 ', $text );
+	$text  = html_entity_decode( wp_strip_all_tags( wp_pre_kses_less_than( $text ) ), ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+	$lines = array();
+
+	foreach ( preg_split( '/\R/u', $text ) as $line ) {
+		$line = trim( (string) preg_replace( '/[^\S\n]+/u', ' ', $line ) );
+
+		if ( '' !== $line || ( $lines && '' !== end( $lines ) ) ) {
+			$lines[] = $line;
+		}
+	}
+
+	return trim( implode( "\n", $lines ) );
+}
+
 function nwcs_product_feed_text( string $text, int $max = PHP_INT_MAX ): string {
 	$text = (string) preg_replace( '#<(?:br|/p|/div|/li|/h[1-6]|/t[dhr])\b[^>]*>#i', '$0 ', $text );
 
