@@ -132,7 +132,8 @@ add_filter(
 	'wp_sitemaps_posts_query_args',
 	static function ( array $args, string $post_type ): array {
 		if ( 'page' === $post_type ) {
-			foreach ( array( 'arama', 'teklif-sepeti' ) as $slug ) {
+			// katalog: /belgelerimiz/ sayfasina 301 ile gider (inc/katalog.php); yonlenen adres site haritasinda olmamali.
+			foreach ( array( 'arama', 'teklif-sepeti', 'katalog' ) as $slug ) {
 				$page = get_page_by_path( $slug, OBJECT, 'page' );
 
 				if ( $page ) {
