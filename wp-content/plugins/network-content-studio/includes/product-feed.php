@@ -17,9 +17,13 @@
  * uygulanmis. Renk gruplari sadelesmez: her renk ayri <urun>. Alanlar:
  *   ad                sitedeki ad (site istisnasi dahil);
  *   kod               urun kodu;
- *   fiyat             duz tutar "10250.00" (nokta, iki hane); fiyatsiz,
+ *   fiyat             duz tutar "10250.00" (nokta, iki hane). Fiyatsiz,
  *                     "...'den baslayan", birden cok tutarli, "$" ya da
- *                     okunamayan fiyatta bos = teklif. 0 yazilmaz;
+ *                     okunamayan fiyatli urun beslemeye HIC YAZILMAZ
+ *                     (NWCS_PRODUCT_FEED_PRICED_ONLY; aktarici bos fiyati
+ *                     "0 TL" gosteriyordu, sitede ise "Teklif al"). Site
+ *                     haritasi ve sayfalar etkilenmez; filtre
+ *                     nwcs_product_feed_priced_only ile kapatilabilir;
  *   indirimsiz_fiyat  her zaman bos (sistemde indirim yok);
  *   gorsel            ilk galeri gorseli, tam boy; ek_gorseller kalanlar
  *                     galeri sirasiyla "|" ile; gorseller hepsi ic ice <url> (ust duzeydeki <gorsel> ile karismasin);
@@ -48,6 +52,7 @@ defined( 'ABSPATH' ) || exit;
 const NWCS_PRODUCT_FEED_FILE   = 'urunler.xml';
 const NWCS_PRODUCT_FEED_MAXAGE = 900; // Tarayici/aktarici onbellegi (saniye).
 const NWCS_PRODUCT_FEED_TEXT   = 300; // Uzun aciklamadan alinan en fazla karakter.
+const NWCS_PRODUCT_FEED_PRICED_ONLY = true; // Fiyati okunamayan urun beslemeye girmez.
 
 /**
  * Sitede besleme var mi? Katalog siteleri (canli aramadaki gibi tema bazli
@@ -132,8 +137,25 @@ function nwcs_product_feed_xml(): string {
 function nwcs_product_feed_rows( ?int $blog_id = null ): array {
 	$blog_id  = $blog_id ?? get_current_blog_id();
 	$products = nwcs_site_products( $blog_id );
-	$images   = nwcs_product_feed_images( $products );
-	$rows     = array();
+
+	/**
+	 * Yalnizca fiyati olan urunler mi? Varsayilan evet: "Teklif al" urunleri
+	 * aktaricida "0 TL" gorunmesin.
+	 *
+	 * @param bool $priced_only
+	 * @param int  $blog_id
+	 */
+	$priced_only = (bool) apply_filters( 'nwcs_product_feed_priced_only', NWCS_PRODUCT_FEED_PRICED_ONLY, $blog_id );
+
+	if ( $priced_only ) {
+		$products = array_values( array_filter(
+			$products,
+			static fn( array $product ): bool => ! empty( $product['has_price'] ) && '' !== nwcs_product_feed_price( (string) $product['price'] )
+		) );
+	}
+
+	$images = nwcs_product_feed_images( $products );
+	$rows   = array();
 
 	foreach ( $products as $product ) {
 		$id   = (int) $product['id'];
