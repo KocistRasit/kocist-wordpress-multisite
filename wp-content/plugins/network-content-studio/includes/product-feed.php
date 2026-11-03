@@ -9,12 +9,9 @@
  * nwcs_catalog_site_key); digerlerinde istek WordPress'e kalir (404).
  *
  * Yol parse_request'te tam esitlikle yakalanir: sitenin ev yolu + "urunler.xml".
- * Sorgusuz adres varsayilan ust basliklari verir (NWCS_PRODUCT_FEED_DEFAULT_GROUPS,
- * su an yalnizca dekorasyon; sitede o anahtar yoksa hepsi). ?grup=hepsi tum
- * urunler; ?grup=hirdavat (virgulle birden cok: ?grup=kereste,ambalaj) yalnizca
- * o ust basliklar; anahtarlar sitenin ust basliklari (nwcs_site_parents:
- * Kocist'te kereste, ambalaj, dekorasyon, hirdavat). Bilinmeyen anahtar 404.
- * Yeniden yazma kurali yok (kalici baglanti
+ * Yalnizca NWCS_PRODUCT_FEED_GROUPS ust basliklarindaki urunler (su an yalnizca
+ * dekorasyon; anahtarlar sitenin ust basliklari, nwcs_site_parents; sitede o
+ * anahtar yoksa hepsi). Sorgu metni yok sayilir. Yeniden yazma kurali yok (kalici baglanti
  * yenilemesi gerekmez); sorgu ve kanonik yonlendirmeden once cikildigi icin
  * WordPress yonlendirme ya da sona egik cizgi eklemez.
  *
@@ -61,7 +58,7 @@ const NWCS_PRODUCT_FEED_FILE   = 'urunler.xml';
 const NWCS_PRODUCT_FEED_MAXAGE = 900; // Tarayici/aktarici onbellegi (saniye).
 const NWCS_PRODUCT_FEED_TEXT   = 300; // Uzun aciklamadan alinan en fazla karakter.
 const NWCS_PRODUCT_FEED_PRICED_ONLY = true; // Fiyati okunamayan urun beslemeye girmez.
-const NWCS_PRODUCT_FEED_DEFAULT_GROUPS = array( 'dekorasyon' ); // Sorgusuz adresin ust basliklari; ?grup=hepsi tumu.
+const NWCS_PRODUCT_FEED_GROUPS = array( 'dekorasyon' ); // Beslemeye giren ust basliklar (bos: hepsi).
 
 /**
  * Sitede besleme var mi? Katalog siteleri (canli aramadaki gibi tema bazli
@@ -87,17 +84,7 @@ function nwcs_product_feed_maybe_serve(): void {
 		return;
 	}
 
-	$groups = nwcs_product_feed_requested_groups();
-
-	if ( null === $groups ) {
-		status_header( 404 );
-		header( 'Content-Type: text/plain; charset=UTF-8' );
-		header( 'X-Robots-Tag: noindex' );
-		echo 'Bilinmeyen grup. Gecerli anahtarlar: ' . implode( ', ', array_keys( nwcs_site_parents( get_current_blog_id() ) ) ); // phpcs:ignore WordPress.Security.EscapingOutput -- duz metin, manifest anahtarlari.
-		exit;
-	}
-
-	$xml = nwcs_product_feed_xml( $groups );
+	$xml = nwcs_product_feed_xml();
 
 	status_header( 200 );
 	header_remove( 'X-Powered-By' );
@@ -116,55 +103,30 @@ function nwcs_product_feed_maybe_serve(): void {
  * Beslemenin tamami (sitenin baglaminda cagrilir: gorsel adresleri ve tema).
  */
 /**
- * Sorgudaki ?grup= anahtarlari: bos dizi = suzme yok; null = bilinmeyen anahtar.
+ * Beslemeye giren ust basliklar: NWCS_PRODUCT_FEED_GROUPS'un bu sitede var
+ * olanlari (nwcs_product_feed_groups filtresi). Bos dizi: hepsi.
  *
- * @return string[]|null
+ * @return string[]
  */
-function nwcs_product_feed_requested_groups(): ?array {
-	$raw   = isset( $_GET['grup'] ) ? trim( (string) wp_unslash( $_GET['grup'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification -- herkese acik okuma.
-	$known = array_keys( nwcs_site_parents( get_current_blog_id() ) );
+function nwcs_product_feed_groups( ?int $blog_id = null ): array {
+	$blog_id = $blog_id ?? get_current_blog_id();
+	$known   = array_keys( nwcs_site_parents( $blog_id ) );
 
-	if ( '' === $raw ) {
-		/**
-		 * Sorgusuz adresin ust basliklari (bos dizi: hepsi). Sitede olmayan
-		 * anahtarlar atilir; hicbiri yoksa hepsi.
-		 *
-		 * @param string[] $groups
-		 * @param int      $blog_id
-		 */
-		$defaults = (array) apply_filters( 'nwcs_product_feed_default_groups', NWCS_PRODUCT_FEED_DEFAULT_GROUPS, get_current_blog_id() );
+	/**
+	 * @param string[] $groups Ust baslik anahtarlari (bos: hepsi).
+	 * @param int      $blog_id
+	 */
+	$groups = (array) apply_filters( 'nwcs_product_feed_groups', NWCS_PRODUCT_FEED_GROUPS, $blog_id );
 
-		return array_values( array_intersect( array_map( 'strval', $defaults ), $known ) );
-	}
-
-	if ( in_array( strtolower( $raw ), array( 'hepsi', 'tum', 'tumu', 'all' ), true ) ) {
-		return array();
-	}
-
-	$groups = array();
-
-	foreach ( explode( ',', $raw ) as $key ) {
-		$key = sanitize_key( $key );
-
-		if ( '' === $key ) {
-			continue;
-		}
-
-		if ( ! in_array( $key, $known, true ) ) {
-			return null;
-		}
-
-		$groups[ $key ] = $key;
-	}
-
-	return array_values( $groups );
+	return array_values( array_intersect( array_map( 'strval', $groups ), $known ) );
 }
 
 /**
  * @param string[] $groups Yalnizca bu ust basliklardaki urunler (bos: hepsi).
  */
-function nwcs_product_feed_xml( array $groups = array() ): string {
-	$rows = nwcs_product_feed_rows( null, $groups );
+function nwcs_product_feed_xml(): string {
+	$groups = nwcs_product_feed_groups();
+	$rows   = nwcs_product_feed_rows();
 	$x    = 'nwcs_product_feed_x';
 	$site = html_entity_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES | ENT_HTML5, 'UTF-8' );
 	$out  = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
@@ -205,13 +167,14 @@ function nwcs_product_feed_xml( array $groups = array() ): string {
  * indirimsiz_fiyat, gorsel, ek_gorseller, gorseller (dizi), link, kategori,
  * aciklama, uzun_aciklama, kdv_orani, renk.
  *
- * @param string[] $groups Yalnizca bu ust basliklardaki urunler (nwcs_product_place
- *                         parent; bos dizi: hepsi).
+ * Yalnizca nwcs_product_feed_groups() ust basliklarindaki urunler (nwcs_product_place parent).
+ *
  * @return array<int, array<string, string|string[]>>
  */
-function nwcs_product_feed_rows( ?int $blog_id = null, array $groups = array() ): array {
+function nwcs_product_feed_rows( ?int $blog_id = null ): array {
 	$blog_id  = $blog_id ?? get_current_blog_id();
 	$products = nwcs_site_products( $blog_id );
+	$groups   = nwcs_product_feed_groups( $blog_id );
 
 	if ( $groups ) {
 		$products = array_values( array_filter(
