@@ -8,8 +8,11 @@
  * manifestinde 'catalog' ve 'site_key' olan: Kocist, WOOD KOCIST;
  * nwcs_catalog_site_key); digerlerinde istek WordPress'e kalir (404).
  *
- * Yol parse_request'te tam esitlikle yakalanir: sitenin ev yolu + "urunler.xml"
- * (sorgu metni yok sayilir). Yeniden yazma kurali yok (kalici baglanti
+ * Yol parse_request'te tam esitlikle yakalanir: sitenin ev yolu + "urunler.xml".
+ * Sorgu: ?grup=dekorasyon (virgulle birden cok: ?grup=kereste,ambalaj) yalnizca
+ * o ust basliktaki urunleri verir; anahtarlar sitenin ust basliklari
+ * (nwcs_site_parents: Kocist'te kereste, ambalaj, dekorasyon, hirdavat).
+ * Bilinmeyen anahtar 404. Yeniden yazma kurali yok (kalici baglanti
  * yenilemesi gerekmez); sorgu ve kanonik yonlendirmeden once cikildigi icin
  * WordPress yonlendirme ya da sona egik cizgi eklemez.
  *
@@ -78,7 +81,17 @@ function nwcs_product_feed_maybe_serve(): void {
 		return;
 	}
 
-	$xml = nwcs_product_feed_xml();
+	$groups = nwcs_product_feed_requested_groups();
+
+	if ( null === $groups ) {
+		status_header( 404 );
+		header( 'Content-Type: text/plain; charset=UTF-8' );
+		header( 'X-Robots-Tag: noindex' );
+		echo 'Bilinmeyen grup. Gecerli anahtarlar: ' . implode( ', ', array_keys( nwcs_site_parents( get_current_blog_id() ) ) ); // phpcs:ignore WordPress.Security.EscapingOutput -- duz metin, manifest anahtarlari.
+		exit;
+	}
+
+	$xml = nwcs_product_feed_xml( $groups );
 
 	status_header( 200 );
 	header_remove( 'X-Powered-By' );
@@ -96,12 +109,53 @@ function nwcs_product_feed_maybe_serve(): void {
 /**
  * Beslemenin tamami (sitenin baglaminda cagrilir: gorsel adresleri ve tema).
  */
-function nwcs_product_feed_xml(): string {
-	$rows = nwcs_product_feed_rows();
+/**
+ * Sorgudaki ?grup= anahtarlari: bos dizi = suzme yok; null = bilinmeyen anahtar.
+ *
+ * @return string[]|null
+ */
+function nwcs_product_feed_requested_groups(): ?array {
+	$raw = isset( $_GET['grup'] ) ? trim( (string) wp_unslash( $_GET['grup'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification -- herkese acik okuma.
+
+	if ( '' === $raw ) {
+		return array();
+	}
+
+	$known  = array_keys( nwcs_site_parents( get_current_blog_id() ) );
+	$groups = array();
+
+	foreach ( explode( ',', $raw ) as $key ) {
+		$key = sanitize_key( $key );
+
+		if ( '' === $key ) {
+			continue;
+		}
+
+		if ( ! in_array( $key, $known, true ) ) {
+			return null;
+		}
+
+		$groups[ $key ] = $key;
+	}
+
+	return array_values( $groups );
+}
+
+/**
+ * @param string[] $groups Yalnizca bu ust basliklardaki urunler (bos: hepsi).
+ */
+function nwcs_product_feed_xml( array $groups = array() ): string {
+	$rows = nwcs_product_feed_rows( null, $groups );
 	$x    = 'nwcs_product_feed_x';
 	$site = html_entity_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES | ENT_HTML5, 'UTF-8' );
 	$out  = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
-	$out .= sprintf( '<urunler site="%s" guncelleme="%s" adet="%d">', $x( $site ), $x( wp_date( 'c' ) ), count( $rows ) ) . "\n";
+	$out .= sprintf(
+		'<urunler site="%s" guncelleme="%s" adet="%d"%s>',
+		$x( $site ),
+		$x( wp_date( 'c' ) ),
+		count( $rows ),
+		$groups ? ' grup="' . $x( implode( ',', $groups ) ) . '"' : ''
+	) . "\n";
 
 	foreach ( $rows as $row ) {
 		$out .= "  <urun>\n";
@@ -132,11 +186,20 @@ function nwcs_product_feed_xml(): string {
  * indirimsiz_fiyat, gorsel, ek_gorseller, gorseller (dizi), link, kategori,
  * aciklama, kdv_orani, renk.
  *
+ * @param string[] $groups Yalnizca bu ust basliklardaki urunler (nwcs_product_place
+ *                         parent; bos dizi: hepsi).
  * @return array<int, array<string, string|string[]>>
  */
-function nwcs_product_feed_rows( ?int $blog_id = null ): array {
+function nwcs_product_feed_rows( ?int $blog_id = null, array $groups = array() ): array {
 	$blog_id  = $blog_id ?? get_current_blog_id();
 	$products = nwcs_site_products( $blog_id );
+
+	if ( $groups ) {
+		$products = array_values( array_filter(
+			$products,
+			static fn( array $product ): bool => in_array( (string) nwcs_product_place( $product, $blog_id )['parent'], $groups, true )
+		) );
+	}
 
 	/**
 	 * Yalnizca fiyati olan urunler mi? Varsayilan evet: "Teklif al" urunleri
