@@ -235,7 +235,7 @@ function nwcs_seo_site_page( array $defaults ): array {
 					'same_as'     => array(
 						'label'   => 'Firmanın diğer adresleri',
 						'type'    => 'repeater',
-						'max'     => 12,
+						'max'     => 16,
 						'hint'    => 'Yalnızca bu firmanın kendi hesapları: sosyal medya, Google İşletme, harita kaydı. Kardeş siteler buraya değil, "Bağlı olduğu grup" alanına.',
 						'fields'  => array(
 							'url' => array( 'label' => 'Adres', 'type' => 'url' ),
