@@ -72,22 +72,30 @@ function nwcs_image( string $page, string $component, string $field, string $siz
 
 /**
  * Ek kimliginden gorsel bilgisi. Alt metin WordPress medya kaydindan okunur.
+ *
+ * width/height istenen kopyanin piksel olcusu (ek kaydinin meta verisinden;
+ * ek sorgu acmaz). Tema img etiketine yazar: tarayici gorsel inmeden yerini
+ * ayirir, sayfa kaymaz (CLS). Olcu bilinmiyorsa 0.
  */
 function nwcs_image_by_id( int $attachment_id, string $size = 'large' ): array {
 	if ( $attachment_id <= 0 ) {
 		return array(
-			'id'  => 0,
-			'url' => '',
-			'alt' => '',
+			'id'     => 0,
+			'url'    => '',
+			'alt'    => '',
+			'width'  => 0,
+			'height' => 0,
 		);
 	}
 
 	$src = wp_get_attachment_image_src( $attachment_id, $size );
 
 	return array(
-		'id'  => $attachment_id,
-		'url' => $src ? $src[0] : '',
-		'alt' => (string) get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ),
+		'id'     => $attachment_id,
+		'url'    => $src ? $src[0] : '',
+		'alt'    => (string) get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ),
+		'width'  => $src ? (int) $src[1] : 0,
+		'height' => $src ? (int) $src[2] : 0,
 	);
 }
 

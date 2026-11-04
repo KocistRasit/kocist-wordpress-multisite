@@ -969,13 +969,24 @@ function kocist_image_or_default( array $image, string $file, string $alt = '', 
 
 /**
  * img etiketi icin width/height nitelikleri (biliniyorsa); bilinmiyorsa bos.
+ *
+ * Dizide olcu yoksa WordPress'in ara boy dosya adindan okunur
+ * (.../foto-768x1028.webp): eski onbellekten gelen kayitlarda da yer ayrilir.
  */
 function kocist_image_size_attr( array $image ): string {
-	if ( empty( $image['width'] ) || empty( $image['height'] ) ) {
+	$width  = (int) ( $image['width'] ?? 0 );
+	$height = (int) ( $image['height'] ?? 0 );
+
+	if ( ( $width <= 0 || $height <= 0 ) && preg_match( '#-(\d{2,5})x(\d{2,5})\.[a-z0-9]+$#i', (string) ( $image['url'] ?? '' ), $m ) ) {
+		$width  = (int) $m[1];
+		$height = (int) $m[2];
+	}
+
+	if ( $width <= 0 || $height <= 0 ) {
 		return '';
 	}
 
-	return sprintf( ' width="%d" height="%d"', (int) $image['width'], (int) $image['height'] );
+	return sprintf( ' width="%d" height="%d"', $width, $height );
 }
 
 /**
@@ -1302,6 +1313,8 @@ function kocist_pool_image_large( array $image, string $size = 'large' ): array 
 
 	if ( $large ) {
 		$image['url']    = $large[0];
+		$image['width']  = (int) $large[1];
+		$image['height'] = (int) $large[2];
 		$image['srcset'] = (string) wp_get_attachment_image_srcset( $id, $size );
 	}
 

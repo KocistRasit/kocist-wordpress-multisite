@@ -144,9 +144,11 @@ function kocist_post_image( ?int $post_id = null, string $size = 'large' ): arra
 
 		if ( $src ) {
 			return array(
-				'id'  => $thumb,
-				'url' => $src[0],
-				'alt' => (string) get_post_meta( $thumb, '_wp_attachment_image_alt', true ),
+				'id'     => $thumb,
+				'url'    => $src[0],
+				'alt'    => (string) get_post_meta( $thumb, '_wp_attachment_image_alt', true ),
+				'width'  => (int) $src[1],
+				'height' => (int) $src[2],
 			);
 		}
 	}
