@@ -2227,3 +2227,13 @@ Denetim raporunun panelden yapılamayan kalemleri; hepsi temada (`inc/seo-extra.
 - **sameAs:** Üst Bilgi Şeridi'ne girilen sosyal ağ adresleri firma kaydına `sameAs` olarak eklenir.
 - **IndexNow:** yazı ya da sayfa yayınlanınca, güncellenince ya da yayından kalkınca adres api.indexnow.org'a (Bing, Yandex) bildirilir. Anahtar `ik_indexnow_key` seçeneğinde, dosyası `/<anahtar>.txt`. Arama motorlarına kapalı ya da yerel sitede çalışmaz. Panelden (İçerik Stüdyosu) yapılan değişiklikler bildirilmez.
 - **Ana sayfa görseli:** tema fotoğrafına alt metin.
+
+## kavakkeresteci.com: SEO-GEO-AEO düzeltmeleri (29 Ekim 2026)
+
+Raşit Bey'in isteği: marka bilgisi kocist.com.tr esas, bütün ürünlerde istenen ebatta özel kesim, metinler kocist.com.tr ile aynı olmasın (kopya içerik).
+
+- **Çalışma saatleri arama verisinde:** kereste-base, çocuk temanın manifestindeki `opening_hours` listesini firma düğümüne `openingHoursSpecification` olarak ekler (`kr_seo_opening_hours`, `nwcs_seo_graph` süzgeci; Koçist temasındaki kuralın aynısı). Kavak Keresteci: kocist.com.tr'deki gibi Pzt–Cmt 08:00–19:00, Pazar 10:00–19:00. İthal Keresteci'de liste boş, saat yazılmaz.
+- **Harita:** İletişim sayfasının "Harita Bağlantısı" alanı firma düğümüne `hasMap` olarak eklenir (iki kuzen sitede).
+- **Kopya içerik:** kocist.com.tr'nin kavak ürünlerini anlatırken kullandığı "hafif ve kolay işlenen" kalıbı hero başlığından ve kavak kartından çıktı; Hakkımızda'daki "50 yıldır" cümlesi aynı bilgiyi kocist.com.tr/kurumsal/ ile farklı cümleyle veriyor (1975'te başlayan aile işi, Koçist Grup).
+- **Özel kesim:** OSB ve takoz teknik bilgilerine "Ölçü: İstenen ebatta kesim"; SSS'deki ölçü sorusu dört ürünü kapsıyor.
+- Manifest değişiklikleri yalnızca varsayılandır; canlı metinler veritabanındadır ve İçerik Stüdyosu'ndan girilir. Telefonlar bu değişiklikte yok (hat grubu kararı, 25 Eylül 2026, kullanıcıya soruldu).
