@@ -12,7 +12,7 @@ $image = kocist_image_or_default( nwcs_image( 'inner', 'profile', 'image' ), 's2
 		<div class="k-about__text">
 			<h2 class="k-section-title" <?php nwcs_edit_attr( 'inner', 'profile', 'title' ); ?>><?php echo esc_html( nwcs_field( 'inner', 'profile', 'title' ) ); ?></h2>
 			<div class="k-prose" <?php nwcs_edit_attr( 'inner', 'profile', 'body' ); ?>>
-				<?php echo kocist_paragraphs( nwcs_field( 'inner', 'profile', 'body' ) ); // phpcs:ignore WordPress.Security.EscapingOutput -- kocist_paragraphs kacisli basar. ?>
+				<?php echo kocist_prose( nwcs_field( 'inner', 'profile', 'body' ) ); // phpcs:ignore WordPress.Security.EscapingOutput -- kocist_prose kacisli basar. ?>
 			</div>
 		</div>
 

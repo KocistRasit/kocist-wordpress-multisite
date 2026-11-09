@@ -1069,6 +1069,40 @@ function kocist_paragraphs( $text, string $class = '' ): string {
 }
 
 /**
+ * Kurumsal metinleri: paragraflar arasinda ara basliklar (h3).
+ *
+ * Panelde ara baslik ayri bir paragraf olarak yazilir: tek satir, en fazla
+ * 60 karakter ve noktalama isaretiyle bitmeyen paragraf (orn. "Ailemizin
+ * hikâyesi") ya da "## " ile baslayan satir. Gerisi kocist_paragraphs() gibi.
+ */
+function kocist_prose( $text ): string {
+	$parts = preg_split( '/\R\s*\R/u', trim( (string) $text ) );
+	$out   = '';
+
+	foreach ( $parts as $part ) {
+		$part = trim( $part );
+
+		if ( '' === $part ) {
+			continue;
+		}
+
+		$heading = '';
+
+		if ( str_starts_with( $part, '## ' ) ) {
+			$heading = trim( substr( $part, 3 ) );
+		} elseif ( ! preg_match( '/\R/u', $part ) && mb_strlen( $part ) <= 60 && ! preg_match( '/[.!?:;,…]$/u', $part ) ) {
+			$heading = $part;
+		}
+
+		$out .= '' !== $heading
+			? sprintf( '<h3 class="k-prose__heading">%s</h3>', esc_html( $heading ) )
+			: sprintf( '<p>%s</p>', nl2br( esc_html( $part ) ) );
+	}
+
+	return $out;
+}
+
+/**
  * Panelde duzenlenen, icinde {degisken} gecen metin (orn. "{urun} ürün
  * listeleniyor"). Degiskenler sablondan gelir; panelde metnin yalnizca
  * kalanı degisir.
@@ -1676,6 +1710,33 @@ function kocist_seo_opening_hours( array $graph ): array {
 			);
 		}
 	}
+
+	return $graph;
+}
+
+/**
+ * Ana sayfadaki tesis videosu (VideoObject). Video temaya gomulu
+ * (template-parts/sections/hero.php); kapak karesi, sure ve yukleme tarihi
+ * dosyalardan: tesis.mp4 15,9 sn, Git'e eklenme 29.09.2026. Video degisirse
+ * bu bilgiler de guncellenir.
+ */
+add_filter( 'nwcs_seo_graph', 'kocist_seo_hero_video' );
+function kocist_seo_hero_video( array $graph ): array {
+	if ( ! is_front_page() ) {
+		return $graph;
+	}
+
+	$graph[] = array(
+		'@type'        => 'VideoObject',
+		'@id'          => home_url( '/#tesis-videosu' ),
+		'name'         => 'Koçist Çatalca tesisi drone videosu',
+		'description'  => 'Koçist Orman Ürünleri\'nin Çatalca Kestanelik\'teki tesisinin drone ile havadan çekimi: üretim binası ve yol kenarındaki açık sergi alanında ahşap ev, kamelya ve bahçe ürünleri.',
+		'thumbnailUrl' => get_theme_file_uri( 'assets/video/tesis-kapak.jpg' ),
+		'contentUrl'   => get_theme_file_uri( 'assets/video/tesis.mp4' ),
+		'uploadDate'   => '2026-09-29T10:50:36+03:00',
+		'duration'     => 'PT16S',
+		'publisher'    => array( '@id' => home_url( '/#organization' ) ),
+	);
 
 	return $graph;
 }
