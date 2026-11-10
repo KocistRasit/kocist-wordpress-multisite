@@ -2227,3 +2227,22 @@ Denetim raporunun panelden yapılamayan kalemleri; hepsi temada (`inc/seo-extra.
 - **sameAs:** Üst Bilgi Şeridi'ne girilen sosyal ağ adresleri firma kaydına `sameAs` olarak eklenir.
 - **IndexNow:** yazı ya da sayfa yayınlanınca, güncellenince ya da yayından kalkınca adres api.indexnow.org'a (Bing, Yandex) bildirilir. Anahtar `ik_indexnow_key` seçeneğinde, dosyası `/<anahtar>.txt`. Arama motorlarına kapalı ya da yerel sitede çalışmaz. Panelden (İçerik Stüdyosu) yapılan değişiklikler bildirilmez.
 - **Ana sayfa görseli:** tema fotoğrafına alt metin.
+
+## kavakkeresteci: rehber sayfaları (2026-11-10)
+
+Hedef: "kavak kereste" aramalarında ve yapay zekâ cevaplarında birinci olmak. Rakip
+analizinde kavak için fiyat, ölçü, nem ve m³ bilgisi veren güncel bir sayfa yoktu;
+"kavak kereste fiyatları", "özellikleri", "metreküp hesaplama" aramalarında site hiç
+çıkmıyordu. Dört rehber sayfası ve bir /rehber/ listesi eklendi
+(`kavakkeresteci-theme/content/rehber.php`, kurulum `inc/rehber.php`).
+
+- Sayfalar normal WordPress sayfası; kurulum sürümlü (`KK_REHBER_VERSION`). Elle
+  düzenlenen sayfaya kurulum dokunmaz (son kurulum metninin md5'i saklanır).
+- Bilgiler kocist.com.tr'den (fiyat aralığı, standart ölçüler, nem, ISPM-15 fırını,
+  sevkiyat bölgesi); metin bu siteye özgü yazıldı, kopya değil. Ağacın genel
+  özellikleri (yoğunluk) "yaklaşık" diye yazıldı.
+- Telefon yazılmadı (sitenin hattı kararı bekliyor); bağlantılar teklif formuna.
+- m³ hesaplayıcısı kullanıcı kararıyla kaldırılmıştı; geri eklenmedi, rehber
+  formül ve hazır tabloyla anlatır.
+- SSS'ler sayfanın WebPage düğümüne FAQPage olarak eklenir; llms.txt'ye "Rehber"
+  bölümü eklenir.
