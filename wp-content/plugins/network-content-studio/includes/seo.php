@@ -102,7 +102,13 @@ function nwcs_seo_image( int $attachment_id ): array {
 		return array();
 	}
 
-	$src = wp_get_attachment_image_src( $attachment_id, 'large' );
+	// Paylasim icin 1200 px onerilir; 'large' 1024'e kucultur. Tam boy makul
+	// genislikteyse (en fazla 2048 px) o kullanilir.
+	$src = wp_get_attachment_image_src( $attachment_id, 'full' );
+
+	if ( ! $src || (int) $src[1] > 2048 ) {
+		$src = wp_get_attachment_image_src( $attachment_id, 'large' );
+	}
 
 	if ( ! $src ) {
 		return array();
