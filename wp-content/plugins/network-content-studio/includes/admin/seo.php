@@ -1067,6 +1067,31 @@ function nwcs_render_seo_site( int $blog_id, array $site ): void {
 						<a href="<?php echo esc_url( $report['llms'] ); ?>" target="_blank" rel="noopener">Aç</a>
 					</li>
 					<li>
+						<strong>IndexNow</strong>
+						<?php
+						$nwcs_indexnow = (array) get_blog_option( $blog_id, 'nwcs_indexnow_last', array() );
+
+						if ( ! $report['public'] ) {
+							echo 'Site arama motorlarına kapalı; gönderim yapılmaz.';
+						} elseif ( empty( $nwcs_indexnow['time'] ) ) {
+							echo 'Değişen adresler Bing ve Yandex\'e saatte bir bildirilir. Henüz gönderim yok.';
+						} else {
+							$nwcs_indexnow_code = (int) ( $nwcs_indexnow['code'] ?? 0 );
+							$nwcs_indexnow_ok   = in_array( $nwcs_indexnow_code, array( 200, 202 ), true );
+
+							echo esc_html(
+								sprintf(
+									'Son deneme %1$s: %2$d adres, yanıt %3$s%4$s.',
+									wp_date( 'd.m.Y H:i', (int) $nwcs_indexnow['time'] ),
+									(int) ( $nwcs_indexnow['urls'] ?? 0 ),
+									$nwcs_indexnow_code ? (string) $nwcs_indexnow_code : 'yok (bağlantı kurulamadı)',
+									$nwcs_indexnow_ok ? ', başarılı' : ( '' !== (string) ( $nwcs_indexnow['error'] ?? '' ) ? ', hata: ' . $nwcs_indexnow['error'] : '' ) . '; bir sonraki saatte yeniden denenir'
+								)
+							);
+						}
+						?>
+					</li>
+					<li>
 						<strong>Yapılandırılmış veri</strong>
 						Firma, konum yolu, ürün ve yazı bilgisi her sayfaya kendiliğinden eklenir.
 					</li>
