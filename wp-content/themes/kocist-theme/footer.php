@@ -65,9 +65,17 @@ if ( ! ( function_exists( 'nwcs_is_preview' ) && nwcs_is_preview() ) ) {
 				<?php if ( $social ) : ?>
 					<ul class="k-footer__social">
 						<?php foreach ( $social as $social_index => $item ) : ?>
+							<?php
+							// Ayni agdan birden cok hesap (dort Instagram) ekran okuyucuda ayni adla
+							// okunmasin: kullanici adi da eklenir.
+							$social_url    = (string) ( $item['url'] ?? '' );
+							$social_host   = (string) wp_parse_url( $social_url, PHP_URL_HOST );
+							$social_handle = ltrim( trim( (string) wp_parse_url( $social_url, PHP_URL_PATH ), '/' ), '@' );
+							$social_handle = preg_match( '/(^|\.)(instagram|facebook|youtube|tiktok|pinterest|twitter|x)\.com$/', $social_host ) && preg_match( '/^[\w.\-]+$/', $social_handle ) ? $social_handle : '';
+							?>
 							<li>
 								<a class="k-footer__social-link" href="<?php echo esc_url( kocist_link( $item['url'] ?? '' ) ); ?>" <?php nwcs_edit_attr( 'global', 'footer', 'social', $social_index, 'url' ); ?>>
-									<span class="screen-reader-text"><?php echo esc_html( $item['label'] ?? '' ); ?></span>
+									<span class="screen-reader-text"><?php echo esc_html( trim( ( $item['label'] ?? '' ) . ( '' !== $social_handle ? ' @' . $social_handle : '' ) ) ); ?></span>
 									<?php kocist_social_icon( (string) ( $item['icon'] ?? '' ), (string) ( $item['label'] ?? '' ) ); ?>
 								</a>
 							</li>
