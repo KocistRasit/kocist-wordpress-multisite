@@ -932,6 +932,11 @@ function nwcs_seo_head(): void {
 	$canonical = is_paged() ? get_pagenum_link( max( 1, (int) get_query_var( 'paged' ) ) ) : $context['url'];
 	printf( '<link rel="canonical" href="%s" />' . "\n", esc_url( $canonical ) );
 
+	// Yapay zeka motorlari icin site ozeti (llms.txt); site arama motorlarina aciksa.
+	if ( '1' === (string) get_option( 'blog_public' ) ) {
+		printf( '<link rel="alternate" type="text/plain" title="llms.txt" href="%s" />' . "\n", esc_url( home_url( '/llms.txt' ) ) );
+	}
+
 	foreach ( $meta as $tag ) {
 		printf( '<meta %s="%s" content="%s" />' . "\n", esc_attr( $tag[0] ), esc_attr( $tag[1] ), esc_attr( $tag[2] ) );
 	}
@@ -991,7 +996,7 @@ function nwcs_seo_post_text( WP_Post $post ): string {
  * Firma bilgisi: panelde girilen degerler; bos olanlar yazilmaz.
  */
 function nwcs_seo_org_data(): array {
-	$keys = array( 'name', 'legal_name', 'description', 'phone', 'mobile', 'email', 'street', 'district', 'city', 'postal_code', 'country', 'latitude', 'longitude', 'parent_name', 'parent_url' );
+	$keys = array( 'name', 'legal_name', 'description', 'phone', 'mobile', 'email', 'street', 'district', 'city', 'postal_code', 'country', 'latitude', 'longitude', 'opening_hours', 'parent_name', 'parent_url' );
 	$org  = array();
 
 	foreach ( $keys as $key ) {
@@ -1110,6 +1115,11 @@ function nwcs_seo_graph( array $context ): array {
 			'latitude'  => (float) str_replace( ',', '.', $org['latitude'] ),
 			'longitude' => (float) str_replace( ',', '.', $org['longitude'] ),
 		);
+	}
+
+	// Calisma saatleri panelde schema.org biciminde girilir (Mo-Sa 08:00-19:00).
+	if ( 'LocalBusiness' === $business['@type'] && '' !== $org['opening_hours'] ) {
+		$business['openingHours'] = array_values( array_filter( array_map( 'trim', explode( ',', $org['opening_hours'] ) ) ) );
 	}
 
 	$graph = array(
@@ -1719,6 +1729,16 @@ function nwcs_seo_security_headers(): void {
 		return;
 	}
 
+	// Tarayici izinleri ve pencere yalitimi: siteler kamera, mikrofon, konum,
+	// odeme ve USB kullanmaz. WhatsApp/harita gibi acilir pencereler calisir.
+	header( 'Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()', true );
+	header( 'Cross-Origin-Opener-Policy: same-origin-allow-popups', true );
+
+	// HSTS yalnizca adresi https olan sitede: tarayici bir yil boyunca http denemez.
+	if ( 'https' === wp_parse_url( home_url( '/' ), PHP_URL_SCHEME ) ) {
+		header( 'Strict-Transport-Security: max-age=31536000', true );
+	}
+
 	// Panel adresi kayitta http olup tarayicida https acilabilir (Cloudflare):
 	// iki sema da izinli, yoksa canli onizleme bos kalir.
 	$host = (string) wp_parse_url( network_site_url(), PHP_URL_HOST );
@@ -1731,6 +1751,59 @@ function nwcs_seo_security_headers(): void {
 
 	header( sprintf( "Content-Security-Policy: frame-ancestors 'self' https://%1\$s http://%1\$s", $host ), true );
 }
+/**
+ * Havuz gorselleri ana sitenin (panel) yukleme adresinden gelir. Panel adresi
+ * kayitta http oldugu ve sunucu Cloudflare arkasinda istegi http gordugu icin
+ * WordPress adresi https'e cevirmiyordu: https sayfada http gorsel (karisik
+ * icerik). Adresi https olan sitenin ziyaretci sayfalarinda ek dosya adresleri
+ * https yazilir.
+ */
+add_filter( 'wp_get_attachment_url', 'nwcs_seo_https_attachment_url', 20 );
+add_filter( 'wp_get_attachment_image_src', 'nwcs_seo_https_attachment_src', 20 );
+add_filter( 'wp_calculate_image_srcset', 'nwcs_seo_https_attachment_srcset', 20 );
+function nwcs_seo_https_wanted(): bool {
+	static $wanted = null;
+
+	if ( is_admin() ) {
+		return false;
+	}
+
+	if ( null === $wanted ) {
+		// Havuz okunurken baska siteye gecilmis olabilir: istegin asil sitesi esas.
+		$stack   = (array) ( $GLOBALS['_wp_switched_stack'] ?? array() );
+		$blog_id = $stack ? (int) reset( $stack ) : get_current_blog_id();
+		$wanted  = 'https' === wp_parse_url( get_home_url( $blog_id, '/' ), PHP_URL_SCHEME );
+	}
+
+	return $wanted;
+}
+
+function nwcs_seo_https_attachment_url( $url ) {
+	return is_string( $url ) && str_starts_with( $url, 'http://' ) && nwcs_seo_https_wanted() ? set_url_scheme( $url, 'https' ) : $url;
+}
+
+function nwcs_seo_https_attachment_src( $image ) {
+	if ( is_array( $image ) && isset( $image[0] ) ) {
+		$image[0] = nwcs_seo_https_attachment_url( $image[0] );
+	}
+
+	return $image;
+}
+
+function nwcs_seo_https_attachment_srcset( $sources ) {
+	if ( ! is_array( $sources ) ) {
+		return $sources;
+	}
+
+	foreach ( $sources as $width => $source ) {
+		if ( isset( $source['url'] ) ) {
+			$sources[ $width ]['url'] = nwcs_seo_https_attachment_url( $source['url'] );
+		}
+	}
+
+	return $sources;
+}
+
 function nwcs_seo_noindex_main_site(): void {
 	if ( ! is_multisite() || is_admin() || headers_sent() ) {
 		return;
