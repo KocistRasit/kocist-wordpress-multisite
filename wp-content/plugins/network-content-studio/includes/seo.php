@@ -1995,6 +1995,7 @@ function nwcs_seo_llms_text(): string {
 	$lines[] = '## Ek';
 	$lines[] = '';
 	$lines[] = sprintf( '- [Site haritası](%s)', home_url( '/wp-sitemap.xml' ) );
+	$lines[] = sprintf( '- [Tam metin (llms-full.txt)](%s)', home_url( '/llms-full.txt' ) );
 
 	foreach ( $org['same_as'] as $url ) {
 		$lines[] = sprintf( '- [Firmanın diğer adresi](%s)', $url );
