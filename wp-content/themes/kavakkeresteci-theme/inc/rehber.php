@@ -104,6 +104,15 @@ function kk_rehber_upsert( string $slug, string $title, string $excerpt, string 
 	if ( $page instanceof WP_Post ) {
 		$seeded = $hashes[ $slug ] ?? '';
 
+		// Ayni metinle elle acilmis sayfa (2026-11-10'da yonetimden acildi):
+		// bizim sayilir, sonraki surumlerde guncellenebilsin.
+		if ( '' === $seeded && md5( (string) $page->post_content ) === md5( $html ) ) {
+			$hashes[ $slug ] = md5( $html );
+			update_option( 'kk_rehber_hashes', $hashes, false );
+
+			return;
+		}
+
 		// Elle duzenlenmis sayfaya dokunma.
 		if ( '' === $seeded || md5( (string) $page->post_content ) !== $seeded ) {
 			return;
