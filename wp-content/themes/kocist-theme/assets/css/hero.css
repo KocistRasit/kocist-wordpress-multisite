@@ -18,7 +18,7 @@
 	display: flex;
 	overflow: hidden;
 	min-height: clamp(440px, 74vh, 760px);
-	background: var(--forest-3) url("../video/tesis-kapak.jpg") center / cover no-repeat;
+	background: var(--forest-3) url("../video/tesis-kapak.webp") center / cover no-repeat;
 	isolation: isolate;
 }
 
