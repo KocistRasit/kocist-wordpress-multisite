@@ -138,6 +138,36 @@ if ( ! ( function_exists( 'nwcs_is_preview' ) && nwcs_is_preview() ) ) {
 	</div>
 </footer>
 
+<?php // Cerez tercihi cubugu (assets/css/base.css). Secim tarayicida saklanir; secim yapilana kadar analiz kodlari veri gondermez (header.php). ?>
+<div class="k-cerez" data-k-cerez-bar role="region" aria-label="Çerez tercihi" hidden>
+	<p class="k-cerez__text">Ziyaret istatistikleri için Google Analytics ve Yandex Metrika çerezlerini onayınızla kullanıyoruz. <a href="<?php echo esc_url( home_url( '/kvkk/' ) ); ?>">KVKK Aydınlatma Metni</a></p>
+	<div class="k-cerez__actions">
+		<button type="button" class="k-cerez__btn" data-k-cerez="red">Reddet</button>
+		<button type="button" class="k-cerez__btn k-cerez__btn--ok" data-k-cerez="kabul">Kabul et</button>
+	</div>
+</div>
+<script>
+(function () {
+	var bar = document.querySelector('[data-k-cerez-bar]');
+	var c = '';
+	try { c = localStorage.getItem('k-cerez') || ''; } catch (e) {}
+	if (!bar || c) { return; }
+	bar.hidden = false;
+	bar.addEventListener('click', function (event) {
+		var btn = event.target.closest('[data-k-cerez]');
+		if (!btn) { return; }
+		var choice = btn.getAttribute('data-k-cerez');
+		try { localStorage.setItem('k-cerez', choice); } catch (e) {}
+		bar.hidden = true;
+		if ('kabul' === choice) {
+			// Bu sayfanin ziyareti de sayilsin; Metrika sonraki sayfadan itibaren calisir.
+			window['ga-disable-G-FD940LV5SP'] = false;
+			if (typeof window.gtag === 'function') { window.gtag('config', 'G-FD940LV5SP'); }
+		}
+	});
+})();
+</script>
+
 <?php wp_footer(); ?>
 
 <!-- Ailways asistan balonu -->
