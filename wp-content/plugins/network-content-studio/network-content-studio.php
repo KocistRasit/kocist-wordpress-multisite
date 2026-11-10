@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Network Content Studio
  * Description:       Ag genelinde tek icerik veri katmani ve alan manifesti. Icerik Studyosu paneli, canli onizleme, merkezi urun havuzu, SEO ve GEO, MCP yetenekleri.
- * Version:           0.34.6
+ * Version:           0.34.7
  * Network:           true
  * Requires at least: 6.5
  * Requires PHP:      8.1
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'NWCS_VERSION', '0.34.6' );
+define( 'NWCS_VERSION', '0.34.7' );
 define( 'NWCS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'NWCS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -20,6 +20,7 @@ require_once NWCS_DIR . 'includes/store.php';
 require_once NWCS_DIR . 'includes/seo.php';
 require_once NWCS_DIR . 'includes/sitemap-images.php';
 require_once NWCS_DIR . 'includes/indexnow.php';
+require_once NWCS_DIR . 'includes/llms-full.php';
 require_once NWCS_DIR . 'includes/icons.php';
 require_once NWCS_DIR . 'includes/preview.php';
 require_once NWCS_DIR . 'includes/search.php';
