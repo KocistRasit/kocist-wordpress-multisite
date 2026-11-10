@@ -503,6 +503,43 @@ function kocist_preload_assets(): void {
 }
 
 /**
+ * Ziyaret olcumu (Google Analytics 4 ve Yandex Metrika) ve Yandex dogrulama etiketi.
+ *
+ * Etiketler bugune kadar sunucu disinda (Cloudflare) sayfaya ekleniyordu. Alan adi
+ * yeni Cloudflare hesabina tasininca o ekleme kalkar; burada yalnizca sayfada
+ * etiket yoksa yuklenir, iki kez sayilmaz. Cerez onayi header.php'de: onay
+ * verilene kadar ikisi de veri gondermez.
+ */
+add_action( 'wp_head', 'kocist_tracking_tags', 99 );
+function kocist_tracking_tags(): void {
+	if ( function_exists( 'nwcs_is_preview' ) && nwcs_is_preview() ) {
+		return;
+	}
+
+	echo '<meta name="yandex-verification" content="6bfee2eaf8ee6007" />' . PHP_EOL;
+	?>
+<script>
+(function () {
+	if (!document.querySelector('script[src*="googletagmanager.com/gtag/js"]')) {
+		var s = document.createElement('script');
+		s.async = true;
+		s.src = 'https://www.googletagmanager.com/gtag/js?id=G-FD940LV5SP';
+		document.head.appendChild(s);
+		window.dataLayer = window.dataLayer || [];
+		window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+		window.gtag('js', new Date());
+		window.gtag('config', 'G-FD940LV5SP');
+	}
+	if (typeof window.ym !== 'function') {
+		(function (m, e, t, r, i, k, a) { m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); }; m[i].l = 1 * new Date(); k = e.createElement(t); a = e.getElementsByTagName(t)[0]; k.async = 1; k.src = r; a.parentNode.insertBefore(k, a); })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=114045428', 'ym');
+		window.ym(114045428, 'init', { ssr: true, webvisor: true, clickmap: true, ecommerce: 'dataLayer', referrer: document.referrer, url: location.href, accurateTrackBounce: true, trackLinks: true });
+	}
+})();
+</script>
+	<?php
+}
+
+/**
  * Urun detayinda akordeonun kapali panelleri ilk boyamada da kapali olsun:
  * betik yuklenecek sayfada <html>'e erken "k-js" sinifi. Betik yoksa sinif da
  * yok, paneller acik kalir (assets/css/product.css).
