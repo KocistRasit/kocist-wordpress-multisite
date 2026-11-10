@@ -7,7 +7,9 @@
  * ithalkeresteci'den farki: "toptan tedarik" bandi yerine "kullanim alanlari".
  *
  * Metinler kocist.com.tr'deki kavak kereste, cita, takoz ve OSB sayfalarindan
- * kisaltilarak turetildi. Olcu listesi saticidan gelecek. Adres, telefon ve e-posta kocist.com.tr'de
+ * turetildi; 29 Ekim 2026'da kocist.com.tr ile ayni cumleler kalmasin diye
+ * (kopya icerik) yeniden yazildi. Olcu listesi saticidan gelecek.
+ * Butun urunlerde istenen ebatta ozel kesim var (firma onayi, 29 Ekim 2026). Adres, telefon ve e-posta kocist.com.tr'de
  * yazdigi gibidir (sahibi SEO ve GEO sekmesinden duzeltir).
  */
 
@@ -30,8 +32,14 @@ return $build(
 			'whatsapp_url' => 'https://wa.me/905323749832',
 			'email'        => 'info@kocist.com.tr',
 			'address'      => $address,
-			'hours'        => '08:00 – 19:00',
+			'hours'        => 'Pzt–Cmt 08:00–19:00 · Pazar 10:00–19:00',
 			'map_url'      => 'https://maps.app.goo.gl/goTd8wPiXnbDb8BY9', // KOÇİST Kereste, Orman Ürünleri ve İnşaat Malzemeleri
+		),
+
+		// Arama verisi; kocist.com.tr ile ayni saatler. Gorunen metin: contact.hours.
+		'opening_hours'  => array(
+			array( array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ), '08:00', '19:00' ),
+			array( array( 'Sunday' ), '10:00', '19:00' ),
 		),
 
 		'footer_tagline' => 'Kavak kereste, çıta, ahşap takoz ve OSB levha. Ambalaj, palet ve mobilya üretimine uygun; toptan alımda Koçist Orman Ürünleri güvencesiyle.',
@@ -51,8 +59,8 @@ return $build(
 		'home_sections'  => array( 'products', 'uses', 'cousin', 'faq', 'quote' ),
 
 		'hero'           => array(
-			'title'      => "Hafif, kolay işlenen,\nekonomik kavak kereste",
-			'lead'       => 'Ambalaj, sandık, palet ve mobilya üretimi için kavak kereste, çıta, takoz ve OSB. Toptan alıma uygun, İstanbul teslim.',
+			'title'      => "Sandık, palet ve ambalaj için\nkavak kereste",
+			'lead'       => 'Kavak kereste, çıta, takoz ve OSB levha; hepsi siparişteki ebada göre kesilir. Toptan alıma uygun, İstanbul teslim.',
 		),
 
 		'products_text'  => 'Üretim ve ambalaj işleri için kavak kereste, çıta, takoz ve OSB levha.',
@@ -80,16 +88,16 @@ return $build(
 			array( 'question' => 'Kavak kereste hangi işlerde kullanılır?', 'answer' => 'En çok ambalaj, sandık ve palet üretiminde; ayrıca mobilya, inşaatta destek ve kaplama işlerinde ve iç dekorasyonda kullanılır.' ),
 			array( 'question' => 'Ahşap takoz ne işe yarar?', 'answer' => 'Zemin dengeleme, yükseklik ayarı ve sabitleme için kullanılır. Fırınlanmış masif ahşaptan, zımparalanmış olarak hazırlanır; iç ve dış mekânda kullanılabilir.' ),
 			array( 'question' => 'Kavak kereste, çıta ve takoz ne kadar sürede gönderilir?', 'answer' => 'Normal koşullarda sipariş 3–5 iş günü içinde sevk edilir.' ),
-			array( 'question' => 'Çıta ve takoz özel ölçüde hazırlanıyor mu?', 'answer' => 'Evet. Kavak kereste, çıta ve takoz verdiğiniz ölçüye göre kesilip hazırlanır.' ),
+			array( 'question' => 'Ürünler özel ölçüde kesiliyor mu?', 'answer' => 'Evet. Kavak kereste, çıta, takoz ve OSB levha siparişte yazdığınız ebada göre kesilir.' ),
 			array( 'question' => 'Çıtanın metreküpü nasıl hesaplanır?', 'answer' => 'Kesit ölçülerini metreye çevirip boy ve adetle çarpın. Örneğin 3 × 5 cm kesitli, 3 m boyunda 200 adet çıta: 0,03 × 0,05 × 3 × 200 = 0,9 m³.' ),
 		),
 
 		'about'          => array(
 			'lead'   => 'Koçist Orman Ürünleri’nin kavak kereste sitesi: kavak kereste, çıta, takoz ve OSB tedariki.',
-			'p1'     => 'Koçist Grup 50 yıldır orman ürünleri alanında çalışıyor. Kavak kereste, çıta ve takozu ölçünüze göre hazırlıyor; ambalaj ve palet üreticilerine düzenli tedarik sağlıyoruz.',
+			'p1'     => 'Ailemizin ahşap ambalaj işi 1975’te başladı; bugün Koçist Grup adıyla Çatalca’da çalışıyoruz. Kavak kereste, çıta, takoz ve OSB levhayı istediğiniz ebatta kesiyor, ambalaj ve palet üreticilerine düzenli tedarik sağlıyoruz.',
 			'p2'     => 'Amacımız kaliteli malzemeyi en kısa sürede ve uygun fiyatla teslim etmek. Ölçü ve adedi iletmeniz yeterli.',
 			'values' => array(
-				array( 'title' => 'Ölçüye göre kesim', 'text' => 'Kereste, çıta ve takoz istediğiniz kesit ve boyda hazırlanır.' ),
+				array( 'title' => 'Ölçüye göre kesim', 'text' => 'Kereste, çıta, takoz ve OSB levha istediğiniz ebatta kesilir.' ),
 				array( 'title' => 'Hızlı sevkiyat', 'text' => 'Normal koşullarda 3–5 iş günü içinde teslim.' ),
 				array( 'title' => 'Toptan fiyat', 'text' => 'Büyük siparişlerde toptan fiyat avantajı.' ),
 			),
@@ -98,7 +106,7 @@ return $build(
 		'seo'            => array(
 			'name'        => 'Kavak Keresteci',
 			'legal_name'  => 'Koçist Orman Ürünleri İnş. ve İnş. Yap. Malz. San. Tic. Ltd. Şti.',
-			'description' => 'İstanbul’da kavak kereste, çıta, ahşap takoz ve OSB levha tedariki. Koçist Orman Ürünleri’nin kavak kereste sitesi; ambalaj, palet ve mobilya üretimine uygun, toptan alım.',
+			'description' => 'Koçist Orman Ürünleri’nin kavak odaklı sitesi: sandık, palet ve ambalaj imalatçılarına kavak kereste, çıta, ahşap takoz ve OSB levha. Siparişe özel ebatta kesim, toptan alım, İstanbul teslim.',
 			'phone'       => '+90 549 648 19 19',
 			'email'       => 'info@kocist.com.tr',
 			'street'      => 'Kestanelik Mahallesi Eski Edirne Asfaltı Cad. 2125/1',
@@ -117,7 +125,7 @@ return $build(
 				'slug'  => 'kavak-kereste',
 				'name'  => 'Kavak Kereste',
 				'mark'  => 'KAVAK',
-				'short' => 'Hafif, kolay işlenen, ekonomik kereste; ambalajdan mobilyaya.',
+				'short' => 'Ağırlığı düşük, bütçe dostu kereste; ebadı siparişe göre kesilir.',
 				'lead'  => 'Hafifliği, kolay işlenmesi ve uygun fiyatıyla ambalaj, palet ve mobilya üretiminde en çok tercih edilen kerestelerden.',
 				'body'  => "Kavak, hızlı büyüyen ve açık renkli bir ağaçtır. Hafif olması taşımayı kolaylaştırır; kolay kesilip işlenmesi üretimde zaman kazandırır.\n\nAmbalaj, sandık ve palet üretiminde, mobilyada, inşaatta destek ve kaplama işlerinde ve iç dekorasyonda kullanılır.",
 				'specs' => array(
@@ -154,6 +162,7 @@ return $build(
 					array( 'label' => 'Yüzey', 'value' => 'Zımparalanmış' ),
 					array( 'label' => 'Kullanım', 'value' => 'Zemin dengeleme, yükseklik ayarı, sabitleme' ),
 					array( 'label' => 'Ortam', 'value' => 'İç ve dış mekân' ),
+					array( 'label' => 'Ölçü', 'value' => 'İstenen ebatta kesim' ),
 				),
 			),
 			'osb'   => array(
@@ -167,6 +176,7 @@ return $build(
 					array( 'label' => 'Yapı', 'value' => 'Yönlendirilmiş yonga levha' ),
 					array( 'label' => 'Özellik', 'value' => 'Ekonomik, geri dönüştürülebilir' ),
 					array( 'label' => 'Kullanım', 'value' => 'Çatı ve duvar kaplama, kamelya, mobilya, inşaat' ),
+					array( 'label' => 'Ölçü', 'value' => 'İstenen ebatta kesim' ),
 				),
 			),
 		),
