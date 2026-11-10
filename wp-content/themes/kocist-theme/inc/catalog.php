@@ -593,6 +593,19 @@ function kocist_catalog_template(): void {
 		global $wp_query;
 
 		$wp_query->set_404();
+
+		// Kaldirilan kategori adresi: panelde yonlendirme kurali varsa 404 yerine o
+		// uygulanir. Eklentinin kurali 404 olacak isteklerde calisir; sanal kategori
+		// adresi bu noktaya kadar 404 sayilmadigi icin kural hic devreye girmiyordu.
+		if ( function_exists( 'nwcs_redirects_apply' ) ) {
+			nwcs_redirects_apply();
+
+			if ( 410 === http_response_code() ) {
+				include get_query_template( '404' ) ?: get_index_template();
+				exit;
+			}
+		}
+
 		status_header( 404 );
 		nocache_headers();
 
