@@ -13,7 +13,7 @@ $image = kocist_image_or_default( nwcs_image( 'inner', 'group', 'image' ), 's2-k
 		<div class="k-group-info__text">
 			<h2 class="k-section-title" <?php nwcs_edit_attr( 'inner', 'group', 'title' ); ?>><?php echo esc_html( nwcs_field( 'inner', 'group', 'title' ) ); ?></h2>
 			<div class="k-prose" <?php nwcs_edit_attr( 'inner', 'group', 'body' ); ?>>
-				<?php echo kocist_paragraphs( nwcs_field( 'inner', 'group', 'body' ) ); // phpcs:ignore WordPress.Security.EscapingOutput -- kocist_paragraphs kacisli basar. ?>
+				<?php echo kocist_prose( nwcs_field( 'inner', 'group', 'body' ) ); // phpcs:ignore WordPress.Security.EscapingOutput -- kocist_prose kacisli basar. ?>
 			</div>
 		</div>
 
