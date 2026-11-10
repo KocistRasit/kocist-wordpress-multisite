@@ -1754,54 +1754,23 @@ function nwcs_seo_security_headers(): void {
 /**
  * Havuz gorselleri ana sitenin (panel) yukleme adresinden gelir. Panel adresi
  * kayitta http oldugu ve sunucu Cloudflare arkasinda istegi http gordugu icin
- * WordPress adresi https'e cevirmiyordu: https sayfada http gorsel (karisik
- * icerik). Adresi https olan sitenin ziyaretci sayfalarinda ek dosya adresleri
- * https yazilir.
+ * WordPress gorsel adreslerini http yaziyordu: https sayfada karisik icerik.
+ * Panel https ile de acildigindan canlida yukleme adresi her yerde https
+ * yazilir (havuz onbellegi yenilenirken de dogru adres girer).
  */
-add_filter( 'wp_get_attachment_url', 'nwcs_seo_https_attachment_url', 20 );
-add_filter( 'wp_get_attachment_image_src', 'nwcs_seo_https_attachment_src', 20 );
-add_filter( 'wp_calculate_image_srcset', 'nwcs_seo_https_attachment_srcset', 20 );
-function nwcs_seo_https_wanted(): bool {
-	static $wanted = null;
-
-	if ( is_admin() ) {
-		return false;
+add_filter( 'upload_dir', 'nwcs_seo_https_upload_dir' );
+function nwcs_seo_https_upload_dir( $uploads ) {
+	if ( ! is_array( $uploads ) || 'production' !== wp_get_environment_type() ) {
+		return $uploads;
 	}
 
-	if ( null === $wanted ) {
-		// Havuz okunurken baska siteye gecilmis olabilir: istegin asil sitesi esas.
-		$stack   = (array) ( $GLOBALS['_wp_switched_stack'] ?? array() );
-		$blog_id = $stack ? (int) reset( $stack ) : get_current_blog_id();
-		$wanted  = 'https' === wp_parse_url( get_home_url( $blog_id, '/' ), PHP_URL_SCHEME );
-	}
-
-	return $wanted;
-}
-
-function nwcs_seo_https_attachment_url( $url ) {
-	return is_string( $url ) && str_starts_with( $url, 'http://' ) && nwcs_seo_https_wanted() ? set_url_scheme( $url, 'https' ) : $url;
-}
-
-function nwcs_seo_https_attachment_src( $image ) {
-	if ( is_array( $image ) && isset( $image[0] ) ) {
-		$image[0] = nwcs_seo_https_attachment_url( $image[0] );
-	}
-
-	return $image;
-}
-
-function nwcs_seo_https_attachment_srcset( $sources ) {
-	if ( ! is_array( $sources ) ) {
-		return $sources;
-	}
-
-	foreach ( $sources as $width => $source ) {
-		if ( isset( $source['url'] ) ) {
-			$sources[ $width ]['url'] = nwcs_seo_https_attachment_url( $source['url'] );
+	foreach ( array( 'url', 'baseurl' ) as $key ) {
+		if ( isset( $uploads[ $key ] ) && is_string( $uploads[ $key ] ) && str_starts_with( $uploads[ $key ], 'http://' ) ) {
+			$uploads[ $key ] = set_url_scheme( $uploads[ $key ], 'https' );
 		}
 	}
 
-	return $sources;
+	return $uploads;
 }
 
 function nwcs_seo_noindex_main_site(): void {
