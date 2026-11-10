@@ -484,6 +484,9 @@ function kocist_assets(): void {
  */
 add_action( 'wp_head', 'kocist_preload_assets', 1 );
 function kocist_preload_assets(): void {
+	// Google etiketi (gtag) sayfanin en basinda yukleniyor: baglanti erken acilir.
+	echo '<link rel="preconnect" href="https://www.googletagmanager.com" />' . PHP_EOL;
+
 	foreach ( array( 'archivo-latin', 'archivo-latin-ext' ) as $font ) {
 		printf(
 			'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin />' . PHP_EOL,
@@ -494,7 +497,7 @@ function kocist_preload_assets(): void {
 	if ( is_front_page() ) {
 		printf(
 			'<link rel="preload" href="%s" as="image" fetchpriority="high" />' . PHP_EOL,
-			esc_url( get_theme_file_uri( 'assets/video/tesis-kapak.jpg' ) )
+			esc_url( get_theme_file_uri( 'assets/video/tesis-kapak.webp' ) )
 		);
 	}
 }
