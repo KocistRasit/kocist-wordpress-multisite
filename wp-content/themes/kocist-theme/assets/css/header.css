@@ -78,6 +78,7 @@ html { scroll-padding-top: 88px; }
 	flex: none;
 	text-decoration: none;
 	color: var(--text);
+	min-height: 44px; /* dokunma hedefi en az 44 px */
 }
 
 .k-logo__img { max-height: 52px; width: auto; }
