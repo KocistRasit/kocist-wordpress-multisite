@@ -33,6 +33,8 @@ $has_basket = kocist_page_ready( 'teklif-sepeti' );
 <html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
+	<?php // Cerez onayi: onay yoksa Analytics ve Metrika veri gondermez. Etiketler viewport'tan sonra eklendigi icin bu satir onlardan once calisir. ?>
+	<script>(function(){var c='';try{c=localStorage.getItem('k-cerez')||'';}catch(e){}if(c!=='kabul'){window['ga-disable-G-FD940LV5SP']=true;window['disableYaCounter114045428']=true;}})();</script>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<?php wp_head(); ?>
 </head>
