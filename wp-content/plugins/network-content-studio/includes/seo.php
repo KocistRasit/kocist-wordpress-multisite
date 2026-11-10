@@ -1817,6 +1817,39 @@ function nwcs_seo_sitemap_skip_excluded( array $args, string $post_type ): array
 	return $args;
 }
 
+/**
+ * Site haritasi dizini (/wp-sitemap.xml): her alt haritaya son degisiklik
+ * tarihi. Yazi ve sayfa haritalarinda o turun en son degisen yayini, ek
+ * sayfalarda (nwcsextra) o haritadaki adreslerin en yeni 'lastmod' degeri.
+ * Tarih bulunamazsa alan yazilmaz; uydurma tarih uretilmez.
+ */
+add_filter( 'wp_sitemaps_index_entry', 'nwcs_seo_sitemap_index_lastmod', 10, 4 );
+function nwcs_seo_sitemap_index_lastmod( $entry, $object_type, $object_subtype, $page ) {
+	if ( ! is_array( $entry ) || ! empty( $entry['lastmod'] ) ) {
+		return $entry;
+	}
+
+	$stamp = 0;
+
+	if ( 'post' === $object_type && '' !== (string) $object_subtype ) {
+		$latest = get_lastpostmodified( 'gmt', (string) $object_subtype );
+		$stamp  = $latest ? (int) strtotime( $latest . ' UTC' ) : 0;
+	} elseif ( 'nwcsextra' === $object_type ) {
+		$per_page = (int) wp_sitemaps_get_max_urls( 'nwcsextra' );
+		$rows     = array_slice( nwcs_seo_extra_sitemap_entries(), max( 0, ( (int) $page - 1 ) * $per_page ), $per_page );
+
+		foreach ( $rows as $row ) {
+			$stamp = max( $stamp, empty( $row['lastmod'] ) ? 0 : (int) strtotime( (string) $row['lastmod'] ) );
+		}
+	}
+
+	if ( $stamp > 0 ) {
+		$entry['lastmod'] = gmdate( DATE_W3C, $stamp );
+	}
+
+	return $entry;
+}
+
 /* ====================================================================== *
  * /llms.txt
  *
