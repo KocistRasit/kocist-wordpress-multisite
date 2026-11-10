@@ -29,7 +29,7 @@ if ( kocist_is_catalog_placeholder( $cta_url ) && kocist_catalog_groups() ) {
 	<div class="k-hero__stage" data-k-hero-video>
 		<video
 			class="k-hero__video"
-			poster="<?php echo esc_url( get_theme_file_uri( 'assets/video/tesis-kapak.jpg' ) ); ?>"
+			poster="<?php echo esc_url( get_theme_file_uri( 'assets/video/tesis-kapak.webp' ) ); ?>"
 			muted
 			loop
 			playsinline
