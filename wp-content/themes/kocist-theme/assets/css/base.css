@@ -74,3 +74,8 @@
 	cursor: pointer;
 }
 .k-cerez__btn--ok { background: var(--forest, #1f5130); border-color: var(--forest, #1f5130); color: #fff; }
+
+/* Telefonda sag alttaki sohbet balonunun ustunde dursun. */
+@media (max-width: 600px) {
+	.k-cerez { bottom: 88px; }
+}
