@@ -232,6 +232,7 @@ function nwcs_seo_site_page( array $defaults ): array {
 					'country'     => $field( 'country', 'Ülke kodu', 'text', 'İki harf: TR' ),
 					'latitude'    => $field( 'latitude', 'Enlem', 'text', 'Google Haritalar’da konuma sağ tıklayınca çıkan ilk sayı. Örn. 41.0781' ),
 					'longitude'   => $field( 'longitude', 'Boylam', 'text', 'İkinci sayı. Örn. 28.7836' ),
+					'opening_hours' => $field( 'opening_hours', 'Çalışma saatleri', 'text', 'schema.org biçiminde, virgülle ayrılır. Örn. Mo-Sa 08:00-19:00, Su 10:00-19:00' ),
 					'same_as'     => array(
 						'label'   => 'Firmanın diğer adresleri',
 						'type'    => 'repeater',
