@@ -80,7 +80,7 @@ $has_basket = kocist_page_ready( 'teklif-sepeti' );
 
 		<a class="k-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
 			<?php if ( ! empty( $logo['url'] ) ) : ?>
-				<img class="k-logo__img" src="<?php echo esc_url( $logo['url'] ); ?>" alt="<?php echo esc_attr( $logo['alt'] ?: get_bloginfo( 'name' ) ); ?>"<?php echo kocist_image_size_attr( $logo ); // phpcs:ignore WordPress.Security.EscapingOutput -- tamsayi. ?> <?php nwcs_edit_attr( 'global', 'header', 'logo_image' ); ?> />
+				<img class="k-logo__img" fetchpriority="high" src="<?php echo esc_url( $logo['url'] ); ?>" alt="<?php echo esc_attr( $logo['alt'] ?: get_bloginfo( 'name' ) ); ?>"<?php echo kocist_image_size_attr( $logo ); // phpcs:ignore WordPress.Security.EscapingOutput -- tamsayi. ?> <?php nwcs_edit_attr( 'global', 'header', 'logo_image' ); ?> />
 			<?php else : ?>
 				<span class="k-logo__mark" aria-hidden="true"></span>
 			<?php endif; ?>
