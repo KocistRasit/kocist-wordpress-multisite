@@ -14,8 +14,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const KK_REHBER_VERSION = 1;
+const KK_REHBER_VERSION = 2;
 const KK_REHBER_HUB     = 'rehber';
+const KK_REHBER_HUB_EXCERPT = 'Kavak kereste fiyatları, özellikleri, metreküp hesabı, palet-sandık ölçüleri, kavak çıta ve ahşap takoz çeşitleri: alım öncesi bilmeniz gerekenler.';
 
 /**
  * @return array<int, array<string, mixed>>
@@ -74,7 +75,7 @@ function kk_rehber_date( DateTimeInterface $date ): string {
  * /rehber/ sayfasinin metni: tum yazilar, ozetleriyle.
  */
 function kk_rehber_hub_html(): string {
-	$html = "<p>Kavak kereste alırken en çok sorulanlar: güncel metreküp fiyatı, ağacın özellikleri, hacim hesabı ve palet ya da sandık için doğru ölçü. Her rehber, Koçist Orman Ürünleri’nin Çatalca deposundaki bilgilere dayanır.</p>\n<ul>\n";
+	$html = "<p>Kavak kereste, çıta ve takoz alırken en çok sorulanlar: güncel metreküp fiyatı, ağacın özellikleri, hacim hesabı, palet ya da sandık için doğru ölçü ve hangi takozun ne işe yaradığı. Her rehber, Koçist Orman Ürünleri’nin Çatalca deposundaki bilgilere dayanır.</p>\n<ul>\n";
 
 	foreach ( kk_rehber_items() as $item ) {
 		$html .= '<li><a href="/' . esc_attr( $item['slug'] ) . '/"><strong>' . esc_html( $item['title'] ) . '</strong></a><br>' . esc_html( $item['excerpt'] ) . "</li>\n";
@@ -147,7 +148,7 @@ function kk_rehber_setup(): void {
 	}
 	set_transient( 'kk_rehber_lock', 1, 60 );
 
-	kk_rehber_upsert( KK_REHBER_HUB, 'Kavak Kereste Rehberi', 'Kavak kereste fiyatları, özellikleri, metreküp hesabı ve palet-sandık ölçüleri: alım öncesi bilmeniz gerekenler tek sayfada.', kk_rehber_hub_html(), 90 );
+	kk_rehber_upsert( KK_REHBER_HUB, 'Kavak Kereste Rehberi', KK_REHBER_HUB_EXCERPT, kk_rehber_hub_html(), 90 );
 
 	foreach ( kk_rehber_items() as $index => $item ) {
 		kk_rehber_upsert( (string) $item['slug'], (string) $item['title'], (string) $item['excerpt'], kk_rehber_html( $item ), 91 + (int) $index );

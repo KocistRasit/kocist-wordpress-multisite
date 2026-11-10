@@ -2246,3 +2246,5 @@ analizinde kavak için fiyat, ölçü, nem ve m³ bilgisi veren güncel bir sayf
   formül ve hazır tabloyla anlatır.
 - SSS'ler sayfanın WebPage düğümüne FAQPage olarak eklenir; llms.txt'ye "Rehber"
   bölümü eklenir.
+
+- 2026-11-10 (devam): Rehbere iki yazı eklendi: /kavak-cita/ ve /ahsap-takoz-cesitleri/ (takoz çeşitleri kocist.com.tr ahşap takoz kategorisindeki modellerden; metin özgün). KK_REHBER_VERSION 2. Canlı sayfalar aynı metinle REST'ten açıldı/güncellendi; kurulum aynı metni görünce sayfaları sahiplenir.

@@ -238,4 +238,104 @@ HTML,
 			array( 'Kavak kereste nereye gönderiliyor?', 'İstanbul ve Trakya’ya (Edirne, Kırklareli, Tekirdağ) kendi araçlarımızla gönderiyoruz. Nakliye ücreti teklifte ayrıca yazılır.' ),
 		),
 	),
+	array(
+		'slug'    => 'kavak-cita',
+		'title'   => 'Kavak Çıta: Ölçüler, Kullanım Alanları ve Sipariş Rehberi',
+		'excerpt' => 'Kavak çıta ince kesitli, uzun kesilmiş kavak kerestedir. Sandık takviyesi, kaplama altı iskelet ve çerçevede kullanılır; kesit ve boy siparişe göre kesilir.',
+		'updated' => '2026-11-10',
+		'body'    => <<<'HTML'
+<p><strong>Kavak çıta, kavak tomruğundan ince kesitli ve uzun olarak biçilmiş kerestedir.</strong> Hafif olduğu, çiviyi yarılmadan tuttuğu ve reçine bırakmadığı için en çok ambalaj, sandık ve kaplama altı iskelet işlerinde kullanılır. Kesit ve boy siparişe göre kesilir; stok ölçüsüne bağlı kalmazsınız.</p>
+
+<h2>Çıta ile kereste arasındaki fark ne?</h2>
+<p>İkisi de aynı ağaçtan biçilir; fark kesittedir. Çıta, eni ve kalınlığı birkaç santimetreyi geçmeyen ince parçadır. Yük taşıyan kiriş ve kayak işlerinde kalın kereste ya da kalas, bağlantı, takviye ve iskelet işlerinde çıta kullanılır.</p>
+
+<h2>Kavak çıta nerelerde kullanılır?</h2>
+<ul>
+<li><strong>Sandık ve kafes:</strong> Panelleri birleştiren takviye, köşe ve kafes çıtası.</li>
+<li><strong>Paketleme:</strong> Yük arasında ayırıcı ve istif çıtası; ürünler birbirine sürtünmez.</li>
+<li><strong>Kaplama altı iskelet:</strong> Lambiri, alçıpan ya da levha kaplamanın arkasındaki taşıyıcı ızgara.</li>
+<li><strong>Konstrüksiyon:</strong> Hafif bölme, kalıp desteği ve geçici iskelet.</li>
+<li><strong>Çerçeve ve hobi:</strong> Tablo, pano ve maket çerçeveleri.</li>
+</ul>
+
+<h2>Hangi ölçüde sipariş vermeliyim?</h2>
+<p>Çıta için sabit bir ölçü listesi yoktur; işin yüküne ve vida-çivi boyuna göre seçilir. Sık sorulan kesitler 2 × 4 cm, 2,5 × 5 cm ve 3 × 5 cm civarındadır. Boyu da işe göre seçin: kısa parçayı uzun çıtadan kendiniz kesmek fire demektir, doğrudan kullanacağınız boyda isteyin.</p>
+<table>
+<thead><tr><th>İş</th><th>Seçerken dikkat</th></tr></thead>
+<tbody>
+<tr><td>Sandık takviyesi</td><td>Çivinin çıtayı delip geçmeyeceği kalınlık</td></tr>
+<tr><td>İstif ve ayırıcı</td><td>Yükün ağırlığı; ince kesit ezilebilir</td></tr>
+<tr><td>Kaplama altı ızgara</td><td>Düzgünlük ve kuruluk; eğri çıta kaplamayı dalgalandırır</td></tr>
+<tr><td>Çerçeve</td><td>Yüzey kalitesi ve düz lif</td></tr>
+</tbody>
+</table>
+
+<h2>Kaç metreküp eder?</h2>
+<p>Kesiti metreye çevirin, boy ve adetle çarpın. Örnek: 2,5 × 5 cm kesitli, 3 m boyunda 400 adet çıta = 0,025 × 0,05 × 3 × 400 = <strong>1,5 m³</strong>. Daha fazla örnek ve hazır tablo <a href="/kavak-kereste-metrekup-hesaplama/">metreküp hesaplama rehberinde</a>.</p>
+
+<h2>Kuru mu yaş mı?</h2>
+<p>Kaplama altı ve kapalı sandık işlerinde kuru çıta seçin; yaş çıta kurudukça çeker ve eğilebilir. Kısa süreli istif ve açık ambalajda yaş çıta da iş görür. İhracat ambalajında kullanılacaksa çıtanın da ISPM-15 ısıl işlem görmüş olması gerekir.</p>
+
+<h2>Sipariş için ne gönderin?</h2>
+<ul>
+<li>Kesit (en × kalınlık, cm) ve boy (m)</li>
+<li>Adet ya da toplam metreküp</li>
+<li>Kuru mu yaş mı, ihracat için ısıl işlem gerekip gerekmediği</li>
+<li>Teslim adresi</li>
+</ul>
+<p>Bilgileri <a href="/iletisim/#teklif">teklif formuyla</a> gönderin; ürün özellikleri için <a href="/cita/">çıta sayfasına</a> bakabilirsiniz.</p>
+HTML,
+		'faq'     => array(
+			array( 'Kavak çıta ne işe yarar?', 'Sandık ve kafes takviyesi, yük arasında ayırıcı, kaplama altı taşıyıcı ızgara, hafif konstrüksiyon ve çerçeve işlerinde kullanılır.' ),
+			array( 'Kavak çıta hangi ölçülerde kesilir?', 'Sabit bir ölçü listesi yoktur; kesit ve boy siparişe göre kesilir. Sık istenen kesitler 2 × 4, 2,5 × 5 ve 3 × 5 cm civarındadır.' ),
+			array( 'Çıtanın metreküpü nasıl hesaplanır?', 'Kesit ölçüleri metreye çevrilip boy ve adetle çarpılır. 2,5 × 5 cm, 3 m, 400 adet çıta 0,025 × 0,05 × 3 × 400 = 1,5 m³ eder.' ),
+			array( 'Çıta fiyatı neye göre değişir?', 'Kesite, boya, kuruluğa ve miktara göre değişir. Ölçü ve adedi gönderirseniz KDV hariç yazılı teklif hazırlanır.' ),
+		),
+	),
+	array(
+		'slug'    => 'ahsap-takoz-cesitleri',
+		'title'   => 'Ahşap Takoz Çeşitleri: Palet, Kanallı, Üçgen ve Semer Takoz',
+		'excerpt' => 'Ahşap takoz yükü taşır, ayırır ya da sabitler. Palet takozu, kanallı, üçgen (kama), mil ve semer takoz ne işe yarar, hangisi ne zaman seçilir?',
+		'updated' => '2026-11-10',
+		'body'    => <<<'HTML'
+<p><strong>Ahşap takoz, yükü taşımak, yerden yükseltmek, birbirinden ayırmak ya da kaymasını önlemek için kesilmiş kısa ahşap bloktur.</strong> Şekline göre farklı işler görür: kare blok paleti taşır, kanallı takoz kayışı geçirir, üçgen takoz tekerleği ve yükü kilitler, semer takoz boru ve tankı yatırır.</p>
+
+<h2>Takoz çeşitleri ve kullanım yerleri</h2>
+<table>
+<thead><tr><th>Takoz</th><th>Şekli</th><th>Ne işe yarar?</th></tr></thead>
+<tbody>
+<tr><td>Standart takoz</td><td>Kare ya da dikdörtgen blok</td><td>Makine ve pano altlığı, yükseltme, zemin dengeleme</td></tr>
+<tr><td>Palet takozu</td><td>Kare ya da dikdörtgen blok</td><td>Palet ayağı; forklift çatalının girdiği boşluğu oluşturur</td></tr>
+<tr><td>Kanallı takoz</td><td>Yüzeyine yuva açılmış blok</td><td>Çember, kayış ya da çatal için geçiş; istifte kaymayı önler</td></tr>
+<tr><td>Üçgen (kama) takoz</td><td>Üçgen kesit</td><td>Tekerlek ve yükün yuvarlanmasını, devrilmesini önler</td></tr>
+<tr><td>Mil ve merdane takozu</td><td>Yuvarlak oyuklu</td><td>Rulo ve merdanenin yuvarlanmasını önler</td></tr>
+<tr><td>Semer takoz</td><td>Çapa göre oyulmuş yatak</td><td>Boru, tank, kazan gibi silindirik yükü taşır</td></tr>
+</tbody>
+</table>
+
+<h2>Neden fırınlanmış masif ahşap?</h2>
+<p>Yaş ahşaptan kesilen takoz kurudukça çatlar ve ölçüsü değişir; altına konduğu makine ya da palet dengesini kaybeder. Fırınlanmış masif takoz şeklini korur, çatlamaya karşı dayanıklıdır. Yüzeyi zımparalanmış takozla çalışmak da daha güvenlidir; kıymık yapmaz.</p>
+
+<h2>İhracat yükünde takoz</h2>
+<p>Yurt dışına giden palet ve ambalajda takoz da ahşap ambalaj sayılır ve ISPM-15’e göre ısıl işlem görmüş, damgalı olmalıdır. Koçist Orman Ürünleri’nin Çatalca’daki fırınında ısıl işlem yapılır ve <strong>TR-1080-HT</strong> damgası basılır.</p>
+
+<h2>Takoz ölçüsü nasıl seçilir?</h2>
+<ul>
+<li><strong>Yük:</strong> Ağır yükte takozun taban alanı ve yüksekliği artar.</li>
+<li><strong>Yükseklik:</strong> Palet takozunda forklift ya da transpalet çatalının gireceği boşluğu hesaba katın.</li>
+<li><strong>Zemin:</strong> Dış mekânda neme dayanıklı, kuru ve masif takoz seçin.</li>
+<li><strong>Şekil:</strong> Yuvarlanabilen yükte üçgen, mil ya da semer takoz kullanın.</li>
+</ul>
+<p>Hacim hesabı kerestedeki gibidir: 10 × 10 × 10 cm takoz 0,1 × 0,1 × 0,1 = 0,001 m³’tür; 1.000 adedi 1 m³ eder.</p>
+
+<h2>Sipariş için ne gönderin?</h2>
+<p>Takoz tipini, ölçüsünü (en × boy × yükseklik), adedini ve ihracat için ısıl işlem gerekip gerekmediğini <a href="/iletisim/#teklif">teklif formuyla</a> yazın. Ürün özellikleri için <a href="/ahsap-takoz/">ahşap takoz sayfasına</a>, palet ölçüleri için <a href="/palet-ve-sandik-icin-kavak-kereste/">palet ve sandık rehberine</a> bakabilirsiniz.</p>
+HTML,
+		'faq'     => array(
+			array( 'Ahşap takoz ne işe yarar?', 'Yükü taşımak, yerden yükseltmek, ayırmak ve kaymasını önlemek için kullanılır. Palet ayağı, makine ve pano altlığı, istif ve sevkiyatta yük sabitleme en yaygın kullanımlarıdır.' ),
+			array( 'Üçgen takoz ne için kullanılır?', 'Kama şeklindeki üçgen takoz, tekerleklerin ve yuvarlanabilen yüklerin kaymasını ve devrilmesini önler.' ),
+			array( 'Palet takozunda ISPM-15 gerekir mi?', 'Palet yurt dışına gidecekse evet; takoz da ahşap ambalaj sayılır, ısıl işlem görmüş ve damgalı olmalıdır. Yurt içinde zorunlu değildir.' ),
+			array( 'Takoz özel ölçüde kesilir mi?', 'Evet. Takozlar istenen en, boy ve yükseklikte, istenen adette kesilir.' ),
+		),
+	),
 );
