@@ -1714,19 +1714,35 @@ function kocist_seo_opening_hours( array $graph ): array {
 				),
 				KOCIST_OPENING_HOURS
 			);
+			$graph[ $index ]['areaServed'] = kocist_area_served();
 		}
 	}
 
 	return $graph;
 }
 
+/**
+ * Teslimat bolgesi (arama verisi). Rasit Bey 18.11.2026'da teyit etti:
+ * Istanbul'un tamami (Anadolu yakasi dahil) ve Trakya (Edirne, Kirklareli,
+ * Tekirdag). Sitedeki /teslimat/ ve SSS metinleri ile ayni olmali; bolge
+ * degisirse ikisi birlikte guncellenir.
+ */
+function kocist_area_served(): array {
+	return array(
+		array( '@type' => 'City', 'name' => 'İstanbul' ),
+		array( '@type' => 'AdministrativeArea', 'name' => 'Edirne' ),
+		array( '@type' => 'AdministrativeArea', 'name' => 'Kırklareli' ),
+		array( '@type' => 'AdministrativeArea', 'name' => 'Tekirdağ' ),
+	);
+}
+
 /*
  * Fiyatli urunlerde satici girisi alanlari (Search Console "Satici girisleri").
- * Degerler Rasit Bey'in 27 Ekim'de bildirdigi kosullar (eklentiye elle
- * eklenmisti, buraya tasindi). DIKKAT: sitedeki sayfalarla henuz ayni degil;
- * Odeme ve Teslimat "Istanbul ve Trakya'ya, sure teklifte", Iptal-Iade
- * "her talep ayri degerlendirilir" diyor. Firma dogru bilgiyi verince sayfa
- * ile bu alanlar birlikte esitlenmeli.
+ * Teslimat: stoklu urunler kendi aracla cogunlukla ayni gun (Rasit Bey,
+ * 29.10.2026); bolge Istanbul'un tamami + Trakya (18.11.2026). Google
+ * nakliye bolgesinde il (addressRegion) yalnizca ABD, Avustralya ve
+ * Japonya icin destekler; bu yuzden ulke TR yazilir, bolge Organization
+ * areaServed'de (kocist_area_served). Iade alani 27 Ekim kosullarindan.
  */
 add_filter(
 	'nwcs_seo_merchant_offer_fields',
@@ -1744,13 +1760,13 @@ add_filter(
 				'handlingTime' => array(
 					'@type'    => 'QuantitativeValue',
 					'minValue' => 0,
-					'maxValue' => 1,
+					'maxValue' => 0,
 					'unitCode' => 'DAY',
 				),
 				'transitTime'  => array(
 					'@type'    => 'QuantitativeValue',
-					'minValue' => 1,
-					'maxValue' => 2,
+					'minValue' => 0,
+					'maxValue' => 1,
 					'unitCode' => 'DAY',
 				),
 			),
