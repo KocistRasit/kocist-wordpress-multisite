@@ -296,6 +296,9 @@ $manifest_data = array(
 		'city'        => 'İstanbul',
 		'postal_code' => '', // 34494 Catalca'nin kodu degil; tek adres kurali (Toplu Guncelleme)
 		'country'     => 'TR',
+		// Blog yazilarinin semasinda yazar (kisi); panelden degistirilebilir.
+		'author_name'      => 'Raşit Koç',
+		'author_url'       => 'https://kocist.com.tr/rasit-koc/',
 	),
 	// Urun Havuzu'ndaki urun formunda "Ürün Tabloları" bolumu bu sitede
 	// gosterilen urunler icin acilir (bkz. kocist_product_tables()).

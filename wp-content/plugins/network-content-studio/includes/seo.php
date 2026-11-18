@@ -1592,9 +1592,36 @@ function nwcs_seo_article( array $context, string $org_id, string $page_id, stri
 			'datePublished'    => get_the_date( 'c', $post ),
 			'dateModified'     => get_the_modified_date( 'c', $post ),
 			'inLanguage'       => $language,
-			'author'           => array( '@id' => $org_id ),
+			'author'           => nwcs_seo_article_author( $org_id ),
 			'publisher'        => array( '@id' => $org_id ),
 			'mainEntityOfPage' => array( '@id' => $page_id ),
+		)
+	);
+}
+
+/**
+ * Blog yazisinin yazari: panelde (SEO ve GEO > Blog Yazarı) ad girildiyse
+ * kisi (Person), girilmediyse eskisi gibi firma. Yazar sayfasi girildiyse
+ * kimlik onun uzerinden kurulur (.../rasit-koc/#person); boylece yazilar ve
+ * tanitim sayfasi ayni kisiye baglanir.
+ */
+function nwcs_seo_article_author( string $org_id ): array {
+	$name = nwcs_seo_clean( nwcs_field( NWCS_SEO_SITE_PAGE, 'author', 'name' ) );
+
+	if ( '' === $name ) {
+		return array( '@id' => $org_id );
+	}
+
+	$url = esc_url_raw( (string) nwcs_field( NWCS_SEO_SITE_PAGE, 'author', 'url' ) );
+
+	return array_filter(
+		array(
+			'@type'    => 'Person',
+			'@id'      => $url ? strtok( $url, '#' ) . '#person' : $org_id . '-author',
+			'name'     => $name,
+			'url'      => $url,
+			'jobTitle' => nwcs_seo_clean( nwcs_field( NWCS_SEO_SITE_PAGE, 'author', 'job_title' ) ),
+			'worksFor' => array( '@id' => $org_id ),
 		)
 	);
 }
