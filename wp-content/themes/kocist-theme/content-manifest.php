@@ -288,6 +288,9 @@ $manifest_data = array(
 	'seo_site_defaults' => array(
 		'name'        => 'Koçist Orman Ürünleri',
 		'legal_name'  => 'Koçist Orman Ürünleri İnş. ve İnş. Yap. Malz. San. Tic. Ltd. Şti.',
+		// Koçist Grup 2010'da kuruldu (Raşit, 18.11.2026). 1975 ailenin uretime
+		// baslangici; o yil /kurumsal/ metninde kalir, semaya yazilmaz.
+		'founding_date' => '2010',
 		'description' => 'Koçist Orman Ürünleri: özel ölçüde kereste, palet, sandık ve kafes üretimi. Tedarik, üretim ve sevkiyat aynı çatı altında.',
 		'phone'       => '+90 549 648 19 19',
 		'email'       => 'info@kocist.com.tr',

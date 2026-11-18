@@ -1002,7 +1002,7 @@ function nwcs_seo_post_text( WP_Post $post ): string {
  * Firma bilgisi: panelde girilen degerler; bos olanlar yazilmaz.
  */
 function nwcs_seo_org_data(): array {
-	$keys = array( 'name', 'legal_name', 'description', 'phone', 'mobile', 'email', 'street', 'district', 'city', 'postal_code', 'country', 'latitude', 'longitude', 'opening_hours', 'parent_name', 'parent_url' );
+	$keys = array( 'name', 'legal_name', 'founding_date', 'description', 'phone', 'mobile', 'email', 'street', 'district', 'city', 'postal_code', 'country', 'latitude', 'longitude', 'opening_hours', 'parent_name', 'parent_url' );
 	$org  = array();
 
 	foreach ( $keys as $key ) {
@@ -1019,6 +1019,11 @@ function nwcs_seo_org_data(): array {
 		if ( 10 === strlen( $digits ) ) {
 			$org['mobile'] = sprintf( '+90 %s %s %s %s', substr( $digits, 0, 3 ), substr( $digits, 3, 3 ), substr( $digits, 6, 2 ), substr( $digits, 8, 2 ) );
 		}
+	}
+
+	// schema.org foundingDate ISO 8601 ister: yalniz YYYY ya da YYYY-AA-GG gecer.
+	if ( ! preg_match( '/^\d{4}(-\d{2}-\d{2})?$/', $org['founding_date'] ) ) {
+		$org['founding_date'] = '';
 	}
 
 	$org['same_as'] = array_values(
@@ -1052,6 +1057,7 @@ function nwcs_seo_graph( array $context ): array {
 			'@id'         => $org_id,
 			'name'        => $org['name'],
 			'legalName'   => $org['legal_name'],
+			'foundingDate' => $org['founding_date'],
 			'description' => $org['description'],
 			'url'         => $home,
 			'telephone'   => $org['phone'],
@@ -1945,6 +1951,7 @@ function nwcs_seo_llms_text(): string {
 	$facts = array_filter(
 		array(
 			'' !== $org['legal_name'] ? 'Resmî unvan: ' . $org['legal_name'] : '',
+			'' !== $org['founding_date'] ? 'Kuruluş: ' . substr( $org['founding_date'], 0, 4 ) : '',
 			'' !== $org['street'] ? 'Adres: ' . implode( ', ', array_filter( array( $org['street'], $org['district'], $org['city'], $org['postal_code'] ) ) ) : '',
 			'' !== $org['phone'] ? 'Telefon: ' . $org['phone'] : '',
 			'' !== $org['mobile'] && $org['mobile'] !== $org['phone'] ? 'Cep ve WhatsApp: ' . $org['mobile'] : '',
