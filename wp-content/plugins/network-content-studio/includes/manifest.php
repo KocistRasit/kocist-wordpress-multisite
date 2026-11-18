@@ -222,8 +222,8 @@ function nwcs_seo_site_page( array $defaults ): array {
 					'legal_name'  => $field( 'legal_name', 'Resmî unvan', 'text', 'Ağdaki bütün sitelerde birebir aynı yazılmalı.' ),
 					'description' => $field( 'description', 'Firma tanımı', 'textarea', 'Bir iki cümle: ne üretiyorsunuz, nerede, kime. Yapay zekâ aramaları bu cümleyi alıntılar.' ),
 					'logo'        => $field( 'logo', 'Logo', 'image' ),
-					'phone'       => $field( 'phone', 'Telefon', 'text', 'Uluslararası biçimde: +90 212 648 10 90' ),
-					'mobile'      => $field( 'mobile', 'Cep ve WhatsApp', 'text', 'Uluslararası biçimde: +90 532 374 98 32. Boşsa sitenin cep hattı (Toplu Güncelleme) yazılır.' ),
+					'phone'       => $field( 'phone', 'Telefon', 'text', 'Uluslararası biçimde: +90 212 648 19 19' ),
+					'mobile'      => $field( 'mobile', 'Cep ve WhatsApp', 'text', 'Uluslararası biçimde: +90 549 648 19 19. Boşsa sitenin cep hattı (Toplu Güncelleme) yazılır.' ),
 					'email'       => $field( 'email', 'E-posta' ),
 					'street'      => $field( 'street', 'Açık adres', 'text', 'Mahalle, cadde, numara' ),
 					'district'    => $field( 'district', 'İlçe' ),
@@ -245,6 +245,14 @@ function nwcs_seo_site_page( array $defaults ): array {
 					),
 					'parent_name' => $field( 'parent_name', 'Bağlı olduğu grup', 'text', 'Siteler aynı grubun parçasıysa grubun adı. Örn. Koçist Orman Ürünleri' ),
 					'parent_url'  => $field( 'parent_url', 'Grubun web adresi', 'url', 'Örn. https://www.kocist.com.tr' ),
+				),
+			),
+			'author'   => array(
+				'label'  => 'Blog Yazarı',
+				'fields' => array(
+					'name'      => $field( 'author_name', 'Yazarın adı', 'text', 'Blog yazılarının şemasında yazar olarak bu kişi görünür. Örn. Raşit Koç. Boşsa yazar firma olur.' ),
+					'url'       => $field( 'author_url', 'Yazar sayfası', 'url', 'Sitedeki yazar tanıtım sayfası. Örn. https://kocist.com.tr/rasit-koc/' ),
+					'job_title' => $field( 'author_job_title', 'Görevi', 'text', 'Örn. Kurucu, Genel Müdür' ),
 				),
 			),
 			'defaults' => array(
