@@ -1050,10 +1050,14 @@ function nwcs_seo_graph( array $context ): array {
 	$language = str_replace( '_', '-', get_locale() );
 
 	// Adresi ve telefonu olan firma yerel isletmedir; Haritalar eslesmesi icin.
+	// Tip ikili yazilir (Organization + LocalBusiness): LocalBusiness zaten
+	// Organization'in alt turu, ama denetim araclari ve yapay zeka motorlari
+	// Organization'i acikca ariyor (Ahrefs "Organization semasi eksik", 9 site).
 	$has_address = '' !== $org['street'] || '' !== $org['city'];
+	$is_local    = $has_address && '' !== $org['phone'];
 	$business    = array_filter(
 		array(
-			'@type'       => $has_address && '' !== $org['phone'] ? 'LocalBusiness' : 'Organization',
+			'@type'       => $is_local ? array( 'Organization', 'LocalBusiness' ) : 'Organization',
 			'@id'         => $org_id,
 			'name'        => $org['name'],
 			'legalName'   => $org['legal_name'],
@@ -1092,7 +1096,7 @@ function nwcs_seo_graph( array $context ): array {
 	// Yerel isletme gorseli (Google onerir): sitenin paylasim gorseli, yoksa logo.
 	$photo = nwcs_seo_image( (int) nwcs_field( NWCS_SEO_SITE_PAGE, 'defaults', 'share_image', 0 ) ) ?: $logo;
 
-	if ( 'LocalBusiness' === $business['@type'] && $photo ) {
+	if ( $is_local && $photo ) {
 		$business['image'] = $photo['url'];
 	}
 
@@ -1130,7 +1134,7 @@ function nwcs_seo_graph( array $context ): array {
 	}
 
 	// Calisma saatleri panelde schema.org biciminde girilir (Mo-Sa 08:00-19:00).
-	if ( 'LocalBusiness' === $business['@type'] && '' !== $org['opening_hours'] ) {
+	if ( $is_local && '' !== $org['opening_hours'] ) {
 		$business['openingHours'] = array_values( array_filter( array_map( 'trim', explode( ',', $org['opening_hours'] ) ) ) );
 	}
 
