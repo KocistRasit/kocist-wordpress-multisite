@@ -17,11 +17,16 @@
  *
  * Surum 2: Sik Sorulan Sorular sayfasi (/sss/). Kurulu sitede (surum 1)
  * yalnizca bu sayfa acilir; kurulumun geri kalani yeniden calismaz.
+ *
+ * Surum 3: katalog (cesit bazli urunler, inc/catalog.php). Kurulu sitede
+ * manifeste sonradan eklenen civi tipi sayfalari (/civiler/<tip>/) acilir ve
+ * eski sitenin /service/... adresleri yonlendirme listesine eklenir (yoksa).
+ * Cesit sayfalari WordPress sayfasi degildir; yedek cizimle 200 doner.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-const PC_SETUP_VERSION = '2';
+const PC_SETUP_VERSION = '3';
 
 add_action( 'after_switch_theme', 'pc_setup_site' );
 add_action( 'admin_init', 'pc_maybe_setup_site' );
@@ -44,6 +49,8 @@ function pc_maybe_setup_site(): void {
 		// on sayfayi, kalici baglantiyi ve dili yeniden yazar; panelde yapilan
 		// degisiklikler ezilmesin.
 		pc_setup_page( 'sss', 'Sık Sorulan Sorular' );
+		pc_setup_product_pages();
+		pc_setup_merge_redirects();
 		update_option( 'pc_setup_version', PC_SETUP_VERSION );
 		return;
 	}
@@ -70,18 +77,7 @@ function pc_setup_site(): void {
 	pc_setup_page( 'iletisim', 'İletişim' );
 	pc_setup_page( 'sss', 'Sık Sorulan Sorular' );
 
-	$parent = pc_setup_page( 'civiler', 'Çiviler' );
-
-	foreach ( $pages as $key => $page ) {
-		if ( 'product' !== ( $page['template'] ?? '' ) ) {
-			continue;
-		}
-
-		$slug = basename( untrailingslashit( (string) $page['path'] ) );
-		$name = (string) ( $page['components']['card']['fields']['name']['default'] ?? $slug );
-
-		pc_setup_page( $slug, $name, $parent );
-	}
+	pc_setup_product_pages();
 
 	foreach ( pc_seed_posts() as $post ) {
 		pc_setup_post( $post );
@@ -116,6 +112,60 @@ function pc_setup_site(): void {
 	flush_rewrite_rules( false );
 	update_option( 'pc_setup_version', PC_SETUP_VERSION );
 	delete_transient( 'pc_setup_lock' );
+}
+
+/**
+ * /civiler/ ust sayfasi ve manifestteki her civi tipi icin alt sayfa
+ * (var olana dokunmaz).
+ */
+function pc_setup_product_pages(): void {
+	$parent = pc_setup_page( 'civiler', 'Çiviler' );
+
+	foreach ( pc_manifest()['pages'] ?? array() as $page ) {
+		if ( 'product' !== ( $page['template'] ?? '' ) ) {
+			continue;
+		}
+
+		$slug = basename( untrailingslashit( (string) $page['path'] ) );
+		$name = (string) ( $page['components']['card']['fields']['name']['default'] ?? $slug );
+
+		pc_setup_page( $slug, $name, $parent );
+	}
+}
+
+/**
+ * Yonlendirme listesinde olmayan tohum kurallarini sona ekler; var olan
+ * satirlara dokunmaz (liste panelden duzenlenmis olabilir).
+ */
+function pc_setup_merge_redirects(): void {
+	$current = (string) get_option( 'nwcs_redirects', '' );
+	$have    = array();
+
+	foreach ( preg_split( '/\R/u', $current ) ?: array() as $line ) {
+		$line = trim( (string) preg_replace( '/\s+#.*$/u', '', $line ) );
+
+		if ( '' !== $line && '#' !== $line[0] ) {
+			$have[ (string) preg_split( '/\s+/', $line )[0] ] = true;
+		}
+	}
+
+	$missing = array();
+
+	foreach ( preg_split( '/\R/u', pc_setup_redirects() ) ?: array() as $line ) {
+		$clean = trim( (string) preg_replace( '/\s+#.*$/u', '', $line ) );
+
+		if ( '' === $clean || '#' === $clean[0] ) {
+			continue;
+		}
+
+		if ( ! isset( $have[ (string) preg_split( '/\s+/', $clean )[0] ] ) ) {
+			$missing[] = $line;
+		}
+	}
+
+	if ( $missing ) {
+		update_option( 'nwcs_redirects', rtrim( $current ) . "\n\n# Kurulum " . PC_SETUP_VERSION . " ile eklendi\n" . implode( "\n", $missing ) . "\n", false );
+	}
 }
 
 /**
@@ -229,6 +279,12 @@ function pc_setup_redirects(): string {
 			'',
 			'# Kategori arsivi blog sayfasina',
 			'/category/*                /haberler-blog/',
+			'',
+			'# Eski temanin hizmet adresleri (ana sayfadan baglaniyordu)',
+			'/service/rulo-palet-civiler/   /civiler/rulo-palet-civiler/',
+			'/service/tele-dizili-civiler/  /civiler/tele-dizili-civiler/',
+			'/service/dokme-civiler/        /civiler/dokme-civiler/',
+			'/service/*                     /palet-civileri/',
 			'',
 			'# Eski site haritalari',
 			'/sitemap_index.xml         /wp-sitemap.xml',

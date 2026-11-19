@@ -2227,3 +2227,37 @@ Denetim raporunun panelden yapılamayan kalemleri; hepsi temada (`inc/seo-extra.
 - **sameAs:** Üst Bilgi Şeridi'ne girilen sosyal ağ adresleri firma kaydına `sameAs` olarak eklenir.
 - **IndexNow:** yazı ya da sayfa yayınlanınca, güncellenince ya da yayından kalkınca adres api.indexnow.org'a (Bing, Yandex) bildirilir. Anahtar `ik_indexnow_key` seçeneğinde, dosyası `/<anahtar>.txt`. Arama motorlarına kapalı ya da yerel sitede çalışmaz. Panelden (İçerik Stüdyosu) yapılan değişiklikler bildirilmez.
 - **Ana sayfa görseli:** tema fotoğrafına alt metin.
+
+## İstanbul Palet Çivi: Sertel kataloğu ve çeşit sayfaları (tema 0.2.0, 19 Kasım 2026)
+
+Kullanıcı kararı: serteltools.com/urunler/ çivi ürünleri siteye eklensin, metinler
+kopya olmasın, SEO/GEO/AEO rakip analizine göre yazılsın; site yayına alınacak.
+
+- **Katalog panelden:** `products.catalog.items` tekrarlı alanı (en çok 120 satır:
+  adres adı, ad, çivi tipi, kart, açıklama, "Ad: değer" özellikler, `|` ayraçlı ölçü
+  tablosu, görsel, meta başlık/açıklama). Varsayılanlar `content/catalog.php`
+  (20 ürün, Sertel'in 16 çivi sayfasından; 16° tele dizili seri çap gruplarına
+  bölündü). Teknik değerler Sertel'in **görsel tablolarından** okundu (OCR);
+  yayın sonrası Sertel listesiyle karşılaştırılması önerilir.
+- **Adres:** `/civiler/<ürün>/`, kod içermez. WordPress sayfası açılmaz; 404
+  yedek çizimi (`inc/catalog.php`, kereste temalarıyla aynı yöntem) 200 döner.
+  Tip sayfaları (`/civiler/<tip>/`) kendi çeşitlerini kart olarak listeler.
+- **Beş çivi tipi:** rulo, tele dizili (şerit), dökme + yeni **Beton Çivileri** ve
+  **İnce İş Çivileri**. Her tip sayfasının altında 4 soru-cevap (`faq` bileşeni;
+  Product şemalı sayfada FAQPage yazılmaz, metin AEO için sayfada).
+- **SEO/GEO:** çeşit sayfaları `nwcs_seo_extra_pages` ile Product şeması
+  (additionalProperty), site haritası ve llms.txt alır; meta başlık ≤60, açıklama
+  ≤160, ürün adı beş alanda da geçer. Fiyat yok ("Teklif al"), KDV ve ISPM-15
+  ifadesi yok.
+- **Görseller sunucu indirir:** `content/catalog-images.php` (Sertel kaynak
+  URL'leri; bayilik gereği kullanım izni) → `inc/catalog-images.php` yönetici
+  panele girince istek başına 6 görseli medya kütüphanesine alır
+  (`pc_catalog_images` seçeneği). Panelden seçilen görsel her zaman önce gelir.
+  Tip sayfalarının yapay zekâ "Örnek görsel"leri de böyle gerçek fotoğrafla
+  değişir (`tip:<anahtar>`).
+- **Kurulum sürüm 3:** kurulu sitede yeni tip sayfalarını açar ve eski sitenin
+  `/service/...` adreslerini yönlendirme listesine ekler (var olan satırlara
+  dokunmaz).
+- Teklif formu: çeşit sayfasından `?urun=<tip>&olcu=<çeşit>` ile gelinir.
+- Yapılmadı: Sertel tabanca (19 model) ve zımba teli (16 kalem) sayfaları; teknik
+  sayfalar taranmadı, doğrulanmadan yazılmadı.

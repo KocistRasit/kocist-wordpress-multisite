@@ -19,7 +19,7 @@
 /*
  * Uc urun sayfasi ayni alan yapisini paylasir.
  */
-$product_page = static function ( string $label, string $path, array $card, array $detail ): array {
+$product_page = static function ( string $label, string $path, array $card, array $detail, array $faq = array() ): array {
 	return array(
 		'label'      => $label,
 		'path'       => $path,
@@ -56,6 +56,22 @@ $product_page = static function ( string $label, string $path, array $card, arra
 							'text' => array( 'label' => 'İş', 'type' => 'text' ),
 						),
 						'default' => array_map( static fn( string $text ): array => array( 'text' => $text ), $detail['uses'] ),
+					),
+				),
+			),
+
+			'faq' => array(
+				'label'  => 'Sık Sorulan Sorular (tip sayfasının altında)',
+				'fields' => array(
+					'items' => array(
+						'label'   => 'Sorular',
+						'type'    => 'repeater',
+						'max'     => 8,
+						'fields'  => array(
+							'question' => array( 'label' => 'Soru', 'type' => 'text' ),
+							'answer'   => array( 'label' => 'Cevap', 'type' => 'textarea' ),
+						),
+						'default' => $faq,
 					),
 				),
 			),
@@ -243,7 +259,7 @@ return array(
 				'products' => array(
 					'label'  => 'Ürünler',
 					'fields' => array(
-						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Üç çivi tipi, tabancanıza göre' ),
+						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Çivi tipleri, tabancanıza göre' ),
 						'lead'  => array( 'label' => 'Alt Metin', 'type' => 'textarea', 'default' => 'Hangi çivinin size uyduğu, elinizdeki tabancaya ve yaptığınız işe bağlı. Ölçü ve fiyat için arayın.' ),
 						'more'  => array( 'label' => 'Ürün Bağlantısı Metni', 'type' => 'text', 'default' => 'Ürünü inceleyin' ),
 					),
@@ -315,7 +331,7 @@ return array(
 					'label'  => 'Sayfa Başı',
 					'fields' => array(
 						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'İstanbul palet çivileri' ),
-						'lead'  => array( 'label' => 'Alt Metin', 'type' => 'textarea', 'default' => 'Rulo, tele dizili ve dökme çivi. Hepsi palet, sandık ve kafes üretiminde kullanılır; aralarındaki fark, nasıl çakıldıkları.' ),
+						'lead'  => array( 'label' => 'Alt Metin', 'type' => 'textarea', 'default' => 'Rulo, şerit ve dökme palet çivileri; beton ve ince iş çivileri. Palet, sandık ve kafes üretiminden mobilya ve şantiyeye; aralarındaki fark, nasıl ve neye çakıldıkları.' ),
 					),
 				),
 				'help' => array(
@@ -336,6 +352,35 @@ return array(
 						'wa_label'    => array( 'label' => 'Sipariş Kutusu: WhatsApp Düğmesi', 'type' => 'text', 'default' => 'WhatsApp’tan fiyat sorun' ),
 						'form_label'  => array( 'label' => 'Sipariş Kutusu: Form Bağlantısı', 'type' => 'text', 'default' => 'Formla sipariş isteği gönderin' ),
 						'wa_message'  => array( 'label' => 'Ürün WhatsApp Hazır Mesajı', 'type' => 'text', 'default' => 'Merhaba, {urun} hakkında bilgi almak istiyorum.', 'hint' => '{urun} yerine ürünün adı yazılır; sonuna ürün sayfasının adresi eklenir.' ),
+						'specs_title'    => array( 'label' => 'Teknik Özellikler Başlığı', 'type' => 'text', 'default' => 'Teknik özellikler' ),
+						'sizes_title'    => array( 'label' => 'Ölçü Tablosu Başlığı', 'type' => 'text', 'default' => 'Ölçüler ve paketleme' ),
+						'items_title'    => array( 'label' => 'Tip Sayfası: Ürün Listesi Başlığı', 'type' => 'text', 'default' => '{tip} çeşitleri', 'hint' => '{tip} yerine çivi tipinin adı yazılır.' ),
+						'items_lead'     => array( 'label' => 'Tip Sayfası: Ürün Listesi Alt Metni', 'type' => 'textarea', 'default' => 'Ölçü, gövde ve kaplamaya göre stoktaki seçenekler. Listede olmayan ölçüler için arayın.' ),
+						'faq_title'      => array( 'label' => 'Tip Sayfası: Soru-Cevap Başlığı', 'type' => 'text', 'default' => '{tip} hakkında sık sorulanlar', 'hint' => '{tip} yerine çivi tipinin adı yazılır.' ),
+						'siblings_title' => array( 'label' => 'Ürün Sayfası: Diğer Çeşitler Başlığı', 'type' => 'text', 'default' => 'Diğer {tip}', 'hint' => '{tip} yerine çivi tipinin adı yazılır.' ),
+					),
+				),
+				'catalog' => array(
+					'label'  => 'Ürün Listesi (çeşit bazlı)',
+					'fields' => array(
+						'items' => array(
+							'label'   => 'Ürünler',
+							'type'    => 'repeater',
+							'max'     => 120,
+							'fields'  => array(
+								'slug'            => array( 'label' => 'Adres Adı (civiler/…)', 'type' => 'text' ),
+								'title'           => array( 'label' => 'Ürün Adı', 'type' => 'text' ),
+								'group'           => array( 'label' => 'Çivi Tipi (tip sayfasının adres adı: rulo-palet-civiler, tele-dizili-civiler, dokme-civiler…)', 'type' => 'text' ),
+								'short'           => array( 'label' => 'Kart Açıklaması (kısa)', 'type' => 'textarea' ),
+								'body'            => array( 'label' => 'Ürün Açıklaması (boş satırla paragraf)', 'type' => 'textarea' ),
+								'specs'           => array( 'label' => 'Teknik Özellikler (her satır "Ad: değer")', 'type' => 'textarea' ),
+								'sizes'           => array( 'label' => 'Ölçü Tablosu (ilk satır başlıklar; sütunlar "|" ile ayrılır)', 'type' => 'textarea', 'hint' => 'Örnek: Ebat (mm) | Ad/Rulo | Ad/Koli — altına her ölçü için bir satır.' ),
+								'image'           => array( 'label' => 'Ürün Görseli', 'type' => 'image' ),
+								'seo_title'       => array( 'label' => 'Meta Başlık (≤60)', 'type' => 'text' ),
+								'seo_description' => array( 'label' => 'Meta Açıklama (≤160)', 'type' => 'textarea' ),
+							),
+							'default' => (array) include __DIR__ . '/content/catalog.php',
+						),
 					),
 				),
 				'list' => array(
@@ -360,6 +405,12 @@ return array(
 				'lead' => 'Rulo palet çivisi, çivilerin ince tellerle birbirine bağlanıp rulo (bobin) hâline getirildiği çivi tipidir. Rulo çivi tabancasıyla hızlı ve seri çakılır.',
 				'body' => "Rulo çiviler çelik telden üretilir. Çiviler yan yana dizilir, ince tellerle birbirine tutturulur ve düz bir rulo hâlinde sarılır. Rulo tabancanın haznesine takılır; tabanca her tetikte bir çiviyi ayırıp çakar.\n\nPalet ve sandık üretiminde en çok kullanılan çivi tipidir. Tek tek çakmaya göre çok daha hızlıdır ve seri üretimde işçilik süresini kısaltır. Ahşap döşeme, çit, çatı kaplaması ve kasa yapımında da kullanılır.\n\nGövdesi düz, halkalı ya da vida dişli olabilir. Halkalı ve vida dişli gövde ahşapta daha sıkı tutunur, çivinin zamanla gevşemesini azaltır. Çıplak (parlak) ve galvaniz kaplamalı seçenekler vardır; nemli ortamda ve dış mekânda galvaniz tercih edilir.\n\nÇivinin boyu ve kalınlığı, birleştirilecek tahtaların kalınlığına ve tabancanızın kabul ettiği ölçüye göre seçilir. Çakarken çivinin doğru yerleştiğinden emin olun, koruyucu gözlük ve eldiven kullanın.",
 				'uses' => array( 'Palet üretimi ve onarımı', 'Sandık ve kafes', 'Ahşap döşeme', 'Çit ve çatı kaplaması', 'Mobilya imalatı' ),
+			),
+			array(
+				array( 'question' => 'Rulo çivi ile tele dizili çivi aynı şey mi?', 'answer' => 'Evet. Çiviler iki ince telle kaynaklanıp bobin (rulo) halinde sarılır; sektörde "tele dizili", "rulo" ve "coil" aynı ürün için kullanılır.' ),
+				array( 'question' => 'Rulo palet çivisi kaç derece olmalı?', 'answer' => 'Türkiye\'de satılan rulo tabancaların büyük çoğunluğu 16° tel dizimli çivi kullanır; Sertel rulo serisi 16°\'dir. 15° ithal tabancalarda şarjör toleransı modeline göre değişir, model bilgisini iletin.' ),
+				array( 'question' => 'Bir kolide kaç rulo çivi var?', 'answer' => 'Ebada göre değişir: 2,5x40 mm\'de 300\'lük 40 rulo (12.000 adet), 2,5x50–70 mm\'de 300\'lük 30 rulo (9.000 adet), 2,8x80 mm\'de 250\'lik 20 rulo (5.000 adet), 3,4x130 mm\'de 175\'lik 10 rulo (1.750 adet).' ),
+				array( 'question' => 'Halkalı mı düz mü almalıyım?', 'answer' => 'Çam gibi yumuşak ahşapta ve yeniden kullanılan paletlerde ring (halkalı) gövde çivinin geri çıkmasını engeller; tek seferlik hafif paletlerde düz gövde yeterlidir; meşe gibi sert ahşapta helikal (vidalı) gövde çatlamayı azaltır.' ),
 			)
 		),
 
@@ -375,6 +426,12 @@ return array(
 				'lead' => 'Tele dizili çivi, çivilerin ince tellerle yan yana şerit hâlinde dizildiği çivi tipidir. Şerit çivi tabancasıyla çakılır.',
 				'body' => "Çiviler düz bir şerit boyunca yan yana dizilir ve ince tellerle birbirine bağlanır. Şerit tabancanın şarjörüne yerleştirilir; tabanca her tetikte bir çiviyi teli koparak çakar. Şeritler genellikle açılıdır; açı, tabancanın şarjörüne uygun seçilmelidir.\n\nUzun gövdeli çivilerde yaygındır. Ahşap karkas ve çatı iskeleti, kalıp işleri, kasa ve palet üretimi gibi kalın ahşabın birleştirildiği işlerde kullanılır. Çivilerin düzenli dizilmesi, her çakışta aynı derinlikte ve sağlam bir bağlantı sağlar.\n\nRulo çiviye göre şarjörde daha az çivi taşır, ama uzun ve kalın çivilerde tabancayı daha dengeli tutar. Hangi tipi kullanacağınız elinizdeki tabancaya bağlıdır.\n\nGövde tipi (düz, halkalı), kaplama (çıplak, galvaniz) ve ölçü seçimi için bizi arayın; tabancanızın modelini söylemeniz yeterli.",
 				'uses' => array( 'Ahşap karkas ve çatı iskeleti', 'Kalıp işleri', 'Kasa yapımı', 'Palet üretimi', 'Ahşap zemin döşeme' ),
+			),
+			array(
+				array( 'question' => '21°, 28° ve 34° çivi arasındaki fark ne?', 'answer' => 'Açı, şeritin tabanca şarjörüne giriş eğimidir. 21° plastik şeritli tam başlı, 28° tel kaynaklı şeritli, 34° kağıt şeritli kesik başlı çividir; her tabanca yalnızca kendi açısındaki şeridi kabul eder.' ),
+				array( 'question' => 'Kağıda dizili çivi neden kesik başlı?', 'answer' => 'Kesik (D) baş çivilerin birbirine daha yakın dizilmesini sağlar; böylece şarjöre daha çok çivi sığar ve dar köşelerde çakım kolaylaşır.' ),
+				array( 'question' => 'Plastiğe dizili çivi paletçilikte kullanılır mı?', 'answer' => 'Çoğunlukla karkas ve kalıp işinde kullanılır; ağır sandık ve kablo makarası gibi 50 mm üstü kalın birleşimlerde 2,87–3,3 mm ebatlar palet atölyelerinde de tercih edilir.' ),
+				array( 'question' => 'Şerit çiviyi nasıl saklamalıyım?', 'answer' => 'Kağıt bant nemde yumuşar; kolileri kapalı ve kuru ortamda, yere değmeden saklayın. Plastik şerit nemden etkilenmez.' ),
 			)
 		),
 
@@ -390,6 +447,54 @@ return array(
 				'lead' => 'Dökme çivi, herhangi bir tel ya da bantla dizilmemiş, toplu hâlde satılan çividir. Çekiçle elle çakılır ya da dökme çivi besleyen makinelerde kullanılır.',
 				'body' => "Dökme çiviler çelik telden, başı ve ucu şekillendirilerek üretilir; dizme işleminden geçmez. Bu yüzden kilo ya da koli ile satılır.\n\nTabanca kullanılmayan işlerde, onarımda, küçük adetli üretimde ve dökme çivi kullanan çakım makinelerinde tercih edilir. Palet onarımı, sandık kapağı ve saha işlerinde pratiktir.\n\nBaşı düz, gövdesi düz ya da halkalı olabilir; çıplak ve galvaniz seçenekleri vardır. Dayanıklılık gereken işlerde halkalı gövde ahşapta daha iyi tutunur.\n\nİhtiyacınız olan boyu ve kalınlığı söyleyin, stok ve fiyat bilgisini iletelim.",
 				'uses' => array( 'Palet onarımı', 'Sandık ve kafes kapağı', 'Elle çakım gereken işler', 'Küçük adetli üretim', 'Saha ve şantiye işleri' ),
+			),
+			array(
+				array( 'question' => 'Dökme çivi dökme demirden mi yapılır?', 'answer' => 'Hayır. Dökme çivi düşük karbonlu çelik telden soğuk şekillendirilir; "dökme" kelimesi çivilerin dizilmeden kutuya dökülmüş olmasını anlatır.' ),
+				array( 'question' => 'EPAL çivisi ile normal palet çivisi farkı ne?', 'answer' => 'EPAL çivisinin kafasında üreticiyi tanımlayan iki harfli kod (AT, AU, AV, AW, AX, AY, AZ) bulunur ve çap–boy değerleri EPAL şartnamesinde sabittir; lisanslı Euro palet üretiminde bu kodlu çivi zorunludur.' ),
+				array( 'question' => 'Bir EPAL palette kaç çivi kullanılır?', 'answer' => '78 ile 81 adet arasında; takoz, üst tahta ve alt tahta için farklı kodlu çiviler kullanılır.' ),
+				array( 'question' => 'Spike çivi nereye çakılır?', 'answer' => '20–30 cm boyundaki spike çiviler kalın palet takozu, kalas birleştirme, ahşap travers ve kablo makarası gövdesi gibi 100 mm üzeri kesitlerde kullanılır; 8,3 mm burgulu gövde kendini ahşaba kilitler.' ),
+			)
+		),
+
+		'beton' => $product_page(
+			'Ürün: Beton Çivileri',
+			'/civiler/beton-civileri/',
+			array(
+				'name'  => 'Beton Çivileri',
+				'short' => 'Sertleştirilmiş çelikten beton, tuğla ve sıva çivileri: elden çakılan çelik çivi, gazlı ve havalı tabanca serileri, tavan askı çivisi.',
+				'tool'  => 'Çekiçle, gazlı ya da havalı beton tabancasıyla çakılır',
+			),
+			array(
+				'lead' => 'Beton çivisi, ısıl işlemle sertleştirilmiş çelikten üretilir; betona, tuğlaya ve sıvaya bükülmeden girer.',
+				'body' => 'Beton çivileri sertleştirilmiş çelikten üretilir; betona, tuğlaya ve sıvaya çekiç, havalı veya gazlı tabancayla çakılır. Sertel grubunda elden çakılan Çelik Beton Çivisi (3x30–5x100 mm), gazlı tabancalar için GP 2,9 plastiğe dizili seri, havalı tabancalar için NK serisi (22–72 mm) ve asma tavan için L tipi askı çivisi bulunur. Palet ve ambalaj tesislerinde beton zemine kızak ve çıta montajında, şantiyede kalıp ve alçıpan işlerinde kullanılır. KOÇİST poşet, kutu ve koli bazında ekonomik fiyat verir; İstanbul ve Trakya\'ya kendi araçlarımızla sevk eder, Çatalca showroomundan elden teslim eder.',
+				'uses' => array( 'Beton zemine kızak ve çıta montajı', 'Kalıp ve şantiye işleri', 'Alçıpan ve asma tavan askısı', 'Palet ve ambalaj tesisi zemin işleri', 'Elektrik ve tesisat kelepçeleri' ),
+			),
+			array(
+				array( 'question' => 'Beton çivisi normal çividen farkı ne?', 'answer' => 'Beton çivisi ısıl işlemle sertleştirilmiş çelikten yapılır; normal tel çivi yumuşak çeliktir ve betona çakılınca bükülür.' ),
+				array( 'question' => 'Gazlı tabanca çivisi hangi tabancada çalışır?', 'answer' => 'GP 2,9 mm plastiğe dizili seri, gaz kartuşuyla çalışan beton tabancalarında kullanılır; her kutu 1.000 çivi ve gaz içerir.' ),
+				array( 'question' => 'NK çivi nedir?', 'answer' => 'Havalı beton tabancalarında kullanılan, 5,6 mm kafalı dizili çivi tipidir; 22 mm\'den 72 mm\'ye kadar on boyu vardır.' ),
+				array( 'question' => 'Çelik beton çivisi kolide kaç adet gelir?', 'answer' => '100\'lük poşetlerde; 3x30 mm kolide 100 poşet (10.000 adet), 4x40–60 mm kolide 50 poşet (5.000 adet), 5x80–100 mm kolide 25 poşet (2.500 adet).' ),
+			)
+		),
+
+		'inceis' => $product_page(
+			'Ürün: İnce İş Çivileri',
+			'/civiler/ince-is-civileri/',
+			array(
+				'name'  => 'İnce İş Çivileri',
+				'short' => 'Görünür iz bırakmadan birleştiren tabanca çivileri: T başlı ST, lambiri için FST, 16–23 GA brad ve başsız pin çivi.',
+				'tool'  => 'Havalı ince iş (brad / pin) tabancasıyla çakılır',
+			),
+			array(
+				'lead' => 'İnce iş çivileri, mobilya, ambalaj kutusu ve dekorasyon işlerinde parçayı iz bırakmadan tutan ince tel çivilerdir.',
+				'body' => 'İnce iş çivileri, ahşapta görünür iz bırakmadan birleştirme yapan tabanca çivileridir. Sertel grubunda T başlı Çelik ST Çivi (2,2 mm, 18–64 mm), lambiri ve süpürgelik için FST serisi (1,8 mm, 20–40 mm), 16–23 GA Brad çiviler ve başsız Pin çivi yer alır. Mobilya atölyeleri, ambalaj kutusu üreticileri, kapı-pencere ve dekorasyon ekipleri kullanır. KOÇİST tüm GA ve boyları tek teklifte ekonomik fiyatla sunar; stoktan hızlı çıkış, İstanbul ve Trakya\'ya kendi araçlarımızla sevkiyat, Çatalca showroomunda tabanca denemesi. 0212 648 19 19.',
+				'uses' => array( 'Mobilya ve koltuk iskeleti', 'Kontrplak ambalaj kutusu', 'Lambiri ve süpürgelik', 'Kapı, pencere ve pervaz', 'Dekorasyon ve çıta işleri' ),
+			),
+			array(
+				array( 'question' => 'GA (gauge) ne demek?', 'answer' => 'Çivi telinin kalınlık numarasıdır; sayı büyüdükçe çivi incelir. 16 GA 1,6 mm, 18 GA 1,25 mm, 21 GA 0,81 mm, 23 GA 0,64 mm teldir.' ),
+				array( 'question' => 'Brad çivi ile pin çivi farkı ne?', 'answer' => 'Brad çivinin küçük bir başı vardır ve tutuş sağlar; pin çivi başsızdır, yalnızca tutkal kururken parçayı sabitler ve neredeyse iz bırakmaz.' ),
+				array( 'question' => 'ST çivi ile FST çivi farkı ne?', 'answer' => 'ST 2,2 mm çapında T başlı, betona ve sert zemine çakılan sertleştirilmiş çividir; FST 1,8 mm çapında daha ince olup lambiri ve süpürgelik gibi ince çıtalar içindir.' ),
+				array( 'question' => 'Ambalaj kutusu için hangi brad çivi?', 'answer' => 'Kontrplak ve ince tahta kutularda 16 GA T serisi 30–40 mm; MDF ve ince kaplama kapaklarda 18 GA F serisi 20–30 mm yaygındır.' ),
 			)
 		),
 

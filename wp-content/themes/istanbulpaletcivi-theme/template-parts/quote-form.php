@@ -11,6 +11,11 @@ $errors   = $state['errors'];
 $values   = $state['values'];
 $selected = $values['product'] ?? ( isset( $_GET['urun'] ) ? sanitize_text_field( wp_unslash( $_GET['urun'] ) ) : '' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
+// Katalog urun sayfasindan ?olcu=<urun adi> ile gelinirse olcu alani onceden dolar.
+if ( ! isset( $values['size'] ) && isset( $_GET['olcu'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$values['size'] = sanitize_text_field( wp_unslash( $_GET['olcu'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+}
+
 // Etiketler panelden (contact.form.<alan>_label); isaret yalnizca onizlemede.
 $field = static function ( string $key, string $type = 'text', array $extra = array() ) use ( $errors, $values ): void {
 	$id    = 'pc-' . $key;
