@@ -696,6 +696,21 @@ function nwcs_seo_context(): array {
 		return $context;
 	}
 
+	// /urun/<slug>/ icin urun yoksa istek 404 olur (nwcs_product_template,
+	// template_redirect 5). Baglam daha once 'wp' kancasinda hesaplandigindan
+	// is_404() henuz false; WordPress sorgusu bos oldugu icin sayfa blog
+	// listesi sanilip baslik "Blog – Haberler" cikiyordu. Bos baglam: WordPress
+	// 404 basligi ("Sayfa bulunamadi") gecerli olur.
+	$product_slug = (string) get_query_var( 'nwcs_product' );
+
+	if ( '' !== $product_slug && function_exists( 'nwcs_site_product_by_slug' ) ) {
+		$product = nwcs_site_product_by_slug( sanitize_title( $product_slug ) );
+
+		if ( ! $product || ( function_exists( 'nwcs_product_has_page' ) && ! nwcs_product_has_page( $product ) ) ) {
+			return $context;
+		}
+	}
+
 	$site = nwcs_seo_site_name();
 	$base = array(
 		'kind'       => 'page',
