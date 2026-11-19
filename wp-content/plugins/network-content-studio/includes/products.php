@@ -1202,6 +1202,21 @@ function nwcs_product_template(): void {
 		exit;
 	}
 
+	// Tek adres: egik cizgisiz istek (/urun/kalas) egik cizgiliye 301. Kural
+	// iki bicimi de karsilar ve sablon burada cizilip cikildigi icin WordPress'in
+	// redirect_canonical'i hic calismaz; iki adres de 200 verince Google bunlari
+	// ayri sayfa sayip kendi secimini yapiyordu ("Kopya, Google farkli bir
+	// standart sayfa secti"). Hedef, canonical ve site haritasiyla ayni adres.
+	// Panel onizlemesi (nwcs_is_preview) ve sorgu dizesi korunur.
+	$request = (string) wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? (string) wp_unslash( $_SERVER['REQUEST_URI'] ) : '', PHP_URL_PATH ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- yalnizca karsilastirma.
+
+	if ( '' !== $request && ! str_ends_with( $request, '/' ) ) {
+		$query = isset( $_SERVER['QUERY_STRING'] ) ? (string) wp_unslash( $_SERVER['QUERY_STRING'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- adrese aynen eklenir, wp_redirect temizler.
+
+		wp_redirect( (string) $product['url'] . ( '' !== $query ? '?' . $query : '' ), 301, 'Network Content Studio' ); // phpcs:ignore WordPress.Security.SafeRedirect -- ayni sitenin adresi.
+		exit;
+	}
+
 	status_header( 200 );
 
 	// Tema kendi detay sablonunu verebilir; yoksa eklentinin sadesi kullanilir.
