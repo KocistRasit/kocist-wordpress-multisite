@@ -1738,39 +1738,19 @@ function kocist_area_served(): array {
 
 /*
  * Fiyatli urunlerde satici girisi alanlari (Search Console "Satici girisleri").
- * Teslimat: stoklu urunler kendi aracla cogunlukla ayni gun (Rasit Bey,
- * 29.10.2026); bolge Istanbul'un tamami + Trakya (18.11.2026). Google
- * nakliye bolgesinde il (addressRegion) yalnizca ABD, Avustralya ve
- * Japonya icin destekler; bu yuzden ulke TR yazilir, bolge Organization
- * areaServed'de (kocist_area_served). Iade alani 27 Ekim kosullarindan.
+ * Kargo (shippingDetails) yazilmaz: Google bu dugumde kargo ucretini
+ * (shippingRate) zorunlu tutuyor, ucret ise adrese ve siparise gore
+ * hesaplaniyor (Rasit Bey, 11.11.2026) — sabit tutar uydurulmaz. Eksik
+ * shippingRate 143 urun sayfasinda "zengin sonuc dogrulama hatasi"
+ * veriyordu (Ahrefs 14.11.2026, Search Console). Teslimat bolgesi
+ * Organization areaServed'de (kocist_area_served). Iade alani 27 Ekim
+ * kosullarindan.
  */
 add_filter(
 	'nwcs_seo_merchant_offer_fields',
 	static fn(): array => array(
 		'itemCondition'           => 'https://schema.org/NewCondition',
 		'availability'            => 'https://schema.org/InStock',
-		'shippingDetails'         => array(
-			'@type'               => 'OfferShippingDetails',
-			'shippingDestination' => array(
-				'@type'          => 'DefinedRegion',
-				'addressCountry' => 'TR',
-			),
-			'deliveryTime'        => array(
-				'@type'        => 'ShippingDeliveryTime',
-				'handlingTime' => array(
-					'@type'    => 'QuantitativeValue',
-					'minValue' => 0,
-					'maxValue' => 0,
-					'unitCode' => 'DAY',
-				),
-				'transitTime'  => array(
-					'@type'    => 'QuantitativeValue',
-					'minValue' => 0,
-					'maxValue' => 1,
-					'unitCode' => 'DAY',
-				),
-			),
-		),
 		'hasMerchantReturnPolicy' => array(
 			'@type'                => 'MerchantReturnPolicy',
 			'applicableCountry'    => 'TR',
