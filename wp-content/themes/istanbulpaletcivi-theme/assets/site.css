@@ -507,3 +507,50 @@ body { padding-bottom: 3.5rem; }
 	.pc-sss__icon::before,
 	.pc-sss__icon::after { transition: none; }
 }
+
+/* Katalog: cesit kartlari (tip sayfasi, diger cesitler) ve teknik ozellik tablosu */
+.pc-section--items { border-top: 1px solid var(--line, #e3e7ee); }
+.pc-igrid { display: grid; gap: 1.5rem; }
+.pc-igrid__more { margin-top: 1.5rem; font-weight: 700; }
+.pc-icard { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line, #e3e7ee); border-radius: var(--radius); background: #fff; }
+.pc-icard__media { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; background: var(--steel); }
+.pc-icard__img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.pc-icard__media:hover .pc-icard__img { transform: scale(1.03); }
+.pc-icard__body { display: flex; flex: 1; flex-direction: column; padding: 1.25rem 1.25rem 1.375rem; }
+.pc-icard__name { font-size: 1.375rem; font-weight: 800; font-stretch: var(--narrow); line-height: 1.15; }
+.pc-icard__name a { color: var(--navy); text-decoration: none; }
+.pc-icard__name a:hover { text-decoration: underline; text-decoration-thickness: 3px; }
+.pc-icard__specs { display: grid; gap: 0.25rem 1rem; margin: 0.875rem 0 0; font-size: 0.9375rem; }
+.pc-icard__specs div { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 0.25rem; border-bottom: 1px dashed var(--line, #e3e7ee); }
+.pc-icard__specs dt { color: var(--muted); }
+.pc-icard__specs dd { margin: 0; font-weight: 700; color: var(--ink); text-align: right; }
+.pc-icard__short { margin-top: 0.875rem; color: var(--muted); font-size: 0.9875rem; }
+.pc-icard__actions { display: flex; flex-wrap: wrap; gap: 0.625rem; margin-top: auto; padding-top: 1.25rem; }
+.pc-icard__actions .pc-btn { padding-inline: 1rem; font-size: 0.9375rem; }
+@media (min-width: 600px) { .pc-igrid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .pc-igrid { grid-template-columns: repeat(3, 1fr); } }
+
+.pc-specs { width: 100%; margin: 1rem 0 2rem; border-collapse: collapse; font-size: 1rem; }
+.pc-specs th, .pc-specs td { padding: 0.75rem 0.875rem; border-bottom: 1px solid var(--line, #e3e7ee); text-align: left; vertical-align: top; }
+.pc-specs th { width: 38%; font-weight: 700; color: var(--navy); background: var(--steel); }
+.pc-specs tr:first-child th, .pc-specs tr:first-child td { border-top: 2px solid var(--navy); }
+@media (max-width: 479px) { .pc-specs th { width: 45%; } }
+
+.pc-sizes-wrap { margin: 1rem 0 2rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.pc-sizes { width: 100%; min-width: 28rem; border-collapse: collapse; font-size: 0.9875rem; font-variant-numeric: tabular-nums; }
+.pc-sizes th, .pc-sizes td { padding: 0.625rem 0.75rem; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+.pc-sizes thead th { border-top: 2px solid var(--navy); border-bottom: 2px solid var(--navy); font-size: 0.8125rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--navy); background: var(--steel); }
+.pc-sizes tbody th { font-weight: 700; color: var(--ink); }
+.pc-sizes tbody tr:nth-child(even) td, .pc-sizes tbody tr:nth-child(even) th { background: #f7f8fa; }
+
+/* Tip sayfasi: soru-cevap */
+.pc-faqwrap { max-width: 52rem; }
+.pc-faqwrap h2 { margin-bottom: 1.5rem; color: var(--navy); font-size: clamp(1.75rem, 3.4vw, 2.5rem); }
+.pc-faq__item { border-top: 1px solid var(--line); }
+.pc-faq__item:last-child { border-bottom: 1px solid var(--line); }
+.pc-faq__item summary { padding: 1rem 2rem 1rem 0; cursor: pointer; list-style: none; position: relative; font-weight: 700; font-size: 1.0625rem; color: var(--ink); }
+.pc-faq__item summary::-webkit-details-marker { display: none; }
+.pc-faq__item summary::after { content: "+"; position: absolute; right: 0.25rem; top: 0.875rem; font-size: 1.5rem; line-height: 1; color: var(--navy); }
+.pc-faq__item[open] summary::after { content: "–"; }
+.pc-faq__answer { padding: 0 0 1.25rem; color: var(--muted); max-width: 46rem; }
+.pc-faq__answer p + p { margin-top: 0.75rem; }

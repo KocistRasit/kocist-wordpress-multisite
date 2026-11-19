@@ -28,6 +28,8 @@ if ( ! function_exists( 'nwcs_field' ) ) {
 require_once get_theme_file_path( 'inc/posts.php' );
 require_once get_theme_file_path( 'inc/setup.php' );
 require_once get_theme_file_path( 'inc/quote.php' );
+require_once get_theme_file_path( 'inc/catalog.php' );
+require_once get_theme_file_path( 'inc/catalog-images.php' );
 
 add_action( 'after_setup_theme', 'pc_setup' );
 function pc_setup(): void {
@@ -507,11 +509,31 @@ function pc_products(): array {
 			'name'  => $name,
 			'short' => (string) nwcs_field( $key, 'card', 'short' ),
 			'tool'  => (string) nwcs_field( $key, 'card', 'tool' ),
-			'image' => pc_img( nwcs_image( $key, 'card', 'image', 'large' ), PC_PRODUCT_IMAGES[ $key ] ?? '', $name ),
+			'image' => pc_product_type_image( $key, $name, 'large' ),
 		);
 	}
 
 	return $products;
+}
+
+/**
+ * Tip sayfasinin gorseli: panelde secilen; yoksa sunucunun indirdigi kaynak
+ * gorsel (tip:<anahtar>); o da yoksa temanin ornek gorseli.
+ */
+function pc_product_type_image( string $key, string $alt, string $size = 'large' ): array {
+	$own = nwcs_image( $key, 'card', 'image', $size );
+
+	if ( '' !== ( $own['url'] ?? '' ) ) {
+		return pc_img( $own, '', $alt );
+	}
+
+	$loaded = pc_catalog_sideloaded( 'tip:' . $key, $size );
+
+	if ( '' !== ( $loaded['url'] ?? '' ) ) {
+		return pc_img( $loaded, '', $alt );
+	}
+
+	return pc_img( array(), PC_PRODUCT_IMAGES[ $key ] ?? '', $alt );
 }
 
 function pc_current_product_key(): string {

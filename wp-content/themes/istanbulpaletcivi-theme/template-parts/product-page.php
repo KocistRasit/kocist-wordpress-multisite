@@ -29,7 +29,7 @@ $others   = array_diff_key( $products, array( $key => true ) );
 
 // Urun sayfasindaki buyuk gorsel genis kolonu 2x ekranda da net doldursun:
 // 1536 boy (yoksa asil dosya). Kartlar 'large' ile kalir.
-$hero_img = pc_img( nwcs_image( $key, 'card', 'image', '1536x1536' ), PC_PRODUCT_IMAGES[ $key ] ?? '', $product['name'] );
+$hero_img = pc_product_type_image( $key, $product['name'], '1536x1536' );
 
 // Gorsel yoksa buyutme yok. Eksik dosyanin yerine sayfada "Gorsel gelecek" basilirsa
 // (eklentinin yer tutucusu) buyutmeyi assets/site.js ve site.css atlar.
@@ -123,6 +123,40 @@ pc_part(
 		</div>
 	</div>
 </section>
+
+<?php $items = pc_catalog_group( pc_product_group_slug( $key ) ); ?>
+<?php if ( $items ) : ?>
+	<section class="pc-section pc-section--items" aria-labelledby="pc-items">
+		<div class="pc-wrap">
+			<header class="pc-head">
+				<h2 id="pc-items" <?php nwcs_edit_attr( 'products', 'shared', 'items_title' ); ?>><?php echo esc_html( strtr( (string) nwcs_field( 'products', 'shared', 'items_title' ), array( '{tip}' => $product['name'] ) ) ); ?></h2>
+				<p <?php nwcs_edit_attr( 'products', 'shared', 'items_lead' ); ?>><?php echo esc_html( nwcs_field( 'products', 'shared', 'items_lead' ) ); ?></p>
+			</header>
+			<div class="pc-igrid">
+				<?php foreach ( $items as $item ) : ?>
+					<?php pc_part( 'item-card', array( 'item' => $item ) ); ?>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</section>
+<?php endif; ?>
+
+<?php $faq = array_values( array_filter( nwcs_rows( $key, 'faq', 'items' ), static fn( $r ): bool => '' !== trim( (string) ( $r['question'] ?? '' ) ) && '' !== trim( (string) ( $r['answer'] ?? '' ) ) ) ); ?>
+<?php if ( $faq ) : ?>
+	<section class="pc-section pc-section--faq" aria-labelledby="pc-faq">
+		<div class="pc-wrap pc-faqwrap">
+			<h2 id="pc-faq" <?php nwcs_edit_attr( 'products', 'shared', 'faq_title' ); ?>><?php echo esc_html( strtr( (string) nwcs_field( 'products', 'shared', 'faq_title' ), array( '{tip}' => $product['name'] ) ) ); ?></h2>
+			<div class="pc-faq" <?php nwcs_edit_attr( $key, 'faq', 'items' ); ?>>
+				<?php foreach ( $faq as $i => $qa ) : ?>
+					<details class="pc-faq__item"<?php echo 0 === $i ? ' open' : ''; ?>>
+						<summary<?php nwcs_edit_attr( $key, 'faq', 'items', (int) $i, 'question' ); ?>><?php echo esc_html( $qa['question'] ); ?></summary>
+						<div class="pc-faq__answer"<?php nwcs_edit_attr( $key, 'faq', 'items', (int) $i, 'answer' ); ?>><?php echo pc_paragraphs( (string) $qa['answer'] ); // phpcs:ignore WordPress.Security.EscapingOutput ?></div>
+					</details>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</section>
+<?php endif; ?>
 
 <?php if ( $others ) : ?>
 	<section class="pc-section pc-section--steel" aria-labelledby="pc-others">
