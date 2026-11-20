@@ -2360,3 +2360,28 @@ alta açılsın.
   kendi içinde kayar. Liste `pc_products()`'tan gelir; yeni tip eklenince menü de büyür.
 - Mobil menü: "Ürünler"in altında gruplar girintili alt alta.
 - SEO: her sayfadan 15 grup sayfasına iç bağlantı (tarayıcıya açık HTML, JavaScript yok).
+
+## İstanbul Palet Çivi: ürün sayfalarına soru-cevap ve FAQPage (tema 0.4.2, 20 Kasım 2026)
+
+Kullanıcı onayı (planlı iş, 13:50): ürün sayfalarına satış ve SEO/GEO/AEO odaklı
+soru-cevap.
+
+- **185 ürün × 2 soru-cevap (370):** katalog satırına `faq` alanı (panelde "Sık Sorulan
+  Sorular": ilk satır soru, altı cevap, sorular arası boş satır). Cevaplar ürünün kendi
+  tablosu ve teknik değerlerinden; ürünler arasında tekrar eden cümle yok (denetim
+  betiği: `sertel-civi/sss/build_faq.py` öncesi kontrol). Tek doğrulanmış dış bilgi:
+  EPAL 1 paletinde 78 çivi (epal-pallets.org).
+- **Sayfa:** ürün açıklamasının altında "{ürün} hakkında sık sorulanlar" bölümü
+  (`<details>`, tip sayfalarındaki SSS ile aynı görünüm); başlık panelden
+  (`products.shared.item_faq_title`).
+- **Şema:** eklenti fiyatsız ürünü `Service` olarak işaretliyor ve ürün/tip sayfasına
+  soru yazmıyor. Tema `nwcs_seo_graph` süzgeciyle (`pc_catalog_faq_graph`) sayfa
+  düğümünü SSS sayfasındaki gibi `["WebPage","FAQPage"]` + `mainEntity` yapar; ürün
+  sayfalarında katalog soruları, tip sayfalarında tip SSS'i. Ayrı JSON-LD bloğu yok.
+  (19 Kasım notundaki "Product şemalı sayfada FAQPage yazılmaz" kararı, sayfaların
+  artık Product değil Service olarak işaretlendiği için değişti.) Google SSS zengin
+  sonucunu çoğu site için göstermiyor; işaret AI aramaları ve Bing için.
+- **Metin temizliği:** ürün açıklamalarında kalan kaynak notları silindi ("kaynak
+  tabloda yoktur", "teknik tablo yayımlanmamıştır", "Ürün görseli kaynak sayfada
+  mevcuttur"); doğrulanmamış "en çok dönen / sürekli bulunur" ifadesi çıkarıldı; EPAL
+  çivi sayısı 78–81 yerine EPAL 1 için 78.
