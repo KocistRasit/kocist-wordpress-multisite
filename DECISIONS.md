@@ -2347,3 +2347,16 @@ dosyasına yönleniyordu (ör. `/civiler/sunta-vidasi/` → `.../BKBR6415.jpg`).
   sayfasını çizer. Tip sayfaları sayfa kuralıyla önce eşleştiği için etkilenmez.
   Eklerin adını değiştirmek gerekmez; ileride panelden ürün adıyla görsel yüklense de
   çakışma olmaz.
+
+## İstanbul Palet Çivi: üst menüde ürün grupları açılır listesi (tema 0.4.1, 20 Kasım 2026)
+
+Kullanıcı kararı (Sertel menüsü örnek gösterildi): "Ürünler" altında ürün grupları alt
+alta açılsın.
+
+- Masaüstü: "Ürünler" bağlantısının üzerine gelince ya da klavyeyle odaklanınca 15 grup
+  tek sütunda açılır (lacivert panel, sarı üst çizgi, büyük harf; Türkçe `İ` için
+  `lang="tr"`). Altta satış için "Tüm ürünler" ve "WhatsApp'tan fiyat al" düğmeleri.
+  1366x768 dizüstünde üst şeritle birlikte ekrana sığar; daha küçük ekranda liste
+  kendi içinde kayar. Liste `pc_products()`'tan gelir; yeni tip eklenince menü de büyür.
+- Mobil menü: "Ürünler"in altında gruplar girintili alt alta.
+- SEO: her sayfadan 15 grup sayfasına iç bağlantı (tarayıcıya açık HTML, JavaScript yok).
