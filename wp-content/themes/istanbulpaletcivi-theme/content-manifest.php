@@ -358,6 +358,7 @@ return array(
 						'items_lead'     => array( 'label' => 'Tip Sayfası: Ürün Listesi Alt Metni', 'type' => 'textarea', 'default' => 'Ölçü, gövde ve kaplamaya göre stoktaki seçenekler. Listede olmayan ölçüler için arayın.' ),
 						'faq_title'      => array( 'label' => 'Tip Sayfası: Soru-Cevap Başlığı', 'type' => 'text', 'default' => '{tip} hakkında sık sorulanlar', 'hint' => '{tip} yerine çivi tipinin adı yazılır.' ),
 						'siblings_title' => array( 'label' => 'Ürün Sayfası: Diğer Çeşitler Başlığı', 'type' => 'text', 'default' => 'Diğer {tip}', 'hint' => '{tip} yerine çivi tipinin adı yazılır.' ),
+						'item_faq_title' => array( 'label' => 'Ürün Sayfası: Soru-Cevap Başlığı', 'type' => 'text', 'default' => '{urun} hakkında sık sorulanlar', 'hint' => '{urun} yerine ürünün adı yazılır.' ),
 					),
 				),
 				'catalog' => array(
@@ -378,6 +379,7 @@ return array(
 								'image'           => array( 'label' => 'Ürün Görseli', 'type' => 'image' ),
 								'seo_title'       => array( 'label' => 'Meta Başlık (≤60)', 'type' => 'text' ),
 								'seo_description' => array( 'label' => 'Meta Açıklama (≤160)', 'type' => 'textarea' ),
+								'faq'             => array( 'label' => 'Sık Sorulan Sorular', 'type' => 'textarea', 'hint' => 'İlk satır soru, altındaki satırlar cevap. Sorular arasında bir boş satır bırakın. Sayfada ve arama verisinde (FAQPage) görünür.' ),
 							),
 							'default' => (array) include __DIR__ . '/content/catalog.php',
 						),

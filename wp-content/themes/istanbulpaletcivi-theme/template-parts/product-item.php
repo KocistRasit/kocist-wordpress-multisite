@@ -135,6 +135,23 @@ pc_part(
 	</div>
 </section>
 
+<?php $faq = pc_catalog_faq( $item ); ?>
+<?php if ( $faq ) : ?>
+	<section class="pc-section pc-section--faq" aria-labelledby="pc-item-faq">
+		<div class="pc-wrap pc-faqwrap">
+			<h2 id="pc-item-faq" <?php nwcs_edit_attr( 'products', 'shared', 'item_faq_title' ); ?>><?php echo esc_html( strtr( (string) nwcs_field( 'products', 'shared', 'item_faq_title' ), array( '{urun}' => $item['title'] ) ) ); ?></h2>
+			<div class="pc-faq" <?php nwcs_edit_attr( 'products', 'catalog', 'items', $row, 'faq' ); ?>>
+				<?php foreach ( $faq as $i => $qa ) : ?>
+					<details class="pc-faq__item"<?php echo 0 === $i ? ' open' : ''; ?>>
+						<summary><?php echo esc_html( $qa['question'] ); ?></summary>
+						<div class="pc-faq__answer"><?php echo pc_paragraphs( (string) $qa['answer'] ); // phpcs:ignore WordPress.Security.EscapingOutput ?></div>
+					</details>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</section>
+<?php endif; ?>
+
 <?php if ( $siblings ) : ?>
 	<section class="pc-section pc-section--steel" aria-labelledby="pc-siblings">
 		<div class="pc-wrap">

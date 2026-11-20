@@ -51,6 +51,11 @@ Paketleme: Rulo 175–350 ad.; koli 10–50 rulo; kolide 1.750–17.500 ad. (eba
 		'image' => 0,
 		'seo_title' => '16° Tele Dizili Rulo Palet Çivisi | KOÇİST',
 		'seo_description' => '16° Tele Dizili Rulo Palet Çivisi: 2,1–3,4 mm çap, 25–130 mm boy, düz/ring/helikal. Stoktan hızlı teslim, İstanbul–Trakya sevkiyat. Teklif alın.',
+		'faq' => '16° tele dizili rulo palet çivisi hangi tabancaya takılır?
+16° tele dizili rulo palet çivisi, 16 derece tel dizimli rulo çivi tabancalarında çalışır. Tabancanın şarjöründe ya da kılavuzunda yazan dizim açısı 16° olmalı; çap ve boy da tabancanın kabul ettiği aralıkta seçilir. Modelinizi söyleyin, uygun ebadı eşleştirelim.
+
+16° tele dizili rulo palet çivisinde kaç ebat var?
+Tabloda 2,1 mm\'den 3,4 mm\'ye, 25 mm\'den 130 mm\'ye toplam 23 ebat bulunur. Koli içeriği 2,1x25 mm\'de 17.500, 3,4x130 mm\'de 1.750 adettir; aradaki her ebadın rulo ve koli adedi ölçü tablosunda ayrı ayrı yazılıdır.',
 	),
 	array(
 		'slug' => 'ince-rulo-civi',
@@ -79,13 +84,18 @@ Paketleme: 2,1–2,2: rulo 350 ad. x 50 = 17.500; 2,3: rulo 300 ad. x 40 = 12.00
 		'image' => 0,
 		'seo_title' => '2,1–2,3 mm İnce Rulo Çivi – Kasa ve Ambalaj | KOÇİST',
 		'seo_description' => '2,1–2,3 mm İnce Rulo Çivi: 25–50 mm boy, 16° tel dizim, kolide 12.000–17.500 adet. Kasa, çıta ve hafif ambalaj için. Teklif alın.',
+		'faq' => '2,1–2,3 mm ince rulo çivi hangi işlerde kullanılır?
+2,1–2,3 mm ince rulo çivi; meyve-sebze kasası, şarap kutusu, ince çıta ve hafif palet ara tahtası gibi ince kesitli ahşapta kullanılır. İnce gövde tahtayı yarmadan girer, 25–50 mm boy bu kalınlıklara yeter.
+
+2,1–2,3 mm ince rulo çivinin kolisinde kaç çivi var?
+2,1 ve 2,2 mm çapta rulo 350 adet, kolide 50 rulo, toplam 17.500 çivi. 2,3 mm çapta rulo 300 adet, kolide 40 rulo, toplam 12.000 çivi.',
 	),
 	array(
 		'slug' => '2-5-mm-rulo-palet-civisi',
 		'title' => '2,5 mm Rulo Palet Çivisi',
 		'group' => 'rulo-palet-civiler',
 		'short' => 'Palet üretiminin standart ölçüsü: 2,5 mm Rulo Palet Çivisi, 35–70 mm boy, düz veya halkalı gövde, kolide 9.000–12.000 adet. Hızlı teklif için arayın.',
-		'body' => '2,5 mm Rulo Palet Çivisi, Türkiye\'de palet hatlarında en çok dönen ebat grubudur ve KOÇİST deposunda sürekli bulunur. Sertel üretim listesine göre 2,5x35 ve 2,5x40 mm rulolar 300 adetlik sarımla kolide 40 rulo (12.000 adet); 2,5x45, 50, 55, 60, 65 ve 70 mm ise aynı 300\'lük sarımla kolide 30 rulo (9.000 adet) olarak paketlenir. Kaplama parlaktır; düz, ring veya helikal gövde seçilebilir.
+		'body' => '2,5 mm Rulo Palet Çivisi, palet ve kasa hatlarında yaygın kullanılan ebat grubudur. Sertel üretim listesine göre 2,5x35 ve 2,5x40 mm rulolar 300 adetlik sarımla kolide 40 rulo (12.000 adet); 2,5x45, 50, 55, 60, 65 ve 70 mm ise aynı 300\'lük sarımla kolide 30 rulo (9.000 adet) olarak paketlenir. Kaplama parlaktır; düz, ring veya helikal gövde seçilebilir.
 
 Nerede kullanılır: 2,5x50–60 mm ölçüler üst tahta–takoz bağlantısında, 2,5x40–45 mm ara tahtalarda, 2,5x65–70 mm kalın takozlu paletlerde tercih edilir. Hepsi 16° tel dizimli olduğu için CN55, CN70 ve AKD C29/C33 tipi rulo tabancalara doğrudan uyar.
 
@@ -109,6 +119,11 @@ Paketleme: 35–40 mm: 300 ad. x 40 rulo = 12.000; 45–70 mm: 300 ad. x 30 rulo
 		'image' => 0,
 		'seo_title' => '2,5 mm Rulo Palet Çivisi 35–70 mm | KOÇİST',
 		'seo_description' => '2,5 mm Rulo Palet Çivisi: 35–70 mm boy, düz/ring/helikal gövde, 16° tabanca uyumu, kolide 9.000–12.000 adet. Stoktan teslim, teklif alın.',
+		'faq' => '2,5 mm rulo palet çivisinin boyu nasıl seçilir?
+Boy, çakılan tahtanın kalınlığına göre seçilir; yaygın kural çivinin tahta kalınlığının iki buçuk-üç katı olmasıdır. 2,5 mm rulo palet çivisi 35 mm\'den 70 mm\'ye sekiz boyda gelir: 40–45 mm ara tahtalarda, 50–60 mm üst tahta–takoz bağlantısında, 65–70 mm kalın takozda tercih edilir.
+
+2,5 mm rulo palet çivisi kolide kaç adet?
+35 ve 40 mm boylarda 300\'lük rulodan 40 rulo, yani 12.000 adet; 45–70 mm boylarda 300\'lük rulodan 30 rulo, yani 9.000 adet.',
 	),
 	array(
 		'slug' => '2-8-mm-rulo-palet-civisi',
@@ -135,6 +150,11 @@ Paketleme: 60 mm: 250 x 30 = 7.500; 65–70 mm: 250 x 20 = 7.500 (kaynak tablo);
 		'image' => 0,
 		'seo_title' => '2,8 mm Rulo Palet Çivisi 60–80 mm | KOÇİST',
 		'seo_description' => '2,8 mm Rulo Palet Çivisi: 60/65/70/80 mm, düz-ring-helikal, 16° rulo tabanca uyumu, kolide 5.000–7.500 adet. Takoz ve kalın tahta için teklif alın.',
+		'faq' => '2,8 mm rulo palet çivisi ne zaman tercih edilir?
+Takoz üst bağlantısı, ağır yük paleti ve ihracat sandığının dış çerçevesi gibi 2,5 mm\'nin ince kaldığı kalın kesitlerde. 2,8 mm rulo palet çivisi 60, 65, 70 ve 80 mm boylarda gelir.
+
+2,8 mm rulo palet çivisinin rulosunda kaç çivi var?
+Her ruloda 250 çivi vardır. 2,8x60 mm kolide 30 rulo (7.500 adet), 2,8x80 mm kolide 20 rulo (5.000 adet) olarak paketlenir.',
 	),
 	array(
 		'slug' => 'agir-hizmet-rulo-civisi',
@@ -162,6 +182,11 @@ Paketleme: 3,1: 225 x 20 = 4.500; 3,3: 200 x 20 = 4.000; 3,4: 175 x 10 = 1.750
 		'image' => 0,
 		'seo_title' => '3,1–3,4 mm Ağır Hizmet Rulo Çivisi 80–130 mm | KOÇİST',
 		'seo_description' => '3,1–3,4 mm Ağır Hizmet Rulo Çivisi: 80–130 mm boy, düz/ring/helikal, CN100 sınıfı 16° tabancalar için. Kalın takoz ve sandık; teklif alın.',
+		'faq' => '3,1–3,4 mm ağır hizmet rulo çivisi hangi işler içindir?
+100 mm\'yi aşan kesitler içindir: çift katlı takoz, liman sandığı, kablo makarası, ahşap çatı ve karkas. 3,1–3,4 mm ağır hizmet rulo çivisi 80–130 mm boyla büyük şarjörlü 16° rulo tabancalarda çakılır.
+
+Ağır hizmet rulo çivisinde kolide kaç çivi çıkar?
+3,1 mm\'de rulo 225 adet, koli 4.500; 3,3 mm\'de rulo 200 adet, koli 4.000; 3,4 mm\'de rulo 175 adet, koli 1.750 çividir.',
 	),
 	array(
 		'slug' => 'galvanizli-tele-dizili-civi',
@@ -182,6 +207,11 @@ Kaplama: Galvaniz / Difüzyon
 		'image' => 0,
 		'seo_title' => 'Galvanizli Tele Dizili Çatı ve Palet Çivisi | KOÇİST',
 		'seo_description' => 'Galvanizli Tele Dizili Çatı ve Palet Çivisi: 3,05 mm, 25/30/35 mm, galvaniz veya difüzyon kaplama, düz/ring. Shingle ve dış ortam paleti için teklif alın.',
+		'faq' => 'Galvanizli tele dizili çivi parlak çiviye göre ne kazandırır?
+Çinko kaplama çiviyi paslanmaya karşı korur. Galvanizli tele dizili çatı ve palet çivisi bu yüzden shingle, membran altı OSB, dış cephe tahtası ve dışarıda bekleyen paletlerde parlak çivinin yerini alır.
+
+Galvanizli tele dizili çatı ve palet çivisinin ölçüleri neler?
+Tek çap vardır: 3,05 mm. Boy 25, 30 ve 35 mm; gövde düz ya da ring, kaplama galvaniz ya da difüzyon.',
 	),
 	array(
 		'slug' => 'jumbo-sarim-civi',
@@ -209,13 +239,18 @@ Paketleme: Sarım: 2,1: 350–4.000; 2,2–2,5: 300–4.000; 2,8: 250–2.000; 3
 		'image' => 0,
 		'seo_title' => 'Jumbo Sarım Çivi – Otomatik Palet Hattı | KOÇİST',
 		'seo_description' => 'Jumbo Sarım Çivi: 2,1–3,1 mm çap, 25–90 mm boy, 4.000 adede kadar sarım, düz/ring/helikal, parlak-galvaniz-difüzyon. Otomatik hatlar için teklif alın.',
+		'faq' => 'Jumbo sarım çivi kimler için uygundur?
+Otomatik ve yarı otomatik palet çakım hatları için. Jumbo sarım çivi bobin başına 4.000 çiviye kadar sarılır; 300\'lük standart ruloya göre bobin değişimi azalır, hat daha az durur.
+
+Jumbo sarım çivide hangi çaplar var?
+2,1, 2,2, 2,3, 2,5, 2,8 ve 3,1 mm olmak üzere altı çap; boy çapa göre 25–90 mm. Gövde düz, ring ya da helikal, kaplama parlak, galvaniz ya da difüzyon seçilir.',
 	),
 	array(
 		'slug' => 'plastige-dizili-civi',
 		'title' => '21°–28° Plastiğe Dizili Çivi',
 		'group' => 'tele-dizili-civiler',
 		'short' => 'Çerçeve tabancaları için 21°–28° Plastiğe Dizili Çivi: 2,87–4,2 mm çap, 50–160 mm boy, düz / ring / helikal gövde, parlak veya galvaniz.',
-		'body' => '21°–28° Plastiğe Dizili Çivi, plastik şeritle birleştirilmiş tam yuvarlak başlı çivilerdir ve ahşap karkas, çatı makası, kalıp ve ağır ambalaj montajında kullanılır. Sertel üretim aralığı üç bantta verilir: 2,87–3,3 mm çapta 50–100 mm boy (düz, ring, helikal gövde; parlak, galvaniz veya difüzyon kaplama), 3,8 mm çapta 100–110 mm boy ve 4,2 mm çapta 120–160 mm boy. Son iki bant için gövde ve kaplama bilgisi kaynak tabloda boş bırakılmıştır; sipariş öncesi netleştiriyoruz.
+		'body' => '21°–28° Plastiğe Dizili Çivi, plastik şeritle birleştirilmiş tam yuvarlak başlı çivilerdir ve ahşap karkas, çatı makası, kalıp ve ağır ambalaj montajında kullanılır. Sertel üretim aralığı üç bantta verilir: 2,87–3,3 mm çapta 50–100 mm boy (düz, ring, helikal gövde; parlak, galvaniz veya difüzyon kaplama), 3,8 mm çapta 100–110 mm boy ve 4,2 mm çapta 120–160 mm boy. Son iki bantta gövde ve kaplama seçeneklerini teklifle birlikte iletiyoruz.
 
 Şerit açısı tabanca şarjörüyle eşleşmelidir: 21° plastik şerit tabancaları ve 28° tel-kaynaklı şerit tabancaları farklı çivi alır. Tabancanızın şarjör açısını veya marka/modelini iletin; doğru şeridi gönderelim.
 
@@ -233,6 +268,11 @@ Dizim açısı: 21°–28°
 		'image' => 0,
 		'seo_title' => '21°–28° Plastiğe Dizili Çivi – Çerçeve Çivisi | KOÇİST',
 		'seo_description' => '21°–28° Plastiğe Dizili Çivi: 2,87–4,2 mm çap, 50–160 mm boy, düz/ring/helikal, parlak veya galvaniz. Karkas ve kalıp için teklif alın.',
+		'faq' => '21°–28° plastiğe dizili çivi hangi tabancaya uyar?
+Şerit açısı tabancanın şarjör açısıyla aynı olmalıdır. 21°–28° plastiğe dizili çivi, plastik şeritli şerit çivi tabancalarında kullanılır; tabancanızın açısını ya da modelini iletin, doğru şeridi gönderelim.
+
+Plastiğe dizili çivi ile kağıda dizili çivi arasındaki fark nedir?
+Fark dizim malzemesi ve açıdadır. Plastiğe dizili çivi 21°–28° açıyla plastik şeritte, kağıda dizili çivi 34° açıyla kağıt bantta gelir. Her biri kendi açısındaki tabancada çalışır.',
 	),
 	array(
 		'slug' => 'kagida-dizili-civi',
@@ -255,6 +295,11 @@ Dizim açısı: 34°
 		'image' => 0,
 		'seo_title' => '34° Kağıda Dizili Çivi 50–100 mm | KOÇİST',
 		'seo_description' => '34° Kağıda Dizili Çivi: 2,87–3,3 mm çap, 50–100 mm boy, düz/ring/helikal, parlak-galvaniz-difüzyon. Karkas tabancaları için teklif alın.',
+		'faq' => '34° kağıda dizili çivinin kafası neden kesik?
+Kesik (D) baş, çivilerin bantta birbirine çok yakın dizilmesini sağlar. Böylece 34° kağıda dizili çivi şarjöre daha çok sığar ve dar köşelerde tabanca rahat çalışır.
+
+34° kağıda dizili çivi hangi ebatlarda?
+Çap 2,87–3,3 mm, boy 50–100 mm. Gövde düz, ring ya da helikal; kaplama parlak, galvaniz ya da difüzyon olarak seçilir.',
 	),
 	array(
 		'slug' => 'dokme-epal-palet-civisi',
@@ -263,7 +308,7 @@ Dizim açısı: 34°
 		'short' => 'EPAL şartnamesine göre kafası kodlu Dökme EPAL Palet Çivisi: AT, AU, AV, AW, AX, AY, AZ tipleri; 2,8–3,9 mm çap, 40–90 mm boy, ring gövde.',
 		'body' => 'Dökme EPAL Palet Çivisi, Euro palet üretiminde zorunlu olan kafa kodlu çivilerdir; her kodun çapı ve boyu EPAL teknik şartnamesinde sabittir. Sertel\'in kataloğunda yedi tip bulunur: AT 3,4/3,7x70 mm ring; AU 3,4/3,7x90 mm ring; AV 2,8/3,0x55 mm düz, yan uç; AW 3,6/3,9x70 mm ring; AX 3,6/3,9x90 mm ring; AY 3,1/3,4x80 mm ring; AZ 2,8/3,1x40 mm ring. Çap değerleri gövde/kafa altı çapı olarak çift verilir.
 
-Ürün dökme (serbest) formda olduğundan otomatik palet hatlarının titreşimli besleyicilerinde ve kafa kodu gereken tamir işlerinde kullanılır. Bir EPAL paletinde 78–81 çivi bulunur; takoz, üst ve alt tahta için farklı kodlar seçilir. Paket ağırlığı tabloda yazmaz, teklifte belirtiyoruz.
+Ürün dökme (serbest) formda olduğundan otomatik palet hatlarının titreşimli besleyicilerinde ve kafa kodu gereken tamir işlerinde kullanılır. EPAL\'in teknik verisine göre bir EPAL 1 paletinde 78 çivi bulunur; takoz, üst ve alt tahta için farklı kodlar seçilir. Paket ağırlığını teklifte belirtiyoruz.
 
 KOÇİST, EPAL lisanslı üreticilere ekonomik fiyat ve düzenli sevkiyat sunar. Yüksek kapasite stok, İstanbul–Trakya\'ya kendi araçlarımızla teslimat ve Çatalca showroom. Teklif: 0212 648 19 19 / WhatsApp 0549 648 19 19.',
 		'specs' => 'Çap: 2.8/3.0 – 3.6/3.9 (koda göre) mm
@@ -282,6 +327,11 @@ Kafa: EPAL kodlu: AT, AU, AV, AW, AX, AY, AZ
 		'image' => 0,
 		'seo_title' => 'Dökme EPAL Palet Çivisi AT–AZ Kodlu | KOÇİST',
 		'seo_description' => 'Dökme EPAL Palet Çivisi: AT, AU, AV, AW, AX, AY, AZ kafa kodları; 2,8–3,9 mm, 40–90 mm, ring gövde. Euro palet hatları için teklif alın.',
+		'faq' => 'Bir EPAL paletinde kaç çivi kullanılır?
+EPAL\'in teknik verisine göre 800x1200 mm EPAL 1 paletinde 78 çivi bulunur. Takoz, üst ve alt tahta için farklı kodlu dökme EPAL palet çivisi seçilir.
+
+Dökme EPAL palet çivisindeki AT, AU, AZ kodları neyi gösterir?
+Her kod sabit bir çap ve boyu gösterir. Örneğin AT 3,4/3,7x70 mm ring, AU 3,4/3,7x90 mm ring, AZ 2,8/3,1x40 mm ring gövdedir; AV ise 2,8/3,0x55 mm düz gövdeli, yan uçlu çividir.',
 	),
 	array(
 		'slug' => 'dokme-palet-civisi',
@@ -290,7 +340,7 @@ Kafa: EPAL kodlu: AT, AU, AV, AW, AX, AY, AZ
 		'short' => 'Otomatik palet hattı ve el çakımı için Dökme Palet Çivisi: 2,8 / 3,1 / 3,4 / 3,8 / 5 mm çap, 15–300 mm boy, düz-ring-helikal gövde, düz veya tırtıl baş.',
 		'body' => 'Dökme Palet Çivisi, tel veya plastiğe dizilmeden kutuda serbest halde gelen çividir; otomatik çakım hatlarının besleyicilerine dökülür ya da çekiçle elden çakılır. Sertel\'de beş çap grubu vardır: 2,8 mm (40–90 mm), 3,1 mm (60–90 mm), 3,4 mm (63–100 mm), 3,8 mm (70–100 mm) ve 5 mm (15–300 mm). Gövde düz, ring, helikal veya inşaat tipi; kafa düz ya da tırtıllı (tırtılbaş) olabilir.
 
-Hangi gövde? Palet tamir atölyeleri çoğunlukla ring gövdeyi tercih eder; sert ağaç kasalarda helikal, genel inşaat ve kalıp işinde düz gövde yeterlidir. 5 mm\'lik uzun boylar kalas birleştirme ve ahşap iskele sabitlemesinde kullanılır. Kutu/çuval ağırlığı kaynak tabloda yoktur; teklifte kg ve adet olarak bildiriyoruz.
+Hangi gövde? Palet tamir atölyeleri çoğunlukla ring gövdeyi tercih eder; sert ağaç kasalarda helikal, genel inşaat ve kalıp işinde düz gövde yeterlidir. 5 mm\'lik uzun boylar kalas birleştirme ve ahşap iskele sabitlemesinde kullanılır. Kutu ve çuval ağırlığını teklifte kg ve adet olarak bildiriyoruz.
 
 Dökme çivide ekonomik fiyatın yolu tonajdır: KOÇİST yüksek stok kapasitesiyle palet ve çuval bazında rekabetçi teklif verir. İstanbul ve Trakya\'ya kendi araçlarımızla sevkiyat yapıyoruz; Çatalca showroomumuzda numune mevcut. 0549 648 19 19.',
 		'specs' => 'Çap: 2.8 / 3.1 / 3.4 / 3.8 / 5 mm
@@ -302,6 +352,11 @@ Kafa: Düz / Tırtılbaş
 		'image' => 0,
 		'seo_title' => 'Dökme Palet Çivisi 2,8–5 mm | KOÇİST',
 		'seo_description' => 'Dökme Palet Çivisi: 2,8–5 mm çap, 15–300 mm boy, düz/ring/helikal gövde, düz veya tırtıl baş. Otomatik hat ve el çakımı için teklif alın.',
+		'faq' => 'Dökme palet çivisi ile rulo çivi arasındaki fark nedir?
+Dökme palet çivisi dizilmeden, serbest hâlde gelir; otomatik hatların besleyicisine dökülür ya da çekiçle çakılır. Rulo çivi tele dizilidir ve rulo tabancayla seri çakılır.
+
+Dökme palet çivisinde hangi çaplar ve kafalar var?
+2,8, 3,1, 3,4, 3,8 ve 5 mm olmak üzere beş çap grubu vardır. Kafa düz ya da tırtılbaş, gövde düz, ring, helikal ya da inşaat tipidir; 5 mm grupta boy 15 mm\'den 300 mm\'ye uzanır.',
 	),
 	array(
 		'slug' => 'spike-civi',
@@ -324,6 +379,11 @@ Kaplama: Parlak / Galvaniz / Difüzyon
 		'image' => 0,
 		'seo_title' => 'Dökme Spike Çivi 8,3 / 9,5 mm – 20–30 cm | KOÇİST',
 		'seo_description' => 'Dökme Spike Çivi: 8,3 mm burgulu ve 9,5 mm düz gövde, 20/25/30 cm boy, parlak-galvaniz-difüzyon kaplama. Takoz ve kalas için teklif alın.',
+		'faq' => 'Dökme spike çivi nerede kullanılır?
+Kalın ahşabı tek parçada birleştirmek için: endüstriyel palet takozu, kalas bağlantısı, peyzaj traversi, ahşap köprü ve iskele ayağı. Dökme spike çivi 200, 250 ve 300 mm boyda gelir.
+
+Burgulu spike ile düz spike arasındaki fark nedir?
+Burgulu (twisted) spike 8,3 mm çaplıdır, çakılırken döner ve lifte kilitlenir. Düz spike 9,5 mm çaplıdır ve daha hızlı çakılır. İkisi de parlak, galvaniz ya da difüzyon kaplamayla üretilir.',
 	),
 	array(
 		'slug' => 'celik-beton-civisi',
@@ -350,6 +410,11 @@ Paketleme: Poşet 100 ad.; koli 100 / 50 / 25 poşet (ebata göre)
 		'image' => 0,
 		'seo_title' => 'Çelik Beton Çivisi 3x30 – 5x100 mm | KOÇİST',
 		'seo_description' => 'Çelik Beton Çivisi: 3x30, 4x40, 4x50, 4x60, 5x80, 5x100 mm; 100\'lük poşet, kolide 25–100 poşet. Beton ve tuğlaya çakım için teklif alın.',
+		'faq' => 'Çelik beton çivisi hangi yüzeylere çakılır?
+Sertleştirilmiş çelikten üretildiği için betona, tuğlaya ve sıvaya çekiçle çakılır. Çelik beton çivisi atölyede kızak ve raf ayağı, şantiyede kalıp çıtası ve süpürgelik sabitlemede kullanılır.
+
+Çelik beton çivisinin kolisinde kaç çivi var?
+Çivi 100\'lük poşetlerde gelir. 3x30 mm kolide 100 poşet (10.000 adet), 4x40–60 mm kolide 50 poşet (5.000 adet), 5x80–100 mm kolide 25 poşettir (2.500 adet).',
 	),
 	array(
 		'slug' => 'gazli-beton-civisi',
@@ -383,6 +448,11 @@ GP 2,7x38 (MAX)|38|1.000 çivi + gaz|5',
 		'image' => 0,
 		'seo_title' => 'Plastiğe Dizili Beton Çivisi | KOÇİST',
 		'seo_description' => 'Plastiğe Dizili Beton Çivisi: GP 2,9 ve GP 2,7, 20–38 mm, kutuda 1.000 çivi + gaz, kolide 5 kutu. Gazlı tabancalar için teklif alın.',
+		'faq' => 'Plastiğe dizili beton çivisi hangi tabancalarla kullanılır?
+Gazlı çivi çakma tabancalarıyla. KOÇİST\'teki AKD T30/38 N1, NAIL GSN40 ve GP100 tabancaları plastiğe dizili beton çivisini 15–40 mm aralığında atar.
+
+Plastiğe dizili beton çivisi kutusunda gaz da var mı?
+Evet. Her kutuda 1.000 çivi ve gaz kartuşu birlikte bulunur, koli 5 kutudur. SERTEL GP 2,9 ve MAX GP 2,7 serileri 20–38 mm arası altı boyda gelir.',
 	),
 	array(
 		'slug' => 'nk-civi',
@@ -414,6 +484,11 @@ NK|72|5,6|50',
 		'image' => 0,
 		'seo_title' => 'NK Çivi Barutlu Tabanca Çivisi 22–72 mm | KOÇİST',
 		'seo_description' => 'NK Çivi Barutlu Tabanca Çivisi: 22, 27, 32, 37, 42, 47, 52, 57, 62, 72 mm, 5,6 mm kafa, kolide 50 kutu. Barutlu tabancalar için teklif alın.',
+		'faq' => 'NK çivi hangi tabancada kullanılır?
+NK çivi barutlu çivi çakma tabancaları içindir. Kapsülün gücüyle betona ve çeliğe ahşap lata, sac ve kalıp elemanı sabitler; 5,6 mm kafa yükü yüzeye yayar.
+
+NK çivinin boyu nasıl seçilir?
+Çivi, sabitlenen malzemeyi geçtikten sonra betona yeterince girmelidir. İnce sac ve profil için 22–32 mm, ahşap lata ve kontrplak için 37–52 mm, kalın kalas ve kalıp için 57–72 mm NK çivi seçilir.',
 	),
 	array(
 		'slug' => 'tavan-aski-civisi',
@@ -422,7 +497,7 @@ NK|72|5,6|50',
 		'short' => 'Asma tavan askı teli için L Tipi Tavan Askı Çivisi 32 mm; 100\'lük kutu, kolide 1.000 adet.',
 		'body' => 'L Tipi Tavan Askı Çivisi, asma tavan askı telinin betona bağlandığı L biçimli çividir; tel çivinin kıvrık ucuna takılır ve tavan karkası bu noktadan sarkıtılır. Sertel listesinde tek ölçü vardır: 32 mm boy, 100 adetlik kutu ve kolide toplam 1.000 adet.
 
-Kullanım alanı alçıpan ve metal asma tavan uygulamaları, mağaza ve ofis tavan sistemleri, tesisat askısı ve kablo kanalı taşıyıcılarıdır. Çivi çekiçle veya beton tabancasıyla betona çakılır; L ucu askı telinin kaymasını engeller ve tel ile tavan arasındaki yükü güvenle taşır. Çap bilgisi kaynak tabloda yer almadığı için teklif aşamasında paylaşıyoruz.
+Kullanım alanı alçıpan ve metal asma tavan uygulamaları, mağaza ve ofis tavan sistemleri, tesisat askısı ve kablo kanalı taşıyıcılarıdır. Çivi çekiçle veya beton tabancasıyla betona çakılır; L ucu askı telinin kaymasını engeller ve tel ile tavan arasındaki yükü güvenle taşır. Çap bilgisini teklif aşamasında paylaşıyoruz.
 
 Alçıpan ustaları ve tavan firmalarına koli bazında ekonomik fiyat veriyoruz; bir telefonla rekabetçi teklif alırsınız. İstanbul ve Trakya\'ya kendi araçlarımızla sevkiyat yapıyor, Çatalca showroomumuzdan elden teslim ediyoruz. 0212 648 19 19.',
 		'specs' => 'Boy: 32 mm
@@ -433,6 +508,11 @@ Paketleme: Kutu 100 ad.; koli 1.000 ad.
 		'image' => 0,
 		'seo_title' => 'L Tipi Tavan Askı Çivisi 32 mm | KOÇİST',
 		'seo_description' => 'L Tipi Tavan Askı Çivisi 32 mm: asma tavan askı teli için, 100\'lük kutu, kolide 1.000 adet. Stoktan hızlı teslim, teklif alın.',
+		'faq' => 'L tipi tavan askı çivisi ne işe yarar?
+Asma tavan askı telini betona bağlar. Tel, L tipi tavan askı çivisinin kıvrık ucuna takılır ve tavan karkası bu noktadan sarkıtılır; L ucu telin kaymasını önler.
+
+L tipi tavan askı çivisi nasıl paketlenir?
+Tek ölçü vardır: 32 mm. Kutuda 100 adet, kolide toplam 1.000 adet bulunur.',
 	),
 	array(
 		'slug' => 'st-civi',
@@ -462,6 +542,11 @@ Paketleme: 18–32 mm: kutu 2.000; 38–64 mm: kutu 1.000; koli 10 kutu
 		'image' => 0,
 		'seo_title' => 'Çelik ST Çivi 2,2 mm 18–64 mm | KOÇİST',
 		'seo_description' => 'Çelik ST Çivi: 2,2 mm çap, ST 18–64 mm arası 8 boy, kutuda 1.000–2.000 adet, kolide 10 kutu. ST tabancaları için teklif alın.',
+		'faq' => 'Çelik ST çivi ne için kullanılır?
+T başlı, sertleştirilmiş çelik ST çivi; ahşap latayı, zemin kızağını ve süpürgeliği betona ya da sert zemine ST tipi havalı tabancayla sabitlemek için kullanılır. Dar T baş ahşapta belirgin iz bırakmaz.
+
+Çelik ST çivinin kutusunda kaç adet var?
+ST 18, 25 ve 32 mm kutuda 2.000 adet; ST 38, 45, 50, 57 ve 64 mm kutuda 1.000 adet. Her kolide 10 kutu bulunur.',
 	),
 	array(
 		'slug' => 'fst-lambiri-civisi',
@@ -487,6 +572,11 @@ Paketleme: Kutu 1.500 ad.; koli 10 kutu
 		'image' => 0,
 		'seo_title' => 'FST Lambiri Beton Çivisi 1,8 mm 20–40 mm | KOÇİST',
 		'seo_description' => 'FST Lambiri Beton Çivisi: 1,8 mm çap, 20/25/30/35/40 mm, kutuda 1.500 adet, kolide 10 kutu. Lambiri ve süpürgelik için teklif alın.',
+		'faq' => 'FST lambiri beton çivisi nerede kullanılır?
+Lambiri, süpürgelik ve ince çıtayı sıvaya ya da betona sabitlemede. FST lambiri beton çivisi 1,8 mm ince gövdesiyle ahşabı yarmaz, sertleştirilmiş gövdesiyle sıvaya girer.
+
+FST lambiri beton çivisinde hangi boylar var?
+FST 20, 25, 30, 35 ve 40 mm. Kutu 1.500 adet, koli 10 kutu. İnce lambiride 20–25 mm, süpürgelik ve kalın çıtada 30–40 mm seçilir.',
 	),
 	array(
 		'slug' => '16-ga-brad-civi',
@@ -516,6 +606,11 @@ T50 16x50|Başlı|50|2.500|12',
 		'image' => 0,
 		'seo_title' => '16 GA Brad Çivi 1,6x1,35 mm T Serisi | KOÇİST',
 		'seo_description' => '16 GA Brad Çivi 1,6x1,35 mm: başlı T16–T50 kodları, 20–50 mm boy, kutuda 2.500 adet. Stoktan hızlı teslim, İstanbul–Trakya sevkiyat. Teklif alın.',
+		'faq' => '16 GA brad çivi hangi işlerde öne çıkar?
+Brad ailesinin en kalın kesiti olduğu için yük alan noktalarda: sandık kapağı, meyve kasası çıtası, kapı pervazı ve mobilya karkası. 16 GA brad çivi başlıdır ve parçayı yüzeye bastırır.
+
+16 GA brad çivinin kutusunda kaç çivi var?
+Her kutuda 2.500 çivi bulunur. T16 (20 mm) ile T50 (50 mm) arasında yedi boy vardır; koli kısa boylarda 20–24, 38 mm ve üzerinde 12 kutudur.',
 	),
 	array(
 		'slug' => '18-ga-brad-civi',
@@ -550,6 +645,11 @@ F50 18x50|Başlı|50|5.000|6',
 		'image' => 0,
 		'seo_title' => '18 GA Brad Çivi 1,25x1,00 mm F Serisi | KOÇİST',
 		'seo_description' => '18 GA Brad Çivi 1,25x1,00 mm: başlı F10–F50, başsız F25–F30, kutuda 5.000 adet. Mobilya ve ambalaj kutusu için stoktan teslim. Teklif alın.',
+		'faq' => '18 GA brad çivinin başlı ve başsız modeli arasındaki fark nedir?
+Başlı 18 GA brad çivi parçayı daha sıkı bastırır; çekmece, arkalık ve MDF profilde kullanılır. Başsız model 25, 28 ve 30 mm boyda gelir ve lake, kaplama gibi görünür yüzeylerde neredeyse iz bırakmaz.
+
+18 GA brad çivi hangi tabancalarla çakılır?
+18 GA kabul eden brad tabancalarıyla. KOÇİST\'teki NAIL 1832 ve AKDT 1832 15–32 mm, NAIL 1850 ve AKD 1850 15–50 mm aralığında bu çiviyi atar.',
 	),
 	array(
 		'slug' => '21-ga-brad-civi',
@@ -577,6 +677,11 @@ Kutu/koli: 18–30 (boya göre)',
 		'image' => 0,
 		'seo_title' => '21 GA Brad Çivi 0,81x0,84 mm 12–30 mm | KOÇİST',
 		'seo_description' => '21 GA Brad Çivi 0,81x0,84 mm: 12, 15, 18, 25, 28, 30 mm boy, kutuda 1.000 adet. İnce kaplama ve çerçeve için stoktan teslim. Teklif alın.',
+		'faq' => '21 GA brad çivi ne zaman tercih edilir?
+Kaplama şeridi, ince çerçeve çıtası ve dekoratif profil gibi yarılmaya hassas parçalarda. 21 GA brad çivi 0,81x0,84 mm kesitiyle parçayı tutar ve çoğu zaman macun gerektirmeyecek kadar küçük iz bırakır.
+
+21 GA brad çivi hangi boylarda ve paketlerde gelir?
+12, 15, 18, 25, 28 ve 30 mm boylarda, kutuda 1.000 adet. Koli 12–15 mm\'de 30 kutu, 18 mm\'de 24 kutu, 25 mm ve üzerinde 18 kutudur.',
 	),
 	array(
 		'slug' => '23-ga-brad-civi',
@@ -601,13 +706,18 @@ Kutu/koli: 48',
 		'image' => 0,
 		'seo_title' => '23 GA Brad Çivi 0,64x0,64 mm 12–18 mm | KOÇİST',
 		'seo_description' => '23 GA Brad Çivi 0,64x0,64 mm: 12, 15, 18 mm boy, kutuda 1.000 adet, kolide 48 kutu. Lake ve kaplama işleri için stoktan teslim, teklif alın.',
+		'faq' => '23 GA brad çivi taşıyıcı bağlantıda kullanılır mı?
+Hayır; 23 GA brad çivi saç teli inceliğindedir ve tutkal kuruyana kadar parçayı yerinde tutmak içindir. Dekoratif çıta, ayna çerçevesi, vitrin profili ve küçük ahşap kutuda kullanılır.
+
+23 GA brad çivi hangi tabancayla atılır?
+Pin çivi tabancasıyla. KOÇİST\'teki AKD 0630 ve NAIL 625-C3, 23 GA ve 12–35 mm aralığını destekler; 12, 15 ve 18 mm boyların üçünü de atar.',
 	),
 	array(
 		'slug' => 'pin-civi',
 		'title' => 'Pin Çivi',
 		'group' => 'ince-is-civileri',
 		'short' => 'Görünmez birleştirme için başsız Pin Çivi; ince kaplama, çıta ve dekoratif profil işlerinde pin tabancalarıyla kullanılır. Ölçü ve paket için teklif alın.',
-		'body' => 'Pin Çivi, başsız ve çok ince gövdeli çividir; ahşap yüzeyde neredeyse görünmeyen bir delik bırakır ve çoğunlukla tutkalın kuruma süresince parçayı sabit tutmak için kullanılır. Sertel\'in ürün sayfasında bu ürün için teknik tablo yayımlanmamıştır; GA, boy ve kutu adedi bilgisini güncel stok listemizden teklifle birlikte iletiyoruz. (Ürün görseli kaynak sayfada mevcuttur.)
+		'body' => 'Pin Çivi, başsız ve çok ince gövdeli çividir; ahşap yüzeyde neredeyse görünmeyen bir delik bırakır ve çoğunlukla tutkalın kuruma süresince parçayı sabit tutmak için kullanılır. GA, boy ve kutu adedi bilgisini teklifle birlikte iletiyoruz.
 
 Kullanım alanları: mobilya kaplama çıtası, çerçeve köşesi, MDF profil, dekoratif duvar paneli, ahşap oyuncak ve küçük ambalaj kutusu. Pin çivi yalnızca pin (headless) tabancalarla çakılır; brad tabancalarıyla karıştırılmamalıdır. Tabancanızın kabul ettiği GA ve maksimum boyu bize bildirmeniz yeterli.
 
@@ -619,6 +729,11 @@ Kafa: Başsız
 		'image' => 0,
 		'seo_title' => 'Pin Çivi – Başsız İnce İş Çivisi | KOÇİST',
 		'seo_description' => 'Pin Çivi: başsız, iz bırakmayan ince iş çivisi. Kaplama çıtası, çerçeve ve dekoratif profil için pin tabancalarıyla kullanılır. Teklif alın.',
+		'faq' => 'Pin çivi ile brad çivi arasındaki fark nedir?
+Pin çivi başsız ve çok ince gövdelidir; parçayı tutkal kururken sabitler ve neredeyse görünmez iz bırakır. Brad çivi daha kalındır ve taşıyıcı bağlantı yapar. Pin çivi yalnızca pin tabancasıyla çakılır.
+
+Pin çivi hangi işlerde kullanılır?
+Mobilya kaplama çıtası, çerçeve köşesi, MDF profil, dekoratif duvar paneli ve küçük ahşap kutu birleşimlerinde. Pin çivi siparişinde tabancanızın kabul ettiği GA ve boyu iletmeniz yeterli.',
 	),
 	array(
 		'slug' => 'akd-c23-57-b1',
@@ -644,6 +759,11 @@ Model: SRT-TB-01',
 		'image' => 0,
 		'seo_title' => 'AKD C23/57-B1 Rulo Çivi Tabancası | KOÇİST',
 		'seo_description' => 'AKD C23/57-B1 Rulo Çivi Tabancası: 25–57 mm rulo çivi, 300–400 adet hazne, 2,76 kg. Çivisiyle birlikte KOÇİST\'ten teklif alın, İstanbul–Trakya teslimat.',
+		'faq' => 'AKD C23/57-B1 rulo çivi tabancası hangi çivileri atar?
+AKD C23/57-B1 rulo çivi tabancası 25–57 mm boy ve 5,0–5,7 mm kafa çapındaki rulo çivileri atar. KOÇİST\'teki tele dizili rulo palet çivilerinin 2,1–2,5 mm çaplı, 25–57 mm boylu ebatları bu aralığa girer.
+
+AKD C23/57-B1 hangi işler için uygundur?
+Meyve kasası, CP palet ara tahtası, hafif ambalaj ve kaplama işleri için. 2,76 kg gövde ve 300–400 çivilik hazne, palet işine yeni başlayan atölyelere ya da ikinci hatta uygundur.',
 	),
 	array(
 		'slug' => 'akd-55',
@@ -669,6 +789,11 @@ Model: SRT-TB-02',
 		'image' => 0,
 		'seo_title' => 'AKD 55 Rulo Çivi Tabancası 25–55 mm | KOÇİST',
 		'seo_description' => 'AKD 55 Rulo Çivi Tabancası: 25–55 mm rulo çivi, 300–350 adet hazne, 2,65 kg hafif gövde. Palet ve kasa için KOÇİST\'ten hızlı teklif, Çatalca showroomda deneme.',
+		'faq' => 'AKD 55 rulo çivi tabancasının hazne kapasitesi ne kadar?
+AKD 55 rulo çivi tabancasının haznesi tek dolumda 300–350 çivi alır. Gövde 2,65 kg, ölçü 302x132x285 mm\'dir.
+
+AKD 55 ile hangi ölçü rulo çivi kullanılır?
+Çivi boyu 25–55 mm, kafa çapı 5,0–5,7 mm. KOÇİST\'teki 2,1x25, 2,2x30, 2,3x40–50 ve 2,5x50 mm rulo çiviler AKD 55\'in besleme aralığındadır.',
 	),
 	array(
 		'slug' => 'nail-55',
@@ -693,6 +818,11 @@ Model: SRT-TB-03',
 		'image' => 0,
 		'seo_title' => 'NAIL 55 Rulo Çivi Tabancası 2,1–2,5 mm | KOÇİST',
 		'seo_description' => 'NAIL 55 Rulo Çivi Tabancası: 2,1–2,5 mm çap, 25–50 mm boy, 250–400 adet hazne. Kasa ve hafif palet için KOÇİST\'ten çivisiyle birlikte teklif alın.',
+		'faq' => 'NAIL 55 rulo çivi tabancası hangi çap çiviyi atar?
+NAIL 55 rulo çivi tabancası 2,1–2,5 mm çap ve 25–50 mm boydaki rulo çivileri atar. KOÇİST\'teki ince rulo çivi ve 2,5 mm rulo palet çivisinin 35–50 mm boyları doğrudan kullanılır.
+
+NAIL 55 kimler için uygun bir tabancadır?
+Meyve-sebze kasası, şarap kutusu, ince ara çıta ve hafif palet üreten atölyeler için. 250–400 çivilik geniş hazne, küçük çaplı çivide dolum arasını uzatır.',
 	),
 	array(
 		'slug' => 'max-cn-55',
@@ -717,6 +847,11 @@ Model: SRT-TB-04',
 		'image' => 0,
 		'seo_title' => 'MAX CN 55 Rulo Çivi Tabancası 2,5 kg | KOÇİST',
 		'seo_description' => 'MAX CN 55 Rulo Çivi Tabancası: 2,5 kg, 25–57 mm rulo çivi, 300–350 adet hazne. Palet ve ambalaj hattı için KOÇİST\'ten ekonomik fiyat ve hızlı teklif.',
+		'faq' => 'MAX CN 55 rulo çivi tabancası kaç kilo?
+MAX CN 55 rulo çivi tabancası 2,5 kg\'dır; bu sınıfın hafif modellerindendir. Baş üstü ve yan çakımda kol yorgunluğunu azaltır.
+
+MAX CN 55 hangi çivilerle çalışır?
+25–57 mm boy ve 5,0–5,7 mm kafa çaplı rulo çivilerle. KOÇİST\'teki tele dizili rulo palet çivilerinin 2,1–2,5 mm çaplı ebatları bu aralıktadır; hazne 300–350 çivi alır.',
 	),
 	array(
 		'slug' => 'akdt-2350p',
@@ -741,6 +876,11 @@ Model: SRT-TB-05',
 		'image' => 0,
 		'seo_title' => 'AKDT 2350P Rulo Çivi Tabancası Konik/Düz | KOÇİST',
 		'seo_description' => 'AKDT 2350P Rulo Çivi Tabancası (Konik/Düz): 2,1–2,3 mm çap, 25–50 mm boy, 200–400 adet hazne. İnce kasa ve çıta işleri için KOÇİST\'ten teklif alın.',
+		'faq' => 'AKDT 2350P rulo çivi tabancasında konik ve düz hazne farkı nedir?
+Konik hazneli AKDT 2350P küçük çaplı ruloları, düz hazneli sürüm standart ruloları besler. İkisi de 2,1–2,3 mm çap ve 25–50 mm boydaki rulo çivilerle çalışır.
+
+AKDT 2350P hangi işlerde tercih edilir?
+Çatlama riski yüksek ince malzemede: ince kesitli kasa, ara çıta, hafif ambalaj ve CP palet ara tahtası. Hazne 200–400 çivi, ağırlık 2,8 kg\'dır.',
 	),
 	array(
 		'slug' => 'akd-29-65-a1',
@@ -765,6 +905,11 @@ Model: SRT-TB-06',
 		'image' => 0,
 		'seo_title' => 'AKD 29/65-A1 Rulo Çivi Tabancası 38–65 mm | KOÇİST',
 		'seo_description' => 'AKD 29/65-A1 Rulo Çivi Tabancası: 38–65 mm rulo çivi, 250–300 adet hazne, 2,6 kg. Palet ve kasa montajı için KOÇİST\'ten çivisiyle birlikte teklif.',
+		'faq' => 'AKD 29/65-A1 rulo çivi tabancası hangi boyda çivi çakar?
+AKD 29/65-A1 rulo çivi tabancası 38–65 mm boy ve 5,0–7,0 mm kafa çapındaki rulo çivileri çakar. KOÇİST\'teki 2,5x40–65 ve 2,8x60–65 mm rulo çiviler bu aralıktadır.
+
+AKD 29/65-A1 palet üretiminde nerede kullanılır?
+Palet üst ve alt tahtalarının takoza bağlanmasında, kasa iskeletinde ve sandık kapağında. 2,6 kg hafif gövdesiyle 65 mm\'ye kadar çakım yapar.',
 	),
 	array(
 		'slug' => 'akd-29-70-b1',
@@ -789,6 +934,11 @@ Model: SRT-TB-07',
 		'image' => 0,
 		'seo_title' => 'AKD 29/70-B1 Rulo Çivi Tabancası 45–70 mm | KOÇİST',
 		'seo_description' => 'AKD 29/70-B1 Rulo Çivi Tabancası: 45–70 mm rulo çivi, 250–300 adet hazne, 3,6 kg. Standart palet üretimi için KOÇİST\'ten hızlı teklif, Trakya teslimat.',
+		'faq' => 'AKD 29/70-B1 rulo çivi tabancası hangi palet işine uygundur?
+Standart palet üretiminin 45–70 mm boy aralığına. AKD 29/70-B1 rulo çivi tabancası 3,6 kg gövdesiyle geri tepmeyi azaltır ve sert ahşapta çakım derinliğini korur.
+
+AKD 29/70-B1 ile hangi rulo çiviler kullanılır?
+Kafa çapı 5,7–7,0 mm, boyu 45–70 mm olan rulo çiviler. KOÇİST\'teki 2,5x50–70 ve 2,8x60–70 mm ebatlar ring ve helikal gövdeleriyle bu tabancada çalışır.',
 	),
 	array(
 		'slug' => 'max-cn100',
@@ -812,6 +962,11 @@ Model: SRT-TB-08',
 		'image' => 0,
 		'seo_title' => 'MAX CN100 Rulo Çivi Tabancası 3,5 mm | KOÇİST',
 		'seo_description' => 'MAX CN100 Rulo Çivi Tabancası: 3,5 mm çivi sınıfı, 300 adet hazne, 3,7 kg. Ağır palet ve kalın ahşap için KOÇİST\'ten çivisiyle birlikte teklif alın.',
+		'faq' => 'MAX CN100 rulo çivi tabancası hangi çivileri kullanır?
+MAX CN100 rulo çivi tabancası 3,5 mm çapa kadar kalın rulo çivileri kullanır. KOÇİST\'teki 3,1x80–90, 3,3x100 ve 3,4x130 mm ağır hizmet rulo çivileri bu tabanca için uygundur.
+
+MAX CN100 hangi işler için seçilir?
+Takoz-kiriş bağlantısı, endüstriyel sandık ve ağır palet gibi kalın kesitli işler için. 300 çivilik hazne ve 3,7 kg gövde uzun çivide de tabancayı tek elle yönlendirmeyi kolaylaştırır.',
 	),
 	array(
 		'slug' => 'nail-cn70',
@@ -836,6 +991,11 @@ Model: SRT-TB-09',
 		'image' => 0,
 		'seo_title' => 'NAIL CN70 Rulo Çivi Tabancası 45–70 mm | KOÇİST',
 		'seo_description' => 'NAIL CN70 Rulo Çivi Tabancası: 2,3–2,9 mm çap, 45–70 mm boy, 225–300 adet hazne, 3,6 kg. Palet ve kasa için KOÇİST\'ten ekonomik fiyat, hızlı teklif.',
+		'faq' => 'NAIL CN70 rulo çivi tabancası hangi çivileri çakar?
+NAIL CN70 rulo çivi tabancası 2,3–2,9 mm çap ve 45–70 mm boydaki rulo çivileri çakar. KOÇİST\'teki 2,5x50–70 ve 2,8x60–70 mm rulo palet çivileri bu tabancaya uygundur.
+
+NAIL CN70 için ring mi helikal gövde mi seçilmeli?
+Çam gibi yumuşak ahşapta ring gövde, meşe ve kayın gibi sert ahşapta helikal gövde tutunmayı artırır. NAIL CN70 iki gövdeyi de aynı şekilde sürer.',
 	),
 	array(
 		'slug' => 'akd-cn100-epal',
@@ -860,6 +1020,11 @@ Model: SRT-TB-10',
 		'image' => 0,
 		'seo_title' => 'AKD CN100 EPAL Rulo Çivi Tabancası | KOÇİST',
 		'seo_description' => 'AKD CN100 EPAL Rulo Çivi Tabancası: endüstriyel sınıf, 3,5 mm çivi, 150–300 adet hazne, 5,6 kg. EPAL palet hattı için KOÇİST\'ten teklif alın.',
+		'faq' => 'AKD CN100 EPAL rulo çivi tabancası kimler içindir?
+Seri EPAL ve ağır palet üretimi yapan tesisler için. AKD CN100 EPAL rulo çivi tabancası 5,6 kg endüstriyel gövdesiyle kalın çivide geri tepmeyi emer ve her vuruşta aynı derinliği verir.
+
+AKD CN100 EPAL ile hangi çiviler kullanılır?
+3,5 mm çapa kadar rulo çiviler. KOÇİST\'teki 3,1x80–90, 3,3x100 ve 3,4x130 mm ağır hizmet rulo çivileri bu tabancayla kullanılır; hazne 150–300 çivi alır.',
 	),
 	array(
 		'slug' => 'maxcn70',
@@ -884,6 +1049,11 @@ Model: SRT-TB-11',
 		'image' => 0,
 		'seo_title' => 'MAXCN70 Rulo Çivi Tabancası 45–70 mm | KOÇİST',
 		'seo_description' => 'MAXCN70 Rulo Çivi Tabancası: 45–70 mm rulo çivi, 300 adet hazne, 3,5 kg. Palet ve kasa üretimi için KOÇİST\'ten çivisiyle birlikte hızlı teklif.',
+		'faq' => 'MAXCN70 rulo çivi tabancasının özellikleri neler?
+MAXCN70 rulo çivi tabancası 45–70 mm boy aralığında çalışır, 300 çivilik haznesi ve 3,5 kg gövdesi vardır. Çivi kafa çapı aralığı 5,6–7,0 mm\'dir.
+
+MAXCN70 ile hangi KOÇİST çivileri kullanılır?
+2,5x50–70 ve 2,8x60–70 mm rulo palet çivileri. 800x1200 palet, ahşap kasa, sandık ve ambalaj iskeleti için yeterli güç verir.',
 	),
 	array(
 		'slug' => 'akd-c38-100-a1',
@@ -909,6 +1079,11 @@ Model: SRT-TB-12',
 		'image' => 0,
 		'seo_title' => 'AKD C38/100-A1 Rulo Çivi Tabancası 57–102 mm | KOÇİST',
 		'seo_description' => 'AKD C38/100-A1 Rulo Çivi Tabancası: 57–102 mm uzun çivi, 225–300 adet hazne, 5,24 kg. Ağır palet ve EPAL için KOÇİST\'ten teklif, Çatalca\'da deneme.',
+		'faq' => 'AKD C38/100-A1 rulo çivi tabancası hangi boyda çivi atar?
+AKD C38/100-A1 rulo çivi tabancası 57–102 mm boy ve 6,5–7,5 mm kafa çapındaki rulo çivileri atar. KOÇİST\'teki 2,8x60–80, 3,1x80–90 ve 3,3x100 mm ebatlar bu aralıktadır.
+
+AKD C38/100-A1 EPAL üretiminde kullanılır mı?
+Evet. 5,24 kg gövde 100 mm çivide sapmasız çakım sağlar; takoz-kiriş bağlantısı ve ağır yük paleti için uygundur. EPAL hattında helikal gövdeli çivi tercih edilir.',
 	),
 	array(
 		'slug' => 'akd-c33-83-b1',
@@ -933,6 +1108,11 @@ Model: SRT-TB-13',
 		'image' => 0,
 		'seo_title' => 'AKD C33/83-B1 Rulo Çivi Tabancası 50–83 mm | KOÇİST',
 		'seo_description' => 'AKD C33/83-B1 Rulo Çivi Tabancası: 50–83 mm rulo çivi, 225–300 adet hazne, 3,8 kg. Palet ve kasa hattı için KOÇİST\'ten ekonomik fiyat ve hızlı teklif.',
+		'faq' => 'AKD C33/83-B1 rulo çivi tabancası hangi çivileri kullanır?
+AKD C33/83-B1 rulo çivi tabancası 50–83 mm boydaki rulo çivileri kullanır. KOÇİST\'teki 2,5x50–70, 2,8x60–80 ve 3,1x80 mm rulo çiviler bu tabancaya uyar.
+
+AKD C33/83-B1 ne kadar ağır, haznesi kaç çivi alır?
+Gövde 3,8 kg, hazne 225–300 çivi alır. Orta-uzun çivi sınıfında güç ile kullanım rahatlığı arasında dengeli bir modeldir.',
 	),
 	array(
 		'slug' => 'akd-tcn45r-shingle',
@@ -957,6 +1137,11 @@ Model: SRT-TB-14',
 		'image' => 0,
 		'seo_title' => 'AKD TCN45R Çatı Çivi Tabancası (Shingle) | KOÇİST',
 		'seo_description' => 'AKD TCN45R Çatı Çivi Tabancası (Shingle): 3,05 mm çap, 19–45 mm boy, 10,5 mm kafa, 120 adet hazne, 2,43 kg. Shingle ve çatı için KOÇİST\'ten teklif.',
+		'faq' => 'AKD TCN45R shingle çatı çivi tabancası palette kullanılır mı?
+Hayır. AKD TCN45R çatı çivi tabancası shingle, bitümlü örtü ve çatı kaplama çivileri içindir; palet çivisiyle karıştırılmamalıdır. Geniş kafalı çatı çivisi örtüyü yırtmadan sabitler.
+
+AKD TCN45R hangi çivileri atar?
+3,05 mm çaplı, 10,5 mm kafalı, 19–45 mm boyundaki rulo çatı çivilerini atar. KOÇİST\'teki 3,05 mm galvanizli tele dizili çatı ve palet çivisi bu ölçüdedir; hazne 120 çivi alır.',
 	),
 	array(
 		'slug' => 'nail-80',
@@ -981,6 +1166,11 @@ Model: SRT-TB-15',
 		'image' => 0,
 		'seo_title' => 'NAIL 80 Rulo Çivi Tabancası 50–83 mm | KOÇİST',
 		'seo_description' => 'NAIL 80 Rulo Çivi Tabancası: 50–83 mm rulo çivi, 225–300 adet hazne, 3,99 kg. Palet ve kasa için KOÇİST\'ten çivisiyle birlikte teklif, Trakya teslimat.',
+		'faq' => 'NAIL 80 rulo çivi tabancası hangi boy çivi çakar?
+NAIL 80 rulo çivi tabancası 50–83 mm boyundaki rulo çivileri çakar. KOÇİST\'teki 2,5x50–70, 2,8x60–80 ve 3,1x80 mm ebatlar bu aralıktadır.
+
+NAIL 80 hangi işlerde kullanılır?
+Palet takoz bağlantısı, kalın kasa iskeleti, sandık ve ağır ambalaj işlerinde. Yaklaşık 4 kg (3,99 kg) gövde uzun çivide geri tepmeyi emer; hazne 225–300 çividir.',
 	),
 	array(
 		'slug' => 'akd-c33-90-a3',
@@ -1005,6 +1195,11 @@ Model: SRT-TB-16',
 		'image' => 0,
 		'seo_title' => 'AKD C33/90-A3 Rulo Çivi Tabancası 38–90 mm | KOÇİST',
 		'seo_description' => 'AKD C33/90-A3 Rulo Çivi Tabancası: 38–90 mm geniş boy aralığı, 200–300 adet hazne, 3,6 kg. Farklı palet ölçüleri için KOÇİST\'ten hızlı teklif alın.',
+		'faq' => 'AKD C33/90-A3 rulo çivi tabancasının boy aralığı nedir?
+AKD C33/90-A3 rulo çivi tabancası 38–90 mm boyundaki rulo çivileri atar. Bu geniş aralık, farklı palet ölçüleri üreten hatlarda tabanca değiştirmeden çivi değiştirmeyi sağlar.
+
+AKD C33/90-A3 ile hangi KOÇİST rulo çivileri kullanılır?
+2,3x40–50, 2,5x50–70, 2,8x60–80 ve 3,1x80–90 mm rulo çivilerin tamamı. Hazne 200–300 çivi, gövde 3,6 kg\'dır.',
 	),
 	array(
 		'slug' => 'akd-c38-100-epal-a1',
@@ -1029,6 +1224,11 @@ Model: SRT-TB-17',
 		'image' => 0,
 		'seo_title' => 'AKD C38/100 EPAL-A1 Rulo Çivi Tabancası | KOÇİST',
 		'seo_description' => 'AKD C38/100 EPAL-A1 Rulo Çivi Tabancası: 2,5–3,8 mm çap, 57–102 mm boy, 225–300 adet hazne, 5,2 kg. EPAL üretimi için KOÇİST\'ten teklif alın.',
+		'faq' => 'AKD C38/100 EPAL-A1 rulo çivi tabancası en kalın kaç mm çivi atar?
+AKD C38/100 EPAL-A1 rulo çivi tabancası 2,5–3,8 mm çaplı, 57–102 mm boylu rulo çivileri atar; 3,8 mm\'ye kadar çap kabul etmesi bu sınıfta öne çıkar.
+
+AKD C38/100 EPAL-A1 Euro palet için hangi çiviyle kullanılır?
+KOÇİST\'teki 2,8x60–80, 3,1x80–90 ve 3,3x100 mm rulo çivilerle. Euro palet takoz-kiriş bağlantısında helikal gövdeli seçenekler tutunmayı artırır.',
 	),
 	array(
 		'slug' => 'akd-c38-130-a1',
@@ -1054,6 +1254,11 @@ Model: SRT-TB-18',
 		'image' => 0,
 		'seo_title' => 'AKD C38/130-A1 Rulo Çivi Tabancası 75–130 mm | KOÇİST',
 		'seo_description' => 'AKD C38/130-A1 Rulo Çivi Tabancası: 75–130 mm çivi, 120–225 adet hazne, 5,79 kg. Ağır palet ve takoz için KOÇİST\'ten çivisiyle birlikte teklif alın.',
+		'faq' => 'AKD C38/130-A1 rulo çivi tabancası kaç mm çivi çakar?
+AKD C38/130-A1 rulo çivi tabancası 75–130 mm boyundaki rulo çivileri çakar; kategorinin en uzun çivisini süren modeldir. Hazne 120–225 çivi, gövde 5,79 kg\'dır.
+
+AKD C38/130-A1 ile hangi çiviler kullanılır?
+KOÇİST\'teki ağır hizmet grubu: 3,1x80–90, 3,3x100 ve 3,4x130 mm rulo çiviler. Kalın takoz-kiriş bağlantısı, makine sandığı ve kereste kasası için uygundur.',
 	),
 	array(
 		'slug' => 'nail-np-civi-sokme',
@@ -1077,6 +1282,11 @@ Model: SRT-TB-19',
 		'image' => 0,
 		'seo_title' => 'NAIL NP Çivi Sökme Tabancası | KOÇİST',
 		'seo_description' => 'NAIL NP Çivi Sökme Tabancası: 1,3 kg, 50 mm çivi boyu, 5 bar. Palet tamir ve geri kazanım için KOÇİST\'ten teklif alın; İstanbul–Trakya teslimat.',
+		'faq' => 'NAIL NP çivi sökme tabancası ne işe yarar?
+Palet tamirinde çivi sökmeyi hızlandırır. NAIL NP çivi sökme tabancası çivi gövdesini geri sürer, hasarlı tahtayı takozdan kırmadan ayırmaya yardım eder; çivi çakmaz.
+
+NAIL NP çivi sökme tabancası kaç bar ile çalışır?
+Çalışma basıncı 5 bar, ağırlığı 1,3 kg\'dır; teknik tabloda çivi boyu 50 mm olarak verilir. Palet tamir atölyeleri ve ikinci el palet işleyenler için uygundur.',
 	),
 	array(
 		'slug' => '88-serisi-zimba-teli',
@@ -1103,6 +1313,11 @@ Kutu/koli: 30',
 		'image' => 0,
 		'seo_title' => '88 Serisi 20 GA Zımba Teli (Testere Uç) | KOÇİST',
 		'seo_description' => '88 Serisi 20 GA Zımba Teli (Testere Uç): 8818 ve 8818D, 18 mm, dizide 100, kutuda 1.600 adet, kolide 30 kutu. Stoktan teslim, teklif alın.',
+		'faq' => '88 serisi 20 GA zımba telinin testere ucu ne sağlar?
+Testere uç, telin bacaklarını keskin açıyla bitirir. 88 serisi 20 GA zımba teli bu sayede keçe, halı altlığı ve sert ahşaba sapmadan girer.
+
+88 serisi zımba teli hangi boyda ve pakette gelir?
+Tek boy vardır: 18 mm, 8818 ve 8818D kodlarıyla. Dizide 100 tel, kutuda 1.600 adet, kolide 30 kutu bulunur.',
 	),
 	array(
 		'slug' => '80-serisi-zimba-teli',
@@ -1135,6 +1350,11 @@ Kutu/koli: 30 (8004\'te 60)',
 		'image' => 0,
 		'seo_title' => '80 Serisi 21 GA Zımba Teli 4–22 mm | KOÇİST',
 		'seo_description' => '80 Serisi 21 GA Zımba Teli: 8004–8022 kodları, 4–22 mm, dizide 125 adet, kutuda 2.000–6.750 tel. Döşeme ve ambalaj için stoktan teslim.',
+		'faq' => '80 serisi 21 GA zımba telinin hangi boyu hangi işe uygun?
+4–8 mm kumaş, deri ve astarda; 10–14 mm sünger ile kumaşı birlikte geçirmede; 16 ve 22 mm sırt panosu ve ince kontrplakta kullanılır. 80 serisi 21 GA zımba teli koltuk ve kanepe atölyelerinin günlük telidir.
+
+80 serisi zımba teli kutusunda kaç adet var?
+Her dizi 125 teldir; kutu içeriği boy uzadıkça 6.750\'den 2.000 adede iner. Koli 30 kutu, yalnızca 8004 kodunda 60 kutudur.',
 	),
 	array(
 		'slug' => '90-serisi-zimba-teli',
@@ -1165,6 +1385,11 @@ Kutu/koli: 10 (35–40 mm\'de 8)',
 		'image' => 0,
 		'seo_title' => '90 Serisi 18 GA Zımba Teli (Testere Uç) | KOÇİST',
 		'seo_description' => '90 Serisi 18 GA Zımba Teli (Testere Uç): 9010–9040, 1,25x1,00 mm, 10–40 mm, kutuda 5.000 adet. Kasa ve kanepe iskeleti için teklif alın.',
+		'faq' => '90 serisi 18 GA zımba teli hangi işlerde kullanılır?
+Kanepe ve koltuk iskeleti, meyve-sebze kasası, hafif ambalaj sandığı ve çıta birleştirmede. 90 serisi 18 GA zımba teli dar taçlı ve testere uçludur, ahşaba düz girer.
+
+90 serisi zımba telinin boyları ve kutu adedi nedir?
+9010\'dan 9040\'a 10–40 mm arası altı boy. Dizide 100, kutuda 5.000 tel; koli 30 mm\'ye kadar 10 kutu, 35–40 mm\'de 8 kutudur.',
 	),
 	array(
 		'slug' => '92-serisi-zimba-teli',
@@ -1195,6 +1420,11 @@ Kutu/koli: 30',
 		'image' => 0,
 		'seo_title' => '92 Serisi 18 GA Zımba Teli (Testere Uç) | KOÇİST',
 		'seo_description' => '92 Serisi 18 GA Zımba Teli (Testere Uç): 9217–9240 kodları, 17–40 mm, dizide 90 tel, kolide 30 kutu. NAIL S9240 H ile uyumlu; teklif alın.',
+		'faq' => '92 serisi ile 90 serisi zımba teli arasındaki fark nedir?
+Kesit aynıdır (18 GA, 1,00x1,25 mm), ancak 92 serisi farklı bir şarjör standardına göre dizilir ve dizide 90 tel bulunur. 92 serisi 18 GA zımba telini tabancanızın üzerindeki seri koduna göre seçin.
+
+92 serisi zımba teli kutusunda kaç tel var?
+Kutu içeriği 17–20 mm\'de 1.260, 35–40 mm\'de 630 adettir; koli her boyda 30 kutu. 9217\'den 9240\'a altı boy vardır.',
 	),
 	array(
 		'slug' => '97-serisi-zimba-teli',
@@ -1226,6 +1456,11 @@ Kutu/koli: 30',
 		'image' => 0,
 		'seo_title' => '97 Serisi 21 GA Zımba Teli 4–22 mm | KOÇİST',
 		'seo_description' => '97 Serisi 21 GA Zımba Teli: 9704–9722 kodları, 4–22 mm, kutuda 5.000 adet, kolide 30 kutu. AKDT 9716 ile uyumlu; stoktan teslim, teklif alın.',
+		'faq' => '97 serisi 21 GA zımba teli neden deride tercih edilir?
+Dar taç deri ve ince kumaşta geniş taçlı tel kadar iz bırakmaz. 97 serisi 21 GA zımba teli bu yüzden deri koltuk, sandalye minderi ve kenar şeridinde kullanılır.
+
+97 serisi zımba telinin boyları neler?
+4, 6, 8, 10, 12, 14, 16 ve 22 mm. Dizide 125 tel; her boyda kutu 5.000 adet, koli 30 kutudur.',
 	),
 	array(
 		'slug' => 'p-serisi-zimba-teli',
@@ -1253,6 +1488,11 @@ P 38|38|75|1.000|1',
 		'image' => 0,
 		'seo_title' => 'P Serisi 16 GA Zımba Teli 16–38 mm | KOÇİST',
 		'seo_description' => 'P Serisi 16 GA Zımba Teli: P16, P19, P25, P30, P38 kodları, dizide 75 tel, kutuda 1.000 adet. Ahşap kasa ve sandık işleri için teklif alın.',
+		'faq' => 'P serisi 16 GA zımba teli hangi işler içindir?
+Ağır sınıf işler için: ahşap kasa yanağı, sandık dip tahtası, bahçe çiti çıtası ve palet üstüne karton sabitleme. P serisi 16 GA zımba teli kalın kesitiyle ince serilerden fazla yük taşır.
+
+P serisi zımba teli hangi boylarda gelir?
+P 16, P 19, P 25, P 30 ve P 38. Dizide 75 tel, kutuda 1.000 adet bulunur.',
 	),
 	array(
 		'slug' => 'koli-kapama-zimba-teli',
@@ -1279,6 +1519,11 @@ Kutu/koli: 30–45',
 		'image' => 0,
 		'seo_title' => 'Koli Kapama Zımba Teli 3515 / 3518 / 3522 | KOÇİST',
 		'seo_description' => 'Koli Kapama Zımba Teli: 3515 (15 mm), 3518 (18 mm), 3522 (22 mm), kutuda 600–1.000 adet. ADCSY ve ADCSN tabancalarla uyumlu; teklif alın.',
+		'faq' => 'Koli kapama zımba telinin hangi boyu seçilmeli?
+Tek oluklu kolide 15–18 mm, çift oluklu ve ağır ürün kolisinde 22 mm koli kapama zımba teli seçilir. Üç kod vardır: 3515, 3518 ve 3522.
+
+Koli kapama zımba teli kutuda kaç adet?
+3515\'te 1.000, 3518\'de 800, 3522\'de 600 adet. Koli 3515 ve 3518\'de 45 kutu, 3522\'de 30 kutudur; tel kesiti 0,75x0,50 mm\'dir.',
 	),
 	array(
 		'slug' => '200-serisi-53-zimba-teli',
@@ -1305,6 +1550,11 @@ Kutu/koli: 30',
 		'image' => 0,
 		'seo_title' => '200 Serisi (53) 23 GA Zımba Teli Mekanik | KOÇİST',
 		'seo_description' => '200 Serisi (53) 23 GA Zımba Teli: 200/04, 200/06, 200/08 kodları, kutuda 5.000 adet, kolide 30 kutu. Mekanik zımba tabancaları için teklif alın.',
+		'faq' => '200 serisi (53) zımba teli havalı tabancada kullanılır mı?
+Hayır, 200 serisi (53) 23 GA zımba teli elle çalışan mekanik zımbalar içindir. 53, piyasada bilinen "53 tipi" tel standardını gösterir.
+
+200 serisi zımba teli hangi boylarda?
+200/04, 200/06 ve 200/08 kodlarıyla 4, 6 ve 8 mm. Kutuda 5.000 tel, kolide 30 kutu vardır.',
 	),
 	array(
 		'slug' => '300-serisi-zimba-teli',
@@ -1330,6 +1580,11 @@ Kutu/koli: 30',
 		'image' => 0,
 		'seo_title' => '300 Serisi 24 GA Zımba Teli 6–8 mm | KOÇİST',
 		'seo_description' => '300 Serisi 24 GA Zımba Teli: 1306 (6 mm) ve 1308 (8 mm), kutuda 5.000 adet, kolide 30 kutu. Elle kullanılan zımba tabancaları için teklif alın.',
+		'faq' => '300 serisi 24 GA zımba teli hangi malzemelerde kullanılır?
+Kâğıt, karton, ince kumaş, file ve plastik örtü gibi hassas malzemelerde. 300 serisi 24 GA zımba teli ince kesitiyle bunları yırtmadan tutar.
+
+300 serisi zımba telinin kodları neler?
+1306 (6 mm) ve 1308 (8 mm). Kutuda 5.000 tel, kolide 30 kutu bulunur; mekanik zımbalarla kullanılır.',
 	),
 	array(
 		'slug' => 'ofis-zimba-teli',
@@ -1354,6 +1609,11 @@ Kutu/koli: 1.000 (10/1) / 400 (24/06)',
 		'image' => 0,
 		'seo_title' => 'Ofis Zımba Teli 10/1 ve 24/06 | KOÇİST',
 		'seo_description' => 'Ofis Zımba Teli: 10/1 (4,75 mm) ve 24/06 (5,79 mm), dizide 50 tel, kutuda 1.000 adet. Sevk evrakı ve ofis için koli bazında teklif alın.',
+		'faq' => 'Ofis zımba telinde 10/1 ile 24/06 arasındaki fark nedir?
+10/1 (4,75 mm) küçük el zımbalarında az sayfalı evrak içindir. 24/06 (5,79 mm) standart masa zımbalarında daha kalın dosyaları tutturur.
+
+Ofis zımba teli kutusunda kaç tel var?
+Her kutu 20 dizi, dizide 50 tel; toplam 1.000 adet. Koli 10/1\'de 1.000 kutu, 24/06\'da 400 kutudur.',
 	),
 	array(
 		'slug' => 'klipsler',
@@ -1382,6 +1642,11 @@ AKDM66|CL24|Şerit|4.8',
 		'image' => 0,
 		'seo_title' => 'Klipsler CL13–CL24 | KOÇİST',
 		'seo_description' => 'Klipsler: CL13–CL24 tipleri, rulo ve şerit paketleme, AKD M45, M46, M65, M66 tabancalarla uyumlu. Yatak ve kafes imalatı için teklif alın.',
+		'faq' => 'Klips (C-ring) ne işe yarar?
+Klipsler halka biçiminde kapanarak iki teli ya da teli kumaşa bağlar. Yaylı yatak, tel kafes ve tel örgü montajında kullanılır; sektörde C-ring ya da domuz halkası olarak da bilinir.
+
+Hangi klips hangi tabancaya uyar?
+CL13 ve CL17 AKD M45 ailesiyle, CL18 AKD M46 ailesiyle, CL23 AKD M65 ile, CL24 AKD M66 ile kullanılır. CL13, CL17 ve CL18 rulo ya da şerit; CL23 ve CL24 yalnızca şerit paketle gelir.',
 	),
 	array(
 		'slug' => 'paslanmaz-klipsler',
@@ -1405,6 +1670,11 @@ AKD M46|CL18|6.2 / 14|10.000|Rulo / Şerit',
 		'image' => 0,
 		'seo_title' => 'Paslanmaz Klipsler CL35 ve CL18 | KOÇİST',
 		'seo_description' => 'Paslanmaz Klipsler: CL35 (AKD M55, kolide 4.000) ve CL18 (AKD M46, kolide 10.000). Jiletli tel, kafes ve yatak imalatı için teklif alın.',
+		'faq' => 'Paslanmaz klipsler ne zaman tercih edilir?
+Dış ortamda ve nemli yerde: bahçe çiti, hayvan bölmesi, kümes kafesi ve dış mekân tel örgü onarımı. Paslanmaz klipsler standart klipse göre neme dayanıklıdır.
+
+Paslanmaz klipslerin tipleri ve koli adedi nedir?
+CL35 AKD M55 ile kullanılır, şerit paketlidir, kolide 4.000 adet. CL18 AKD M46 ile kullanılır, rulo ya da şerit, kolide 10.000 adet.',
 	),
 	array(
 		'slug' => 'tavli-tel',
@@ -1427,6 +1697,11 @@ Kullanım: Demir bağlama, balyalama, bağlama işleri',
 		'image' => 0,
 		'seo_title' => 'Tavlı Tel 0,9–4,0 mm Demir Bağlama Teli | KOÇİST',
 		'seo_description' => 'Tavlı Tel: düşük karbonlu, 0,9–4,0 mm çap, tufalsız ve homojen sertlik, küçük veya büyük bağ. Demir bağlama ve balyalama için teklif alın.',
+		'faq' => 'Tavlı tel neden şantiyede tercih edilir?
+Isıl işlemle yumuşatıldığı için elle kolay bükülür ve kırılmadan sarılır. Tavlı tel bu yüzden inşaat demirinin bağlanmasında standart malzemedir; 0,9–4,0 mm çapta gelir.
+
+Tavlı tel nasıl paketlenir?
+Küçük bağ ya da büyük bağ olarak. Sertel teli krom potalarda ve elektrikli fırınlarda tavlar; yüzey parlak kalır, tufal oluşmaz.',
 	),
 	array(
 		'slug' => 'galvanizli-tel',
@@ -1448,6 +1723,11 @@ Paketleme: Büyük bağ',
 		'image' => 0,
 		'seo_title' => 'Galvanizli Tel 0,9–5,0 mm Elektro Galvaniz | KOÇİST',
 		'seo_description' => 'Galvanizli Tel: düşük karbonlu, 0,9–5,0 mm çap, elektro galvaniz kaplama, büyük bağ. Çit, bağlama ve dış ortam işleri için teklif alın.',
+		'faq' => 'Galvanizli tel dış ortamda ne kazandırır?
+Elektro galvaniz çinko tabakası paslanmayı geciktirir. Galvanizli tel bu yüzden çit gerdirme, tel örgü onarımı ve bahçe bağlarında çıplak telden uzun dayanır.
+
+Galvanizli tel hangi çaplarda gelir?
+0,9 mm\'den 5,0 mm\'ye kadar; büyük bağ olarak paketlenir. İnce çaplar bağ ve sera askısında, orta ve kalın çaplar çit ve gergi işlerinde kullanılır.',
 	),
 	array(
 		'slug' => 'galvanizli-dikis-teli',
@@ -1470,6 +1750,11 @@ Kullanım: Ambalaj sanayisinde bağlantı elemanı',
 		'image' => 0,
 		'seo_title' => 'Galvanizli Dikiş Teli 0,8–1,8 mm Rozet | KOÇİST',
 		'seo_description' => 'Galvanizli Dikiş Teli: düşük karbonlu, 0,8–1,8 mm çap, elektro galvaniz, rozet veya küçük bağ paket. Ambalaj ve koli dikişi için teklif alın.',
+		'faq' => 'Galvanizli dikiş teli nerede kullanılır?
+Koli dikiş makinelerinde oluklu mukavva kutu kenarlarını dikmekte, katalog sırtı dikişinde ve torba ağzı kapatmakta. Galvanizli dikiş teli 0,8–1,8 mm çaptadır.
+
+Galvanizli dikiş teli rozet mi bağ mı gelir?
+İkisi de vardır: rozet ve küçük bağ. Rozet sarım makineye düzgün beslendiği için dikiş hatlarında tercih edilir.',
 	),
 	array(
 		'slug' => 'balya-teli',
@@ -1493,6 +1778,11 @@ Yüzey: Kaydırıcı ve koruyucu yağ kaplı',
 		'image' => 0,
 		'seo_title' => 'Balya Teli 1,60–4,00 mm Rulo | KOÇİST',
 		'seo_description' => 'Balya Teli: SAE 1006/1008/1018 hammadde, 1,60–4,00 mm çap, çapraz veya düz sarım, yağlı yüzey, rulo paket. Geri dönüşüm tesisleri için teklif alın.',
+		'faq' => 'Balya teli neden yağlı gelir?
+Kaydırıcı yağ, telin presin bağlama ünitesinde takılmadan ilerlemesini sağlar; koruyucu katman depoda paslanmayı geciktirir. Balya teli kâğıt, karton, plastik ve metal hurda preslerinde kullanılır.
+
+Balya telinin çapı ve hammaddesi nedir?
+Çap 1,60–4,00 mm; hammadde SAE 1006, SAE 1008 ve SAE 1018 kalite tel. Sarım çapraz ya da düz, paket rulodur.',
 	),
 	array(
 		'slug' => 'akd-at827-m-mekanik-zimba-tabancasi',
@@ -1514,6 +1804,11 @@ Brad çivi: 10 mm',
 		'image' => 0,
 		'seo_title' => 'AKD AT827 M Mekanik Zımba Tabancası | KOÇİST',
 		'seo_description' => 'AKD AT827 M Mekanik Zımba Tabancası: AKD 13, Arrow JT-21, Rapid No 53 uyumlu, 6–12 mm tel, 10 mm brad. Döşeme ve afiş işleri için teklif alın.',
+		'faq' => 'AKD AT827 M mekanik zımba tabancası hangi teli kullanır?
+AKD AT827 M mekanik zımba tabancası AKD 13, Arrow JT-21 ve Rapid No 53 tipi telleri 6–12 mm boyda kullanır. KOÇİST\'teki 200 serisi (53) 23 GA zımba teli bu tabancaya uyar.
+
+AKD AT827 M çivi de atar mı?
+Evet, 10 mm brad çivi atar. Hava ya da elektrik gerektirmez; afiş, kumaş ve astar sabitlemede elle çalışır.',
 	),
 	array(
 		'slug' => 'akd-at-916-mekanik-zimba-tabancasi',
@@ -1534,6 +1829,11 @@ Brad çivi: 10 mm',
 		'image' => 0,
 		'seo_title' => 'AKD AT-916 Mekanik Zımba Tabancası | KOÇİST',
 		'seo_description' => 'AKD AT-916 Mekanik Zımba Tabancası: AKD 13, Arrow JT-21, Rapid No 53 teli ve 10 mm brad çivi atar. Döşeme, ambalaj ve tamir işleri için teklif alın.',
+		'faq' => 'AKD AT-916 mekanik zımba tabancasına hangi tel takılır?
+AKD AT-916 mekanik zımba tabancasına AKD 13, Arrow JT-21 ve Rapid No 53 tipi tel takılır; 10 mm brad çivi de kullanılabilir. KOÇİST\'teki 200 serisi (53) zımba teli uyumludur.
+
+AKD AT-916 hangi işlerde pratik olur?
+Kompresör kurulamayan yerlerde: mağaza dekoru, branda ve afiş, döşeme astarı ve karton etiket. Elle çalıştığı için sahada ve showroomda hemen kullanılır.',
 	),
 	array(
 		'slug' => 'akd-at-911-mekanik-zimba-tabancasi',
@@ -1544,7 +1844,7 @@ Brad çivi: 10 mm',
 
 Bu çok yönlülük, aynı işte hem kumaş hem çıta sabitlemesi gereken döşemeciler ve dekorasyon ekipleri için zaman kazandırır. Kumaşı tel ile tutturduktan sonra aynı tabancayla kenar çıtasını çiviyle sabitleyebilirsiniz. Ambalaj tarafında ise ahşap kutu kapağı, karton etiket ve ince kasa çıtası işlerinde kullanılır.
 
-Sertel ürün sayfasında bu model için ayrıntılı bir teknik tablo yayımlanmamıştır. Uygun tel ve çivi ölçüsünü stok listemizden sizin işinize göre eşleştiriyoruz.
+Uygun tel ve çivi ölçüsünü stok listemizden sizin işinize göre eşleştiriyoruz.
 
 KOÇİST\'te tabanca ile sarf malzemesini birlikte, ekonomik fiyatla sunuyoruz. Teklif aynı gün hazırlanır, stoktaki ürün gecikmeden çıkar. İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyoruz; Çatalca showroomumuzda örnek uygulama yapabiliriz. Tel: 0212 648 19 19.',
 		'specs' => 'Çalışma tipi: Mekanik (elle)
@@ -1553,6 +1853,11 @@ Kullanım: Zımba teli ve çivi',
 		'image' => 0,
 		'seo_title' => 'AKD AT-911 Çivi Mekanik Zımba Tabancası | KOÇİST',
 		'seo_description' => 'AKD AT-911 Çivi Mekanik Zımba Tabancası: hem zımba teli hem çivi atan, elle çalışan tabanca. Döşeme, ambalaj ve dekor işleri için teklif alın.',
+		'faq' => 'AKD AT-911 çivi mekanik zımba tabancası neyi farklı yapar?
+AKD AT-911 hem zımba teli hem çivi atabilen mekanik bir tabancadır. Tek aletle tel ve çivi işini gördüğü için atölyede yedek tabanca olarak tutulur.
+
+AKD AT-911 için tel ve çivi nereden alınır?
+KOÇİST\'te mekanik zımbalara uygun 200 serisi (53) ve 300 serisi zımba telleri ile brad çiviler bulunur. Tabancanın kodunu söyleyin, uygun teli birlikte gönderelim.',
 	),
 	array(
 		'slug' => 'trusty-pld2190-sicak-hava-tabancasi',
@@ -1572,6 +1877,11 @@ Marka: Trusty',
 		'image' => 0,
 		'seo_title' => 'Trusty PLD2190 Sıcak Hava Tabancası 2000 W | KOÇİST',
 		'seo_description' => 'Trusty PLD2190 Sıcak Hava Tabancası 2000 W: şirink film daraltma, boya ve etiket sökme, PVC bükme. Atölye ve ambalaj işleri için teklif alın.',
+		'faq' => 'Trusty PLD2190 sıcak hava tabancası ne işe yarar?
+Trusty PLD2190 sıcak hava tabancası 2000 W gücüyle şirink naylonu daraltmakta, boya ve yapışkan söküp yüzey ısıtmakta kullanılır.
+
+Şirink ambalajda sıcak hava tabancası nasıl kullanılır?
+Şirink naylon ürüne geçirilir, Trusty PLD2190 ile sıcak hava eşit mesafeden gezdirilerek naylon daraltılır. Sonuç, ürünü sıkı saran ve nemden koruyan bir ambalajdır.',
 	),
 	array(
 		'slug' => 'akd-hg-pld2033-sicak-hava-tabancasi',
@@ -1591,6 +1901,11 @@ Marka: AKD (Akdeniz)',
 		'image' => 0,
 		'seo_title' => 'AKD HG-PLD2033 Sıcak Hava Tabancası 2000 W | KOÇİST',
 		'seo_description' => 'AKD HG-PLD2033 Sıcak Hava Tabancası 2000 W: şirink ambalaj, boya sökme, etiket ve yapıştırıcı yumuşatma. Atölye ve depo için teklif alın.',
+		'faq' => 'AKD HG-PLD2033 sıcak hava tabancası kaç watt?
+AKD HG-PLD2033 sıcak hava tabancası 2000 W\'tır. Şirink ambalaj, eski boya ve etiket sökme, PVC bükme ve yapışkan yumuşatma işlerinde kullanılır.
+
+AKD HG-PLD2033 palet ambalajında işe yarar mı?
+Evet. Palet üzerindeki yükü saran şirink örtüyü ısıtıp daraltarak yükü sabitlemede kullanılır; KOÇİST\'te tel ve zımba sarf malzemesiyle aynı teklifte alınabilir.',
 	),
 	array(
 		'slug' => 'nail-fl-188a-mum-tabancasi',
@@ -1611,6 +1926,11 @@ Marka: NAIL',
 		'image' => 0,
 		'seo_title' => 'NAIL FL-188A Mum Tabancası 80 W | KOÇİST',
 		'seo_description' => 'NAIL FL-188A Mum Tabancası 80 W: sıcak silikon ile ambalaj, döşeme detayı ve dekor işleri. Atölye ve showroom kullanımı için teklif alın.',
+		'faq' => 'NAIL FL-188A mum tabancası hangi işler için uygun?
+NAIL FL-188A mum tabancası 80 W\'lık gücüyle günlük atölye işlerine uygundur: kutu içi sabitleme, döşeme detayı, dekor ve etiket.
+
+80 W ile 220 W mum tabancası arasındaki fark nedir?
+Watt arttıkça silikon daha hızlı erir ve akış kesintisiz olur. 80 W NAIL FL-188A orta tempolu işe, 220 W uzun hatlara ve geniş yüzeylere uygundur.',
 	),
 	array(
 		'slug' => 'akd-g-766-mum-tabancasi',
@@ -1631,6 +1951,11 @@ Marka: AKD (Akdeniz)',
 		'image' => 0,
 		'seo_title' => 'AKD G-766 Mum Tabancası 80 W | KOÇİST',
 		'seo_description' => 'AKD G-766 Mum Tabancası 80 W: hızlı ısınan sıcak silikon tabancası; kutu, kumaş ve ahşap detaylarında anında tutuş. Stoktan teslim, teklif alın.',
+		'faq' => 'AKD G-766 mum tabancası hangi malzemeleri yapıştırır?
+AKD G-766 mum tabancası sıcak silikonla ahşap, karton, kumaş ve birçok plastik parçayı yapıştırır. 80 W güç günlük atölye kullanımı içindir.
+
+AKD G-766 ambalajda nerede kullanılır?
+Kutu içi ayırıcıları sabitlemede, numune ve etiket yapıştırmada, hediye kutusu iç düzeninde. Silikon soğuyunca bağlantı hemen tutar, iş beklemez.',
 	),
 	array(
 		'slug' => 'akd-k-1000-mum-tabancasi',
@@ -1651,6 +1976,11 @@ Marka: AKD (Akdeniz)',
 		'image' => 0,
 		'seo_title' => 'AKD K-1000 Mum Tabancası 100 W | KOÇİST',
 		'seo_description' => 'AKD K-1000 Mum Tabancası 100 W: yoğun tempoda hızlı erime, ambalaj, döşeme ve dekor işleri için sıcak silikon tabancası. Stoktan teslim, teklif alın.',
+		'faq' => 'AKD K-1000 mum tabancası kaç watt?
+AKD K-1000 mum tabancası 100 W\'tır. 80 W modellere göre silikonu daha hızlı eritir; yoğun tempolu atölye işinde akış kesilmez.
+
+AKD K-1000 kimler için uygundur?
+Gün boyu mum tabancası kullanan döşeme, dekor ve ambalaj atölyeleri için. 100 W güç, 60–80 W modellerle 220 W endüstriyel model arasında dengeli bir seçenektir.',
 	),
 	array(
 		'slug' => 'akd-k-2250-mum-tabancasi',
@@ -1671,6 +2001,11 @@ Marka: AKD (Akdeniz)',
 		'image' => 0,
 		'seo_title' => 'AKD K-2250 Mum Tabancası 220 W | KOÇİST',
 		'seo_description' => 'AKD K-2250 Mum Tabancası 220 W: yüksek güçlü sıcak silikon tabancası, uzun hat ve yoğun ambalaj işleri için. Stoktan hızlı teslim, teklif alın.',
+		'faq' => 'AKD K-2250 mum tabancası neden 220 W?
+AKD K-2250 mum tabancası 220 W gücüyle silikonu en hızlı eriten modeldir. Uzun yapıştırma hatlarında ve geniş yüzeylerde akış kesintiye uğramaz.
+
+AKD K-2250 hangi işlerde tercih edilir?
+Seri ambalaj hattı, büyük dekor panosu ve uzun kenar yapıştırma gibi yoğun işlerde. Küçük ve hassas işler için 60–80 W modeller daha kontrollüdür.',
 	),
 	array(
 		'slug' => 'akd-k-600-mum-tabancasi',
@@ -1691,6 +2026,11 @@ Marka: AKD (Akdeniz)',
 		'image' => 0,
 		'seo_title' => 'AKD K-600 Mum Tabancası 60 W | KOÇİST',
 		'seo_description' => 'AKD K-600 Mum Tabancası 60 W: kontrollü akışlı sıcak silikon tabancası; etiket, numune kutusu ve küçük dekor işleri için. Teklif alın.',
+		'faq' => 'AKD K-600 mum tabancası hangi işler içindir?
+AKD K-600 mum tabancası 60 W\'lık en düşük güçlü modeldir; hassas ve küçük işler içindir: maket, etiket, küçük süs ve ince kumaş detayı.
+
+60 W mum tabancası yeterli olur mu?
+Az miktarda ve noktasal yapıştırma için yeterlidir. Uzun hat ya da seri iş varsa 100 W AKD K-1000 veya 220 W AKD K-2250 daha hızlı çalışır.',
 	),
 	array(
 		'slug' => 'akd-k-800-mum-tabancasi',
@@ -1711,6 +2051,11 @@ Marka: AKD (Akdeniz)',
 		'image' => 0,
 		'seo_title' => 'AKD K-800 Mum Tabancası 80 W | KOÇİST',
 		'seo_description' => 'AKD K-800 Mum Tabancası 80 W: dengeli güçte sıcak silikon tabancası; ambalaj, döşeme ve dekor işleri için. Stoktan hızlı teslim, teklif alın.',
+		'faq' => 'AKD K-800 mum tabancasının gücü nedir?
+AKD K-800 mum tabancası 80 W\'tır. Günlük atölye işi için yeterli akış verir ve elde kontrolü kolaydır.
+
+AKD K-800 döşeme işinde nasıl kullanılır?
+Kenar şeridi, dekoratif kordon ve astar köşelerini noktasal yapıştırmada. Zımbanın iz bırakacağı görünür yerlerde silikon temiz bir çözüm sunar.',
 	),
 	array(
 		'slug' => 'akd-pt-80-mum-tabancasi',
@@ -1731,6 +2076,11 @@ Marka: AKD (Akdeniz)',
 		'image' => 0,
 		'seo_title' => 'AKD PT-80 Mum Tabancası 80 W | KOÇİST',
 		'seo_description' => 'AKD PT-80 Mum Tabancası 80 W: sıcak silikon tabancası; kutu içi sabitleme, döşeme ve dekor işleri için. Stoktan teslim, İstanbul–Trakya sevkiyat.',
+		'faq' => 'AKD PT-80 mum tabancası hangi güçte?
+AKD PT-80 mum tabancası 80 W\'tır. Ambalaj, dekor ve küçük montaj işlerinde orta tempoda çalışır.
+
+AKD PT-80 ile ne tür yapıştırma yapılır?
+Karton kutu kapağı, ahşap küçük parça, kumaş ve plastik aksesuar yapıştırma. Silikon soğuyunca bağlantı tutar; vidaya ya da zımbaya gerek kalmayan hafif işlerde hız kazandırır.',
 	),
 	array(
 		'slug' => '8-mm-uclu-t-hortum-arasi',
@@ -1750,6 +2100,11 @@ Bağlantı şekli: Üçlü T (bir giriş, iki çıkış)',
 		'image' => 0,
 		'seo_title' => '8 mm Üçlü T Hortum Arası Hava Hattı | KOÇİST',
 		'seo_description' => '8 mm Üçlü T Hortum Arası: tek kompresör hattından iki çıkış alın, zımba ve çivi tabancalarını birlikte besleyin. Stoktan teslim, teklif alın.',
+		'faq' => '8 mm üçlü T hortum arası ne işe yarar?
+8 mm üçlü T hortum arası bir hava hattını ikiye böler: bir giriş, iki çıkış. Tek kompresörden iki tabancayı beslemek için kullanılır.
+
+8 mm üçlü T hortum arası hangi hortuma takılır?
+8 mm hava hortumuna. 5x8 hortum kullanıyorsanız 5x8 hortum rekoru ve stoperleriyle hattı tamamlayabilirsiniz.',
 	),
 	array(
 		'slug' => '8-mm-hortum-arasi-rekor',
@@ -1769,6 +2124,11 @@ Bağlantı şekli: Düz ara bağlantı (iki uç)',
 		'image' => 0,
 		'seo_title' => '8 mm Hortum Arası Rekor | KOÇİST',
 		'seo_description' => '8 mm Hortum Arası Rekor: iki 8 mm hava hortumunu birleştirip hattı uzatır, hasarlı hortumu onarır. Kompresör hatları için stoktan teslim, teklif alın.',
+		'faq' => '8 mm hortum arası rekor ne için kullanılır?
+8 mm hortum arası rekor iki hortum ucunu düz olarak birleştirir. Kesilen hortumu onarmak ya da hattı uzatmak için kullanılır.
+
+8 mm hortum arası rekor ile üçlü T arasında fark nedir?
+Hortum arası rekorun iki ucu vardır ve hattı düz uzatır. Üçlü T ise hattı iki çıkışa ayırır.',
 	),
 	array(
 		'slug' => '5x8-hortum-rekoru-pirinc',
@@ -1788,6 +2148,11 @@ Malzeme: Pirinç',
 		'image' => 0,
 		'seo_title' => '5x8 Hortum Rekoru Pirinç | KOÇİST',
 		'seo_description' => '5x8 Hortum Rekoru Pirinç: 5x8 mm hava hortumu için pirinç gövdeli rekor. Kompresör, zımba ve çivi tabancası hatları için stoktan teslim, teklif alın.',
+		'faq' => '5x8 hortum rekoru ne demek?
+5x8, iç çapı 5 mm, dış çapı 8 mm olan hava hortumunu gösterir. 5x8 hortum rekoru pirinç bu hortumu bağlantı noktasına takmak için kullanılır.
+
+Pirinç hortum rekorunun avantajı nedir?
+Pirinç korozyona dayanıklıdır ve hava hattında uzun süre sızdırmadan çalışır. Zımba ve çivi tabancası hatlarında yaygın kullanılır.',
 	),
 	array(
 		'slug' => '3-8-ikili-stoper-set-pirinc',
@@ -1809,6 +2174,11 @@ Tip: Stoper (hızlı bağlantı) seti',
 		'image' => 0,
 		'seo_title' => '3/8 İkili Stoper Set Pirinç | KOÇİST',
 		'seo_description' => '3/8 İkili Stoper Set Pirinç: tek hava çıkışından iki hızlı bağlantı noktası. Zımba ve çivi tabancalarını aynı kompresörde kullanın; teklif alın.',
+		'faq' => '3/8 ikili stoper set ne işe yarar?
+3/8 ikili stoper set pirinç, tek hava çıkışından iki hızlı bağlantı noktası sağlar. İki tabanca aynı hattan çalışır, hortum sökmeden takılıp çıkarılır.
+
+Stoper ne demek?
+Stoper, hava hortumunu alete ya da hatta saniyeler içinde takıp çıkarmayı sağlayan hızlı bağlantı elemanıdır. Takıldığında hava akar, çıkarıldığında hat kapanır.',
 	),
 	array(
 		'slug' => '3-8-1-2-nipel-pirinc',
@@ -1829,6 +2199,11 @@ Tip: Geçiş nipeli',
 		'image' => 0,
 		'seo_title' => '3/8″-1/2″ Nipel Pirinç Geçiş Parçası | KOÇİST',
 		'seo_description' => '3/8″-1/2″ Nipel Pirinç: 3/8 ve 1/2 inç dişleri birleştiren pirinç geçiş nipeli. Kompresör ve hava hattı montajı için stoktan teslim, teklif alın.',
+		'faq' => '3/8″-1/2″ nipel ne için kullanılır?
+3/8″-1/2″ nipel pirinç, farklı diş ölçüsündeki iki bağlantıyı birleştiren geçiş parçasıdır. Örneğin 1/2″ çıkışa 3/8″ stoper takmak için kullanılır.
+
+Pirinç nipel hava hattında neden tercih edilir?
+Pirinç paslanmaz ve diş yapısı sızdırmazlığı korur. Kompresör çıkışı ile tabanca hattı arasındaki ölçü farkını tek parçayla çözer.',
 	),
 	array(
 		'slug' => '5x8-hortum-ucu-stoper-pirinc',
@@ -1849,6 +2224,11 @@ Tip: Hortum ucu stoper (hızlı bağlantı)',
 		'image' => 0,
 		'seo_title' => '5x8 Hortum Ucu Stoper Pirinç | KOÇİST',
 		'seo_description' => '5x8 Hortum Ucu Stoper Pirinç: 5x8 mm hava hortumu için pirinç hızlı bağlantı ucu. Zımba ve çivi tabancalarında hızlı tak-çıkar; teklif alın.',
+		'faq' => '5x8 hortum ucu stoper nereye takılır?
+5x8 hortum ucu stoper pirinç, 5x8 mm hava hortumunun ucuna takılır ve hortumu tabancaya ya da hatta hızlıca bağlar.
+
+5x8 hortum ucu stoper hangi tabancalarla kullanılır?
+5x8 hortumla beslenen zımba, brad ve çivi tabancalarıyla. Tabancanın giriş rekoru ile aynı stoper sistemini seçmek gerekir; modelinizi söyleyin, eşleştirelim.',
 	),
 	array(
 		'slug' => 'tt121b-somun-sokme-tabancasi',
@@ -1874,6 +2254,11 @@ Ağırlık: 2,6 kg',
 		'image' => 0,
 		'seo_title' => 'TT121B 1/2″ Somun Sökme Tabancası İkiz Çekiç | KOÇİST',
 		'seo_description' => 'TT121B 1/2″ Somun Sökme Tabancası İkiz Çekiç: 660 Nm, 8.000 dev/dk, 6,2 atü, 16 mm cıvata, 2,6 kg. Forklift ve makine bakımı için teklif alın.',
+		'faq' => 'TT121B somun sökme tabancasının torku ne kadar?
+TT121B 1/2″ somun sökme tabancası 660 Nm maksimum tork verir; boşta 8.000 dev/dk döner ve 16 mm\'ye kadar cıvatada çalışır.
+
+TT121B ikiz çekiç ne avantaj sağlar?
+İkiz çekiçte iki çekiç dengeli vurur; titreşim azalır, uzun kullanımda bilek daha az yorulur. TT121B 2,6 kg\'dır ve 6,2 atü hava basıncıyla çalışır.',
 	),
 	array(
 		'slug' => 'm-ij238-b1-mini-somun-sokme-tabancasi',
@@ -1897,6 +2282,11 @@ Ağırlık: 1,3 kg',
 		'image' => 0,
 		'seo_title' => 'M-IJ238-B1 1/2″ Mini Somun Sökme Tabancası | KOÇİST',
 		'seo_description' => 'M-IJ238-B1 1/2″ Mini Somun Sökme Tabancası: tek çekiç, 108,5 mm gövde, 1,3 kg, 6,2 atü. Dar alanda bakım ve montaj için stoktan teslim, teklif alın.',
+		'faq' => 'M-IJ238-B1 mini somun sökme tabancası ne kadar küçük?
+M-IJ238-B1 1/2″ mini somun sökme tabancası 108,5 mm uzunluğunda ve 1,3 kg\'dır. Dar motor bölmesi ve şase arası gibi büyük tabancanın girmediği yerler için uygundur.
+
+M-IJ238-B1 hangi kompresörle çalışır?
+6,2 atü basınç ve 4,8 CFM hava tüketimiyle çalışır. Kompresörünüzün debisini iletin, uygunluğunu birlikte kontrol edelim.',
 	),
 	array(
 		'slug' => 'tt131b-somun-sokme-tabancasi',
@@ -1923,6 +2313,11 @@ Ağırlık: 3,2 kg',
 		'image' => 0,
 		'seo_title' => 'TT131B 1/2″ Somun Sökme Tabancası İkiz Çekiç | KOÇİST',
 		'seo_description' => 'TT131B 1/2″ Somun Sökme Tabancası İkiz Çekiç: 850 Nm, 6.800 dev/dk, 1/4″ hava girişi, 18 mm cıvata, 3,2 kg. Ağır bakım işleri için teklif alın.',
+		'faq' => 'TT131B somun sökme tabancası TT121B\'den güçlü mü?
+Evet. TT131B 1/2″ somun sökme tabancası 850 Nm maksimum torkla TT121B\'nin 660 Nm\'sinin üstündedir ve 18 mm\'ye kadar cıvatada çalışır.
+
+TT131B kaç kilo, hangi hava girişine sahip?
+TT131B 3,2 kg\'dır, 1/4″ hava girişi vardır ve 6,2 atü basınçla çalışır; boşta devri 6.800 dev/dk\'dır.',
 	),
 	array(
 		'slug' => 'tt120b-somun-sokme-tabancasi-seti',
@@ -1942,6 +2337,11 @@ Set içeriği: 1 adet M-12A01B6 tabanca, 10 adet lokma, 1 alyan anahtar, 1 nipel
 		'image' => 0,
 		'seo_title' => 'TT120B 1/2″ Somun Sökme Tabancası Seti | KOÇİST',
 		'seo_description' => 'TT120B 1/2″ Somun Sökme Tabancası Seti: M-12A01B6 tabanca, 10–27 mm arası lokmalar, alyan, nipel, rekor ve plastik çanta. Teklif alın.',
+		'faq' => 'TT120B somun sökme tabancası setinde neler var?
+TT120B 1/2″ somun sökme tabancası setinde 1 adet M-12A01B6 tabanca, 10 lokma, 1 alyan anahtar, 1 nipel, 1 rekor ve plastik taşıma çantası bulunur.
+
+Set mi almalı, tek tabanca mı?
+Lokmanız yoksa TT120B seti daha ekonomiktir; tabanca, lokmalar ve bağlantı parçaları birlikte gelir. Lokmanız varsa yalnız tabanca yeterlidir.',
 	),
 	array(
 		'slug' => 'tt341b-somun-sokme-tabancasi',
@@ -1967,6 +2367,11 @@ Ağırlık: 4,8 kg',
 		'image' => 0,
 		'seo_title' => 'TT341B 3/4″ Somun Sökme Tabancası | KOÇİST',
 		'seo_description' => 'TT341B 3/4″ Somun Sökme Tabancası: 1.200 Nm tork, 4.600 dev/dk, 6,8 kg/cm² basınç, 22 mm cıvata, 4,8 kg. Ağır vasıta ve makine için teklif alın.',
+		'faq' => 'TT341B 3/4″ somun sökme tabancası hangi araçlar için?
+Kamyonet, kamyon ve forklift tekerleri için. TT341B 3/4″ somun sökme tabancası 1.200 Nm tork verir ve 22 mm\'ye kadar cıvatada çalışır.
+
+TT341B kaç kilo ve kaç devir?
+TT341B 4,8 kg\'dır, boşta 4.600 dev/dk döner; 1/4″ hava girişi ve 6,8 kg/cm² basınçla çalışır.',
 	),
 	array(
 		'slug' => 'tt340b-somun-sokme-tabancasi-seti',
@@ -1987,6 +2392,11 @@ Lokma ölçüleri: 24 / 27 mm',
 		'image' => 0,
 		'seo_title' => 'TT340B 3/4″ Somun Sökme Tabancası Seti | KOÇİST',
 		'seo_description' => 'TT340B 3/4″ Somun Sökme Tabancası Seti: M-34B01B6-B tabanca, 24–27 mm lokma, alyan, nipel, rekor, plastik çanta. Kamyon ve iş makinesi için teklif alın.',
+		'faq' => 'TT340B somun sökme tabancası setinde hangi lokmalar var?
+TT340B 3/4″ somun sökme tabancası setinde 24 ve 27 mm olmak üzere 2 lokma bulunur; ayrıca M-34B01B6-B tabanca, alyan anahtar, nipel, rekor ve plastik çanta vardır.
+
+TT340B hangi işler için uygundur?
+Kamyonet ve kamyon teker bakımı, forklift ve iş makinesi bağlantıları için. 3/4″ soket karesi orta-ağır sınıftır.',
 	),
 	array(
 		'slug' => 'tt300b-somun-sokme-tabancasi',
@@ -2012,6 +2422,11 @@ Ağırlık: 8,6 kg',
 		'image' => 0,
 		'seo_title' => 'TT300B 1″ Somun Sökme Tabancası | KOÇİST',
 		'seo_description' => 'TT300B 1″ Somun Sökme Tabancası: 2.400 Nm, 3.900 dev/dk, 1/4″ hava girişi, 38 mm cıvata, 8,6 kg. Tır, otobüs ve iş makinesi için teklif alın.',
+		'faq' => 'TT300B 1″ somun sökme tabancasının torku nedir?
+TT300B 1″ somun sökme tabancası 2.400 Nm maksimum tork verir ve 38 mm\'ye kadar cıvatada çalışır.
+
+TT300B kimler için uygundur?
+Tır, otobüs ve iş makinesi bakımı yapan servisler için. 8,6 kg gövde, boşta 3.900 dev/dk ve 6,2 atü basınçla çalışır.',
 	),
 	array(
 		'slug' => 'tt130b-somun-sokme-tabancasi-seti',
@@ -2031,6 +2446,11 @@ Set içeriği: 1 adet M-12F01B6 tabanca, 10 adet lokma, 1 alyan anahtar, 1 nipel
 		'image' => 0,
 		'seo_title' => 'TT130B 1/2″ Somun Sökme Tabancası Seti | KOÇİST',
 		'seo_description' => 'TT130B 1/2″ Somun Sökme Tabancası Seti: 850 Nm sınıfı M-12F01B6 tabanca, 10 lokma, alyan, nipel, rekor ve çanta. Bakım ekipleri için teklif alın.',
+		'faq' => 'TT130B somun sökme tabancası setinin içeriği nedir?
+TT130B 1/2″ somun sökme tabancası setinde 1 adet M-12F01B6 tabanca, 10 lokma, 1 alyan anahtar, 1 nipel, 1 rekor ve plastik çanta bulunur.
+
+TT130B ile TT120B seti arasındaki fark nedir?
+İçerik benzerdir; farkı tabancadadır. TT130B setindeki M-12F01B6 tabanca, TT131B ile aynı kodu taşır; TT120B setinde TT121B koduyla aynı M-12A01B6 tabanca vardır.',
 	),
 	array(
 		'slug' => 'tt899a-somun-sokme-tabancasi',
@@ -2056,6 +2476,11 @@ Ağırlık: 16 kg',
 		'image' => 0,
 		'seo_title' => 'TT899A 1″ Somun Sökme Tabancası | KOÇİST',
 		'seo_description' => 'TT899A 1″ Somun Sökme Tabancası: 3.200 Nm, 3.200 dev/dk, 1/2″ hava girişi, 8–10 kg basınç, 42 mm cıvata, 16 kg. Ağır sanayi için teklif alın.',
+		'faq' => 'TT899A 1″ somun sökme tabancası ne kadar güçlü?
+TT899A 1″ somun sökme tabancası 3.200 Nm maksimum tork verir ve 42 mm\'ye kadar cıvatada çalışır; grubun en güçlü modelidir.
+
+TT899A için nasıl bir hava hattı gerekir?
+TT899A 1/2″ hava girişlidir ve 8–10 kg basınç ister; 16 kg\'dır. Ağır hizmet kompresörüyle ve geniş çaplı hatla çalıştırılır.',
 	),
 	array(
 		'slug' => 'tt988a-somun-sokme-seti',
@@ -2076,6 +2501,11 @@ Set içeriği: 1 adet 98806P tabanca, 10 adet lokma, 1 alyan anahtar, 1 nipel, 1
 		'image' => 0,
 		'seo_title' => 'TT988A 1″ Somun Sökme Seti | KOÇİST',
 		'seo_description' => 'TT988A 1″ Somun Sökme Seti: 3.200 Nm sınıfı 98806P tabanca, 32–33 mm lokma, alyan, nipel, rekor, çanta. İş makinesi ve tır bakımı için teklif alın.',
+		'faq' => 'TT988A 1″ somun sökme setinde neler var?
+TT988A 1″ somun sökme setinde 1 adet 98806P tabanca, 10 lokma, 1 alyan anahtar, 1 nipel, 1 rekor ve plastik çanta bulunur.
+
+TT988A seti hangi tabancayı içerir?
+Setteki 98806P tabanca, TT899A ile aynı model kodunu taşır. Ağır vasıta ve iş makinesi servisine lokmalarıyla birlikte hazır gelir.',
 	),
 	array(
 		'slug' => 'm-nail-at-4031-matkap-sag-sol',
@@ -2101,6 +2531,11 @@ Ağırlık: 1,15 kg',
 		'image' => 0,
 		'seo_title' => 'M-NAIL AT 4031 Matkap Sağ-Sol | KOÇİST',
 		'seo_description' => 'M-NAIL AT 4031 Matkap Sağ-Sol: 1.800 dev/dk, 10 mm mandren, 6,3 atü, 1,15 kg. Ahşap kasa ve palet atölyeleri için stoktan teslim, teklif alın.',
+		'faq' => 'M-NAIL AT 4031 havalı matkap kaç devir?
+M-NAIL AT 4031 matkap sağ-sol boşta 1.800 dev/dk döner, 10 mm mandren taşır ve 6,3 atü basınçla çalışır.
+
+M-NAIL AT 4031 sağ-sol dönüş ne işe yarar?
+Sağ dönüşle delme ve vida takma, sol dönüşle vida sökme yapılır. 1,15 kg hafif gövde atölye bakım işlerinde kolay taşınır.',
 	),
 	array(
 		'slug' => 'm-nail-at-5056-circir-motoru',
@@ -2125,6 +2560,11 @@ Ağırlık: 1,18 kg',
 		'image' => 0,
 		'seo_title' => 'M-NAIL AT 5056 1/2″ Cırcır Motoru | KOÇİST',
 		'seo_description' => 'M-NAIL AT 5056 1/2″ Cırcır Motoru: 50 ft-lb tork, 160 dev/dk, 90 psi, 12 mm cıvata, 1,18 kg. Makine bakımı ve montaj için teklif alın.',
+		'faq' => 'M-NAIL AT 5056 cırcır motoru ne işe yarar?
+M-NAIL AT 5056 1/2″ cırcır motoru, dar alanlarda somun ve cıvatayı hızlı sökip takmak içindir; 50 ft-lb tork ve 160 dev/dk verir.
+
+M-NAIL AT 5056 hangi basınçla çalışır?
+90 psi basınç ve 1/4″ hava girişiyle çalışır; 12 mm cıvataya kadar uygundur ve 1,18 kg\'dır.',
 	),
 	array(
 		'slug' => 'm-nail-at-980-5v-doner-zimpara',
@@ -2146,6 +2586,11 @@ Ağırlık: 1,39 kg',
 		'image' => 0,
 		'seo_title' => 'M-NAIL AT 980-5V Döner Zımpara 5″ | KOÇİST',
 		'seo_description' => 'M-NAIL AT 980-5V Döner Zımpara: 5″ (125 mm) ped, 86 lt/dk, 90 psi, 1,39 kg. Ahşap kasa, mobilya ve boya öncesi zımpara için teklif alın.',
+		'faq' => 'M-NAIL AT 980-5V döner zımpara hangi ped ölçüsünü kullanır?
+M-NAIL AT 980-5V döner zımpara 5 inç (125 mm) ped kullanır. KOÇİST\'teki 125 mm yüzey geliştirme diskleri bu tabancaya uygundur.
+
+M-NAIL AT 980-5V kompresörden ne kadar hava ister?
+90 psi çalışma basıncında 86 lt/dk hava tüketir; 1,39 kg\'dır.',
 	),
 	array(
 		'slug' => 'm-nail-at-980-6v-doner-zimpara',
@@ -2167,6 +2612,11 @@ Ağırlık: 1,39 kg',
 		'image' => 0,
 		'seo_title' => 'M-NAIL AT 980-6V Döner Zımpara 6″ | KOÇİST',
 		'seo_description' => 'M-NAIL AT 980-6V Döner Zımpara: 6″ (150 mm) ped, 86 lt/dk hava tüketimi, 90 psi, 1,39 kg. Geniş ahşap yüzeyler için stoktan teslim, teklif alın.',
+		'faq' => 'M-NAIL AT 980-6V ile 980-5V arasındaki fark nedir?
+Fark ped ölçüsündedir: M-NAIL AT 980-6V 6 inç (150 mm), 980-5V 5 inç (125 mm) ped kullanır. Büyük ped geniş yüzeyde daha hızlı zımparalar.
+
+M-NAIL AT 980-6V hangi işlerde kullanılır?
+Ahşap yüzey hazırlığı, palet ve mobilya parçası zımparası, boya öncesi düzeltme. 150 mm yüzey geliştirme diskleriyle çalışır; 86 lt/dk hava tüketir.',
 	),
 	array(
 		'slug' => 'yuzey-gelistirme-diskleri',
@@ -2198,6 +2648,11 @@ M-UP4542|115 mm|Cırtlı|M14',
 		'image' => 0,
 		'seo_title' => 'Yüzey Geliştirme Diskleri | KOÇİST',
 		'seo_description' => 'Yüzey Geliştirme Diskleri: 75–150 mm, cırtlı ve yapışmalı, delikli seçenek, 5/16″x24T ve M14 bağlantı. Zımpara makineleri için teklif alın.',
+		'faq' => 'Yüzey geliştirme diski cırtlı mı yapışmalı mı seçilmeli?
+Zımpara makinenizin ped yüzeyine göre seçilir. Cırtlı disk sık değiştirilen işlerde pratiktir; yapışmalı disk pede sabit oturur. Yüzey geliştirme diskleri her iki tipte de gelir.
+
+Yüzey geliştirme diskleri hangi çaplarda var?
+75, 115, 125 ve 150 mm. Bağlantı 5/16″x24T ya da M14; 125 mm\'de 5 delikli, 150 mm\'de 6 delikli seçenekler bulunur.',
 	),
 	array(
 		'slug' => 'stoper-ve-rekor',
@@ -2228,6 +2683,11 @@ AD03-04M|Nipel',
 		'image' => 0,
 		'seo_title' => 'Stoper ve Rekor Hava Hattı Bağlantı | KOÇİST',
 		'seo_description' => 'Stoper ve Rekor: 1/4″–1/2″ erkek ve dişi stoper, 3/8″ ikili-üçlü stoper, 8 mm hortum rekoru ve T üçlü rekor. Kompresör hattı için teklif alın.',
+		'faq' => 'Stoper ve rekor arasındaki fark nedir?
+Stoper hızlı takılıp çıkarılan bağlantı elemanıdır; rekor ise hortumu ya da parçayı sabit olarak bağlar. Stoper ve rekor grubunda erkek ve dişi tipler, ikili ve üçlü stoperler bulunur.
+
+Stoper ve rekor hangi ölçülerde var?
+1/4″, 3/8″, 1/2″, 8 mm ve 5–8 mm. Hortum ucu, hortum arası, T üçlü rekor ve nipel seçenekleriyle kompresör hattının tamamı kurulabilir.',
 	),
 	array(
 		'slug' => 'akd-t30-38-n1-civi-cakma-tabancasi',
@@ -2253,6 +2713,11 @@ Gaz tüpü: 165 mm',
 		'image' => 0,
 		'seo_title' => 'AKD T30/38 N1 Çivi Çakma Tabancası | KOÇİST',
 		'seo_description' => 'AKD T30/38 N1 Çivi Çakma Tabancası: 15–40 mm plastiğe dizili çivi, 22 çivi magazin, 165 mm gaz tüpü, 3,92 kg. Beton ve sac için teklif alın.',
+		'faq' => 'AKD T30/38 N1 çivi çakma tabancası nasıl çalışır?
+AKD T30/38 N1 gaz tüpü ve akülü ateşlemeyle çalışır; hortum ve kompresör gerekmez. 15–40 mm plastiğe dizili beton çivisini betona ve çeliğe çakar.
+
+AKD T30/38 N1 şarjörüne kaç çivi alır?
+Şarjör 22 çivi alır. Tabanca 3,92 kg\'dır; 1,65 Ah Ni-MH batarya ve 165 mm gaz tüpü kullanır.',
 	),
 	array(
 		'slug' => 'nail-gsn40-civi-cakma-tabancasi',
@@ -2279,6 +2744,11 @@ Gaz tüpü: 165 mm',
 		'image' => 0,
 		'seo_title' => 'NAIL GSN40 Çivi Çakma Tabancası | KOÇİST',
 		'seo_description' => 'NAIL GSN40 Çivi Çakma Tabancası: 80 J, 40 çivi magazin, 15–40 mm çivi, 1,65 Ah batarya, 2–2,5 saat şarj. Metal ve beton için teklif alın.',
+		'faq' => 'NAIL GSN40 çivi çakma tabancasının gücü ne kadar?
+NAIL GSN40 çivi çakma tabancası 80 J güç verir; gaz tüpü ve akülü ateşlemeyle çalışır. 15–40 mm plastiğe dizili çivi kullanır.
+
+NAIL GSN40 şarjörü kaç çivi alır, bataryası ne kadar sürede dolar?
+Şarjör 40 çivi alır; bu, 22 çivilik modellere göre daha az doldurma demektir. 1,65 Ah Ni-MH batarya 2–2,5 saatte dolar, tabanca 3,50 kg\'dır.',
 	),
 	array(
 		'slug' => 'gp100-civi-cakma-tabancasi',
@@ -2305,6 +2775,11 @@ Gaz tüpü: 165 mm',
 		'image' => 0,
 		'seo_title' => 'GP100 Çivi Çakma Tabancası 100 J | KOÇİST',
 		'seo_description' => 'GP100 Çivi Çakma Tabancası: 100 J güç, 22 çivi magazin, 15–40 mm çivi, 459x116x375 mm, 3,92 kg. Sert beton ve çelik için teklif alın.',
+		'faq' => 'GP100 çivi çakma tabancası kaç joule?
+GP100 çivi çakma tabancası 100 J güç verir; gaz tüpü ve akülü ateşlemeyle çalışır ve 15–40 mm plastiğe dizili çivi atar.
+
+GP100 hangi işlerde öne çıkar?
+Daha yüksek güç gerektiren sert beton ve çelik altlıklarda: asma tavan profili, ahşap lata ve alçı levha karkası. Şarjör 22 çivi alır, gövde 3,92 kg\'dır.',
 	),
 	array(
 		'slug' => 'nail-gsn-40-d-mantolama-dubeli-tabancasi',
@@ -2330,6 +2805,11 @@ Kullanım: Mantolama, dış cephe kaplama, izolasyon-yalıtım',
 		'image' => 0,
 		'seo_title' => 'NAIL GSN 40 D Mantolama Dübeli Çakma Tabancası | KOÇİST',
 		'seo_description' => 'NAIL GSN 40 D Mantolama Dübeli Çakma Tabancası: 80 J, 50 mm çivi, 1,65 Ah batarya, 2–2,5 saat şarj. Mantolama ve cephe yalıtımı için teklif alın.',
+		'faq' => 'NAIL GSN 40 D mantolama dübeli tabancası ne işe yarar?
+NAIL GSN 40 D mantolama dübelini tek atışta betona çakar. Mantolama, dış cephe kaplama ve yalıtım levhası sabitlemede matkap ve çekiç işini ortadan kaldırır.
+
+NAIL GSN 40 D hangi dübellerle kullanılır?
+KOÇİST\'teki ID30–ID90 mantolama dübelleriyle. Tabanca 80 J güç verir, 50 mm çivi kullanır ve 3,57 kg\'dır.',
 	),
 	array(
 		'slug' => 'akd-st3025c-havali-civi-cakma-tabancasi',
@@ -2352,6 +2832,11 @@ Magazin kapasitesi: 32 çivi
 		'image' => 0,
 		'seo_title' => 'AKD ST3025C Havalı Çivi Çakma Tabancası | KOÇİST',
 		'seo_description' => 'AKD ST3025C Havalı Çivi Çakma Tabancası: 2,55 kg, 32 çivi magazin, 15–40 mm plastiğe dizili çivi. Kompresörlü beton sabitleme için teklif alın.',
+		'faq' => 'AKD ST3025C havalı çivi çakma tabancası nasıl çalışır?
+AKD ST3025C kompresör hattıyla çalışan havalı bir beton çivi tabancasıdır. 15–40 mm plastiğe dizili çivi kullanır; atış başına gaz maliyeti yoktur.
+
+AKD ST3025C kaç kilo, şarjörü kaç çivi alır?
+2,55 kg\'dır ve şarjörü 32 çivi alır; KOÇİST\'teki havalı beton tabancalarının en hafifidir.',
 	),
 	array(
 		'slug' => 'akd-sd65s1-havali-civi-cakma-tabancasi',
@@ -2374,6 +2859,11 @@ Magazin kapasitesi: 32 çivi
 		'image' => 0,
 		'seo_title' => 'AKD SD65S1 Havalı Çivi Çakma Tabancası | KOÇİST',
 		'seo_description' => 'AKD SD65S1 Havalı Çivi Çakma Tabancası: 2,80 kg, 32 çivilik magazin, 15–40 mm plastiğe dizili çivi. Kompresör hattıyla beton sabitleme; teklif alın.',
+		'faq' => 'AKD SD65S1 havalı çivi çakma tabancası hangi çivileri atar?
+AKD SD65S1 15–40 mm boyundaki plastiğe dizili çivileri atar. Kompresör hattına bağlanır, şarjörü 32 çivi alır.
+
+AKD SD65S1 ile ST3025C arasında fark var mı?
+İkisi de havalıdır, 32 çivi alır ve 15–40 mm çivi kullanır. AKD SD65S1 2,80 kg, ST3025C 2,55 kg\'dır.',
 	),
 	array(
 		'slug' => 'akd-m-t30-38-a1-havali-civi-cakma-tabancasi',
@@ -2396,6 +2886,11 @@ Magazin kapasitesi: 42 çivi
 		'image' => 0,
 		'seo_title' => 'AKD M T30/38-A1 Havalı Çivi Çakma Tabancası | KOÇİST',
 		'seo_description' => 'AKD M T30/38-A1 Havalı Çivi Çakma Tabancası: 42 çivilik magazin, 15–40 mm plastiğe dizili çivi, 3,60 kg. Seri beton sabitleme için teklif alın.',
+		'faq' => 'AKD M T30/38-A1 havalı çivi çakma tabancasının şarjörü kaç çivi alır?
+AKD M T30/38-A1 şarjörüne 42 çivi alır; KOÇİST\'teki havalı beton tabancaları içinde en yüksek kapasite budur. Seri işlerde doldurma molası azalır.
+
+AKD M T30/38-A1 hangi çivileri kullanır?
+Plastiğe dizili beton çivisinin 15–40 mm arasındaki boylarını atar. Kompresör hattıyla çalışır, gövde 3,60 kg\'dır.',
 	),
 	array(
 		'slug' => 'akd-gp3000-barutlu-asma-tavan-tabancasi',
@@ -2417,6 +2912,11 @@ Taşıma kapasitesi: C35 betonda 250 kg, C50 betonda 320 kg',
 		'image' => 0,
 		'seo_title' => 'AKD GP3000 Barutlu Asma Tavan Tabancası | KOÇİST',
 		'seo_description' => 'AKD GP3000 Barutlu Asma Tavan Tabancası: uzayabilen gövde, 5x50 cm uzatma, 40 cm tabanca boyu; C35\'te 250 kg, C50\'de 320 kg taşıma. Teklif alın.',
+		'faq' => 'AKD GP3000 barutlu asma tavan tabancası yerden nasıl çalışır?
+AKD GP3000 barutlu asma tavan tabancası 40 cm gövdesine takılan 5 adet 50 cm uzatma borusuyla yerden tavana atış yapar; iskele kurmadan çalışılır.
+
+AKD GP3000 ile çakılan askı ne kadar taşır?
+Teknik bilgiye göre C35 betonda 250 kg, C50 betonda 320 kg taşıma kapasitesi verir.',
 	),
 	array(
 		'slug' => 'akd-ns301t-barutlu-civi-cakma-tabancasi',
@@ -2439,6 +2939,11 @@ Uyumlu çivi tipleri: YDH, HYD, M8, XCC, CCNK, HM8, KD35
 		'image' => 0,
 		'seo_title' => 'AKD NS301T Barutlu Çivi Çakma Tabancası | KOÇİST',
 		'seo_description' => 'AKD NS301T Barutlu Çivi Çakma Tabancası: yarı otomatik, 8 mm piston kolu, 27 cal 6,8x11 mm kapsül, 13–76 mm çivi. Beton ve çelik için teklif alın.',
+		'faq' => 'AKD NS301T barutlu çivi çakma tabancası hangi kapsülü kullanır?
+AKD NS301T 27 cal, 6,8x11 mm kapsül kullanır. Yarı otomatiktir ve 8 mm piston koluyla çalışır.
+
+AKD NS301T hangi çivileri atar?
+YDH, HYD, M8, XCC, CCNK, HM8 ve KD35 tipi çivileri 13–76 mm boyda atar. Ağır sabitleme işlerinde elektrik ve hava gerektirmez.',
 	),
 	array(
 		'slug' => 'akd-450-barutlu-civi-cakma-tabancasi',
@@ -2463,6 +2968,11 @@ Bağlantı tipleri: Ahşap–beton, çelik–beton, çelik–çelik',
 		'image' => 0,
 		'seo_title' => 'AKD 450 Barutlu Çivi Çakma Tabancası | KOÇİST',
 		'seo_description' => 'AKD 450 Barutlu Çivi Çakma Tabancası: 350x56x180 mm, 3,2 kg, 6,8–11 mm kartuş kapsül. Ahşap-beton, çelik-beton ve çelik-çelik bağlantı için teklif alın.',
+		'faq' => 'AKD 450 barutlu çivi çakma tabancası hangi bağlantıları yapar?
+AKD 450 ahşap–beton, çelik–beton ve çelik–çelik bağlantıları yapar. 6,8–11 mm kartuş kapsülle çalışır.
+
+AKD 450 kaç kilo ve ölçüleri nedir?
+3,2 kg\'dır; 350 mm uzunluk, 56 mm genişlik ve 180 mm yüksekliktedir. Elektriğin olmadığı şantiyede kapsülle çalışır.',
 	),
 	array(
 		'slug' => 'mantolama-dubelleri',
@@ -2490,6 +3000,11 @@ ID90|55|500 dübel',
 		'image' => 0,
 		'seo_title' => 'Mantolama Dübelleri ID30–ID90 | KOÇİST',
 		'seo_description' => 'Mantolama Dübelleri: ID30, ID40, ID50, ID60, ID70, ID80, ID90; 37–55 mm çivi, kutuda 500–1.000 dübel. Gazlı tabanca ile hızlı montaj; teklif alın.',
+		'faq' => 'Mantolama dübelinin boyu nasıl seçilir?
+Kod, yalıtım levhası kalınlığına göre seçilir: ince levhada ID30–ID50, kalın levhada ID70–ID90 mantolama dübeli kullanılır.
+
+Mantolama dübelleri kutuda kaç adet?
+ID30–ID60 kutuda 1.000, ID70–ID90 kutuda 500 dübel. Dübel çivisi koda göre 37, 52 ya da 55 mm\'dir; NAIL GSN 40 D tabancasıyla tek atışta çakılır.',
 	),
 	array(
 		'slug' => 'akd-ea08-serit-tipi-vidalama-tabancasi',
@@ -2511,6 +3026,11 @@ Uzunluk: 500 mm',
 		'image' => 0,
 		'seo_title' => 'AKD EA08 Şerit Tipi Elektrikli Vidalama Tabancası | KOÇİST',
 		'seo_description' => 'AKD EA08 Şerit Tipi Elektrikli Vidalama Tabancası: şerit vida ile 50 adet magazin, seri montaj. Alçı levha, mobilya ve ahşap kaplama için teklif alın.',
+		'faq' => 'AKD EA08 şerit tipi vidalama tabancası ne işe yarar?
+AKD EA08 şerit tipi elektrikli vidalama tabancası, şeride dizili vidaları sırayla besleyerek seri vidalama yapar. Alçı levha ve tavan montajında usta vidaları tek tek eline almaz.
+
+AKD EA08 şarjörüne kaç vida alır?
+Magazin 50 vida alır; uzunluğu 500 mm\'dir. KOÇİST\'teki Duraspin şeritli vidalarla birlikte teklif verilir.',
 	),
 	array(
 		'slug' => 'akd-bl-18sg-sarjli-vidalama-tabancasi',
@@ -2532,6 +3052,11 @@ Kullanım: Mobilya ve alçı levha sektörü',
 		'image' => 0,
 		'seo_title' => 'AKD BL 18SG Şerit Tipi Şarjlı Vidalama Tabancası | KOÇİST',
 		'seo_description' => 'AKD BL 18SG Şerit Tipi Şarjlı Vidalama Tabancası: kablosuz, şerit vida, 50 adet magazin. Mobilya ve alçı levha montajında hız için teklif alın.',
+		'faq' => 'AKD BL 18SG şarjlı vidalama tabancası nerede kullanılır?
+AKD BL 18SG şerit tipi şarjlı vidalama tabancası mobilya ve alçı levha sektöründe kullanılır; akülü olduğu için kablo ve priz aramadan çalışır.
+
+AKD BL 18SG ile hangi vida kullanılır?
+Şerit tipi vida kullanır, magazin 50 adet alır. KOÇİST\'teki Duraspin şeritli vidaları tabancanın şerit sistemine göre birlikte seçeriz.',
 	),
 	array(
 		'slug' => 'akd-t-2540b-zimba-tabancasi',
@@ -2555,6 +3080,11 @@ Tel kaplaması: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'AKD T 2540B Zımba Tabancası 25,4 mm Taç | KOÇİST',
 		'seo_description' => 'AKD T 2540B Zımba Tabancası: 25,4 mm geniş taç, 16 GA tel, 19–38 mm, 150 magazin, 2,2 kg. Karton–ahşap ambalaj ve sandık için teklif alın.',
+		'faq' => 'AKD T 2540B zımba tabancası hangi teli kullanır?
+AKD T 2540B zımba tabancası 16 GA kalınlıkta, 25,4 mm geniş taçlı ve 19–38 mm boylu elektro galvaniz tel kullanır; magazin 150 tel alır.
+
+AKD T 2540B hangi işler içindir?
+Geniş taç, malzemeyi büyük yüzeyden bastırdığı için ahşap kasa, sandık, palet üstü kaplama ve karton–ahşap birleşimlerinde kullanılır. Gövde 2,2 kg\'dır.',
 	),
 	array(
 		'slug' => 'trusty-mt8016-zimba-tabancasi',
@@ -2578,6 +3108,11 @@ Tel kaplaması: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'TRUSTY MT8016 Zımba Tabancası | KOÇİST',
 		'seo_description' => 'TRUSTY MT8016 Zımba Tabancası: 0,9 kg, 152x48x237 mm, 12,7 mm taç, 6–16 mm tel, 150 magazin. Koltuk ve döşeme atölyeleri için teklif alın.',
+		'faq' => 'TRUSTY MT8016 zımba tabancası kaç kilo?
+TRUSTY MT8016 zımba tabancası 0,9 kg\'dır; 152x48x237 mm kompakt gövdesiyle gün boyu döşemede eli yormaz.
+
+TRUSTY MT8016 hangi teli kullanır?
+12,7 mm taçlı, 6–16 mm boylu tel kullanır; magazin 150 tel alır. KOÇİST\'teki 80 serisi 21 GA zımba teli bu tabanca içindir.',
 	),
 	array(
 		'slug' => 'akd-8016bln-zimba-tabancasi',
@@ -2603,6 +3138,11 @@ Tel kaplaması: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'AKD 8016BLN Zımba Tabancası Uzun Burun | KOÇİST',
 		'seo_description' => 'AKD 8016BLN Zımba Tabancası: uzun burun, 80 serisi 21 GA tel, 12,7 mm taç, 6–16 mm, 150 magazin, 0,90 kg. Döşeme köşeleri için teklif alın.',
+		'faq' => 'AKD 8016BLN zımba tabancasının uzun burnu ne işe yarar?
+Uzun burun, kumaşı köşe ve oyuk içinde rahat sabitlemeyi sağlar. AKD 8016BLN zımba tabancası sandalye oturağı, kenar dikişi ve dar profillerde isabetli atış yapar.
+
+AKD 8016BLN ile hangi zımba teli kullanılır?
+80 serisi, 21 GA, 12,7 mm taçlı ve 6–16 mm boylu tel. Magazin 150 tel alır, gövde 0,90 kg\'dır.',
 	),
 	array(
 		'slug' => 'akd-8016b3-zimba-tabancasi',
@@ -2623,6 +3163,11 @@ KOÇİST\'te AKD 8016B3 için ekonomik fiyat ve hızlı teklif alırsınız; 80 
 		'image' => 0,
 		'seo_title' => 'AKD 8016B3 Zımba Tabancası | KOÇİST',
 		'seo_description' => 'AKD 8016B3 Zımba Tabancası: 80 serisi döşeme teliyle koltuk, sandalye ve panel kaplama işleri. Stoktan hızlı teslim, İstanbul–Trakya sevkiyat; teklif alın.',
+		'faq' => 'AKD 8016B3 zımba tabancası hangi işlerde kullanılır?
+AKD 8016B3 zımba tabancası koltuk ve kanepe döşemesi, sandalye oturağı yenileme, kumaş kaplı panel ve yatak başlığında kumaş ve astar sabitlemede kullanılır.
+
+AKD 8016B3 için hangi tel alınmalı?
+AKD\'nin 8016 ailesi 80 serisi döşeme teliyle çalışır. Tabancanın üzerindeki kodu ve kullandığınız boyu söyleyin, uygun 80 serisi teli birlikte gönderelim.',
 	),
 	array(
 		'slug' => 'akd-88-ae02-kece-tabancasi',
@@ -2645,6 +3190,11 @@ Tel boyu: 6–16 mm',
 		'image' => 0,
 		'seo_title' => 'AKD 88 (AE02) Keçe Tabancası | KOÇİST',
 		'seo_description' => 'AKD 88 (AE02) Keçe Tabancası: 88 serisi, 200 tel magazin, 12,7 mm taç, 6–16 mm, 1,28 kg. Keçe, halı altlığı ve döşeme işleri için teklif alın.',
+		'faq' => 'AKD 88 (AE02) keçe tabancası neden keçe için uygundur?
+Keçe lifli ve yumuşaktır; 88 serisi tel keçede kaymadan tutar. AKD 88 (AE02) keçe tabancası 12,7 mm taç ve 6–16 mm tel boyuyla keçe ve vatka katmanında kullanılır.
+
+AKD 88 (AE02) magazini kaç tel alır?
+Magazin 200 tel alır; 80 serisi tabancaların 150 tellik kapasitesinden fazladır. Gövde 1,28 kg\'dır.',
 	),
 	array(
 		'slug' => 'nail-8016-zimba-tabancasi',
@@ -2669,6 +3219,11 @@ Tel kaplaması: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'NAIL 8016 Zımba Tabancası 80 Serisi | KOÇİST',
 		'seo_description' => 'NAIL 8016 Zımba Tabancası: 80 serisi 21 GA tel, 12,7 mm taç, 6–16 mm, 150 tellik magazin, 0,90 kg. Koltuk ve mobilya için stoktan teslim.',
+		'faq' => 'NAIL 8016 zımba tabancası hangi işler için?
+NAIL 8016 zımba tabancası genel döşeme içindir: koltuk, kanepe, sandalye ve kumaş kaplı panel. 0,90 kg gövdesiyle gün boyu kullanılır.
+
+NAIL 8016 tel ölçüsü nedir?
+80 serisi, 21 GA, 12,7 mm taç ve 6–16 mm boy. Magazin 150 tel alır.',
 	),
 	array(
 		'slug' => 'akd-8025-zimba-tabancasi',
@@ -2692,6 +3247,11 @@ Tel kaplaması: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'AKD 8025 Zımba Tabancası 6–22 mm | KOÇİST',
 		'seo_description' => 'AKD 8025 Zımba Tabancası: 80 serisi 21 GA tel, 6–22 mm boy, 150 tellik magazin, 0,9 kg. Kalın sünger ve panel döşemesi için teklif alın.',
+		'faq' => 'AKD 8025 zımba tabancası 8016\'dan ne farklı?
+AKD 8025 zımba tabancası 80 serisi teli 22 mm\'ye kadar atar; 8016 sınıfı 16 mm\'de kalır. Kalın sünger ve çok katlı kumaşta daha uzun tel gerektiğinde tercih edilir.
+
+AKD 8025 kaç kilo ve kaç tel alır?
+Gövde 0,9 kg, magazin 150 tel. 21 GA, 6–22 mm elektro galvaniz telle çalışır.',
 	),
 	array(
 		'slug' => 'akdt-9025-zimba-tabancasi',
@@ -2715,6 +3275,11 @@ Tel kaplaması: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'AKDT 9025 Zımba Tabancası 90 Serisi | KOÇİST',
 		'seo_description' => 'AKDT 9025 Zımba Tabancası: 90 serisi tel, 5,7 mm taç, 13–25 mm, 200 tellik magazin, 1,28 kg. Ahşap kasa ve mobilya iskeleti için teklif alın.',
+		'faq' => 'AKDT 9025 zımba tabancası hangi teli atar?
+AKDT 9025 zımba tabancası 90 serisi, 5,7 mm dar taçlı ve 13–25 mm boylu tel atar; magazin 200 tel alır.
+
+AKDT 9025 nerede kullanılır?
+Kanepe iskeleti, ince çıta birleştirme, meyve kasası ve hafif ambalaj sandığında. Dar taç ahşaba düz girer; gövde 1,28 kg\'dır.',
 	),
 	array(
 		'slug' => 'nail-9025-zimba-tabancasi',
@@ -2738,6 +3303,11 @@ Tel kaplaması: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'NAIL 9025 Zımba Tabancası 13–25 mm | KOÇİST',
 		'seo_description' => 'NAIL 9025 Zımba Tabancası: 90 serisi 18 GA tel, 13–25 mm, 200 tellik magazin, 1,28 kg. Mobilya iskeleti ve hafif kasa üretimi için teklif alın.',
+		'faq' => 'NAIL 9025 zımba tabancası hangi tel kalınlığını kullanır?
+NAIL 9025 zımba tabancası 90 serisi 18 GA teli 13–25 mm boyda kullanır. KOÇİST\'teki 90 serisi 18 GA zımba telinin 9010–9025 kodları bu aralıktadır.
+
+NAIL 9025 kaç tel alır?
+Magazin 200 tel alır, gövde 1,28 kg\'dır; seri işte sık doldurma gerektirmez.',
 	),
 	array(
 		'slug' => 'akdt-9040-h-zimba-tabancasi',
@@ -2761,6 +3331,11 @@ Tel kaplaması: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'AKDT 9040 H 90 Serisi Zımba Tabancası | KOÇİST',
 		'seo_description' => 'AKDT 9040 H 90 Serisi Zımba Tabancası: 5,7 mm taç, 19–40 mm tel, 130 tellik magazin, 1,85 kg. Ahşap kasa ve sandık birleştirme için teklif alın.',
+		'faq' => 'AKDT 9040 H zımba tabancası kaç mm tel atar?
+AKDT 9040 H 90 serisi zımba tabancası 19–40 mm boyundaki teli atar; 40 mm\'ye çıkan boy kalın ahşap birleşimlerine yeter.
+
+AKDT 9040 H hangi işlerde kullanılır?
+Koltuk karkası, ahşap kasa, sandık ve kalın kontrplak sırt panosunda. Magazin 130 tel, gövde 1,85 kg\'dır.',
 	),
 	array(
 		'slug' => 'nail-9040-a-zimba-tabancasi',
@@ -2785,6 +3360,11 @@ Tel kaplaması: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'NAIL 9040-A Zımba Tabancası 19–40 mm | KOÇİST',
 		'seo_description' => 'NAIL 9040-A Zımba Tabancası: 90 serisi 18 GA tel, 5,7 mm taç, 19–40 mm, 100 tellik magazin, 2,4 kg. Kasa ve sandık hatları için teklif alın.',
+		'faq' => 'NAIL 9040-A zımba tabancasının özellikleri neler?
+NAIL 9040-A zımba tabancası 90 serisi 18 GA teli 19–40 mm boyda atar; taç 5,7 mm, magazin 100 tel, gövde 2,4 kg\'dır.
+
+NAIL 9040-A için hangi tel alınır?
+KOÇİST\'teki 90 serisi 18 GA zımba telinin 9020, 9025, 9030, 9035 ve 9040 kodları bu tabancanın aralığındadır.',
 	),
 	array(
 		'slug' => 'nail-f50-9040-kombine-tabanca',
@@ -2807,6 +3387,11 @@ Tel boyu (zımba): 19–40 mm',
 		'image' => 0,
 		'seo_title' => 'NAIL F50/9040 Zımba/Brad Kombine Tabancası | KOÇİST',
 		'seo_description' => 'NAIL F50/9040 Zımba/Brad Kombine Tabancası: 90 serisi 18 GA zımba teli ve brad çivi, 19–40 mm, 100 magazin, 1,4 kg. Mobilya ve kasa için teklif alın.',
+		'faq' => 'NAIL F50/9040 kombine tabanca neyi birleştirir?
+NAIL F50/9040 zımba/brad kombine tabanca, 90 serisi zımba telini ve F serisi brad çiviyi aynı gövdeden atar. Tek tabancayla iki işi görürsünüz.
+
+NAIL F50/9040 hangi boyları atar?
+Zımba telinde 19–40 mm, 18 GA. Magazin 100 adet, gövde 1,4 kg\'dır. Brad tarafında F serisi 18 GA çivi kullanılır.',
 	),
 	array(
 		'slug' => 'nail-s9240-h-zimba-tabancasi',
@@ -2829,6 +3414,11 @@ Tel kaplaması: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'NAIL S9240 H Zımba Tabancası | KOÇİST',
 		'seo_description' => 'NAIL S9240 H Zımba Tabancası: 18 GA tel, 19–40 mm, 100 tellik magazin, 2 kg, elektro galvaniz tel. 92 serisi telle ağır döşeme için teklif alın.',
+		'faq' => 'NAIL S9240 H zımba tabancası hangi seri teli kullanır?
+NAIL S9240 H zımba tabancası adını 92 serisinin 40 mm\'lik telinden alır; 18 GA teli 19–40 mm boyda kullanır. KOÇİST\'teki 92 serisi 18 GA zımba teli bu tabanca içindir.
+
+NAIL S9240 H ince döşemeye uygun mu?
+Daha çok taşıyıcı birleşimler içindir: kanepe karkası, çok katlı kumaş ve vatka, bahçe mobilyası ve kalın sırt panosu. İnce döşeme için 80 serisi tabancalar daha uygundur.',
 	),
 	array(
 		'slug' => 'akds-9240-h-zimba-tabancasi',
@@ -2853,6 +3443,11 @@ Tel kaplaması: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'AKDS 9240 H Zımba Tabancası | KOÇİST',
 		'seo_description' => 'AKDS 9240 H Zımba Tabancası: 97 serisi, 21 GA, 4,5 mm taç, 6–16 mm, 100 magazin, 2 kg. Deri ve ince döşeme için teklif alın.',
+		'faq' => 'AKDS 9240 H zımba tabancası hangi işler için?
+AKDS 9240 H zımba tabancası deri ve suni deri koltuk, sandalye, kenar şeridi, dekoratif panel ve yatak başlığı gibi dar taçlı ince tel isteyen işler içindir.
+
+AKDS 9240 H için tel nasıl seçilir?
+Tel siparişinde tabancanın üzerindeki etikette yazan seriyi esas alın. Kodu iletin; uygun teli KOÇİST stoklarından eşleştirip gönderelim.',
 	),
 	array(
 		'slug' => 'akdt-9716-zimba-tabancasi',
@@ -2877,6 +3472,11 @@ Tel kaplaması: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'AKDT 9716 Zımba Tabancası 97 Serisi | KOÇİST',
 		'seo_description' => 'AKDT 9716 Zımba Tabancası: 97 serisi 21 GA tel, 4,5 mm dar taç, 6–16 mm, 100 tellik magazin, 2 kg. Deri döşeme ve kenar şeridi için teklif alın.',
+		'faq' => 'AKDT 9716 zımba tabancası neden deride tercih edilir?
+AKDT 9716 zımba tabancası 97 serisi, 4,5 mm dar taçlı teli kullanır; deri ve ince kumaşta neredeyse görünmez iz bırakır.
+
+AKDT 9716 hangi teli kullanır?
+97 serisi, 21 GA, 6–16 mm tel. KOÇİST\'teki 97 serisi zımba telinin 9704–9716 kodları bu tabancaya uyar; magazin 100 tel alır.',
 	),
 	array(
 		'slug' => 'akdt-100-50-zimba-tabancasi',
@@ -2901,6 +3501,11 @@ Tel kaplaması: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'AKDT 100/50 Zımba Tabancası 16 GA | KOÇİST',
 		'seo_description' => 'AKDT 100/50 Zımba Tabancası: 100 serisi 16 GA tel, 11,1 mm taç, 18–50 mm, 150 magazin, 2,2 kg. Ahşap kasa, sandık ve palet işleri için teklif alın.',
+		'faq' => 'AKDT 100/50 zımba tabancası hangi işler içindir?
+Ağır işler içindir: palet üstü kaplama, sandık, ahşap kasa ve kalın panel birleşimi. AKDT 100/50 zımba tabancası 16 GA teli 18–50 mm boyda atar.
+
+AKDT 100/50 kaç tel alır?
+Magazin 150 tel alır; taç 11,1 mm, gövde 2,2 kg\'dır.',
 	),
 	array(
 		'slug' => 'nail-100-50-zimba-tabancasi',
@@ -2925,6 +3530,11 @@ Tel kaplaması: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'NAIL 100/50 Zımba Tabancası 25–50 mm | KOÇİST',
 		'seo_description' => 'NAIL 100/50 Zımba Tabancası: 100 serisi 16 GA, 11,1 mm taç, 25–50 mm tel, 150 magazin, 2,5 kg. Ağır kasa ve sandık üretimi için teklif alın.',
+		'faq' => 'NAIL 100/50 zımba tabancası ile AKDT 100/50 arasındaki fark nedir?
+İkisi de 100 serisi, 16 GA ve 11,1 mm taçlıdır. NAIL 100/50 zımba tabancası 25–50 mm tel atar ve 2,5 kg\'dır; AKDT 100/50 18 mm\'den başlar ve 2,2 kg\'dır.
+
+NAIL 100/50 hangi işlerde kullanılır?
+Ahşap kasa, sandık dip tahtası ve ağır ambalaj birleşimlerinde. Magazin 150 tel alır.',
 	),
 	array(
 		'slug' => 'akd-adcsy-19-35-koli-kapama-tabancasi',
@@ -2949,6 +3559,11 @@ Tel kaplaması: Bakır kaplama',
 		'image' => 0,
 		'seo_title' => 'AKD ADCSY-19-35 Koli Kapama Tabancası | KOÇİST',
 		'seo_description' => 'AKD ADCSY-19-35 Koli Kapama Tabancası: manuel, 34,7 mm taç, 15–18 mm bakır kaplı tel, 100 magazin, 2,15 kg. Oluklu koli kapatma için teklif alın.',
+		'faq' => 'AKD ADCSY-19-35 koli kapama tabancası hava ister mi?
+Hayır. AKD ADCSY-19-35 koli kapama tabancası manueldir; koliyi elle kapatır, kompresör gerekmez. 34,7 mm taçlı, 15–18 mm boylu bakır kaplı tel kullanır.
+
+AKD ADCSY-19-35 için hangi koli kapama teli alınır?
+KOÇİST\'teki koli kapama zımba telinin 3515 (15 mm) ve 3518 (18 mm) kodları. Magazin 100 tel alır, gövde 2,15 kg\'dır.',
 	),
 	array(
 		'slug' => 'akd-adcsn-22-35-koli-kapama-tabancasi',
@@ -2972,6 +3587,11 @@ Tel kaplaması: Bakır kaplama',
 		'image' => 0,
 		'seo_title' => 'AKD ADCSN 22-35 Koli Kapama Tabancası | KOÇİST',
 		'seo_description' => 'AKD ADCSN 22-35 Koli Kapama Tabancası: 34,7 mm taç, 2,25x0,82 mm tel, 18–22 mm boy, 100 magazin, 2,8 kg. Ağır koliler için stoktan teslim, teklif alın.',
+		'faq' => 'AKD ADCSN 22-35 koli kapama tabancası hangi koliler için?
+Çift oluklu ve ağır ürün kolileri için. AKD ADCSN 22-35 koli kapama tabancası 18–22 mm boylu, 34,7 mm taçlı teli kullanır.
+
+AKD ADCSN 22-35 tel kesiti nedir?
+Tel kesiti 2,25x0,82 mm, kaplama bakırdır; magazin 100 tel alır, gövde 2,8 kg\'dır.',
 	),
 	array(
 		'slug' => 'akdt-1650-brad-civi-tabancasi',
@@ -2996,6 +3616,11 @@ Magazin kapasitesi: 100 adet
 		'image' => 0,
 		'seo_title' => 'AKDT 1650 Brad Çivi Tabancası 16 GA | KOÇİST',
 		'seo_description' => 'AKDT 1650 Brad Çivi Tabancası: 16 GA brad, 16–50 mm, sivri uç, 100 magazin, 1,54 kg, 286x70x214 mm. Pervaz, kasa ve mobilya için teklif alın.',
+		'faq' => 'AKDT 1650 brad çivi tabancası hangi çiviyi atar?
+AKDT 1650 brad çivi tabancası 16 GA, 16–50 mm boylu brad çiviyi atar. KOÇİST\'teki 16 GA brad çivinin T16–T50 kodları bu tabancaya uyar.
+
+AKDT 1650 hangi işler için?
+Sandık kapağı, kapı pervazı, süpürgelik ve mobilya karkası gibi yük alan noktalarda. Magazin 100 çivi, gövde 1,54 kg\'dır.',
 	),
 	array(
 		'slug' => 'nail-1832-brad-civi-tabancasi',
@@ -3020,6 +3645,11 @@ Magazin kapasitesi: 110 adet
 		'image' => 0,
 		'seo_title' => 'NAIL 1832 Brad Çivi Tabancası 15–32 mm | KOÇİST',
 		'seo_description' => 'NAIL 1832 Brad Çivi Tabancası: 18 GA brad, 15–32 mm, sivri uç, 110 magazin, 0,9 kg, 250x55x185 mm. Mobilya ve dekor işleri için teklif alın.',
+		'faq' => 'NAIL 1832 brad çivi tabancası kaç kilo?
+NAIL 1832 brad çivi tabancası 0,9 kg\'dır; 250x55x185 mm gövdesiyle hafif brad tabancalarındandır.
+
+NAIL 1832 hangi çivi boyunu atar?
+18 GA (1,25x1 mm) brad çiviyi 15–32 mm boyda atar; magazin 110 çivi alır. KOÇİST\'teki 18 GA brad çivinin bu aralıktaki kodları kullanılır.',
 	),
 	array(
 		'slug' => 'akdt-1832-brad-civi-tabancasi',
@@ -3044,6 +3674,11 @@ Magazin kapasitesi: 110 adet
 		'image' => 0,
 		'seo_title' => 'AKDT 1832 Brad Çivi Tabancası | KOÇİST',
 		'seo_description' => 'AKDT 1832 Brad Çivi Tabancası: 18 GA, 15–32 mm, 110 çivilik magazin, 1,3 kg, 242x60x218 mm. Mobilya ve kutu üretimi için stoktan teslim, teklif alın.',
+		'faq' => 'AKDT 1832 brad çivi tabancası hangi işlerde kullanılır?
+Çekmece, arkalık paneli, MDF profil ve ince kasa çıtasında. AKDT 1832 brad çivi tabancası 18 GA brad çiviyi 15–32 mm boyda atar.
+
+AKDT 1832 ile NAIL 1832 arasında fark var mı?
+Çivi aralığı ve magazin (110 çivi) aynıdır. AKDT 1832 1,3 kg, NAIL 1832 0,9 kg\'dır.',
 	),
 	array(
 		'slug' => 'nail-1850-brad-civi-tabancasi',
@@ -3068,6 +3703,11 @@ Magazin kapasitesi: 100 adet
 		'image' => 0,
 		'seo_title' => 'NAIL 1850 Brad Çivi Tabancası 15–50 mm | KOÇİST',
 		'seo_description' => 'NAIL 1850 Brad Çivi Tabancası: 18 GA, 15–50 mm, sivri uç, 100 magazin, 1,18 kg, 255x58x250 mm. Pervaz, süpürgelik ve mobilya için teklif alın.',
+		'faq' => 'NAIL 1850 brad çivi tabancası kaç mm çivi atar?
+NAIL 1850 brad çivi tabancası 18 GA brad çiviyi 15–50 mm boyda atar; 32 mm\'yi aşan kalın parçalarda 1832 sınıfının yerini alır.
+
+NAIL 1850 kaç çivi alır?
+Magazin 100 çivi alır; gövde 1,18 kg, ölçü 255x58x250 mm\'dir.',
 	),
 	array(
 		'slug' => 'akd-1850-brad-civi-tabancasi',
@@ -3092,6 +3732,11 @@ Magazin kapasitesi: 110 adet
 		'image' => 0,
 		'seo_title' => 'AKD 1850 Brad Çivi Tabancası 15–50 mm | KOÇİST',
 		'seo_description' => 'AKD 1850 Brad Çivi Tabancası: 18 GA brad, 15–50 mm, sivri uç, 110 magazin, 1,18 kg, 247x60x251 mm. Mobilya ve ambalaj için stoktan teslim, teklif alın.',
+		'faq' => 'AKD 1850 brad çivi tabancası hangi çivileri kullanır?
+AKD 1850 brad çivi tabancası 18 GA (1,25x1 mm) brad çiviyi 15–50 mm boyda kullanır. KOÇİST\'teki 18 GA brad çivinin başlı ve başsız kodları bu aralıktadır.
+
+AKD 1850 magazin kapasitesi nedir?
+Magazin 110 çivi alır; gövde 1,18 kg\'dır. Pervaz, profil ve kasa işlerinde kullanılır.',
 	),
 	array(
 		'slug' => 'akd-0830-pin-civi-tabancasi',
@@ -3115,6 +3760,11 @@ Magazin kapasitesi: 140 adet
 		'image' => 0,
 		'seo_title' => 'AKD 0830 0,8 mm Pin Çivi Tabancası | KOÇİST',
 		'seo_description' => 'AKD 0830 0,8 mm Pin Çivi Tabancası: 21 GA çivi, 12–30 mm, sivri uç, 140 magazin, 1,35 kg. Kaplama, çerçeve ve dekor çıtası için teklif alın.',
+		'faq' => 'AKD 0830 pin çivi tabancası hangi çiviyi atar?
+AKD 0830 0,8 mm pin çivi tabancası 21 GA (0,84x0,84 mm) çiviyi 12–30 mm boyda atar. KOÇİST\'teki 21 GA brad çivi bu tabancaya uyar.
+
+AKD 0830 hangi işler için uygundur?
+Kaplama şeridi, ince çerçeve çıtası ve dekoratif profil gibi iz bırakmaması gereken işler için. Magazin 140 çivi, gövde 1,35 kg\'dır.',
 	),
 	array(
 		'slug' => 'akd-0630-pin-civi-tabancasi',
@@ -3138,6 +3788,11 @@ Magazin kapasitesi: 140 adet
 		'image' => 0,
 		'seo_title' => 'AKD 0630 0,6 mm Pin Çivi Tabancası | KOÇİST',
 		'seo_description' => 'AKD 0630 0,6 mm Pin Çivi Tabancası: 23 GA pin çivi, 12–35 mm, sivri uç, 140 magazin, 1,35 kg. Lake ve kaplama yüzeyler için stoktan teslim.',
+		'faq' => 'AKD 0630 pin çivi tabancası kaç GA çivi kullanır?
+AKD 0630 0,6 mm pin çivi tabancası 23 GA çiviyi 12–35 mm boyda kullanır. KOÇİST\'teki 23 GA brad çivinin 12, 15 ve 18 mm boyları uygundur.
+
+AKD 0630 nerede kullanılır?
+Lake kapak, parlak kaplama, ayna çerçevesi ve vitrin profili gibi izin istenmediği yerlerde; tutkal kururken parçayı tutar. Magazin 140 çivi alır.',
 	),
 	array(
 		'slug' => 'nail-625-c3-pin-civi-tabancasi',
@@ -3161,6 +3816,11 @@ Magazin kapasitesi: 140 adet
 		'image' => 0,
 		'seo_title' => 'NAIL 625-C3 0,6 mm Pin Çivi Tabancası | KOÇİST',
 		'seo_description' => 'NAIL 625-C3 0,6 mm Pin Çivi Tabancası: 23 GA, 12–35 mm, sivri uç, 140 magazin, 1,35 kg. Kaplama, kenar bandı ve dekor işleri için teklif alın.',
+		'faq' => 'NAIL 625-C3 pin çivi tabancası hangi çiviyi kullanır?
+NAIL 625-C3 0,6 mm pin çivi tabancası 23 GA çiviyi 12–35 mm boyda kullanır; magazin 140 çivi alır, gövde 1,35 kg\'dır.
+
+NAIL 625-C3 hangi işlerde tercih edilir?
+Dekoratif çıta, çerçeve köşesi, küçük ahşap kutu ve kaplama işlerinde. 23 GA çivinin deliği boyalı yüzeyde fark edilmez.',
 	),
 	array(
 		'slug' => 'akd-1564-s4-civi-tabancasi',
@@ -3184,6 +3844,11 @@ Uygulamalar: İnşaat, dış cephe giydirme, kapı-pencere kasası',
 		'image' => 0,
 		'seo_title' => 'AKD 1564 S4 Çivi Tabancası 1,8 mm | KOÇİST',
 		'seo_description' => 'AKD 1564 S4 Çivi Tabancası: 1,8 mm çivi, 12–40 mm, 100 magazin, 5–8 bar, 2,2 kg. Kapı-pencere kasası ve dış cephe giydirme için teklif alın.',
+		'faq' => 'AKD 1564 S4 çivi tabancası hangi çiviyi atar?
+AKD 1564 S4 çivi tabancası 1,8 mm çapında ince sertleştirilmiş çiviyi 12–40 mm boyda atar; magazin 100 çivi alır.
+
+AKD 1564 S4 hangi işler için?
+Kapı-pencere kasası, dış cephe giydirme altlığı, lambri ve süpürgelik montajında. 5–8 bar basınçla çalışır, gövde 2,2 kg\'dır.',
 	),
 	array(
 		'slug' => 'akdt-st1850-c4-fst-tabancasi',
@@ -3206,6 +3871,11 @@ Uygulama: Lambiri – beton',
 		'image' => 0,
 		'seo_title' => 'AKDT ST1850 C4 1,8 mm FST Zımba Tabancası | KOÇİST',
 		'seo_description' => 'AKDT ST1850 C4 1,8 mm FST Zımba Tabancası: 1,8 mm FST çivi, 18–50 mm, 60 magazin, 1,41 kg. Lambiri ve süpürgeliği betona sabitlemek için teklif alın.',
+		'faq' => 'AKDT ST1850 C4 FST tabancası ne için kullanılır?
+AKDT ST1850 C4 1,8 mm FST tabancası lambiriyi betona ve sıvaya sabitlemek içindir. 1,8 mm çivi ahşabı yarmaz, sertleştirilmiş gövde sıvaya girer.
+
+AKDT ST1850 C4 hangi çivilerle çalışır?
+1,8 mm çapta 18–50 mm çivi kullanır; KOÇİST\'teki FST lambiri beton çivisi (FST 20–40) bu aralıktadır. Magazin 60 çivi, gövde 1,41 kg\'dır.',
 	),
 	array(
 		'slug' => 'akd-st2238-t-civi-tabancasi',
@@ -3229,6 +3899,11 @@ Magazin kapasitesi: 100 adet
 		'image' => 0,
 		'seo_title' => 'AKD ST2238 T Çivi Tabancası 2,2 mm | KOÇİST',
 		'seo_description' => 'AKD ST2238 T Çivi Tabancası: 14 GA 2,2 mm çivi, 18–38 mm, 100 magazin, 1,9 kg, 307x60x251 mm. Betona lata, kızak ve tezgâh ayağı için teklif alın.',
+		'faq' => 'AKD ST2238 T çivi tabancası hangi çiviyi atar?
+AKD ST2238 T çivi tabancası 14 GA (2,2 mm) T başlı çiviyi 18–38 mm boyda atar. KOÇİST\'teki çelik ST çivinin ST 18–38 kodları uyar.
+
+AKD ST2238 kaç kilo ve kaç çivi alır?
+Gövde 1,9 kg, magazin 100 çivi; ölçü 307x60x251 mm\'dir.',
 	),
 	array(
 		'slug' => 'nail-2264-st64-civi-tabancasi',
@@ -3252,6 +3927,11 @@ Magazin kapasitesi: 70 adet
 		'image' => 0,
 		'seo_title' => 'NAIL 2264 ST64 Çivi Tabancası | KOÇİST',
 		'seo_description' => 'NAIL 2264 ST64 Çivi Tabancası: uzun boy ST çivi ile kalın ahşabı betona sabitleme. Kızak, tezgâh ayağı ve lata montajı için stoktan teslim, teklif alın.',
+		'faq' => 'NAIL 2264 ST64 çivi tabancası kaç mm ST çivi atar?
+NAIL 2264 ST64 çivi tabancası 2,2 mm ST çiviyi 18–64 mm boyda atar; uzun ST çivi gerektiren kızak ve kalın lata işlerine yeter.
+
+NAIL 2264 ST64 ile hangi KOÇİST çivileri kullanılır?
+Çelik ST çivinin ST 18\'den ST 64\'e kadar tüm kodları. Magazin 70 çivi alır, gövde 3,2 kg\'dır.',
 	),
 	array(
 		'slug' => 'akdt-t2264-civi-tabancasi',
@@ -3275,6 +3955,11 @@ Magazin kapasitesi: 80 adet
 		'image' => 0,
 		'seo_title' => 'AKDT T2264 Çivi Tabancası | KOÇİST',
 		'seo_description' => 'AKDT T2264 Çivi Tabancası: 14 GA 2,2 mm, 18–64 mm çivi, 80 adet magazin, 2,6 kg. Ahşabı betona sabitlemek için stoktan teslim, teklif alın.',
+		'faq' => 'AKDT T2264 çivi tabancasının özellikleri neler?
+AKDT T2264 çivi tabancası 14 GA, 2,2 mm çiviyi 18–64 mm boyda atar; magazin 80 çivi, gövde 2,6 kg, ölçü 310x100x296 mm\'dir.
+
+AKDT T2264 ile NAIL 2264 ST64 arasındaki fark nedir?
+Çivi aralığı aynıdır (18–64 mm). AKDT T2264 80 çivi alır ve 2,6 kg\'dır; NAIL 2264 ST64 70 çivi alır ve 3,2 kg\'dır.',
 	),
 	array(
 		'slug' => 'nail-st38-c-st-civi-tabancasi',
@@ -3298,6 +3983,11 @@ Magazin kapasitesi: 70 adet
 		'image' => 0,
 		'seo_title' => 'NAIL ST38-C ST Çivi Tabancası | KOÇİST',
 		'seo_description' => 'NAIL ST38-C ST Çivi Tabancası: ST tipi sertleştirilmiş çivi ile ince ahşabı betona sabitleme. Süpürgelik, lata ve kasa montajı için teklif alın.',
+		'faq' => 'NAIL ST38-C ST çivi tabancası kaç mm çivi atar?
+NAIL ST38-C ST çivi tabancası 2,2 mm ST çiviyi 18–38 mm boyda atar; magazin 70 çivi alır.
+
+NAIL ST38-C hangi işler için uygundur?
+Ahşap latayı, süpürgeliği ve kapı kasasını betona ya da sert zemine sabitlemede. KOÇİST\'teki çelik ST çivinin ST 18–38 kodları bu tabanca içindir.',
 	),
 	array(
 		'slug' => 'nail-j520-civi-tabancasi',
@@ -3320,6 +4010,11 @@ Magazin kapasitesi: 200 adet
 		'image' => 0,
 		'seo_title' => 'NAIL J520 Çam Çivi Tabancası | KOÇİST',
 		'seo_description' => 'NAIL J520 Çam Çivi Tabancası: 5 mm taç, 15 mm çivi, 200 adet magazin, 0,90 kg. Çerçeve ve ince ahşap işleri için teklif alın.',
+		'faq' => 'NAIL J520 çam çivi tabancası hangi çiviyi kullanır?
+NAIL J520 çam çivi tabancası 5 mm taç genişliğinde, 15 mm uzunluğunda çivi kullanır; magazin 200 adet alır.
+
+NAIL J520 nerede kullanılır?
+Çerçeve ve pano arkalığı, ince ahşap kutu, dekoratif ahşap ürün ve vitrin elemanlarında. 0,90 kg gövdesiyle hafif bir modeldir.',
 	),
 	array(
 		'slug' => 'nail-td25-kabara-civi-tabancasi',
@@ -3341,6 +4036,11 @@ Paket: Set',
 		'image' => 0,
 		'seo_title' => 'NAIL TD25 Set Kabara Çivi Tabancası | KOÇİST',
 		'seo_description' => 'NAIL TD25 Set Kabara Çivi Tabancası: koltuk, berjer ve Chesterfield döşemesinde kabara çivisini hızlı ve düzgün çakma. Set olarak, teklif alın.',
+		'faq' => 'NAIL TD25 kabara çivi tabancası ne işe yarar?
+NAIL TD25 set kabara çivi tabancası, koltuk kenarındaki süs kabaralarını başını ezmeden ve aynı derinlikte çakar. Uzun kenarda kabaralar düzgün bir sıra oluşturur.
+
+NAIL TD25 hangi kabaralarla çalışır?
+10–17 mm uzunluktaki kabaralarla. Gövde 0,625 kg\'dır ve set olarak gelir; Chesterfield, berjer ve klasik sandalye döşemesinde kullanılır.',
 	),
 	array(
 		'slug' => 'akd-t-cf155-zivana-civi-tabancasi',
@@ -3365,6 +4065,11 @@ Magazin kapasitesi: 80 adet
 		'image' => 0,
 		'seo_title' => 'AKD T CF155 Zıvana Çivi Tabancası | KOÇİST',
 		'seo_description' => 'AKD T CF155 Zıvana Çivi Tabancası: dalgalı zıvana çivisiyle çerçeve, kapı kanadı ve kasa köşelerini tek atışta birleştirir. Atölyeler için teklif alın.',
+		'faq' => 'AKD T CF155 zıvana çivi tabancası nasıl birleştirir?
+Zıvana çivisi dalgalı bir metal şerittir; birleşim çizgisine dik çakıldığında iki parçayı birbirine çeker. AKD T CF155 bu çiviyi tek atışta ve düzgün derinlikte çakar.
+
+AKD T CF155 hangi zıvana çivisini kullanır?
+25 mm genişliğinde, 9–12 mm uzunluğunda elektro galvaniz zıvana çivisi. Magazin 80 adet alır, gövde 2,6 kg\'dır.',
 	),
 	array(
 		'slug' => 'akdt-ncf-zivana-civi-tabancasi',
@@ -3389,6 +4094,11 @@ Magazin kapasitesi: 100 adet
 		'image' => 0,
 		'seo_title' => 'AKDT NCF Zıvana Çivi Tabancası | KOÇİST',
 		'seo_description' => 'AKDT NCF Zıvana Çivi Tabancası: dalgalı zıvana çivisiyle çerçeve, panel ve kasa köşelerini birleştirir. Mobilya ve kasa atölyeleri için teklif alın.',
+		'faq' => 'AKDT NCF zıvana çivi tabancası hangi işlerde kullanılır?
+Pencere ve kapı kanadı çerçevesi, tablo çerçevesi köşesi, ahşap kasa ve çekmece arkası birleşiminde. AKDT NCF zıvana çivi tabancası tutkalla birlikte mengeneye gerek bırakmaz.
+
+AKDT NCF ile AKD T CF155 arasındaki fark nedir?
+AKDT NCF 18 mm genişliğinde, 9, 12 ve 15 mm boyda zıvana çivisi kullanır ve 100 adet alır. AKD T CF155 ise 25 mm genişlikte, 9–12 mm boyda çalışır ve 80 adet alır.',
 	),
 	array(
 		'slug' => 'akd-v15eh-v-civi-tabancasi',
@@ -3412,6 +4122,11 @@ Magazin kapasitesi: 300 adet
 		'image' => 0,
 		'seo_title' => 'AKD V15EH V Çivi Tabancası | KOÇİST',
 		'seo_description' => 'AKD V15EH V Çivi Tabancası: V biçimli çiviyle çerçeve gönye köşelerini arka yüzden birleştirir. Çerçeve ve ayna atölyeleri için stoktan teslim, teklif alın.',
+		'faq' => 'AKD V15EH V çivi tabancası ne işe yarar?
+AKD V15EH V çivi tabancası 45 derece gönye birleşimini arkadan V biçimli çiviyle kilitler; ön yüzde iz kalmaz. Tablo, ayna ve fotoğraf çerçevesi üretiminde kullanılır.
+
+AKD V15EH magazin kapasitesi nedir?
+Magazin 300 çivi alır; çivi tel çapı 0,3 mm, uzunluğu 15 mm\'dir. Gövde 1,2 kg\'dır.',
 	),
 	array(
 		'slug' => 'akd-tc7-ac04-c-ring-tabancasi',
@@ -3434,6 +4149,11 @@ Kapasite: 130 adet
 		'image' => 0,
 		'seo_title' => 'AKD TC7/AC04 C-Ring Tabancası | KOÇİST',
 		'seo_description' => 'AKD TC7/AC04 C-Ring Tabancası: havalı C-ring klips tabancası; yaylı yatak, koltuk yay sistemi, kafes ve çit teli birleştirme için teklif alın.',
+		'faq' => 'AKD TC7/AC04 C-ring tabancası ne için kullanılır?
+AKD TC7/AC04 C-ring tabancası yaylı yatak, tel kafes ve tel örgüde telleri halkayla birbirine bağlar. 1,8 mm C-ring kullanır, 130 adet alır.
+
+AKD TC7/AC04 kaç bar ile çalışır?
+Çalışma basıncı 5,5–6,5 bar\'dır. Uyumlu klipsleri tabancanın koduna göre KOÇİST stoklarından eşleştiririz.',
 	),
 	array(
 		'slug' => 'akd-tc7-ln-c-ring-tabancasi-uzun-burun',
@@ -3457,6 +4177,11 @@ Burun tipi: Uzun burun',
 		'image' => 0,
 		'seo_title' => 'AKD TC7 LN/AC04 C-Ring Çivi Tabancası (Uzun Burun)',
 		'seo_description' => 'AKD TC7 LN/AC04 C-Ring Çivi Tabancası (Uzun Burun): yatak yay ünitesi içi ve kafes köşelerinde C-ring klips kapama. KOÇİST\'ten teklif alın.',
+		'faq' => 'AKD TC7 LN uzun burunlu C-ring tabancası ne zaman tercih edilir?
+Uzun burun, tabancanın derin ve dar noktalara ulaşmasını sağlar. AKD TC7 LN/AC04 C-ring çivi tabancası yaylı yatak iç katmanı ve kafes köşelerinde kolay çalışır.
+
+AKD TC7 LN hangi C-ring ölçüsünü kullanır?
+1,8 mm C-ring kullanır, kapasitesi 130 adettir; 5,5–6,5 bar basınçla çalışır.',
 	),
 	array(
 		'slug' => 'akd-b-tc7-sarjli-c-ring-tabancasi',
@@ -3483,6 +4208,11 @@ C-ring çapı: 1,8 mm (15 GA)',
 		'image' => 0,
 		'seo_title' => 'AKD B TC7 Şarjlı C-Ring Çivi Tabancası | KOÇİST',
 		'seo_description' => 'AKD B TC7 Şarjlı C-Ring Çivi Tabancası: akülü, hortumsuz C-ring klips tabancası; çit, kafes, file ve yatak montajı için stoktan teslim, teklif alın.',
+		'faq' => 'AKD B TC7 şarjlı C-ring tabancası hava ister mi?
+Hayır. AKD B TC7 şarjlı C-ring çivi tabancası bataryayla çalışır; çit, kümes ve bahçe tel örgüsü gibi kompresör götürülemeyen yerlerde kullanılır.
+
+AKD B TC7 bataryası ne kadar dayanır?
+Şarj kullanım süresi 1 saattir; Ni-MH ya da Li-Ion batarya kullanır. 1,8 mm (15 GA) C-ring atar, 130 adet alır ve 2,56 kg\'dır.',
 	),
 	array(
 		'slug' => 'akd-e80-25-elektrikli-zimba-tabancasi',
@@ -3507,6 +4237,11 @@ Kaplama: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'AKD E80/25 Elektrikli Zımba Tabancası | KOÇİST',
 		'seo_description' => 'AKD E80/25 Elektrikli Zımba Tabancası: kompresör gerektirmeyen döşeme zımbası; koltuk tamiri, perde ve dekor işleri için. Stoktan teslim, teklif alın.',
+		'faq' => 'AKD E80/25 elektrikli zımba tabancası kompresör ister mi?
+Hayır, AKD E80/25 elektrikli zımba tabancası prize takılarak çalışır; 1,8 m kablosu vardır. Kompresörü olmayan atölye ve ev döşemesi için uygundur.
+
+AKD E80/25 hangi teli kullanır?
+21 GA (0,65x0,95 mm), 12,7 mm taçlı elektro galvaniz tel. Dakikada en fazla 30 atış yapar, 1,2 kg\'dır.',
 	),
 	array(
 		'slug' => 'akd-ef18-35-elektrikli-brad-tabancasi',
@@ -3530,6 +4265,11 @@ Kaplama: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'AKD EF18/35 Elektrikli Brad Tabancası | KOÇİST',
 		'seo_description' => 'AKD EF18/35 Elektrikli Brad Tabancası: kompresör gerektirmeyen 18 GA brad tabancası; pervaz, çıta ve mobilya montajı için stoktan teslim, teklif alın.',
+		'faq' => 'AKD EF18/35 elektrikli brad tabancası hangi çiviyi atar?
+AKD EF18/35 elektrikli brad tabancası 18 GA (1x1,25 mm) brad çivi atar; prize takılarak çalışır.
+
+AKD EF18/35 ne kadar hızlı atar?
+Dakikada en fazla 30 atış yapar; 1,2 kg\'dır ve 1,8 m kablosu vardır. CE ve EMC onaylıdır.',
 	),
 	array(
 		'slug' => 'akd-dbaf50-40-sarjli-zimba-brad-tabancasi',
@@ -3553,6 +4293,11 @@ Zımba teli: 90 serisi',
 		'image' => 0,
 		'seo_title' => 'AKD DBAF50/40 Şarjlı Zımba / Brad Tabancası | KOÇİST',
 		'seo_description' => 'AKD DBAF50/40 Şarjlı Zımba / Brad Tabancası: akülü, tek gövdede zımba teli ve brad çivi. Saha montajı ve tamir ekipleri için stoktan teslim, teklif alın.',
+		'faq' => 'AKD DBAF50/40 şarjlı tabanca hem zımba hem brad atar mı?
+Evet. AKD DBAF50/40 şarjlı zımba/brad tabancası 18 GA brad çiviyi 40 mm\'ye kadar, zımba tarafında 90 serisi teli atar.
+
+AKD DBAF50/40 dakikada kaç atış yapar?
+Normal modda 30, en fazla 60 çivi/dk atar. 18 V DC ile çalışır, magazin 100 adet alır.',
 	),
 	array(
 		'slug' => 'akd-18-32-elektrikli-brad-tabancasi',
@@ -3575,6 +4320,11 @@ Kaplama: Elektro galvaniz',
 		'image' => 0,
 		'seo_title' => 'AKD 18/32 Elektrikli Brad Tabancası | KOÇİST',
 		'seo_description' => 'AKD 18/32 Elektrikli Brad Tabancası: 18 GA brad çivi, kompresörsüz kullanım; çıta, çerçeve ve hafif mobilya montajı için stoktan teslim, teklif alın.',
+		'faq' => 'AKD 18/32 elektrikli brad tabancası hangi boyda çivi atar?
+AKD 18/32 elektrikli brad tabancası 1,25x1,05 mm brad çiviyi 10–35 mm boyda atar; magazin 100 çivi alır.
+
+AKD 18/32 kimler için uygundur?
+Kompresörsüz çalışmak isteyen montaj ekipleri ve küçük atölyeler için. 1,05 kg gövdesiyle pervaz, profil ve çerçeve işlerinde kullanılır.',
 	),
 	array(
 		'slug' => 'ro-ma-maestri-me80-doseme-tabancasi',
@@ -3600,6 +4350,11 @@ Kutu: Plastik çantalı',
 		'image' => 0,
 		'seo_title' => 'RO-MA Maestri ME80 Zımba Döşeme Tabancası | KOÇİST',
 		'seo_description' => 'RO-MA Maestri ME80 Zımba Döşeme Tabancası: koltuk, kanepe ve sandalye döşemesi için profesyonel zımba. Stoktan teslim, İstanbul–Trakya sevkiyat.',
+		'faq' => 'RO-MA Maestri ME80 döşeme tabancası hangi teli kullanır?
+RO-MA Maestri ME80 zımba döşeme tabancası 80 serisi, 12,7 mm taçlı teli 4–16 mm boyda kullanır; magazin 110 tel alır.
+
+RO-MA Maestri ME80 kutusuyla mı gelir?
+Evet, plastik çantasıyla gelir. 1,4 kg gövdesiyle profesyonel döşeme atölyelerinin kısa tel tarafını karşılar.',
 	),
 	array(
 		'slug' => 'ro-ma-maestri-me30-doseme-tabancasi',
@@ -3624,6 +4379,11 @@ Kutu: Plastik çantalı',
 		'image' => 0,
 		'seo_title' => 'RO-MA Maestri ME30 Zımba Döşeme Tabancası | KOÇİST',
 		'seo_description' => 'RO-MA Maestri ME30 Zımba Döşeme Tabancası: profesyonel döşeme zımbası; koltuk, sandalye ve panel kaplama işleri için stoktan teslim, teklif alın.',
+		'faq' => 'RO-MA Maestri ME30 ile ME80 arasındaki fark nedir?
+RO-MA Maestri ME30 zımba döşeme tabancası 15–30 mm uzun tellerle, ME80 4–16 mm kısa tellerle çalışır. Atölyeler genelde ikisini birlikte bulundurur.
+
+RO-MA Maestri ME30 magazin kapasitesi nedir?
+Magazin 110 tel alır; gövde 1,4 kg\'dır ve plastik çantasıyla gelir.',
 	),
 	array(
 		'slug' => 'sunta-vidasi',
@@ -3711,6 +4471,11 @@ Paketleme: Kutu ve koli',
 		'image' => 0,
 		'seo_title' => 'Sunta Vidası DIN 7505, 3–6 mm, 63 Ebat | KOÇİST',
 		'seo_description' => 'Sunta Vidası DIN 7505: yıldız havşa baş, 3–6 mm çap, 13–200 mm boy, 63 ebat. Kutu ve koli adetli tablo; mobilya ve ahşap için teklif alın.',
+		'faq' => 'Sunta vidası hangi çap ve boyda seçilmeli?
+Menteşe, ray ve kulpta 3–3,5 mm; dolap karkası ve rafta 4–5 mm; kalın ahşap ve kasada 6 mm sunta vidası tercih edilir. Boy, bağlanan iki parçanın toplam kalınlığını geçmeyecek şekilde seçilir.
+
+Sunta vidası kutuda kaç adet?
+Ebada göre 50 ile 1.000 adet arasında değişir; ince çaplarda kutu 1.000, 6 mm uzun boylarda 50 adettir. Her ebadın kutu ve koli adedi ölçü tablosunda yazılıdır.',
 	),
 	array(
 		'slug' => 'mdf-vidasi',
@@ -3731,6 +4496,11 @@ Uygulama: Yüzey ve kenar bağlantısı
 		'image' => 0,
 		'seo_title' => 'MDF Vidası, Mobilya ve Lif Levha Vidası | KOÇİST',
 		'seo_description' => 'MDF Vidası: lif levhayı kabartmadan tutar; dolap karkası, kapak ve çekmece montajı için. Ölçünüzü söyleyin, KOÇİST koli bazında teklif versin.',
+		'faq' => 'MDF vidası ile sunta vidası aynı şey mi?
+Değil. MDF vidası, lif levhanın yoğun yapısına kontrollü girip kenarı kabartmadan tutunmak için seçilir; sunta vidası ise yonga levha ve ahşap için genel amaçlıdır.
+
+MDF vidası nerelerde kullanılır?
+Dolap karkası, çekmece gövdesi, kapak ve raf bağlantısında; özellikle lake ve membran kaplı kapaklarda yüzeyin temiz kalması gereken yerlerde.',
 	),
 	array(
 		'slug' => 'yhb-matkap-uclu-vida',
@@ -3786,6 +4556,11 @@ Ebat sayısı: 32',
 		'image' => 0,
 		'seo_title' => 'YHB Matkap Uçlu Vida DIN 7504 P, 32 Ebat | KOÇİST',
 		'seo_description' => 'YHB Matkap Uçlu Vida: DIN 7504 P, yıldız havşa baş, 3,9–4,8 mm çap, 13–100 mm boy. Sac ve profil için kutu-koli adetli tablo, hızlı teklif.',
+		'faq' => 'YHB matkap uçlu vida ne demek?
+YHB, yıldız havşa baş demektir. YHB matkap uçlu vida (DIN 7504 P) sacda ön delik açmadan kendi deliğini açar; havşa başı yüzeye gömülür.
+
+YHB matkap uçlu vidada hangi ölçüler var?
+3,9, 4,2 ve 4,8 mm çapta, 13–100 mm boyda 32 ebat. Kutu 200–2.500, koli 2.000–30.000 adet arasındadır.',
 	),
 	array(
 		'slug' => 'ysb-matkap-uclu-vida',
@@ -3840,6 +4615,11 @@ Ebat sayısı: 31',
 		'image' => 0,
 		'seo_title' => 'YSB Matkap Uçlu Vida DIN 7504 N, 31 Ebat | KOÇİST',
 		'seo_description' => 'YSB Matkap Uçlu Vida: DIN 7504 N yuvarlak yıldız baş, 3,9–4,8 mm çap, 13–100 mm boy. Pano, kanal ve sac montajı için koli bazında teklif alın.',
+		'faq' => 'YHB ile YSB matkap uçlu vida arasındaki fark nedir?
+Fark baştadır. YHB havşa başlıdır ve yüzeye gömülür; YSB matkap uçlu vida (DIN 7504 N) yuvarlak başlıdır ve yüzeyde kalır, havşa açılamayan ince saclarda tercih edilir.
+
+YSB matkap uçlu vida nerede kullanılır?
+Elektrik panosu, metal kutu, kablo kanalı, menfez ve sac aksesuar montajında. 3,9–4,8 mm çapta 31 ebat vardır.',
 	),
 	array(
 		'slug' => 'hi-low-vida',
@@ -3860,6 +4640,11 @@ Kullanım: Plastik, ahşap ve yonga levha
 		'image' => 0,
 		'seo_title' => 'Hi-Low Vida, Plastik ve Ahşap için Çift Diş | KOÇİST',
 		'seo_description' => 'Hi-Low Vida: yüksek ve alçak diş sırayla dizilir, plastik ve ahşabı çatlatmadan tutar. Montaj işiniz için KOÇİST\'ten koli bazında teklif alın.',
+		'faq' => 'Hi-Low vida nedir?
+Hi-Low vida, gövdesinde yüksek ve alçak dişlerin sırayla dizildiği vidadır. Yüksek diş malzemeyi kavrar, alçak diş gövdenin malzemeyi az sıkıştırmasını sağlar.
+
+Hi-Low vida hangi malzemede avantaj sağlar?
+Plastik parça, ince ahşap ve yonga levhada; özellikle kenara yakın bağlantılarda çatlama riskini azaltır.',
 	),
 	array(
 		'slug' => 'rysb-pulbas-vida',
@@ -3931,6 +4716,11 @@ Matkap uç, siyah çinko|4,8x32|7.500',
 		'image' => 0,
 		'seo_title' => 'RYSB Pulbaş Vida, Matkap ve Sivri Uç, 48 Ebat | KOÇİST',
 		'seo_description' => 'RYSB Pulbaş Vida: geniş pul baş, matkap uç, sivri uç ve siyah çinko seçenekleri, 3,9–4,8 mm, 13–50 mm. Sac ve profil işleri için teklif alın.',
+		'faq' => 'RYSB pulbaş vidanın geniş başı ne işe yarar?
+Geniş taban sıkma kuvvetini büyük alana yayar; ince sacı, plastik paneli ve yumuşak katmanları ezmeden tutar. RYSB pulbaş vida ayrı pul takma işini ortadan kaldırır.
+
+RYSB pulbaş vidada hangi uç seçenekleri var?
+Matkap uçlu (MUV), sivri uçlu ve siyah çinko kaplı matkap uçlu. 3,9–4,8 mm çapta, 13–50 mm boyda 48 ebat bulunur.',
 	),
 	array(
 		'slug' => 'buldeks-vida',
@@ -3960,6 +4750,11 @@ Paketleme: Koli',
 		'image' => 0,
 		'seo_title' => 'Buldeks Vida 7,5 mm, Dübelsiz Kasa Vidası | KOÇİST',
 		'seo_description' => 'Buldeks Vida: 7,5 mm çap, 60–200 mm boy, pencere ve kapı kasasını betona dübelsiz sabitler. Doğrama montajı için KOÇİST\'ten koli bazında teklif.',
+		'faq' => 'Buldeks vida dübelsiz kullanılır mı?
+Evet. Buldeks vida beton, tuğla ve briket duvarda açılan delikte kendi yolunu keser; pencere ve kapı kasasını dübel kullanmadan sabitler.
+
+Buldeks vida boyu nasıl seçilir?
+Kasa profilinin genişliği ve kasa ile duvar arasındaki boşluğa göre. Buldeks vida 7,5 mm çapta 60, 80, 100, 120, 150, 180 ve 200 mm boyda gelir.',
 	),
 	array(
 		'slug' => 'alci-levha-vidasi',
@@ -3997,6 +4792,11 @@ MUV diş|3,5x55|500|6.500',
 		'image' => 0,
 		'seo_title' => 'Alçı Levha Vidası Sık, Seyrek ve MUV Diş | KOÇİST',
 		'seo_description' => 'Alçı Levha Vidası: 3,5 mm çap, sık diş, seyrek diş ve MUV seçenekleri, 19–55 mm boy. Metal profil ve ahşap karkas için koli bazında teklif alın.',
+		'faq' => 'Alçı levha vidasında sık diş mi seyrek diş mi seçilmeli?
+Metal profile sık dişli, ahşap karkasa seyrek dişli alçı levha vidası kullanılır. Kalın profilde MUV (matkap uçlu) tip ön delik gerektirmeden çalışır.
+
+Alçı levha vidası boyu nasıl belirlenir?
+Levha kalınlığına göre: tek kat levhada kısa, çift kat levhada daha uzun vida seçilir. Seçenekler 3,5 mm çapta 19–55 mm arasındadır.',
 	),
 	array(
 		'slug' => 'duraspin-seritli-vida',
@@ -4043,6 +4843,11 @@ Seyrek diş|4,2x60|500|5.000',
 		'image' => 0,
 		'seo_title' => 'Duraspin Şeritli Vida, Seri Alçı Levha Montajı | KOÇİST',
 		'seo_description' => 'Duraspin Şeritli Vida: plastik şeride dizili, sivri sık, matkap ve seyrek uç seçenekleri, 3,5–4,2 mm. Şerit vidalama tabancası ile birlikte teklif alın.',
+		'faq' => 'Duraspin şeritli vida neden hız kazandırır?
+Duraspin şeritli vida plastik şeride dizili gelir; şerit vidalama tabancası vidaları sırayla besler, usta vidaları tek tek eline almaz. Geniş tavan ve bölme duvarda montaj kısalır.
+
+Duraspin şeritli vidada hangi seriler var?
+Sivri sık uçlu (3,5x25–50), matkap uçlu (3,5x25–55) ve seyrek uçlu (3,5x30–4,2x60 mm). Kutu 500–1.000, koli 5.000–10.000 adettir.',
 	),
 	array(
 		'slug' => 'pulbas-sivri-vida',
@@ -4068,6 +4873,11 @@ Paketleme: Kutulu (1.000 adet) veya dökme; koli 5.000 adet',
 		'image' => 0,
 		'seo_title' => 'Pulbaş Sivri Vida 5x45 mm, Kutulu ve Dökme | KOÇİST',
 		'seo_description' => 'Pulbaş Sivri Vida: geniş pul baş, sivri uç, 5x45 mm; 1.000\'lik kutu ya da dökme, 5.000 adetlik koli. Ahşap kasa ve sac için KOÇİST\'ten teklif.',
+		'faq' => 'Pulbaş sivri vida hangi işlerde kullanılır?
+Ahşap kasa ve sandık imalatında, çit ve bahçe işlerinde, ince sacın ahşaba sabitlenmesinde. Pulbaş sivri vidanın geniş başı ayrı pul gerektirmez.
+
+Pulbaş sivri vida kutulu mu dökme mi gelir?
+İkisi de vardır: 5x45 mm ebat 1.000 adetlik kutuda ya da dökme olarak gelir; koli 5.000 adettir.',
 	),
 	array(
 		'slug' => 'trapez-vidasi',
@@ -4115,6 +4925,11 @@ Boy: 16–100 mm',
 		'image' => 0,
 		'seo_title' => 'Trapez Vidası DIN 7504 K, Contalı Pullu | KOÇİST',
 		'seo_description' => 'Trapez Vidası: altıköşe baş, contalı pul, 4, 6 ve 12 mm delme kapasitesi, 4,8–6,3 mm çap. Çatı ve cephe sacı için koli bazında teklif alın.',
+		'faq' => 'Trapez vidası kaç mm sac deler?
+Delme kapasitesine göre seçilir: 4,8 mm çaplı seri 4 mm, 5,5 ve 6,3 mm çaplı seri 6 mm, 5,5 mm çaplı ağır seri 12 mm sac ve profil kalınlığını ön delik olmadan geçer.
+
+Trapez vidasındaki contalı pul ne işe yarar?
+Contalı pul vida deliğini kapatır ve yağmur suyunun çatıdan içeri sızmasını önler. 5,5x25 mm trapez vidasının pulsuz seçeneği de vardır.',
 	),
 	array(
 		'slug' => 'panel-vidasi',
@@ -4157,6 +4972,11 @@ Ebat sayısı: 19',
 		'image' => 0,
 		'seo_title' => 'Panel Vidası 5,5 mm, Sandviç Panel Vidası | KOÇİST',
 		'seo_description' => 'Panel Vidası: 5,5 mm çap, 66–200 mm boy, 6 ve 12 mm delme kapasitesi, contalı pul. Sandviç panel ve cephe işleri için KOÇİST\'ten koli teklifi.',
+		'faq' => 'Panel vidası boyu nasıl seçilir?
+Boy panel kalınlığına, delme kapasitesi taşıyıcı profilin et kalınlığına göre seçilir. Panel vidası 5,5 mm çapta 66–200 mm boyda, 6 ve 12 mm delme kapasitesiyle gelir.
+
+Panel vidası hangi işlerde kullanılır?
+Soğuk hava deposu, fabrika ve depo cephesi, çatı paneli ve konteyner kaplamasında sandviç paneli çelik taşıyıcıya bağlamak için.',
 	),
 	array(
 		'slug' => 'beton-vidasi',
@@ -4191,6 +5011,11 @@ Ebat sayısı: 12',
 		'image' => 0,
 		'seo_title' => 'Beton Vidası 6,3 mm, Altıköşe Flanşlı Baş | KOÇİST',
 		'seo_description' => 'Beton Vidası: 6,3 mm çap, 35–155 mm boy, altıköşe flanşlı baş, 12 ebat. Lata, kiriş ve bağlantı parçası sabitleme için koli bazında teklif alın.',
+		'faq' => 'Beton vidası hangi işlerde kullanılır?
+Ahşap lata, kiriş, metal bağlantı parçası ve dikmeleri beton, tuğla ya da ahşap alt yapıya sabitlemede. Beton vidasının altıköşe flanşlı başı ayrı pul gerektirmez.
+
+Beton vidasında hangi boylar var?
+6,3 mm çapta 35\'ten 155 mm\'ye 12 boy. Kutu 50–250, koli 300–1.500 adettir.',
 	),
 	array(
 		'slug' => 'trifon-vida',
@@ -4212,6 +5037,11 @@ Boy: 60, 70, 80, 90, 100, 110, 120 mm',
 		'image' => 0,
 		'seo_title' => 'Trifon Vida 6–10 mm, Altıköşe Başlı Ağaç Vidası | KOÇİST',
 		'seo_description' => 'Trifon Vida: altıköşe baş, 6, 8 ve 10 mm çap, 60–120 mm boy. Ahşap çatı, kiriş ve ağır bağlantılar için KOÇİST\'ten koli bazında teklif alın.',
+		'faq' => 'Trifon vida neden altıköşe başlıdır?
+Altıköşe baş anahtar ya da lokmayla yüksek torkta sıkılır ve başı bozulmaz. Trifon vida bu yüzden kalın ahşap ve ağır yük taşıyan bağlantılarda kullanılır.
+
+Trifon vida hangi ölçülerde gelir?
+Çap 6, 8 ve 10 mm; boy 60, 70, 80, 90, 100, 110 ve 120 mm. Ahşapta çaptan biraz ince kılavuz delik açmak çatlamayı önler.',
 	),
 	array(
 		'slug' => 'prefabrik-vidasi',
@@ -4236,6 +5066,11 @@ Paketleme: Koli 10.000 adet',
 		'image' => 0,
 		'seo_title' => 'Prefabrik Vidası 5,8x13 ve 5,8x15 mm | KOÇİST',
 		'seo_description' => 'Prefabrik Vidası: 5,8 mm çap, 13 ve 15 mm boy, 10.000 adetlik koli. Hafif çelik, prefabrik yapı ve sac montajı için KOÇİST\'ten teklif alın.',
+		'faq' => 'Prefabrik vidası nerelerde kullanılır?
+Prefabrik konut, şantiye binası, hafif çelik çatı makası ve sac kaplama birleşimlerinde. Prefabrik vidasının kısa boyu ince katmanları arkaya taşmadan bağlar.
+
+Prefabrik vidası hangi ebatlarda?
+İki ebat vardır: 5,8x13 mm ve 5,8x15 mm; her ikisi 10.000 adetlik kolide gelir.',
 	),
 	array(
 		'slug' => 'konteyner-vidasi',
@@ -4261,6 +5096,11 @@ Paketleme: Koli 900–1.200 adet',
 		'image' => 0,
 		'seo_title' => 'Konteyner Vidası 6,3 mm, Havşa Başlı Matkap Uç | KOÇİST',
 		'seo_description' => 'Konteyner Vidası: havşa baş, matkap uç, 6,3 mm çap, 60–80 mm boy. Konteyner ve römork tabanını çelik kirişe bağlamak için koli bazında teklif.',
+		'faq' => 'Konteyner vidası neden havşa başlı ve matkap uçlu?
+Konteyner tabanındaki ahşap döşeme çelik kirişe bağlanır: matkap uç çeliği ön delik açmadan deler, havşa baş döşemeye gömülür ve üzerinde yürünen zeminde çıkıntı kalmaz.
+
+Konteyner vidası hangi boylarda gelir?
+6,3 mm çapta 60, 70 ve 80 mm. Koli 60 ve 70 mm\'de 1.200, 80 mm\'de 900 adettir.',
 	),
 	array(
 		'slug' => 'yhb-kol-vidasi',
@@ -4286,6 +5126,11 @@ M6|10, 15, 20, 25, 30, 35, 45',
 		'image' => 0,
 		'seo_title' => 'YHB Kol Vidası DIN 965, M4–M6 Metrik | KOÇİST',
 		'seo_description' => 'YHB Kol Vidası: DIN 965 metrik dişli yıldız havşa baş, M4, M5, M6 çap ve 10–50 mm boy. Kol, menteşe ve aksesuar montajı için teklif alın.',
+		'faq' => 'YHB kol vidası ile ağaç vidası arasındaki fark nedir?
+YHB kol vidası metrik dişli bir makine vidasıdır (DIN 965); kendi dişini açmaz, somuna ya da dişli yuvaya takılır. Ağaç vidası ise malzemede kendi dişini açar.
+
+YHB kol vidasında hangi ölçüler var?
+M4\'te 15–50 mm, M5\'te 10–50 mm, M6\'da 10–45 mm boylar. Diş çapı karşı parçaya, boy bağlanan parçaların toplam kalınlığına göre seçilir.',
 	),
 	array(
 		'slug' => 'kabin-vidasi',
@@ -4308,6 +5153,11 @@ Paketleme: Kutu 100 adet, koli 3.000 adet',
 		'image' => 0,
 		'seo_title' => 'Kabin Vidası 6,3x50 mm, Gizli Başlı Vida | KOÇİST',
 		'seo_description' => 'Kabin Vidası: 6,3x50 mm, küçük silindirik baş, sivri uç; 100 adetlik kutu ve 3.000 adetlik koli. Kabin ve modüler yapı montajı için teklif alın.',
+		'faq' => 'Kabin vidası hangi ölçüde?
+Kabin vidası tek ebattır: 6,3x50 mm. Kutuda 100, kolide 3.000 adet bulunur.
+
+Kabin vidasının küçük başı ne sağlar?
+Küçük silindirik baş parçanın içine gömülür ve dışarıdan belli olmaz. Kalın gövde ve iri diş, ahşap ve levhada güçlü tutuş verir.',
 	),
 	array(
 		'slug' => 'agraf-vidasi',
@@ -4335,6 +5185,11 @@ Paketleme: Kutu 500–1.000, koli 5.000–12.000 adet',
 		'image' => 0,
 		'seo_title' => 'Agraf Vidası 4,2 mm, 13–25 mm Boy | KOÇİST',
 		'seo_description' => 'Agraf Vidası: 4,2 mm çap, 13–25 mm boy, geniş yıldız baş ve sivri uç; kutu ve koli adetli tablo. Klips ve bağlantı parçaları için teklif alın.',
+		'faq' => 'Agraf vidası hangi işlerde kullanılır?
+Bağlantı parçası, klips ve tutucuların ahşap ya da ince sac yüzeye sabitlenmesinde ve hafif montaj işlerinde. Agraf vidasının geniş başı parçayı büyük yüzeyde bastırır.
+
+Agraf vidası hangi boylarda gelir?
+4,2 mm çapta 13, 16, 19, 22 ve 25 mm. Kutu 500–1.000, koli 5.000–12.000 adettir.',
 	),
 	array(
 		'slug' => 'arkalik-vidasi',
@@ -4357,6 +5212,11 @@ Paketleme: Kutu 1.000 adet, koli 16.000 adet',
 		'image' => 0,
 		'seo_title' => 'Arkalık Vidası 3,5x25 mm, Mobilya Arkalık Vidası | KOÇİST',
 		'seo_description' => 'Arkalık Vidası: 3,5x25 mm, sivri uç, yıldız baş; 1.000 adetlik kutu ve 16.000 adetlik koli. Dolap ve kitaplık arkalığı için KOÇİST\'ten teklif.',
+		'faq' => 'Arkalık vidası ne için kullanılır?
+Dolap, gardırop ve kitaplık arkalığını gövdeye sabitlemek için. Arkalık vidası ince sunta ve MDF levhayı geniş başıyla bastırır, kısa boyuyla gövdeden taşmaz.
+
+Arkalık vidası kaç adetlik paketlerde?
+Tek ebat: 3,5x25 mm. Kutuda 1.000, kolide 16.000 adet; seri üretimde koli paket ekonomiktir.',
 	),
 	array(
 		'slug' => '6-kalite-celik-somun-din-934',
@@ -4379,6 +5239,11 @@ Uyumlu cıvata: 6.8 ve altı sınıflar',
 		'image' => 0,
 		'seo_title' => '6 Kalite Çelik Somun DIN 934 / ISO 4032 | KOÇİST',
 		'seo_description' => '6 Kalite Çelik Somun DIN 934: ISO 4032 metrik altıköşe somun, 6.8 ve altı cıvatalarla genel montaj için. Ölçünüzü iletin, koli bazında teklif alın.',
+		'faq' => '6 kalite somun hangi cıvatayla kullanılır?
+6 kalite çelik somun DIN 934, 6.8 ve daha düşük sınıftaki cıvatalarla kullanılır. 8.8 ya da 10.9 cıvatada daha yüksek kalite somun gerekir.
+
+6 kalite çelik somun DIN 934 nerelerde kullanılır?
+Orta yükteki genel montajda: ahşap konstrüksiyon cıvataları, raf ve dolap sistemleri, korkuluk ve bahçe aksesuarları.',
 	),
 	array(
 		'slug' => '8-kalite-celik-somun-din-934',
@@ -4401,6 +5266,11 @@ Uyumlu cıvata: 8.8 ve altı sınıflar',
 		'image' => 0,
 		'seo_title' => '8 Kalite Çelik Somun DIN 934, 8.8 Cıvataya | KOÇİST',
 		'seo_description' => '8 Kalite Çelik Somun DIN 934: ISO 4032 metrik altıköşe, 8.8 cıvatalarla eşleşir; makine ve çelik konstrüksiyon için. Koli bazında teklif alın.',
+		'faq' => '8 kalite çelik somun DIN 934 hangi cıvatanın eşidir?
+8 kalite çelik somun DIN 934, piyasanın en yaygın cıvata sınıfı olan 8.8 ile eşleştirilir; 8.8 ve altındaki tüm sınıflarda kullanılabilir.
+
+8 kalite somun hangi işlerde tercih edilir?
+Makine şasesi, çelik konstrüksiyon, palet çakım hattı ve forklift ataşmanı, tarım makinesi ve endüstriyel raf bağlantılarında.',
 	),
 	array(
 		'slug' => '10-kalite-celik-somun-din-934',
@@ -4423,6 +5293,11 @@ Uyumlu cıvata: 10.9 ve altı sınıflar',
 		'image' => 0,
 		'seo_title' => '10 Kalite Çelik Somun DIN 934, 10.9 Cıvataya | KOÇİST',
 		'seo_description' => '10 Kalite Çelik Somun DIN 934: ISO 4032 metrik altıköşe, 10.9 cıvatalarla ağır hizmet bağlantıları için. KOÇİST\'ten koli bazında hızlı teklif alın.',
+		'faq' => '10 kalite somun ne zaman gerekir?
+10.9 sınıfı cıvata kullanılan yüksek dayanımlı bağlantılarda. 10 kalite çelik somun DIN 934 yüksek sıkma kuvvetinde dişlerin sıyrılmasına dayanır.
+
+10 kalite çelik somun hangi sektörlerde kullanılır?
+İş makinesi ve kamyon şasesi, kaldırma ekipmanı, ağır çelik konstrüksiyon, pres ve kalıp bağlantılarında.',
 	),
 	array(
 		'slug' => '6-kalite-flansli-somun-din-6923',
@@ -4445,6 +5320,11 @@ Uyumlu cıvata: 6.8 ve altı sınıflar',
 		'image' => 0,
 		'seo_title' => '6 Kalite Flanşlı Somun DIN 6923 / ISO 4161 | KOÇİST',
 		'seo_description' => '6 Kalite Flanşlı Somun DIN 6923: ISO 4161, tırtıllı geniş flanş, pul gerektirmez; sac ve ince profil montajı için. Koli bazında teklif alın.',
+		'faq' => 'Flanşlı somun pul yerine geçer mi?
+Evet. 6 kalite flanşlı somun DIN 6923\'ün alt kısmı pul gibi genişler; sıkma kuvvetini geniş alana yayar ve ayrı pul takma ihtiyacını ortadan kaldırır.
+
+6 kalite flanşlı somun nerelerde kullanılır?
+Sac dolap ve pano, havalandırma kanalı, hafif çelik raf ve ince profil bağlantılarında; 6.8 ve altı sınıf cıvatalarla.',
 	),
 	array(
 		'slug' => '8-kalite-flansli-somun-din-6923',
@@ -4467,6 +5347,11 @@ Uyumlu cıvata: 8.8 ve altı sınıflar',
 		'image' => 0,
 		'seo_title' => '8 Kalite Flanşlı Somun DIN 6923, Tırtıllı | KOÇİST',
 		'seo_description' => '8 Kalite Flanşlı Somun DIN 6923: ISO 4161, tırtıllı flanş, 8.8 cıvatalarla titreşimli makine ve araç montajı için. KOÇİST\'ten koli teklifi alın.',
+		'faq' => '8 kalite flanşlı somundaki tırtıllar ne işe yarar?
+Flanşın altındaki tırtıllar yüzeye tutunur ve titreşimli ortamda somunun geri dönmesini zorlaştırır. 8 kalite flanşlı somun DIN 6923 8.8 cıvatalarla kullanılır.
+
+8 kalite flanşlı somun hangi işlerde öne çıkar?
+Araç üstü ekipman, römork ve kasa, konveyör ve palet hattı makineleri, endüstriyel raf ve sac konstrüksiyon bağlantılarında.',
 	),
 	array(
 		'slug' => '6-kalite-fiberli-somun-din-985',
@@ -4489,6 +5374,11 @@ Uyumlu cıvata: 6.8 ve altı sınıflar',
 		'image' => 0,
 		'seo_title' => '6 Kalite Fiberli Somun DIN 985 / ISO 10511 | KOÇİST',
 		'seo_description' => '6 Kalite Fiberli Somun DIN 985: naylon halkalı emniyet somunu, ISO 10511 ve TS 1026/9; titreşimde gevşemez. Genel montaj için koli bazında teklif.',
+		'faq' => 'Fiberli somun ne işe yarar?
+6 kalite fiberli somun DIN 985\'in içindeki naylon halka cıvata dişini sararak sürtünme yaratır; somun titreşimde kendiliğinden gevşemez, kontra somuna gerek kalmaz.
+
+6 kalite fiberli somun hangi işlerde kullanılır?
+Tekerlekli ekipman, transpalet tekerleği, mobilya mekanizması, fan ve motor kapağı gibi genel montajlarda; 6.8 ve altı cıvatalarla.',
 	),
 	array(
 		'slug' => '8-kalite-fiberli-somun-din-985',
@@ -4511,6 +5401,11 @@ Uyumlu cıvata: 8.8 ve altı sınıflar',
 		'image' => 0,
 		'seo_title' => '8 Kalite Fiberli Somun DIN 985, Emniyet Somunu | KOÇİST',
 		'seo_description' => '8 Kalite Fiberli Somun DIN 985: naylon halkalı, ISO 10511, 8.8 cıvatalarla titreşimli makinelerde gevşemeyi önler. KOÇİST\'ten koli bazında teklif.',
+		'faq' => '8 kalite fiberli somun hangi makinelerde kullanılır?
+Kompresör, jeneratör ve pompa gövdesi, tarım makinesi, titreşimli elek ve konveyör, palet çakım makinesinin hareketli parçalarında. 8 kalite fiberli somun DIN 985 8.8 cıvatalarla eşleşir.
+
+Fiberli somun tekrar kullanılabilir mi?
+Sık sökülüp takılan bağlantıda naylon halkanın kilitleme gücü azalır. Bakımda sökülen fiberli somunu yenisiyle değiştirmek bağlantının güvenliğini korur.',
 	),
 	array(
 		'slug' => '8-kalite-fiberli-flansli-somun-din-6926',
@@ -4533,6 +5428,11 @@ Uyumlu cıvata: 8.8 ve altı sınıflar',
 		'image' => 0,
 		'seo_title' => '8 Kalite Fiberli Flanşlı Somun DIN 6926 | KOÇİST',
 		'seo_description' => '8 Kalite Fiberli Flanşlı Somun DIN 6926: flanş ve naylon halka tek parçada, pul ve kontra somun gerektirmez. Titreşimli montaj için koli teklifi alın.',
+		'faq' => 'Fiberli flanşlı somun neyi birleştirir?
+8 kalite fiberli flanşlı somun DIN 6926, pul gibi geniş flanşı ve naylon emniyet halkasını tek parçada toplar. Pul, yaylı rondela ve kontra somun gereken bağlantı tek parçayla kurulur.
+
+DIN 6926 somun hangi işlerde avantajlıdır?
+İnce sac üzerindeki titreşimli bağlantılarda, araç ve römorkta, fan ve motor bağlantısında ve seri montaj hatlarında; 8.8 cıvatalarla.',
 	),
 	array(
 		'slug' => 'ph-bits-uc',
@@ -4554,6 +5454,11 @@ Marka: SE_CE
 		'image' => 0,
 		'seo_title' => 'PH Bits Uç, 300 mm\'ye Kadar Boy, SE_CE | KOÇİST',
 		'seo_description' => 'PH Bits Uç: Phillips yıldız profil, Sertel CNC üretimi SE_CE markası, 300 mm\'ye kadar boy. Alçı levha ve matkap uçlu vidalar için KOÇİST\'ten teklif.',
+		'faq' => 'PH bits uç hangi vidalarda kullanılır?
+PH bits uç, Phillips yıldız yuvalı vidalar içindir: alçı levha vidası, YHB ve YSB matkap uçlu vida gibi. Uç ölçüsü vida başındaki yuvanın büyüklüğüne göre seçilir.
+
+PH bits uç kaç mm boya kadar var?
+Sertel\'in CNC hattında SE_CE markasıyla üretilen PH serisi 300 mm\'ye kadar boyda gelir; uzun uç derin ve dar noktalara ulaşmak içindir.',
 	),
 	array(
 		'slug' => 'pz-bits-uc',
@@ -4575,6 +5480,11 @@ Marka: SE_CE
 		'image' => 0,
 		'seo_title' => 'PZ Bits Uç, Pozidriv Vidalama Ucu, SE_CE | KOÇİST',
 		'seo_description' => 'PZ Bits Uç: Pozidriv profil, vida başını geniş yüzeyden kavrar, 300 mm\'ye kadar boy, SE_CE markası. Mobilya ve ahşap montajı için KOÇİST\'ten teklif.',
+		'faq' => 'PZ bits uç ile PH bits uç arasındaki fark nedir?
+PZ (Pozidriv) uçta ana kanatların arasında ek çizgiler vardır ve vida başını daha geniş yüzeyden kavrar. PZ yuvalı vidada PH uç kullanılırsa uç kayar ve vida başı bozulur.
+
+PZ bits uç nerede kullanılır?
+Mobilya ve ahşap montajında yaygın PZ yuvalı vidalarda. SE_CE PZ serisi 300 mm\'ye kadar boyda üretilir.',
 	),
 	array(
 		'slug' => 'torx-bits-uc',
@@ -4596,6 +5506,11 @@ Marka: SE_CE
 		'image' => 0,
 		'seo_title' => 'Torx Bits Uç, Yüksek Torkta Kaymaz, SE_CE | KOÇİST',
 		'seo_description' => 'Torx Bits Uç: altı kollu yıldız profil, yüksek torkta kaymaz, 50 mm\'ye kadar boy, SE_CE markası. Buldeks ve Torx vidalar için KOÇİST\'ten teklif alın.',
+		'faq' => 'Torx bits uç neden yüksek torkta kaymaz?
+Altı kollu yıldız profilin dik yan yüzeyleri kuvveti yuvaya düz aktarır; Torx bits uç yuvadan dışarı itilmez, uzun ve kalın vidalar baş bozulmadan sıkılır.
+
+Torx bits uç hangi vidalarda kullanılır?
+Buldeks vida gibi Torx yuvalı kasa vidalarında ve özel ahşap vidalarında. SE_CE Torx serisi 50 mm\'ye kadar boyda üretilir.',
 	),
 	array(
 		'slug' => 'allen-bits-uc',
@@ -4617,6 +5532,11 @@ Marka: SE_CE
 		'image' => 0,
 		'seo_title' => 'Allen Bits Uç, İmbus Vidalama Ucu, SE_CE | KOÇİST',
 		'seo_description' => 'Allen Bits Uç: iç altıköşe (imbus) yuvalar için, 50 mm\'ye kadar boy, Sertel CNC üretimi SE_CE markası. Mobilya ve makine montajı için teklif alın.',
+		'faq' => 'Allen bits uç ne işe yarar?
+Allen bits uç, iç altıköşe (imbus) yuvalı cıvata ve vidaları vidalama makinesiyle sıkar; alyan anahtarının işini çok daha hızlı yapar.
+
+Allen bits uç ölçüsü nasıl seçilir?
+Uç ölçüsü yuvanın anahtar ağzıyla aynı olmalıdır; boşluklu oturan uç yuvanın köşelerini yuvarlar. SE_CE Allen serisi 50 mm\'ye kadar boyda gelir.',
 	),
 	array(
 		'slug' => 'duz-bits-uc',
@@ -4638,5 +5558,10 @@ Marka: SE_CE
 		'image' => 0,
 		'seo_title' => 'Düz Bits Uç, Yarıklı Vida Ucu, SE_CE | KOÇİST',
 		'seo_description' => 'Düz Bits Uç: düz (yarıklı) yuvalı vidalar için, 50 mm\'ye kadar boy, Sertel CNC üretimi SE_CE markası. Bits ve vida siparişiniz için teklif alın.',
+		'faq' => 'Düz bits uç hangi vidalar içindir?
+Düz bits uç, tek çizgi biçimindeki düz (yarıklı) yuvalı vidalar içindir: eski tip mobilya vidaları, elektrik klemensleri, pirinç ve dekoratif vidalar.
+
+Düz bits uçla vidalarken nelere dikkat edilir?
+Uç genişliği ve kalınlığı yuvaya tam oturmalı; düz yuvada uç kenara kaymaya yatkın olduğu için düşük devirde ve vidaya dik çalışmak iyi sonuç verir.',
 	),
 );
