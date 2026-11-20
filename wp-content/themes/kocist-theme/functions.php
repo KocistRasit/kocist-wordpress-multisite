@@ -366,8 +366,8 @@ function kocist_assets(): void {
 
 	// Sik sorulan sorular: /sss/ ve kategori sorulari (kategori sayfasi ve urun
 	// sayfasi ayni soru-cevap cizimini kullanir; template-parts/category-page.php,
-	// sections/product-faq-link.php).
-	if ( is_page( 'sss' ) || kocist_is_catalog_request() || get_query_var( 'nwcs_product' ) ) {
+	// sections/product-faq-link.php). Ana sayfada yalnizca sorusu varsa.
+	if ( is_page( 'sss' ) || kocist_is_catalog_request() || get_query_var( 'nwcs_product' ) || ( is_front_page() && kocist_page_faq_rows( 'home' ) ) ) {
 		wp_enqueue_style(
 			'kocist-faq',
 			get_theme_file_uri( 'assets/css/faq.css' ),
@@ -1092,8 +1092,9 @@ function kocist_product_image( array $product ): array {
 
 /**
  * Panelden gelen cok paragrafli metni basar: bos satirlar paragraf ayirir.
+ * $links: [yazi](/adres/) site ici baglanti olur (kocist_inline_html).
  */
-function kocist_paragraphs( $text, string $class = '' ): string {
+function kocist_paragraphs( $text, string $class = '', bool $links = false ): string {
 	$parts = preg_split( '/\R\s*\R/u', trim( (string) $text ) );
 	$out   = '';
 
@@ -1101,11 +1102,89 @@ function kocist_paragraphs( $text, string $class = '' ): string {
 		$part = trim( $part );
 
 		if ( '' !== $part ) {
-			$out .= sprintf( '<p%s>%s</p>', $class ? ' class="' . esc_attr( $class ) . '"' : '', nl2br( esc_html( $part ) ) );
+			$out .= sprintf( '<p%s>%s</p>', $class ? ' class="' . esc_attr( $class ) . '"' : '', nl2br( $links ? kocist_inline_html( $part ) : esc_html( $part ) ) );
 		}
 	}
 
 	return $out;
+}
+
+/*
+ * Satir ici baglanti: [yazi](/adres/). Panel kayitta etiketleri attigi icin
+ * HTML <a> yazilamaz; istanbul-keresteci-theme'deki (ik_inline_html) bicim.
+ * Yalnizca "/" ile baslayan site ici adres ("//" ve dis adres kabul edilmez).
+ */
+const KOCIST_INLINE_LINK = '~\[([^\]\n]+)\]\((/(?!/)[^()\s]*)\)~u';
+
+/**
+ * Metni kacirir, [yazi](/adres/) kaliplarini <a> yapar (adres kocist_link ile
+ * alt siteye baglanir).
+ */
+function kocist_inline_html( string $text ): string {
+	return (string) preg_replace_callback(
+		KOCIST_INLINE_LINK,
+		static fn( array $m ): string => sprintf( '<a href="%s">%s</a>', esc_url( kocist_link( html_entity_decode( $m[2], ENT_QUOTES, 'UTF-8' ) ) ), $m[1] ),
+		esc_html( $text )
+	);
+}
+
+/**
+ * Duz metin karsiligi (arama aciklamasi, llms.txt): [yazi](/adres/) -> yazi.
+ */
+function kocist_strip_inline_links( string $text ): string {
+	return (string) preg_replace( KOCIST_INLINE_LINK, '$1', $text );
+}
+
+/**
+ * Sayfanin kendi SSS bolumu ('faq' bileseni, 'items' tekrarli alani): ana
+ * sayfa ve grup sayfalari (grp-<grup>). Yalnizca sorusu VE cevabi dolu
+ * satirlar, en cok 10; sayfadaki bolum ve FAQPage isareti ayni listeden.
+ *
+ * @return array<int, array{group:string, question:string, answer:string, _row:int}>
+ */
+function kocist_page_faq_rows( string $page_key ): array {
+	if ( '' === $page_key || ! function_exists( 'nwcs_faq_rows' ) ) {
+		return array();
+	}
+
+	return array_slice( nwcs_faq_rows( $page_key, 'faq', 'items' ), 0, 10 );
+}
+
+/**
+ * Bu istekte sayfanin kendi SSS'si hangi panel sayfasindan: ana sayfa 'home',
+ * grup sayfasi 'grp-<grup>' (kategori sayfasinin sorulari eklentiden gelir).
+ */
+function kocist_current_faq_page(): string {
+	if ( is_front_page() ) {
+		return 'home';
+	}
+
+	if ( function_exists( 'kocist_is_catalog_request' ) && kocist_is_catalog_request() ) {
+		$current = kocist_catalog_current();
+
+		if ( ! empty( $current['group'] ) && empty( $current['sub'] ) ) {
+			return kocist_catalog_page_key( (string) $current['group']['slug'] );
+		}
+	}
+
+	return '';
+}
+
+/*
+ * FAQPage: sayfada gorunen sorular, eklentinin kategori sorularini isaretledigi
+ * yolla ayni dugume yazilir (WebPage/CollectionPage + FAQPage). Sayfada soru
+ * yoksa dokunulmaz. Suzgec NWCS 0.34.11'den beri var.
+ */
+add_filter( 'nwcs_seo_page_faq', 'kocist_seo_page_faq', 10, 2 );
+function kocist_seo_page_faq( array $faq, array $context ): array {
+	if ( $faq || 'page' !== ( $context['kind'] ?? '' ) || is_paged() ) {
+		return $faq;
+	}
+
+	return array_map(
+		static fn( array $row ): array => array( 'question' => $row['question'], 'answer' => $row['answer'] ),
+		kocist_page_faq_rows( kocist_current_faq_page() )
+	);
 }
 
 /**
