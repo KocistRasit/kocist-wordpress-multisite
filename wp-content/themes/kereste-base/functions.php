@@ -325,6 +325,34 @@ function kr_page_path( string $key, string $fallback = '/' ): string {
 	return (string) ( kr_manifest()['pages'][ $key ]['path'] ?? $fallback );
 }
 
+/**
+ * Bu temada blog yok; rehber yazilari WordPress sayfasi olarak acildi
+ * (kavakkeresteci /rehber/ ve alti, 10.11.2026). Manifest disindaki uzun
+ * duz sayfalar arama motoru icin Article semasi alir (eklenti:
+ * nwcs_seo_page_is_article). Ana sayfa, yazi listesi, hukuki sayfalar ve
+ * 150 kelimeden kisa sayfalar disinda.
+ */
+add_filter( 'nwcs_seo_page_is_article', 'kr_seo_page_is_article', 10, 2 );
+function kr_seo_page_is_article( bool $is_article, WP_Post $page ): bool {
+	if ( $is_article || 'page' !== $page->post_type || 'publish' !== $page->post_status ) {
+		return $is_article;
+	}
+
+	if ( in_array( $page->ID, array( (int) get_option( 'page_on_front' ), (int) get_option( 'page_for_posts' ) ), true ) ) {
+		return false;
+	}
+
+	// Hukuki ve islem sayfalari makale degil.
+	if ( preg_match( '/kvkk|gizlilik|cerez|kullanim-kosul|aydinlatma|mesafeli|iade|teslimat|odeme|tesekkur/', $page->post_name ) ) {
+		return false;
+	}
+
+	// str_word_count Turkce harfleri bolerek sayar; bosluga gore sayilir.
+	$text = trim( wp_strip_all_tags( strip_shortcodes( $page->post_content ) ) );
+
+	return '' !== $text && count( preg_split( '/\s+/u', $text ) ) >= 150;
+}
+
 /* ====================================================================== *
  * Urunler: tek kaynak manifest ('template' => 'product' isaretli sayfalar)
  * ====================================================================== */

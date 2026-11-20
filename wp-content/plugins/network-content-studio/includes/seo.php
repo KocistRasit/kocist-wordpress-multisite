@@ -758,6 +758,22 @@ function nwcs_seo_context(): array {
 			}
 		} else {
 			$context = nwcs_seo_context_extra( $path, $site, $base ) ?: nwcs_seo_context_wordpress( $site, $base );
+
+			/*
+			 * Manifestte olmayan duz WordPress sayfasi makale niteliginde olabilir
+			 * (kavakkeresteci rehber yazilari 'page' olarak acildi). Tema karar
+			 * verir (nwcs_seo_page_is_article); evet derse sayfa Article dugumu
+			 * alir, og:type article olur. Varsayilan: hayir. Ahrefs "Makale
+			 * sayfasi eksik Makale semasi" (14.11.2026, kavakkeresteci 8 sayfa).
+			 */
+			if ( $context && is_singular( 'page' ) && '' === (string) ( $context['schema'] ?? '' ) ) {
+				$page_post = get_queried_object();
+
+				if ( $page_post instanceof WP_Post && apply_filters( 'nwcs_seo_page_is_article', false, $page_post, $context ) ) {
+					$context['kind'] = 'article';
+					$context['post'] = $page_post;
+				}
+			}
 		}
 	}
 
@@ -911,7 +927,7 @@ function nwcs_seo_head(): void {
 		return;
 	}
 
-	$is_post = 'post' === $context['kind'];
+	$is_post = in_array( $context['kind'], array( 'post', 'article' ), true );
 	$image   = $context['image'];
 	$meta    = array();
 
@@ -1205,7 +1221,7 @@ function nwcs_seo_graph( array $context ): array {
 
 	$graph[] = $webpage;
 
-	if ( 'post' === $context['kind'] ) {
+	if ( in_array( $context['kind'], array( 'post', 'article' ), true ) ) {
 		$graph[] = nwcs_seo_article( $context, $org_id, $page_id, $language );
 	} elseif ( 'Product' === $context['schema'] && empty( $context['price'] ) ) {
 		// Teklifle satilan urun (fiyat yok): Google'in Product kurali fiyat,
@@ -1609,7 +1625,10 @@ function nwcs_seo_article( array $context, string $org_id, string $page_id, stri
 
 	return array_filter(
 		array(
-			'@type'            => 'BlogPosting',
+			// Yazi ikili tip: BlogPosting Article'in alt turu, ama denetim araclari
+			// ve yapay zeka motorlari Article'i acikca ariyor (Organization +
+			// LocalBusiness ile ayni gerekce). Makale niteligindeki sayfa: Article.
+			'@type'            => 'post' === $context['kind'] ? array( 'Article', 'BlogPosting' ) : 'Article',
 			'@id'              => $context['url'] . '#article',
 			'headline'         => $context['name'],
 			'description'      => $context['description'],
