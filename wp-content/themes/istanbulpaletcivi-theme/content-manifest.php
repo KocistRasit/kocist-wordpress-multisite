@@ -178,7 +178,7 @@ return array(
 							'default' => array(
 								array( 'label' => 'Anasayfa', 'url' => '/' ),
 								array( 'label' => 'Hakkımızda', 'url' => '/hakkimizda/' ),
-								array( 'label' => 'Palet Çivileri', 'url' => '/palet-civileri/' ),
+								array( 'label' => 'Ürünler', 'url' => '/urunler/' ),
 								array( 'label' => 'Blog ve Haberler', 'url' => '/haberler-blog/' ),
 								array( 'label' => 'SSS', 'url' => '/sss/' ),
 								array( 'label' => 'İletişim', 'url' => '/iletisim/' ),
@@ -317,11 +317,11 @@ return array(
 		),
 
 		/* ---------------------------------------------------------- *
-		 * Palet Civileri (urunler sayfasi)
+		 * Urunler (urun gruplari sayfasi; eski adres /palet-civileri/ 301)
 		 * ---------------------------------------------------------- */
 		'products' => array(
-			'label'      => 'Palet Çivileri',
-			'path'       => '/palet-civileri/',
+			'label'      => 'Ürünler',
+			'path'       => '/urunler/',
 			'seo_source' => array(
 				'title'       => 'head.title',
 				'description' => 'head.lead',
@@ -330,8 +330,8 @@ return array(
 				'head' => array(
 					'label'  => 'Sayfa Başı',
 					'fields' => array(
-						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'İstanbul palet çivileri' ),
-						'lead'  => array( 'label' => 'Alt Metin', 'type' => 'textarea', 'default' => 'Rulo, şerit ve dökme palet çivileri; beton ve ince iş çivileri. Palet, sandık ve kafes üretiminden mobilya ve şantiyeye; aralarındaki fark, nasıl ve neye çakıldıkları.' ),
+						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Ürünler' ),
+						'lead'  => array( 'label' => 'Alt Metin', 'type' => 'textarea', 'default' => 'Palet çivileri, beton ve ince iş çivileri, vidalar, somunlar, bits uçlar, çivi ve zımba tabancaları, tel ürünleri ve pnömatik aletler; her grupta ölçü tablosu ve hızlı teklif.' ),
 					),
 				),
 				'help' => array(
@@ -928,8 +928,8 @@ return array(
 					'label'  => 'Sayfa Metinleri',
 					'fields' => array(
 						'title'  => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Bu sayfa bulunamadı' ),
-						'lead'   => array( 'label' => 'Açıklama', 'type' => 'textarea', 'default' => 'Aradığınız adres taşınmış ya da kaldırılmış olabilir. Çivi tiplerine göz atın ya da bizi arayın.' ),
-						'button' => array( 'label' => 'Düğme Metni', 'type' => 'text', 'default' => 'Palet çivileri' ),
+						'lead'   => array( 'label' => 'Açıklama', 'type' => 'textarea', 'default' => 'Aradığınız adres taşınmış ya da kaldırılmış olabilir. Ürün gruplarına göz atın ya da bizi arayın.' ),
+						'button' => array( 'label' => 'Düğme Metni', 'type' => 'text', 'default' => 'Tüm ürünler' ),
 					),
 				),
 			),

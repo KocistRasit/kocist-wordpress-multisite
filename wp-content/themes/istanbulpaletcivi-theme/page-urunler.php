@@ -1,6 +1,6 @@
 <?php
 /**
- * Palet Civileri: uc civi tipi alt alta, altta yardim kutusu.
+ * Urunler (/urunler/, eski /palet-civileri/): tum urun gruplari alt alta, altta yardim kutusu.
  */
 
 defined( 'ABSPATH' ) || exit;

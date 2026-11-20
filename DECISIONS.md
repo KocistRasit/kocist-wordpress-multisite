@@ -2316,3 +2316,18 @@ Vida, Somunlar ve Bits Uçlar grupları eksikti; bu sürümde eklendi.
   tuttuğu için 0.3.0'daki yeni varsayılan görünmüyordu. Kurulum 5 yükseltmesi
   (`pc_setup_footer_label`) bu değeri "Bir Koçist Grup şirketidir" yapar; elle yazılmış
   farklı bir metne dokunmaz.
+
+## İstanbul Palet Çivi: ürünler sayfası /urunler/ (tema 0.4.0, 20 Kasım 2026)
+
+Kullanıcı kararı: `/palet-civileri/` sayfası `/ürünler/` olsun.
+
+- Adres ASCII yazıldı: `/urunler/` (sitedeki diğer adresler gibi; `ü` tarayıcıda ve
+  paylaşımda `%C3%BC` olarak kodlanır). `/ürünler/` yazan da `/urunler/`'e 301 ile gelir.
+- Sayfa şablonu `page-urunler.php`; manifest `products.path` `/urunler/`, menü öğesi
+  "Ürünler". Sayfa başlığı "Ürünler" (ürün sayfalarındaki yol izinde de bu görünür),
+  alt metin 15 grubun tamamını anlatır; 404 düğmesi "Tüm ürünler".
+- Canlı site: kurulum 5 yükseltmesi (`pc_setup_products_page_rename`) mevcut sayfanın
+  adresini ve başlığını değiştirir; panelde eski varsayılanla kayıtlı menü, başlık, alt
+  metin ve 404 düğmesini yeniler (elle yazılmış metne dokunmaz). Yönlendirmeler:
+  `/palet-civileri/` → `/urunler/`, `/ürünler/` → `/urunler/`; kayıtlı `/service/*` hedefi
+  de `/urunler/` yapılır (zincirleme 301 olmasın).
