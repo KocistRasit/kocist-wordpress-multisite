@@ -62,6 +62,7 @@ function pc_setup_run(): void {
 		pc_setup_page( 'sss', 'Sık Sorulan Sorular' );
 		pc_setup_product_pages();
 		pc_setup_merge_redirects();
+		pc_setup_footer_label();
 		update_option( 'pc_setup_version', PC_SETUP_VERSION );
 		return;
 	}
@@ -151,6 +152,22 @@ function pc_setup_site(): void {
 	flush_rewrite_rules( false );
 	update_option( 'pc_setup_version', PC_SETUP_VERSION );
 	delete_transient( 'pc_setup_lock' );
+}
+
+/**
+ * Alt bilgideki grup baglantisi panelde eski varsayilanla ("kocist.com.tr")
+ * kaydedilmisse yeni metne cevrilir; elle yazilmis farkli metne dokunulmaz.
+ */
+function pc_setup_footer_label(): void {
+	if ( ! function_exists( 'nwcs_update_field' ) ) {
+		return;
+	}
+
+	$label = trim( (string) nwcs_field( 'global', 'footer', 'external_label' ) );
+
+	if ( in_array( strtolower( $label ), array( 'kocist.com.tr', 'www.kocist.com.tr', 'https://kocist.com.tr' ), true ) ) {
+		nwcs_update_field( 'global', 'footer', 'external_label', 'Bir Koçist Grup şirketidir' );
+	}
 }
 
 /**

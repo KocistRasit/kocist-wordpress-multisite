@@ -2312,3 +2312,7 @@ Vida, Somunlar ve Bits Uçlar grupları eksikti; bu sürümde eklendi.
   kaynak hatası sayıldı; tabloda diş ve boy listesi verildi, koli adedi verilmedi.
 - `PC_SETUP_VERSION` 5 (yeni tip sayfaları arka planda oluşur), `PC_CATALOG_IMG_VERSION`
   3 (yeni 34 görsel arka planda iner).
+- **Alt bilgi grup bağlantısı:** canlıda panel kaydı eski varsayılanı ("kocist.com.tr")
+  tuttuğu için 0.3.0'daki yeni varsayılan görünmüyordu. Kurulum 5 yükseltmesi
+  (`pc_setup_footer_label`) bu değeri "Bir Koçist Grup şirketidir" yapar; elle yazılmış
+  farklı bir metne dokunmaz.
