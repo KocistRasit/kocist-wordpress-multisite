@@ -22,11 +22,14 @@
  * manifeste sonradan eklenen civi tipi sayfalari (/civiler/<tip>/) acilir ve
  * eski sitenin /service/... adresleri yonlendirme listesine eklenir (yoksa).
  * Cesit sayfalari WordPress sayfasi degildir; yedek cizimle 200 doner.
+ *
+ * Surum 4: Civi Tabancalari tipi (/civiler/civi-tabancalari/) ve Sertel
+ * tabanca modelleri katalogda; kurulu sitede yalnizca yeni tip sayfasi acilir.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-const PC_SETUP_VERSION = '3';
+const PC_SETUP_VERSION = '4';
 
 add_action( 'after_switch_theme', 'pc_setup_site' );
 add_action( 'admin_init', 'pc_maybe_setup_site' );
@@ -38,6 +41,14 @@ function pc_maybe_setup_site(): void {
 		return;
 	}
 
+	pc_setup_run();
+}
+
+/**
+ * Kurulumu ya da surum yukseltmesini calistirir (yetki kontrolu cagirandadir:
+ * admin_init'te yonetici, arka planda WP-Cron).
+ */
+function pc_setup_run(): void {
 	$installed = (string) get_option( 'pc_setup_version' );
 
 	if ( PC_SETUP_VERSION === $installed ) {
@@ -56,6 +67,34 @@ function pc_maybe_setup_site(): void {
 	}
 
 	pc_setup_site();
+}
+
+/*
+ * Arka plan bakimi: tema guncellenince (cPanel Git deploy) yoneticinin bu
+ * sitenin paneline girmesi beklenmez. Surum ya da katalog gorselleri eksikse
+ * ilk ziyarette tek seferlik bir WP-Cron gorevi kurulur; gorev kurulum
+ * yukseltmesini calistirir ve gorselleri parca parca indirir (bitene kadar
+ * kendini yeniden kurar). Ziyaretci hicbir sey beklemez: gorev wp-cron.php
+ * isteginde calisir.
+ */
+add_action( 'init', 'pc_schedule_maintenance', 20 );
+function pc_schedule_maintenance(): void {
+	$need = PC_SETUP_VERSION !== (string) get_option( 'pc_setup_version' )
+		|| ( defined( 'PC_CATALOG_IMG_VERSION' ) && PC_CATALOG_IMG_VERSION !== (string) get_option( 'pc_catalog_images_done' ) );
+
+	if ( $need && ! wp_next_scheduled( 'pc_bg_maintenance' ) ) {
+		wp_schedule_single_event( time(), 'pc_bg_maintenance' );
+	}
+}
+
+add_action( 'pc_bg_maintenance', 'pc_bg_maintenance' );
+function pc_bg_maintenance(): void {
+	pc_setup_run();
+
+	if ( function_exists( 'pc_catalog_images_fetch' ) && ! pc_catalog_images_fetch() ) {
+		// Indirilecek gorsel kaldi: bir dakika sonra devam.
+		wp_schedule_single_event( time() + MINUTE_IN_SECONDS, 'pc_bg_maintenance' );
+	}
 }
 
 function pc_setup_site(): void {
@@ -285,6 +324,9 @@ function pc_setup_redirects(): string {
 			'/service/tele-dizili-civiler/  /civiler/tele-dizili-civiler/',
 			'/service/dokme-civiler/        /civiler/dokme-civiler/',
 			'/service/*                     /palet-civileri/',
+			'',
+			'# Toplu brad sayfasi GA sayfalarina bolundu (Kasim 2026)',
+			'/civiler/brad-civi/            /civiler/18-ga-brad-civi/',
 			'',
 			'# Eski site haritalari',
 			'/sitemap_index.xml         /wp-sitemap.xml',

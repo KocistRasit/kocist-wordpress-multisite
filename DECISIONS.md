@@ -2261,3 +2261,27 @@ kopya olmasın, SEO/GEO/AEO rakip analizine göre yazılsın; site yayına alın
 - Teklif formu: çeşit sayfasından `?urun=<tip>&olcu=<çeşit>` ile gelinir.
 - Yapılmadı: Sertel tabanca (19 model) ve zımba teli (16 kalem) sayfaları; teknik
   sayfalar taranmadı, doğrulanmadan yazılmadı.
+
+## İstanbul Palet Çivi: Sertel'in tüm ürün grupları (tema 0.3.0, 20 Kasım 2026)
+
+Kullanıcı kararı: serteltools.com/urunler/ altındaki bütün ürünler girilsin, metinler
+kopya olmasın, alt bilgide "Bir Koçist Grup şirketidir" → kocist.com.tr bağlantısı olsun.
+
+- **12 ürün grubu (tip sayfası):** önceki 5 çivi tipine Çivi Tabancaları (Sertel rulo
+  mağazin, 19), Zımba Telleri (12), Ahşap ve Mobilya Tabancaları (47), Tel Ürünleri (4),
+  Şantiye Grubu (13), Pnömatik Ürünler (16), Mekanik Tabancalar (18) eklendi. Katalog
+  152 ürün (`content/catalog.php`, `max` 300). Her grupta 3–4 soru-cevap.
+- **Site içi tekrar yok:** Sertel'de iki kategoride geçen ürünler tek sayfa: NK çivi ve
+  gazlı (GP) beton çivisi Beton Çivileri'nde kaldı (Şantiye kopyası yok; NK "barutlu
+  tabanca çivisi" olarak düzeltildi). Toplu "Brad Çivi" sayfası 16/18/21/23 GA
+  sayfalarına bölündü (İnce İş Çivileri); `/civiler/brad-civi/` → 18 GA (301).
+- **Doğrulanmamış bilgi yok:** teknik değerler Sertel tablo görsellerinden okundu;
+  okunamayan 17 tablo tarayıcıda tek tek okundu. Kaynakta çelişkili değerler (ör. mini
+  somun sökmede "69 kg tork", paslanmaz klipste "sıcak daldırma galvaniz") sitede
+  gösterilmez. Kesin stok iddiaları ("sürekli stoktadır") kaldırıldı.
+- **Ana sayfa:** ilk 3 tip büyük satır, diğerleri kart ızgarası (`template-parts/type-card.php`).
+- **Arka plan bakımı:** kurulum yükseltmesi ve katalog görselleri artık WP-Cron ile
+  (`pc_bg_maintenance`) çalışır; yöneticinin yeni alan adında panele girmesi gerekmez.
+  Görseller ~20 sn'lik partilerle iner, bitene kadar görev kendini yeniden kurar.
+  Elle tetikleme: `https://istanbulpaletcivi.com/wp-cron.php`.
+- Alt bilgi grup bağlantısı varsayılanı "Bir Koçist Grup şirketidir" (kocist.com.tr).
