@@ -29,7 +29,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const PC_SETUP_VERSION = '4';
+const PC_SETUP_VERSION = '5';
 
 add_action( 'after_switch_theme', 'pc_setup_site' );
 add_action( 'admin_init', 'pc_maybe_setup_site' );

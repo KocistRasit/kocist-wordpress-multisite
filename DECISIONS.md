@@ -2285,3 +2285,30 @@ kopya olmasın, alt bilgide "Bir Koçist Grup şirketidir" → kocist.com.tr ba�
   Görseller ~20 sn'lik partilerle iner, bitene kadar görev kendini yeniden kurar.
   Elle tetikleme: `https://istanbulpaletcivi.com/wp-cron.php`.
 - Alt bilgi grup bağlantısı varsayılanı "Bir Koçist Grup şirketidir" (kocist.com.tr).
+
+## İstanbul Palet Çivi: vida, somun ve bits uç grupları (tema 0.4.0, 20 Kasım 2026)
+
+Kullanıcı sorusu: "serteltools.com/urunler/ altındaki tüm ürünler eklendi mi?" 0.3.0'da
+Vida, Somunlar ve Bits Uçlar grupları eksikti; bu sürümde eklendi.
+
+- **3 yeni tip sayfası:** `/civiler/vidalar/` (20 ürün), `/civiler/somunlar/` (8),
+  `/civiler/bits-uclar/` (5). Katalog 185 ürün. Her tipte 4 soru-cevap.
+- **Kaynak:** Sertel vida sayfalarında açıklama metni yok, yalnızca ölçü tablosu görseli
+  var; 18 tablo tarayıcıda tek tek okundu. Metinler bu tablolardan ve genel norm
+  bilgisinden (DIN 7505, DIN 7504 K/N/P, DIN 965, DIN 934/ISO 4032, DIN 6923/ISO 4161,
+  DIN 985/ISO 10511, DIN 6926) özgün yazıldı.
+- **MDF Vidası ve Hi-Low Vida:** Sertel listesinde adları var, sayfası, tablosu ve
+  fotoğrafı yok. Sayfaları genel tanımla yazıldı; ölçü tablosu yok, görsel olarak
+  Vidalar tip fotoğrafı kullanılır.
+- **Somunlar:** Sertel yalnızca tip, norm ve kalite sınıfını veriyor (ölçü listesi yok);
+  sayfalarda M ölçüsü yazılmadı. Somun-cıvata sınıf eşleşmesi (6/6.8, 8/8.8, 10/10.9)
+  norm bilgisidir.
+- **Bits uçlar:** Sertel'de ürün sayfası yok; PH, PZ, Torx, Allen, düz serileri için
+  birer sayfa. Boy sınırları (PH/PZ 300, diğerleri 50) Sertel metninden; birim mm
+  olarak yazıldı.
+- **Gösterilmeyen kaynak değeri:** sunta vidası 6x140 ve 6x150 koli adedi (50'lik kutuda
+  6.500, komşu ebatlarda 650) tutarsız olduğu için tabloda "–".
+- YHB Kol Vidası tablosundaki boş koli hücreleri ve son satırdaki "M5x50" (M6 grubunda)
+  kaynak hatası sayıldı; tabloda diş ve boy listesi verildi, koli adedi verilmedi.
+- `PC_SETUP_VERSION` 5 (yeni tip sayfaları arka planda oluşur), `PC_CATALOG_IMG_VERSION`
+  3 (yeni 34 görsel arka planda iner).

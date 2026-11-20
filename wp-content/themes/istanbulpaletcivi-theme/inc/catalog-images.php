@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const PC_CATALOG_IMG_VERSION = '2';
+const PC_CATALOG_IMG_VERSION = '3';
 const PC_CATALOG_IMG_BATCH   = 40;
 
 /**
