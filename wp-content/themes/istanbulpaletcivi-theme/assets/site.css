@@ -554,3 +554,5 @@ body { padding-bottom: 3.5rem; }
 .pc-faq__item[open] summary::after { content: "–"; }
 .pc-faq__answer { padding: 0 0 1.25rem; color: var(--muted); max-width: 46rem; }
 .pc-faq__answer p + p { margin-top: 0.75rem; }
+
+.pc-igrid--types { margin-top: clamp(3rem, 6vw, 4.5rem); }

@@ -69,11 +69,22 @@ pc_part(
 			<h2 id="pc-products-title" <?php nwcs_edit_attr( 'home', 'products', 'title' ); ?>><?php echo esc_html( nwcs_field( 'home', 'products', 'title' ) ); ?></h2>
 			<p <?php nwcs_edit_attr( 'home', 'products', 'lead' ); ?>><?php echo esc_html( nwcs_field( 'home', 'products', 'lead' ) ); ?></p>
 		</header>
+		<?php
+		// Ilk uc tip (palet civileri) buyuk satir; digerleri kompakt kart.
+		$pc_types = array_values( pc_products() );
+		?>
 		<div class="pc-prows">
-			<?php foreach ( pc_products() as $product ) : ?>
+			<?php foreach ( array_slice( $pc_types, 0, 3 ) as $product ) : ?>
 				<?php pc_part( 'product-row', array( 'product' => $product, 'more' => (string) nwcs_field( 'home', 'products', 'more' ), 'more_edit' => array( 'home', 'products', 'more' ) ) ); ?>
 			<?php endforeach; ?>
 		</div>
+		<?php if ( count( $pc_types ) > 3 ) : ?>
+			<div class="pc-igrid pc-igrid--types">
+				<?php foreach ( array_slice( $pc_types, 3 ) as $product ) : ?>
+					<?php pc_part( 'type-card', array( 'product' => $product ) ); ?>
+				<?php endforeach; ?>
+			</div>
+		<?php endif; ?>
 	</div>
 </section>
 
