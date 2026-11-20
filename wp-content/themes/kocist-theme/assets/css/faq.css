@@ -150,3 +150,33 @@
 	.k-sss__icon::before,
 	.k-sss__icon::after { transition-duration: .01ms !important; }
 }
+
+/* ---------- Sayfanin kendi sorulari (#sss: sections/qa.php) ----------
+ * Kategori ve grup sayfasinda urunlerin altinda, ana sayfada en sonda.
+ * Soru-cevap cizimi /sss/ sayfasiyla ayni (.k-sss__item); burada yalnizca
+ * bolumun basligi ve araligi (category.css'ten tasindi: ana sayfa onu
+ * yuklemez). Urun sayfasindaki "Tüm sorular" capayla gelince baslik yapisik
+ * menunun altinda kalmasin. */
+.k-catfaq {
+	margin-top: 48px;
+	padding-top: 26px;
+	border-top: 2px solid var(--forest);
+	scroll-margin-top: 110px;
+}
+
+.k-catfaq__title {
+	margin: 0 0 4px;
+	font-size: clamp(22px, 2.4vw, 28px);
+	font-weight: 800;
+	line-height: 1.15;
+	letter-spacing: -.01em;
+	color: var(--forest);
+}
+
+.k-catfaq .k-sss__item:last-child { border-bottom: 1px solid var(--line); }
+
+/* Ana sayfada bolum kendi araliginda: ustteki bosluk k-section'dan. */
+.k-home-faq .k-catfaq {
+	max-width: 880px;
+	margin-top: 0;
+}

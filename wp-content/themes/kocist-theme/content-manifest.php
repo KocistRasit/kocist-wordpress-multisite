@@ -77,6 +77,24 @@ $kocist_catalog = array(
 					),
 				),
 			),
+			// Grubun kendi sorulari: urunlerin altinda (#sss), ayni satirlar
+			// FAQPage olarak isaretlenir. Bos: bolum yok (functions.php).
+			'faq'  => array(
+				'label'  => 'Sık Sorulan Sorular',
+				'fields' => array(
+					'items' => array(
+						'label'   => 'Soru ve Cevaplar',
+						'type'    => 'repeater',
+						'max'     => 10,
+						'hint'    => 'Ürünlerin altında görünür ve arama verisine (FAQPage) aynen yazılır. Sorusu ya da cevabı boş satır görünmez. Bölüm başlığı Kategoriler › Grup ve Kategori Sayfaları’ndadır.',
+						'fields'  => array(
+							'question' => array( 'label' => 'Soru', 'type' => 'text' ),
+							'answer'   => array( 'label' => 'Cevap', 'type' => 'textarea' ),
+						),
+						'default' => array(),
+					),
+				),
+			),
 		),
 		'products_label' => 'Bu sayfadaki ürünler (Ürün Havuzu: {pool})',
 	),
@@ -706,6 +724,48 @@ $manifest_data = array(
 				),
 
 				/*
+				 * Giris metni: hero'nun hemen altinda, urun gruplarindan once
+				 * (yeri sabit). Baslik H2; metinde bos satir paragraf ayirir,
+				 * [yazi](/adres/) site ici baglanti olur (kocist_inline_html).
+				 * Ikisi de bossa bolum basilmaz; varsayilan bos.
+				 */
+				'intro' => array(
+					'label'  => 'Giriş Metni',
+					'fields' => array(
+						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => '' ),
+						'text'  => array(
+							'label'   => 'Metin (boş satırla paragraf)',
+							'type'    => 'textarea',
+							'default' => '',
+							'hint'    => 'Site içi bağlantı: [bağlantı yazısı](/kategoriler/kereste/) — adres / ile başlamalı. Başlık ve metin boşsa bölüm görünmez.',
+						),
+					),
+				),
+
+				/*
+				 * Ana sayfa sorulari: sayfanin en altinda (yeri sabit), kategori
+				 * sorulariyla ayni cizim. Ayni satirlar FAQPage olarak isaretlenir.
+				 * Sorusu ve cevabi dolu satir yoksa bolum basilmaz.
+				 */
+				'faq' => array(
+					'label'  => 'Sık Sorulan Sorular',
+					'fields' => array(
+						'title' => array( 'label' => 'Bölüm Başlığı', 'type' => 'text', 'default' => 'Sık sorulan sorular' ),
+						'items' => array(
+							'label'   => 'Soru ve Cevaplar',
+							'type'    => 'repeater',
+							'max'     => 10,
+							'hint'    => 'Sayfanın en altında görünür ve arama verisine (FAQPage) aynen yazılır. Sorusu ya da cevabı boş satır görünmez.',
+							'fields'  => array(
+								'question' => array( 'label' => 'Soru', 'type' => 'text' ),
+								'answer'   => array( 'label' => 'Cevap', 'type' => 'textarea' ),
+							),
+							'default' => array(),
+						),
+					),
+				),
+
+				/*
 				 * Ana urun gamlari: dort kart yan yana. Her kart tam kaplama
 				 * gorsel + ustune ortalanmis baslik, alt baslik ve Kesfet
 				 * butonu.
@@ -857,7 +917,7 @@ $manifest_data = array(
 						'empty_title'        => array( 'label' => 'Ürün Yoksa Başlık — {ad} sayfa adı', 'type' => 'text', 'default' => '{ad} için listelenmiş ürün yok' ),
 						'empty_text'         => array( 'label' => 'Ürün Yoksa Metin', 'type' => 'textarea', 'default' => 'Bu kategorideki ürünleri siparişe göre hazırlıyoruz. Ölçü ve adedi yazın, yazılı teklif gönderelim.' ),
 						'empty_cta'          => array( 'label' => 'Ürün Yoksa Buton', 'type' => 'text', 'default' => 'Teklif isteyin' ),
-						'faq_title'          => array( 'label' => 'Kategori Sayfası: Soru-Cevap Başlığı (ürünlerin altında)', 'type' => 'text', 'default' => 'Sık sorulan sorular', 'hint' => 'Soruların kendisi Ürün Havuzu › Kategoriler › kategori › “Sık sorulan sorular”dan yazılır; sorusu olmayan kategoride bu bölüm görünmez.' ),
+						'faq_title'          => array( 'label' => 'Grup ve Kategori Sayfası: Soru-Cevap Başlığı (ürünlerin altında)', 'type' => 'text', 'default' => 'Sık sorulan sorular', 'hint' => 'Kategori soruları Ürün Havuzu › Kategoriler › kategori › “Sık sorulan sorular”dan, grup soruları grup sayfasının (Sayfa bul › Grup: …) “Sık Sorulan Sorular” bölümünden yazılır; sorusu olmayan sayfada bu bölüm görünmez.' ),
 					),
 				),
 			),

@@ -3,7 +3,7 @@ Theme Name: Kocist Theme
 Theme URI: http://localhost:8081/
 Author: Demo
 Description: Kocist demo sitesi icin kurumsal/endustriyel tema. Icerik degerleri Network Content Studio veri katmanindan okunur.
-Version: 0.9.4
+Version: 0.9.5
 Requires at least: 6.5
 Requires PHP: 8.1
 Text Domain: kocist
@@ -213,6 +213,10 @@ a { color: inherit; }
 .k-prose { color: var(--muted); font-size: 17px; line-height: 1.75; max-width: 68ch; }
 .k-prose p { margin: 0 0 1.1em; }
 .k-prose p:last-child { margin-bottom: 0; }
+
+/* Ana sayfa giris metni (sections/intro.php): [yazi](/adres/) baglantilari. */
+.k-intro .k-prose a { color: var(--forest); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.k-intro .k-prose a:hover { color: var(--forest-2); }
 
 .k-section--tight { padding: 28px 0; }
 

@@ -1245,6 +1245,11 @@ function nwcs_seo_graph( array $context ): array {
 			? nwcs_seo_faq( $context['page_key'] )
 			: ( function_exists( 'nwcs_cat_faq_for_context' ) ? nwcs_cat_faq_for_context( $context ) : array() );
 
+		// Tema sayfanin kendi sorularini verebilir (ornegin ana sayfa ya da grup
+		// sayfasindaki SSS bolumu): yalnizca sayfada gorunen, sorusu ve cevabi
+		// dolu satirlar. Varsayilan: yukaridaki deger aynen.
+		$faq = array_values( (array) apply_filters( 'nwcs_seo_page_faq', $faq, $context ) );
+
 		$last       = array_key_last( $graph );
 		$collection = 'CollectionPage' === $context['schema'];
 

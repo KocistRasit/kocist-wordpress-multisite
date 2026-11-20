@@ -2261,3 +2261,26 @@ kopya olmasın, SEO/GEO/AEO rakip analizine göre yazılsın; site yayına alın
 - Teklif formu: çeşit sayfasından `?urun=<tip>&olcu=<çeşit>` ile gelinir.
 - Yapılmadı: Sertel tabanca (19 model) ve zımba teli (16 kalem) sayfaları; teknik
   sayfalar taranmadı, doğrulanmadan yazılmadı.
+
+## Koçist: ana sayfa giriş metni ve SSS, grup sayfası SSS (kocist-theme 0.9.5, NWCS 0.34.11, 20 Kasım 2026)
+
+Kullanıcı kararı: kocist.com.tr ana sayfasına panelden yazılan kısa giriş metni ve
+soru-cevap; ürün grubu sayfalarına (`/kategoriler/<grup>/`) kendi soruları. Hepsi
+varsayılan boş: boşken sayfa ve arama verisi önceki gibi.
+
+- **Giriş metni:** `home.intro` (`title`, `text`), hero'nun hemen altında, ürün
+  gruplarından önce (yeri sabit). Başlık H2; metinde boş satır paragraf. Panel kayıtta
+  etiketleri attığı için HTML bağlantı yazılamaz: `[yazı](/adres/)` site içi bağlantı
+  olur (`kocist_inline_html`, İstanbul Keresteci'deki biçim; yalnızca `/` ile başlayan
+  adres). Metin otomatik arama açıklamasına girerse bağlantı sözdizimi atılır.
+- **SSS:** `home.faq` (`title`, `items`: `question`/`answer`, en çok 10) sayfanın en
+  altında; grup sayfasında `grp-<grup>.faq.items` ürünlerin altında (başlık kategori
+  sayfalarıyla ortak: `kategoriler.texts.faq_title`). Çizim kategori sorularıyla tek
+  şablon (`sections/qa.php`); `.k-catfaq` stilleri `faq.css`'e taşındı (ana sayfa
+  `category.css` yüklemez; `faq.css` ana sayfada yalnızca soru varsa yüklenir).
+- **FAQPage:** yalnızca sayfada görünen satırlar (sorusu ve cevabı dolu). Eklentiye
+  `nwcs_seo_page_faq` süzgeci eklendi; kategori sorularıyla aynı yoldan aynı düğüme
+  yazılır (WebPage/CollectionPage + FAQPage). Diğer sitelerde süzgeç boş geçer.
+- **Grup sayfası SEO:** `grp-<grup>` sayfalarının "Arama ve Paylaşım" (`seo`:
+  `title`, `description`, `image`, `share_product`) bileşeni zaten vardı (eklenti her
+  katalog sayfasına ekler; `kocist_catalog_seo_custom`); değişiklik gerekmedi.

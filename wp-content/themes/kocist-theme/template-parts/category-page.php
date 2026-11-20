@@ -6,7 +6,8 @@
  *   /kategoriler/<grup>/<kategori>/  tek kategorinin urunleri
  *
  * Grup ve kategori sayfalarinda solda grubun kategori listesi, sagda urunler.
- * Kategori sayfasinda urunlerin altinda kategorinin kendi sorulari (#sss).
+ * Urunlerin altinda sayfanin kendi sorulari (#sss): kategoride havuzdan, grupta
+ * panelden (grp-<grup> 'faq'); bossa bolum yok.
  * Gorunum assets/css/category.css.
  *
  * @var array $args { group: ?array, sub: ?array }
@@ -206,33 +207,36 @@ else :
 
 			<?php
 			/*
-			 * Kategorinin kendi sorulari (Ürün Havuzu -> Kategoriler -> Sık sorulan
-			 * sorular), urunlerin altinda. Yalnizca sorusu ve cevabi dolu satirlar;
-			 * eklenti ayni sorulari bu sayfada FAQPage olarak isaretler. Urun
-			 * sayfasindaki "Tüm sorular" baglantisi #sss'ye gelir. Acma kapama
-			 * <details>: betik yok (gorunum assets/css/faq.css + category.css).
+			 * Sorular urunlerin altinda (#sss). Kategori sayfasi: kategorinin
+			 * kendi sorulari (Ürün Havuzu -> Kategoriler -> Sık sorulan sorular),
+			 * eklenti ayni sorulari FAQPage olarak isaretler. Grup sayfasi: panelde
+			 * grp-<grup> sayfasinin 'faq' bileseni (kocist_seo_page_faq). Yalnizca
+			 * sorusu ve cevabi dolu satirlar. Urun sayfasindaki "Tüm sorular"
+			 * baglantisi #sss'ye gelir. Cizim sections/qa.php.
 			 */
-			$faq_rows = $sub && function_exists( 'nwcs_cat_faq_public' ) ? nwcs_cat_faq_public( (string) $sub['slug'] ) : array();
-			$faq_open = function_exists( 'nwcs_is_preview' ) && nwcs_is_preview();
+			if ( $sub ) {
+				$faq_slug = (string) $sub['slug'];
+				$faq_rows = function_exists( 'nwcs_cat_faq_public' ) ? nwcs_cat_faq_public( $faq_slug ) : array();
+				$faq_attr = static function () use ( $faq_slug ): void {
+					nwcs_cat_faq_attr( $faq_slug );
+				};
+			} else {
+				$faq_rows = kocist_page_faq_rows( $page_key );
+				$faq_attr = static function ( array $row, string $field ) use ( $page_key ): void {
+					nwcs_edit_attr( $page_key, 'faq', 'items', (int) $row['_row'], $field );
+				};
+			}
+
+			kocist_section(
+				'qa',
+				array(
+					'rows'       => $faq_rows,
+					'title'      => (string) nwcs_field( 'kategoriler', 'texts', 'faq_title' ),
+					'title_edit' => array( 'kategoriler', 'texts', 'faq_title' ),
+					'row_attr'   => $faq_attr,
+				)
+			);
 			?>
-			<?php if ( $faq_rows ) : ?>
-				<section class="k-catfaq" id="sss" aria-labelledby="sss-baslik">
-					<h2 class="k-catfaq__title" id="sss-baslik" <?php nwcs_edit_attr( 'kategoriler', 'texts', 'faq_title' ); ?>><?php echo esc_html( nwcs_field( 'kategoriler', 'texts', 'faq_title' ) ); ?></h2>
-					<div class="k-sss__list">
-						<?php foreach ( $faq_rows as $faq_row ) : ?>
-							<details class="k-sss__item"<?php echo $faq_open ? ' open' : ''; ?>>
-								<summary class="k-sss__q">
-									<span <?php nwcs_cat_faq_attr( (string) $sub['slug'] ); ?>><?php echo esc_html( $faq_row['question'] ); ?></span>
-									<span class="k-sss__icon" aria-hidden="true"></span>
-								</summary>
-								<div class="k-sss__a" <?php nwcs_cat_faq_attr( (string) $sub['slug'] ); ?>>
-									<?php echo kocist_paragraphs( $faq_row['answer'] ); // phpcs:ignore WordPress.Security.EscapingOutput -- kocist_paragraphs kacisli. ?>
-								</div>
-							</details>
-						<?php endforeach; ?>
-					</div>
-				</section>
-			<?php endif; ?>
 			</div>
 		</div>
 	</section>
