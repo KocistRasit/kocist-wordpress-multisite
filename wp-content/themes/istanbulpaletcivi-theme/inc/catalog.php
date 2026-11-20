@@ -218,6 +218,46 @@ function pc_fallback_item( ?array $set = null ): array {
 	return $item;
 }
 
+/**
+ * Istekteki /civiler/<adres>/ urununun adres adi; katalogda yoksa bos.
+ */
+function pc_catalog_request_slug(): string {
+	$home = trim( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ), '/' );
+	$path = trim( (string) wp_parse_url( add_query_arg( array() ), PHP_URL_PATH ), '/' );
+
+	if ( '' !== $home && str_starts_with( $path, $home . '/' ) ) {
+		$path = substr( $path, strlen( $home ) + 1 );
+	}
+
+	if ( ! preg_match( '#^civiler/([^/]+)$#', $path, $match ) ) {
+		return '';
+	}
+
+	$slug = sanitize_title( rawurldecode( $match[1] ) );
+
+	return pc_catalog_item( $slug ) ? $slug : '';
+}
+
+/*
+ * Kalici baglanti /%postname%/ iken WordPress iki parcali adresi
+ * ("[^/]+/([^/]+)/?$") ek dosyasi (attachment) olarak da okur. Urun gorseli
+ * urun adiyla indirildigi icin eki de ayni adi tasir (sunta-vidasi): istek
+ * eke gider, ek sayfalari kapali oldugundan WordPress gorsel dosyasina
+ * yonlendirir. Katalog urunu adresinde ek eslesmesi iptal edilir; istek 404
+ * olur ve asagidaki tespit urun sayfasini cizer. Gercek tip sayfalari
+ * (/civiler/vidalar/) sayfa kuraliyla once eslestigi icin etkilenmez.
+ */
+add_filter( 'request', 'pc_catalog_request_vars' );
+function pc_catalog_request_vars( array $vars ): array {
+	if ( empty( $vars['attachment'] ) ) {
+		return $vars;
+	}
+
+	$slug = pc_catalog_request_slug();
+
+	return '' === $slug ? $vars : array( 'pagename' => 'civiler/' . $slug );
+}
+
 /*
  * Tespit 'wp' aksiyonunun basinda: SEO eklentisi sayfa bilgisini (baslik,
  * aciklama, canonical, Product verisi) bu aksiyonda hesaplayip sakliyor.
@@ -228,18 +268,8 @@ function pc_catalog_detect(): void {
 		return;
 	}
 
-	$home = trim( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ), '/' );
-	$path = trim( (string) wp_parse_url( add_query_arg( array() ), PHP_URL_PATH ), '/' );
-
-	if ( '' !== $home && str_starts_with( $path, $home . '/' ) ) {
-		$path = substr( $path, strlen( $home ) + 1 );
-	}
-
-	if ( ! preg_match( '#^civiler/([^/]+)$#', $path, $match ) ) {
-		return;
-	}
-
-	$item = pc_catalog_item( sanitize_title( rawurldecode( $match[1] ) ) );
+	$slug = pc_catalog_request_slug();
+	$item = '' === $slug ? array() : pc_catalog_item( $slug );
 
 	if ( ! $item ) {
 		return;

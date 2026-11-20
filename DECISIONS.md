@@ -2331,3 +2331,32 @@ Kullanıcı kararı: `/palet-civileri/` sayfası `/ürünler/` olsun.
   metin ve 404 düğmesini yeniler (elle yazılmış metne dokunmaz). Yönlendirmeler:
   `/palet-civileri/` → `/urunler/`, `/ürünler/` → `/urunler/`; kayıtlı `/service/*` hedefi
   de `/urunler/` yapılır (zincirleme 301 olmasın).
+
+## İstanbul Palet Çivi: ürün adresi ile görsel eki çakışması (tema 0.4.1, 20 Kasım 2026)
+
+Canlı kontrolde bulundu: görseli indirilmiş ürünlerde `/civiler/<ürün>/` adresi görsel
+dosyasına yönleniyordu (ör. `/civiler/sunta-vidasi/` → `.../BKBR6415.jpg`).
+
+- **Neden:** kalıcı bağlantı `/%postname%/` iken WordPress iki parçalı adresi
+  (`[^/]+/([^/]+)/?$`) ek dosyası olarak da okur. Katalog görselleri ürün adıyla
+  indirildiği için ekin adres adı ürünle aynı (`sunta-vidasi`); istek eke gidiyor, ek
+  sayfaları kapalı olduğundan WordPress dosyaya yönlendiriyordu. Görsel inmeden önce
+  ek yoktu, sayfa çalışıyordu; bu yüzden ilk testlerde görünmedi.
+- **Çözüm:** `request` süzgeci (`pc_catalog_request_vars`): istek `/civiler/<katalog
+  ürünü>/` ise ek eşleşmesi iptal edilir, istek 404 olur ve mevcut tespit ürün
+  sayfasını çizer. Tip sayfaları sayfa kuralıyla önce eşleştiği için etkilenmez.
+  Eklerin adını değiştirmek gerekmez; ileride panelden ürün adıyla görsel yüklense de
+  çakışma olmaz.
+
+## İstanbul Palet Çivi: üst menüde ürün grupları açılır listesi (tema 0.4.1, 20 Kasım 2026)
+
+Kullanıcı kararı (Sertel menüsü örnek gösterildi): "Ürünler" altında ürün grupları alt
+alta açılsın.
+
+- Masaüstü: "Ürünler" bağlantısının üzerine gelince ya da klavyeyle odaklanınca 15 grup
+  tek sütunda açılır (lacivert panel, sarı üst çizgi, büyük harf; Türkçe `İ` için
+  `lang="tr"`). Altta satış için "Tüm ürünler" ve "WhatsApp'tan fiyat al" düğmeleri.
+  1366x768 dizüstünde üst şeritle birlikte ekrana sığar; daha küçük ekranda liste
+  kendi içinde kayar. Liste `pc_products()`'tan gelir; yeni tip eklenince menü de büyür.
+- Mobil menü: "Ürünler"in altında gruplar girintili alt alta.
+- SEO: her sayfadan 15 grup sayfasına iç bağlantı (tarayıcıya açık HTML, JavaScript yok).
