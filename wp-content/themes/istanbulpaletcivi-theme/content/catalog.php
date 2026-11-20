@@ -3625,4 +3625,1018 @@ Kutu: Plastik çantalı',
 		'seo_title' => 'RO-MA Maestri ME30 Zımba Döşeme Tabancası | KOÇİST',
 		'seo_description' => 'RO-MA Maestri ME30 Zımba Döşeme Tabancası: profesyonel döşeme zımbası; koltuk, sandalye ve panel kaplama işleri için stoktan teslim, teklif alın.',
 	),
+	array(
+		'slug' => 'sunta-vidasi',
+		'title' => 'Sunta Vidası',
+		'group' => 'vidalar',
+		'short' => 'Mobilya ve ahşap montajının temel bağlantısı Sunta Vidası: DIN 7505, yıldız havşa baş, 3–6 mm çap ve 13–200 mm boyda 63 ebat.',
+		'body' => 'Sunta Vidası, yonga levha (sunta), kontrplak ve masif ahşabı birbirine bağlayan, DIN 7505 normuna göre üretilen sivri uçlu ağaç vidasıdır. Derin ve keskin dişi levhanın lifli yapısını sıkıca kavrar; yıldız yuvalı havşa başı yüzeye gömülür ve kapak ya da raf yüzeyinde çıkıntı bırakmaz.
+
+Sertel ölçü tablosunda çap 3 mm\'den 6 mm\'ye, boy 13 mm\'den 200 mm\'ye uzanır ve toplam 63 ebat yer alır. İnce çaplar (3–3,5 mm) menteşe, ray ve kulp montajında; 4–5 mm çaplar dolap karkası ve raf bağlantısında; 6 mm ve uzun boylar kalın ahşap, kasa ve palet onarımında öne çıkar.
+
+Kutu içeriği ebada göre 50 ile 1.000 adet arasında değişir; her ebadın kutu ve koli adedi aşağıdaki tabloda ayrı ayrı yazılıdır.
+
+KOÇİST, Sunta Vidası\'nı mobilya atölyelerine ve ahşap ambalaj üreticilerine koli bazında ekonomik fiyatla sunar. İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyor, Çatalca showroomumuzda numune gösteriyoruz. Tel: 0212 648 19 19.',
+		'specs' => 'Norm: DIN 7505
+Baş: Yıldız yuvalı havşa baş
+Uç: Sivri
+Çap: 3–6 mm
+Boy: 13–200 mm
+Ebat sayısı: 63
+Paketleme: Kutu ve koli',
+		'sizes' => 'Ebat (mm)|Kutu (adet)|Koli (adet)
+3x13|1.000|30.000
+3x16|1.000|30.000
+3x20|1.000|30.000
+3x25|1.000|30.000
+3x30|1.000|30.000
+3x35|1.000|30.000
+3x40|1.000|30.000
+3,5x13|1.000|30.000
+3,5x16|1.000|30.000
+3,5x17|1.000|30.000
+3,5x18|1.000|30.000
+3,5x20|1.000|20.000
+3,5x25|1.000|20.000
+3,5x30|1.000|13.000
+3,5x35|1.000|13.000
+3,5x40|500|10.000
+3,5x45|500|8.000
+3,5x50|500|6.500
+4x16|1.000|20.000
+4x18|1.000|20.000
+4x20|1.000|20.000
+4x25|500|15.000
+4x30|500|15.000
+4x35|500|15.000
+4x40|500|8.000
+4x45|500|6.500
+4x50|500|6.500
+4x60|200|3.200
+4x70|200|3.200
+4,5x25|500|10.000
+4,5x30|500|10.000
+4,5x35|200|6.000
+4,5x40|200|6.000
+4,5x45|200|4.000
+4,5x50|200|4.000
+4,5x60|200|3.200
+5x20|500|10.000
+5x25|500|10.000
+5x30|200|6.000
+5x35|200|6.000
+5x40|200|6.000
+5x45|200|4.000
+5x50|200|4.000
+5x60|200|3.200
+5x65|200|2.600
+5x70|200|2.600
+5x80|200|2.000
+5x90|100|1.300
+5x100|100|1.300
+5x120|100|1.300
+6x40|200|2.600
+6x50|200|2.600
+6x60|200|2.600
+6x70|100|2.000
+6x80|100|1.300
+6x90|100|1.300
+6x100|100|1.300
+6x120|100|1.300
+6x140|50|–
+6x150|50|–
+6x160|50|650
+6x180|50|650
+6x200|50|500',
+		'image' => 0,
+		'seo_title' => 'Sunta Vidası DIN 7505, 3–6 mm, 63 Ebat | KOÇİST',
+		'seo_description' => 'Sunta Vidası DIN 7505: yıldız havşa baş, 3–6 mm çap, 13–200 mm boy, 63 ebat. Kutu ve koli adetli tablo; mobilya ve ahşap için teklif alın.',
+	),
+	array(
+		'slug' => 'mdf-vidasi',
+		'title' => 'MDF Vidası',
+		'group' => 'vidalar',
+		'short' => 'Lif levhayı patlatmadan tutan MDF Vidası; mobilya kapak, karkas ve kenar bağlantıları için koli bazında teklif.',
+		'body' => 'MDF Vidası, orta yoğunluklu lif levhanın (MDF) sıkı ve homojen yapısı için seçilen bir ağaç vidasıdır. MDF\'nin lifleri masif ahşaptaki gibi yönlü değildir; levhanın kenarına sıradan bir vida zorlanarak girdiğinde yüzey kabarabilir ya da kenar ayrılabilir. Bu vidanın amacı, levhaya kontrollü girip kabarma yapmadan sağlam tutunmaktır.
+
+Mobilya atölyelerinde dolap karkası, çekmece gövdesi, kapak ve raf bağlantılarında kullanılır. Lake ve membran kaplı kapaklarda yüzeyin temiz kalması önemli olduğu için doğru vida seçimi işçiliği doğrudan etkiler.
+
+Levha kalınlığınızı ve bağlantının yerini (yüzey ya da kenar) ilettiğinizde uygun çap ve boyu birlikte belirleriz; ölçü ve paket seçeneklerini teklifle birlikte gönderiyoruz.
+
+KOÇİST\'ten MDF Vidası alırken sunta vidası, bits uç ve mobilya tabancalarını tek teklifte birleştirebilirsiniz. İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyoruz; WhatsApp: 0549 648 19 19.',
+		'specs' => 'Kullanım: MDF ve yonga levha
+Uygulama: Yüzey ve kenar bağlantısı
+Ölçü ve paketleme: Teklifle birlikte iletilir',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => 'MDF Vidası, Mobilya ve Lif Levha Vidası | KOÇİST',
+		'seo_description' => 'MDF Vidası: lif levhayı kabartmadan tutar; dolap karkası, kapak ve çekmece montajı için. Ölçünüzü söyleyin, KOÇİST koli bazında teklif versin.',
+	),
+	array(
+		'slug' => 'yhb-matkap-uclu-vida',
+		'title' => 'YHB Matkap Uçlu Vida',
+		'group' => 'vidalar',
+		'short' => 'Sacı ön delik açmadan delen YHB Matkap Uçlu Vida: DIN 7504 P, yıldız havşa baş, 3,9–4,8 mm çap, 13–100 mm boy.',
+		'body' => 'YHB Matkap Uçlu Vida, ucundaki küçük matkap sayesinde sac ve ince profilde kendi deliğini açan, ardından dişini çekerek bağlantıyı tamamlayan vidadır. YHB, yıldız havşa baş anlamına gelir: baş yüzeye gömülür, üstüne levha, kapak ya da kaplama rahatça oturur. Ürün DIN 7504 P normundadır.
+
+Sertel tablosunda 3,9, 4,2 ve 4,8 mm olmak üzere üç çap ve 13 mm\'den 100 mm\'ye kadar 32 ebat bulunur. Kısa boylar sac-sac birleştirmede, orta boylar profil üzerine levha montajında, uzun boylar ise kalın paketleri bağlamada kullanılır.
+
+Alüminyum ve PVC doğrama, havalandırma kanalı, metal dolap ve raf sistemleri en yaygın kullanım alanlarıdır. Kutu 200 ile 2.500 adet, koli 2.000 ile 30.000 adet arasında değişir.
+
+KOÇİST, YHB Matkap Uçlu Vida\'yı koli bazında ekonomik fiyatla sunar; siparişinizi İstanbul ve Trakya\'ya kendi araçlarımızla ulaştırırız. Çatalca showroomumuz numune için açık.',
+		'specs' => 'Norm: DIN 7504 P
+Baş: Yıldız yuvalı havşa baş (YHB)
+Uç: Matkap uç
+Çap: 3,9 / 4,2 / 4,8 mm
+Boy: 13–100 mm
+Ebat sayısı: 32',
+		'sizes' => 'Ebat (mm)|Kutu (adet)|Koli (adet)
+3,9x13|2.500|30.000
+3,9x16|2.000|24.000
+3,9x19|1.500|18.000
+3,9x22|1.500|15.000
+3,9x25|1.000|12.000
+3,9x32|1.000|10.000
+3,9x38|500|6.000
+4,2x13|2.000|24.000
+4,2x16|1.500|18.000
+4,2x19|1.000|10.000
+4,2x22|1.000|12.000
+4,2x25|1.000|12.000
+4,2x32|900|9.000
+4,2x38|500|6.000
+4,2x45|500|5.000
+4,2x50|250|3.000
+4,2x60|250|3.000
+4,2x70|200|2.400
+4,8x13|1.500|15.000
+4,8x16|1.000|12.000
+4,8x19|1.250|12.500
+4,8x22|1.000|10.000
+4,8x25|1.000|10.000
+4,8x32|500|6.000
+4,8x38|500|5.000
+4,8x45|250|3.000
+4,8x50|250|3.000
+4,8x60|250|2.500
+4,8x70|200|2.000
+4,8x80|200|2.000
+4,8x90|200|2.000
+4,8x100|200|2.000',
+		'image' => 0,
+		'seo_title' => 'YHB Matkap Uçlu Vida DIN 7504 P, 32 Ebat | KOÇİST',
+		'seo_description' => 'YHB Matkap Uçlu Vida: DIN 7504 P, yıldız havşa baş, 3,9–4,8 mm çap, 13–100 mm boy. Sac ve profil için kutu-koli adetli tablo, hızlı teklif.',
+	),
+	array(
+		'slug' => 'ysb-matkap-uclu-vida',
+		'title' => 'YSB Matkap Uçlu Vida',
+		'group' => 'vidalar',
+		'short' => 'Başı yüzeyde kalan YSB Matkap Uçlu Vida: DIN 7504 N yuvarlak baş, sacda kendi deliğini açar; 3,9–4,8 mm, 31 ebat.',
+		'body' => 'YSB Matkap Uçlu Vida, başı yüzeye gömülmeyen, yuvarlak (bombeli) yıldız başlı matkap uçlu vidadır ve DIN 7504 N normunda üretilir. Havşa yuvası açılamayan ince saclarda ya da başın yüzeyde kalmasının sorun olmadığı yerlerde tercih edilir; geniş alt yüzeyi bağlanan parçayı sıkıca bastırır.
+
+Sertel tablosunda 3,9, 4,2 ve 4,8 mm çapta, 13–100 mm boy aralığında 31 ebat vardır. Elektrik panosu, metal kutu, kablo kanalı, menfez ve sac aksesuar montajı tipik kullanım alanlarıdır.
+
+YHB ile YSB arasındaki seçim başın davranışına bağlıdır: yüzey düz kalacaksa YHB, havşa açılmayacak ya da ince sac ezilmesin isteniyorsa YSB kullanılır.
+
+YSB Matkap Uçlu Vida için kutu ya da koli bazında teklif veriyoruz. KOÇİST teslimatı İstanbul ve Trakya\'da kendi araçlarıyla yapar; Tel: 0212 648 19 19.',
+		'specs' => 'Norm: DIN 7504 N
+Baş: Yıldız yuvalı yuvarlak baş
+Uç: Matkap uç
+Çap: 3,9 / 4,2 / 4,8 mm
+Boy: 13–100 mm
+Ebat sayısı: 31',
+		'sizes' => 'Ebat (mm)|Kutu (adet)|Koli (adet)
+3,9x13|2.000|24.000
+3,9x16|1.500|18.000
+3,9x19|1.500|15.000
+3,9x22|1.000|12.000
+3,9x25|1.000|10.000
+3,9x32|500|5.000
+3,9x38|500|5.000
+4,2x13|1.500|18.000
+4,2x16|1.000|12.000
+4,2x19|1.000|12.000
+4,2x22|1.000|12.000
+4,2x25|1.000|10.000
+4,2x32|500|6.000
+4,2x38|500|6.000
+4,2x45|250|3.000
+4,2x50|250|3.000
+4,2x60|250|3.000
+4,8x13|1.000|12.000
+4,8x16|1.000|10.000
+4,8x19|1.000|10.000
+4,8x22|900|9.000
+4,8x25|900|9.000
+4,8x32|500|5.000
+4,8x38|450|4.500
+4,8x45|250|3.000
+4,8x50|250|3.000
+4,8x60|250|2.500
+4,8x70|150|1.800
+4,8x80|150|1.500
+4,8x90|200|2.000
+4,8x100|200|2.000',
+		'image' => 0,
+		'seo_title' => 'YSB Matkap Uçlu Vida DIN 7504 N, 31 Ebat | KOÇİST',
+		'seo_description' => 'YSB Matkap Uçlu Vida: DIN 7504 N yuvarlak yıldız baş, 3,9–4,8 mm çap, 13–100 mm boy. Pano, kanal ve sac montajı için koli bazında teklif alın.',
+	),
+	array(
+		'slug' => 'hi-low-vida',
+		'title' => 'Hi-Low Vida',
+		'group' => 'vidalar',
+		'short' => 'Yüksek ve alçak dişleri sırayla dizilen Hi-Low Vida; plastik, ahşap ve levhada çatlatmadan sıkı tutuş için.',
+		'body' => 'Hi-Low Vida, gövdesinde yüksek ve alçak dişlerin sırayla dizildiği bir vida tipidir. Yüksek diş malzemeyi derin kavrar, alçak diş ise gövdenin malzemeyi daha az sıkıştırmasını sağlar. Sonuç, daha düşük sıkma kuvvetiyle sağlam tutuş ve plastikte, ince ahşapta ya da levhada daha az çatlama riskidir.
+
+Plastik parçaların montajı, ahşap ve yonga levha birleştirmeleri, kenara yakın yapılan bağlantılar Hi-Low dişin avantajını en çok gösterdiği işlerdir. Aynı yuvaya tekrar sökülüp takılan parçalarda da dişin malzemeyi az bozması işe yarar.
+
+Bağlayacağınız malzemeyi ve kalınlığını iletin; uygun çap ve boyu birlikte seçelim, ölçü ve paket seçeneklerini teklifle gönderelim.
+
+KOÇİST, Hi-Low Vida\'yı diğer vida çeşitleriyle birlikte koli bazında ekonomik fiyatla sunar. İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyor, Çatalca showroomumuzda ürün gösteriyoruz.',
+		'specs' => 'Diş yapısı: Yüksek ve alçak diş sırayla
+Kullanım: Plastik, ahşap ve yonga levha
+Ölçü ve paketleme: Teklifle birlikte iletilir',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => 'Hi-Low Vida, Plastik ve Ahşap için Çift Diş | KOÇİST',
+		'seo_description' => 'Hi-Low Vida: yüksek ve alçak diş sırayla dizilir, plastik ve ahşabı çatlatmadan tutar. Montaj işiniz için KOÇİST\'ten koli bazında teklif alın.',
+	),
+	array(
+		'slug' => 'rysb-pulbas-vida',
+		'title' => 'RYSB Pulbaş Vida',
+		'group' => 'vidalar',
+		'short' => 'Geniş tabanlı RYSB Pulbaş Vida: matkap uç, sivri uç ve siyah çinko seçenekleri; 3,9–4,8 mm çapta 48 ebat.',
+		'body' => 'RYSB Pulbaş Vida, başının altı pul gibi genişleyen yıldız başlı vidadır. Geniş taban sıkma kuvvetini büyük bir alana dağıtır; ince sacı, plastik paneli ya da kumaş ve folyo gibi yumuşak katmanları ezmeden ve yırtmadan tutar. Ayrı pul takma işine de gerek bırakmaz.
+
+Sertel tablosunda üç seçenek yer alır: sacda kendi deliğini açan matkap uçlu (MUV), ahşap ve ince sac için sivri uçlu ve koyu renkli yüzey isteyen işler için siyah çinko kaplı matkap uçlu. Çaplar 3,9, 4,2 ve 4,8 mm, boylar 13 mm\'den 50 mm\'ye kadardır; toplam 48 ebat.
+
+Alçı levha profillerinin birbirine bağlanması, havalandırma ve iklimlendirme kanalı, sac dolap ve beyaz eşya montajı yaygın kullanım alanlarıdır. Koli içeriği ebada göre 5.000 ile 15.000 adet arasındadır.
+
+RYSB Pulbaş Vida için KOÇİST\'ten koli bazında fiyat alın; İstanbul ve Trakya teslimatını kendi araçlarımızla yapıyoruz. WhatsApp: 0549 648 19 19.',
+		'specs' => 'Baş: Yıldız yuvalı pul baş
+Uç seçenekleri: Matkap uç (MUV), sivri uç
+Siyah çinko seçeneği: Matkap uçlu seride
+Çap: 3,9 / 4,2 / 4,8 mm
+Boy: 13–50 mm
+Ebat sayısı: 48',
+		'sizes' => 'Tip|Ebat (mm)|Koli (adet)
+Matkap uç|3,9x13|15.000
+Matkap uç|3,9x16|13.000
+Matkap uç|3,9x19|10.000
+Matkap uç|3,9x22|7.500
+Matkap uç|3,9x25|7.500
+Matkap uç|4,2x16|7.500
+Matkap uç|4,2x19|7.500
+Matkap uç|4,2x22|12.000
+Matkap uç|4,2x25|12.000
+Matkap uç|4,8x16|13.000
+Matkap uç|4,8x19|10.000
+Matkap uç|4,8x22|9.000
+Matkap uç|4,8x25|8.000
+Sivri uç|3,9x13|15.000
+Sivri uç|3,9x16|13.000
+Sivri uç|3,9x19|10.000
+Sivri uç|3,9x22|7.500
+Sivri uç|3,9x25|7.500
+Sivri uç|4,2x13|7.500
+Sivri uç|4,2x16|7.500
+Sivri uç|4,2x19|7.500
+Sivri uç|4,2x22|12.000
+Sivri uç|4,2x25|12.000
+Sivri uç|4,2x32|9.000
+Sivri uç|4,8x13|15.000
+Sivri uç|4,8x16|13.000
+Sivri uç|4,8x19|10.000
+Sivri uç|4,8x22|9.000
+Sivri uç|4,8x25|8.000
+Sivri uç|4,8x32|7.500
+Sivri uç|4,8x38|7.500
+Sivri uç|4,8x45|5.000
+Sivri uç|4,8x50|5.000
+Matkap uç, siyah çinko|3,9x13|15.000
+Matkap uç, siyah çinko|3,9x16|13.000
+Matkap uç, siyah çinko|3,9x19|10.000
+Matkap uç, siyah çinko|3,9x25|7.500
+Matkap uç, siyah çinko|4,2x13|7.500
+Matkap uç, siyah çinko|4,2x16|7.500
+Matkap uç, siyah çinko|4,2x19|7.500
+Matkap uç, siyah çinko|4,2x22|12.000
+Matkap uç, siyah çinko|4,2x25|12.000
+Matkap uç, siyah çinko|4,2x32|9.000
+Matkap uç, siyah çinko|4,8x16|13.000
+Matkap uç, siyah çinko|4,8x19|10.000
+Matkap uç, siyah çinko|4,8x22|9.000
+Matkap uç, siyah çinko|4,8x25|8.000
+Matkap uç, siyah çinko|4,8x32|7.500',
+		'image' => 0,
+		'seo_title' => 'RYSB Pulbaş Vida, Matkap ve Sivri Uç, 48 Ebat | KOÇİST',
+		'seo_description' => 'RYSB Pulbaş Vida: geniş pul baş, matkap uç, sivri uç ve siyah çinko seçenekleri, 3,9–4,8 mm, 13–50 mm. Sac ve profil işleri için teklif alın.',
+	),
+	array(
+		'slug' => 'buldeks-vida',
+		'title' => 'Buldeks Vida',
+		'group' => 'vidalar',
+		'short' => 'Kasa montajının dübelsiz çözümü Buldeks Vida: 7,5 mm çap, 60–200 mm boy, yıldız yuvalı silindirik baş.',
+		'body' => 'Buldeks Vida, pencere ve kapı kasasını beton, tuğla ya da briket duvara dübel kullanmadan sabitlemek için kullanılan 7,5 mm çaplı vidadır. Sertleştirilmiş dişi duvarda açılan delikte kendi yolunu keserek ilerler; küçük silindirik başı kasanın içinde kalır ve yıldız (Torx tipi) yuvası sayesinde uç kaymadan sıkılır.
+
+Sertel tablosunda yedi boy vardır: 60, 80, 100, 120, 150, 180 ve 200 mm. Boy, kasa profilinin genişliği ile kasa ile duvar arasındaki boşluğa göre seçilir; uzun boylar geniş derzli ve kalın profilli doğramalarda kullanılır.
+
+PVC ve alüminyum doğrama montajı, kapı kasası, ahşap kasa ve betona ahşap lata sabitleme bu vidanın başlıca işleridir. Koli içeriği boya göre 500 ile 2.000 adet arasındadır.
+
+Doğrama ekibiniz için Buldeks Vida\'yı koli bazında ekonomik fiyatla hazırlıyoruz. KOÇİST, İstanbul ve Trakya şantiyelerine kendi araçlarıyla teslim eder; Tel: 0212 648 19 19.',
+		'specs' => 'Çap: 7,5 mm
+Boy: 60–200 mm (7 boy)
+Baş: Silindirik, yıldız (Torx tipi) yuva
+Uygulama: Beton, tuğla ve briket; dübelsiz
+Paketleme: Koli',
+		'sizes' => 'Ebat (mm)|Koli (adet)
+7,5x60|2.000
+7,5x80|1.500
+7,5x100|1.000
+7,5x120|1.000
+7,5x150|600
+7,5x180|500
+7,5x200|500',
+		'image' => 0,
+		'seo_title' => 'Buldeks Vida 7,5 mm, Dübelsiz Kasa Vidası | KOÇİST',
+		'seo_description' => 'Buldeks Vida: 7,5 mm çap, 60–200 mm boy, pencere ve kapı kasasını betona dübelsiz sabitler. Doğrama montajı için KOÇİST\'ten koli bazında teklif.',
+	),
+	array(
+		'slug' => 'alci-levha-vidasi',
+		'title' => 'Alçı Levha Vidası',
+		'group' => 'vidalar',
+		'short' => 'Kuru duvar ve asma tavanın vidası Alçı Levha Vidası: sık diş, seyrek diş ve MUV seçenekleri, 3,5 mm çapta 15 ebat.',
+		'body' => 'Alçı Levha Vidası, alçı levhayı (alçıpan) metal profile ya da ahşap karkasa bağlayan, trompet biçimli başlı ince vidadır. Başın konik formu levhanın kâğıt yüzeyini yırtmadan hafifçe gömülür; böylece derz ve macun işi düzgün yapılır.
+
+Sertel tablosunda üç diş tipi vardır. Sık diş 25–55 mm boyla metal profil montajında, seyrek diş 19–45 mm boyla ahşap karkasta kullanılır. MUV (matkap uçlu) tip 25–55 mm boyla daha kalın profilde ön delik gerektirmeden çalışır. Tüm seçeneklerde çap 3,5 mm\'dir.
+
+Boy, levha kalınlığına göre belirlenir: tek kat levhada kısa, çift kat levhada daha uzun vida seçilir. Kutuda 500 ile 1.700 adet, kolide 6.500 ile 28.000 adet bulunur.
+
+KOÇİST, Alçı Levha Vidası\'nı şantiyelere ve dekorasyon ekiplerine koli bazında ekonomik fiyatla sunar. İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyoruz; şeritli vidalama tabancası için Duraspin vidalarımıza da bakabilirsiniz.',
+		'specs' => 'Çap: 3,5 mm
+Diş tipleri: Sık diş, seyrek diş, MUV (matkap uçlu)
+Boy: 19–55 mm
+Baş: Yıldız yuvalı trompet baş
+Ebat sayısı: 15',
+		'sizes' => 'Diş tipi|Ebat (mm)|Kutu (adet)|Koli (adet)
+Sık diş|3,5x25|1.000|16.000
+Sık diş|3,5x35|1.000|13.000
+Sık diş|3,5x40|500|8.000
+Sık diş|3,5x45|500|8.000
+Sık diş|3,5x55|500|8.000
+Seyrek diş|3,5x19|1.700|28.000
+Seyrek diş|3,5x22|1.000|16.000
+Seyrek diş|3,5x25|1.000|16.000
+Seyrek diş|3,5x35|1.000|10.000
+Seyrek diş|3,5x45|500|8.000
+MUV diş|3,5x25|1.000|16.000
+MUV diş|3,5x35|1.000|10.000
+MUV diş|3,5x45|500|8.000
+MUV diş|3,5x50|500|6.500
+MUV diş|3,5x55|500|6.500',
+		'image' => 0,
+		'seo_title' => 'Alçı Levha Vidası Sık, Seyrek ve MUV Diş | KOÇİST',
+		'seo_description' => 'Alçı Levha Vidası: 3,5 mm çap, sık diş, seyrek diş ve MUV seçenekleri, 19–55 mm boy. Metal profil ve ahşap karkas için koli bazında teklif alın.',
+	),
+	array(
+		'slug' => 'duraspin-seritli-vida',
+		'title' => 'Duraspin Şeritli Vida',
+		'group' => 'vidalar',
+		'short' => 'Şerit vidalama tabancasıyla seri çalışma için Duraspin Şeritli Vida: sivri sık, matkap uç ve seyrek uç, 3,5–4,2 mm.',
+		'body' => 'Duraspin Şeritli Vida, plastik şerit üzerine dizilmiş halde gelen ve şerit beslemeli vidalama tabancalarında kullanılan vidadır. Usta her vidayı tek tek almaz; tabanca şeridi kendiliğinden ilerletir ve vidaları eşit derinlikte çakar. Geniş tavan ve bölme duvar işlerinde montaj süresi belirgin biçimde kısalır.
+
+Sertel tablosunda üç seri vardır: sivri sık uçlu (3,5x25–50 mm), matkap uçlu (3,5x25–55 mm) ve seyrek uçlu (3,5x30–4,2x60 mm). Sivri sık uç ince metal profilde, matkap uç kalın profilde, seyrek uç ahşap karkasta tercih edilir.
+
+Kutu 500 ile 1.000 adet, koli 5.000 ile 10.000 adet içerir. Şeritli sistem, vidaların yere dökülmesini ve kaybını da azaltır.
+
+Duraspin Şeritli Vida\'yı uyumlu şerit vidalama tabancasıyla aynı teklifte alabilirsiniz. KOÇİST teslimatı İstanbul ve Trakya\'da kendi araçlarıyla yapar; Çatalca showroomumuzda tabancayı deneyebilirsiniz.',
+		'specs' => 'Paketleme: Plastik şeride dizili
+Seriler: Sivri sık uç, matkap uç, seyrek uç
+Çap: 3,5 / 3,9 / 4,2 mm
+Boy: 25–60 mm
+Ebat sayısı: 24',
+		'sizes' => 'Uç tipi|Ebat (mm)|Kutu (adet)|Koli (adet)
+Sivri, sık diş|3,5x25|1.000|10.000
+Sivri, sık diş|3,5x30|1.000|10.000
+Sivri, sık diş|3,5x35|1.000|10.000
+Sivri, sık diş|3,5x40|1.000|10.000
+Sivri, sık diş|3,5x45|1.000|10.000
+Sivri, sık diş|3,5x50|750|7.500
+Matkap uç|3,5x25|1.000|10.000
+Matkap uç|3,5x30|1.000|10.000
+Matkap uç|3,5x35|1.000|10.000
+Matkap uç|3,5x40|1.000|10.000
+Matkap uç|3,5x45|1.000|10.000
+Matkap uç|3,5x50|750|7.500
+Matkap uç|3,5x55|750|7.500
+Seyrek diş|3,5x30|1.000|10.000
+Seyrek diş|3,5x32|1.000|10.000
+Seyrek diş|3,5x35|1.000|10.000
+Seyrek diş|3,5x40|1.000|10.000
+Seyrek diş|3,5x50|1.000|10.000
+Seyrek diş|3,9x30|1.000|10.000
+Seyrek diş|3,9x35|1.000|10.000
+Seyrek diş|3,9x45|750|7.500
+Seyrek diş|3,9x50|750|7.500
+Seyrek diş|3,9x60|500|5.000
+Seyrek diş|4,2x60|500|5.000',
+		'image' => 0,
+		'seo_title' => 'Duraspin Şeritli Vida, Seri Alçı Levha Montajı | KOÇİST',
+		'seo_description' => 'Duraspin Şeritli Vida: plastik şeride dizili, sivri sık, matkap ve seyrek uç seçenekleri, 3,5–4,2 mm. Şerit vidalama tabancası ile birlikte teklif alın.',
+	),
+	array(
+		'slug' => 'pulbas-sivri-vida',
+		'title' => 'Pulbaş Sivri Vida',
+		'group' => 'vidalar',
+		'short' => 'Geniş başıyla yüzeyi ezmeden tutan Pulbaş Sivri Vida: 5x45 mm ebat, kutulu ya da dökme paket seçeneği.',
+		'body' => 'Pulbaş Sivri Vida, başının altı pul gibi geniş olan ve ucu sivri açılmış vidadır. Ahşaba, yonga levhaya ve ince saca doğrudan girer; geniş baş bağlanan katmanı geniş bir alanda bastırdığı için ayrı pul takmaya gerek kalmaz.
+
+Sertel tablosunda 5x45 mm ebat iki farklı işlem seçeneğiyle (S.Pas. ve S. Isıl) yer alır. Her ikisi de 1.000 adetlik kutularda ya da dökme olarak sunulur; koli içeriği 5.000 adettir. Dökme paket seri üretimde, kutulu paket saha ve montaj ekiplerinde pratiklik sağlar.
+
+Ahşap kasa ve sandık imalatı, çit ve bahçe işleri, ince sacın ahşap alt yapıya sabitlenmesi ve kaplama malzemelerinin tutturulması tipik kullanım alanlarıdır.
+
+Pulbaş Sivri Vida için kutulu ya da dökme koli fiyatı veriyoruz. Teslimat İstanbul ve Trakya\'da kendi araçlarımızla; Tel: 0212 648 19 19.',
+		'specs' => 'Baş: Yıldız yuvalı pul baş
+Uç: Sivri
+Ebat: 5x45 mm
+Paketleme: Kutulu (1.000 adet) veya dökme; koli 5.000 adet',
+		'sizes' => 'Ürün|Kutu (adet)|Koli (adet)
+5x45 S.Pas. (kutulu)|1.000|5.000
+5x45 S.Pas. (dökme)|–|5.000
+5x45 S. Isıl (kutulu)|1.000|5.000
+5x45 S. Isıl (dökme)|–|5.000',
+		'image' => 0,
+		'seo_title' => 'Pulbaş Sivri Vida 5x45 mm, Kutulu ve Dökme | KOÇİST',
+		'seo_description' => 'Pulbaş Sivri Vida: geniş pul baş, sivri uç, 5x45 mm; 1.000\'lik kutu ya da dökme, 5.000 adetlik koli. Ahşap kasa ve sac için KOÇİST\'ten teklif.',
+	),
+	array(
+		'slug' => 'trapez-vidasi',
+		'title' => 'Trapez Vidası',
+		'group' => 'vidalar',
+		'short' => 'Çatı ve cephe sacının vidası Trapez Vidası: DIN 7504 K altıköşe baş, contalı pul, 4–12 mm delme kapasitesi, 24 ebat.',
+		'body' => 'Trapez Vidası, trapez ve oluklu çatı-cephe sacını taşıyıcı çelik profile bağlayan, altıköşe başlı matkap uçlu vidadır (DIN 7504 K). Başın altındaki contalı pul vida deliğini kapatır ve yağmur suyunun içeri sızmasını önler. Altıköşe baş, lokma ile hızlı ve kaymadan sıkma sağlar.
+
+Sertel tablosunda vidalar delme kapasitesine göre üç gruba ayrılır: 4 mm (4,8 mm çap, 16–38 mm boy), 6 mm (5,5 ve 6,3 mm çap, 19–100 mm boy) ve 12 mm (5,5 mm çap, 32–60 mm boy). Delme kapasitesi, ucun ön delik olmadan geçebildiği sac ve profil kalınlığını gösterir. 5,5x25 mm ebadın pulsuz seçeneği de vardır.
+
+Boy seçerken sac kalınlığı ve varsa yalıtım katmanı hesaba katılır. Kutu 100 ile 700 adet, koli 600 ile 4.200 adet arasındadır.
+
+KOÇİST, Trapez Vidası\'nı çatı ustalarına ve çelik yapı firmalarına koli bazında ekonomik fiyatla sunar. İstanbul ve Trakya şantiyelerine kendi araçlarımızla ulaşıyor, Çatalca showroomumuzda numune gösteriyoruz.',
+		'specs' => 'Norm: DIN 7504 K
+Baş: Altıköşe baş, contalı pul
+Uç: Matkap uç
+Delme kapasitesi: 4 / 6 / 12 mm
+Çap: 4,8 / 5,5 / 6,3 mm
+Boy: 16–100 mm',
+		'sizes' => 'Ebat (mm)|Delme kapasitesi|Kutu (adet)|Koli (adet)
+4,8x16|4 mm trapez|700|4.200
+4,8x19|4 mm trapez|700|4.200
+4,8x25|4 mm trapez|500|3.000
+4,8x32|4 mm trapez|500|3.000
+4,8x38|4 mm trapez|500|3.000
+5,5x19|6 mm trapez|250|3.000
+5,5x25|6 mm trapez|450|2.700
+5,5x25|6 mm pulsuz|–|2.400
+5,5x32|6 mm trapez|400|2.400
+5,5x38|6 mm trapez|350|2.100
+5,5x50|6 mm trapez|250|1.500
+5,5x60|6 mm trapez|200|1.200
+5,5x70|6 mm trapez|200|1.200
+5,5x80|6 mm trapez|150|900
+5,5x100|6 mm trapez|100|600
+6,3x25|6 mm trapez|334|2.000
+6,3x32|6 mm trapez|267|1.600
+6,3x38|6 mm trapez|234|1.400
+6,3x50|6 mm trapez|200|1.200
+6,3x60|6 mm trapez|167|1.000
+5,5x32|12 mm trapez|400|2.400
+5,5x38|12 mm trapez|350|2.100
+5,5x50|12 mm trapez|250|1.500
+5,5x60|12 mm trapez|200|1.200',
+		'image' => 0,
+		'seo_title' => 'Trapez Vidası DIN 7504 K, Contalı Pullu | KOÇİST',
+		'seo_description' => 'Trapez Vidası: altıköşe baş, contalı pul, 4, 6 ve 12 mm delme kapasitesi, 4,8–6,3 mm çap. Çatı ve cephe sacı için koli bazında teklif alın.',
+	),
+	array(
+		'slug' => 'panel-vidasi',
+		'title' => 'Panel Vidası',
+		'group' => 'vidalar',
+		'short' => 'Sandviç paneli çeliğe bağlayan Panel Vidası: 5,5 mm çap, 66–200 mm boy, 6 ve 12 mm delme kapasitesi, contalı pul.',
+		'body' => 'Panel Vidası, poliüretan ya da taş yünü dolgulu sandviç paneli çelik taşıyıcıya bağlamak için kullanılan uzun, altıköşe başlı ve matkap uçlu vidadır. Başın altındaki contalı pul panel yüzeyini su geçirmez biçimde kapatır; uzun gövde panelin tüm kalınlığını geçip taşıyıcı profile ulaşır.
+
+Sertel tablosunda tüm ebatlar 5,5 mm çaptadır. 6 mm delme kapasiteli seri 66–145 mm, 12 mm delme kapasiteli seri 66–200 mm boy aralığındadır. Delme kapasitesi taşıyıcı profilin et kalınlığına göre, boy ise panel kalınlığına göre seçilir.
+
+Soğuk hava deposu, fabrika ve depo cephesi, çatı paneli ve konteyner kaplaması bu vidanın başlıca uygulama alanlarıdır. Koli içeriği boya göre 300 ile 1.200 adet arasındadır.
+
+Panel Vidası için proje miktarına göre koli bazında teklif hazırlıyoruz. KOÇİST, İstanbul ve Trakya\'ya kendi araçlarıyla teslim eder; WhatsApp: 0549 648 19 19.',
+		'specs' => 'Baş: Altıköşe baş, contalı pul
+Uç: Matkap uç
+Çap: 5,5 mm
+Boy: 66–200 mm
+Delme kapasitesi: 6 / 12 mm
+Ebat sayısı: 19',
+		'sizes' => 'Ebat (mm)|Delme kapasitesi|Kutu (adet)|Koli (adet)
+5,5x66|6 mm panel|–|1.200
+5,5x75|6 mm panel|–|900
+5,5x90|6 mm panel|150|900
+5,5x105|6 mm panel|100|600
+5,5x120|6 mm panel|100|600
+5,5x125|6 mm panel|100|600
+5,5x130|6 mm panel|100|700
+5,5x135|6 mm panel|–|700
+5,5x145|6 mm panel|–|600
+5,5x66|12 mm panel|–|1.200
+5,5x76|12 mm panel|–|900
+5,5x90|12 mm panel|–|1.000
+5,5x105|12 mm panel|–|600
+5,5x120|12 mm panel|–|600
+5,5x135|12 mm panel|–|700
+5,5x145|12 mm panel|–|700
+5,5x165|12 mm panel|–|300
+5,5x180|12 mm panel|–|300
+5,5x200|12 mm panel|–|300',
+		'image' => 0,
+		'seo_title' => 'Panel Vidası 5,5 mm, Sandviç Panel Vidası | KOÇİST',
+		'seo_description' => 'Panel Vidası: 5,5 mm çap, 66–200 mm boy, 6 ve 12 mm delme kapasitesi, contalı pul. Sandviç panel ve cephe işleri için KOÇİST\'ten koli teklifi.',
+	),
+	array(
+		'slug' => 'beton-vidasi',
+		'title' => 'Beton Vidası',
+		'group' => 'vidalar',
+		'short' => 'Altıköşe flanşlı başlı Beton Vidası: 6,3 mm çap, 35–155 mm boy, 12 ebat; kutu ve koli adetleri tabloda.',
+		'body' => 'Beton Vidası, altıköşe flanşlı başlı, sivri uçlu ve sertleştirilmiş dişli 6,3 mm çaplı vidadır. Ahşap lata, kiriş, metal bağlantı parçası ve dikmeleri beton, tuğla ya da ahşap alt yapıya sabitlemede kullanılır. Flanşlı baş ayrı pula gerek bırakmadan yükü yüzeye yayar; altıköşe baş lokma ile yüksek torkta sıkılabilir.
+
+Sertel tablosunda 35 mm\'den 155 mm\'ye kadar 12 boy vardır. Kısa boylar ince lata ve bağlantı plakalarında, uzun boylar kalın ahşap kiriş ve çatı konstrüksiyonunda tercih edilir.
+
+Kutu içeriği boya göre 50 ile 250 adet, koli içeriği 300 ile 1.500 adet arasındadır; ebatların paket bilgisi aşağıdaki tabloda yer alır.
+
+KOÇİST, Beton Vidası\'nı çatı ve inşaat ekiplerine kutu ve koli bazında ekonomik fiyatla sunar. İstanbul ve Trakya şantiyelerine kendi araçlarımızla ulaşıyoruz; Tel: 0212 648 19 19.',
+		'specs' => 'Çap: 6,3 mm
+Boy: 35–155 mm
+Baş: Altıköşe flanşlı baş
+Uç: Sivri
+Ebat sayısı: 12',
+		'sizes' => 'Ebat (mm)|Kutu (adet)|Koli (adet)
+6,3x35|250|1.500
+6,3x45|250|1.500
+6,3x50|200|1.200
+6,3x60|200|1.200
+6,3x75|150|900
+6,3x90|150|900
+6,3x105|100|600
+6,3x125|70|420
+6,3x135|50|300
+6,3x145|50|300
+6,3x150|50|300
+6,3x155|50|300',
+		'image' => 0,
+		'seo_title' => 'Beton Vidası 6,3 mm, Altıköşe Flanşlı Baş | KOÇİST',
+		'seo_description' => 'Beton Vidası: 6,3 mm çap, 35–155 mm boy, altıköşe flanşlı baş, 12 ebat. Lata, kiriş ve bağlantı parçası sabitleme için koli bazında teklif alın.',
+	),
+	array(
+		'slug' => 'trifon-vida',
+		'title' => 'Trifon Vida',
+		'group' => 'vidalar',
+		'short' => 'Ağır ahşap bağlantıların vidası Trifon Vida: altıköşe baş, 6, 8 ve 10 mm çap, 60–120 mm boy seçenekleri.',
+		'body' => 'Trifon Vida, altıköşe başlı, kalın gövdeli ve iri dişli bir ağaç vidasıdır. Anahtar ya da lokma ile sıkıldığı için yüksek tork altında başı bozulmaz; kalın ahşap parçaları birbirine ya da dübelle betona bağlamak için kullanılır.
+
+Sertel\'de çap seçenekleri 6, 8 ve 10 mm, boy seçenekleri 60, 70, 80, 90, 100, 110 ve 120 mm\'dir. İnce çap ahşap aksesuar ve hafif konstrüksiyonda, kalın çap kiriş, dikme ve ağır yük taşıyan bağlantılarda tercih edilir.
+
+Ahşap çatı ve pergola, iskele ve platform, palet istif rafı, ahşap merdiven ve makine ayağının zemine sabitlenmesi bu vidanın yaygın kullanım alanlarıdır. Ahşapta, vida çapından biraz ince bir kılavuz delik çatlamayı önler.
+
+KOÇİST\'ten Trifon Vida alırken uygun dübeli ve bits ya da lokma ucunu aynı teklifte isteyebilirsiniz. İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyor, Çatalca showroomumuzda ürün gösteriyoruz.',
+		'specs' => 'Baş: Altıköşe baş
+Uç: Sivri, ağaç dişi
+Çap: 6 / 8 / 10 mm
+Boy: 60, 70, 80, 90, 100, 110, 120 mm',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => 'Trifon Vida 6–10 mm, Altıköşe Başlı Ağaç Vidası | KOÇİST',
+		'seo_description' => 'Trifon Vida: altıköşe baş, 6, 8 ve 10 mm çap, 60–120 mm boy. Ahşap çatı, kiriş ve ağır bağlantılar için KOÇİST\'ten koli bazında teklif alın.',
+	),
+	array(
+		'slug' => 'prefabrik-vidasi',
+		'title' => 'Prefabrik Vidası',
+		'group' => 'vidalar',
+		'short' => 'Hafif çelik ve prefabrik yapı montajı için Prefabrik Vidası: 5,8 mm çap, 13 ve 15 mm boy, 10.000 adetlik koli.',
+		'body' => 'Prefabrik Vidası, hafif çelik ve prefabrik yapı elemanlarının birleştirilmesinde kullanılan kısa boylu, kalın gövdeli ve sivri uçlu vidadır. Yıldız yuvalı başı geniş bir oturma yüzeyine sahiptir; ince profili ve kaplama sacını ezmeden sıkar.
+
+Sertel tablosunda iki ebat bulunur: 5,8x13 mm ve 5,8x15 mm. Her ikisi de 10.000 adetlik kolide gelir. Kısa boy, iki ince sac katmanını bağlarken arkadaki yalıtım ya da kaplamaya taşmadan çalışmayı sağlar.
+
+Prefabrik konut ve şantiye binası, hafif çelik çatı makası, sac kaplama ve kapı-pencere çevresi aksesuarları bu vidanın tipik işleridir. Seri montajda vidalama makinesi ve uygun bits uçla hızlı ilerlenir.
+
+Prefabrik Vidası için koli bazında ekonomik fiyat veriyoruz. KOÇİST, İstanbul ve Trakya\'daki prefabrik ve şantiye projelerine kendi araçlarıyla teslim eder; Tel: 0212 648 19 19.',
+		'specs' => 'Çap: 5,8 mm
+Boy: 13 / 15 mm
+Uç: Sivri
+Baş: Yıldız yuvalı geniş baş
+Paketleme: Koli 10.000 adet',
+		'sizes' => 'Ürün|Koli/adet
+5,8x13|10.000
+5,8x15|10.000',
+		'image' => 0,
+		'seo_title' => 'Prefabrik Vidası 5,8x13 ve 5,8x15 mm | KOÇİST',
+		'seo_description' => 'Prefabrik Vidası: 5,8 mm çap, 13 ve 15 mm boy, 10.000 adetlik koli. Hafif çelik, prefabrik yapı ve sac montajı için KOÇİST\'ten teklif alın.',
+	),
+	array(
+		'slug' => 'konteyner-vidasi',
+		'title' => 'Konteyner Vidası',
+		'group' => 'vidalar',
+		'short' => 'Konteyner tabanı ve kaplaması için Konteyner Vidası: havşa baş, matkap uç, 6,3 mm çap, 60–80 mm boy.',
+		'body' => 'Konteyner Vidası, havşa başlı ve matkap uçlu 6,3 mm çaplı uzun vidadır. Konteyner tabanında kontrplak ya da ahşap döşemeyi alttaki çelik kirişlere bağlamak için kullanılır: uç çeliği ön delik açmadan deler, havşa baş döşeme yüzeyine gömülür ve üzerinde yürünen zeminde çıkıntı bırakmaz.
+
+Sertel tablosunda üç boy vardır: 6,3x60, 6,3x70 ve 6,3x80 mm. Boy, döşeme kalınlığı ile kiriş et kalınlığının toplamına göre seçilir. Koli içeriği 60 ve 70 mm\'de 1.200, 80 mm\'de 900 adettir.
+
+Yük ve yaşam konteyneri imalatı, kamyon ve römork kasası tabanı, çelik iskelet üzerine ahşap platform ve sahne döşemesi bu vidanın kullanıldığı başlıca işlerdir.
+
+KOÇİST, Konteyner Vidası\'nı imalatçılara koli bazında ekonomik fiyatla sunar. İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyoruz; WhatsApp: 0549 648 19 19.',
+		'specs' => 'Çap: 6,3 mm
+Boy: 60 / 70 / 80 mm
+Baş: Yıldız yuvalı havşa baş
+Uç: Matkap uç
+Paketleme: Koli 900–1.200 adet',
+		'sizes' => 'Ürün|Koli/adet
+6,3x60|1.200
+6,3x70|1.200
+6,3x80|900',
+		'image' => 0,
+		'seo_title' => 'Konteyner Vidası 6,3 mm, Havşa Başlı Matkap Uç | KOÇİST',
+		'seo_description' => 'Konteyner Vidası: havşa baş, matkap uç, 6,3 mm çap, 60–80 mm boy. Konteyner ve römork tabanını çelik kirişe bağlamak için koli bazında teklif.',
+	),
+	array(
+		'slug' => 'yhb-kol-vidasi',
+		'title' => 'YHB Kol Vidası',
+		'group' => 'vidalar',
+		'short' => 'Metrik dişli YHB Kol Vidası: DIN 965 yıldız havşa baş, M4, M5 ve M6 çapta 10–50 mm boy seçenekleri.',
+		'body' => 'YHB Kol Vidası, metrik dişli ve yıldız yuvalı havşa başlı bir makine vidasıdır (DIN 965). Ağaç vidasından farkı, kendi dişini açmaması ve somuna ya da dişli bir yuvaya takılmasıdır. Havşa baş, takıldığı parçanın yüzeyine gömülür ve düz bir görünüm bırakır.
+
+Sertel listesinde M4 çapta 15–50 mm, M5 çapta 10–50 mm ve M6 çapta 10–45 mm boylar yer alır. Kapı ve pencere kolu, menteşe, kulp, metal aksesuar ve dişli burç kullanılan mobilya bağlantıları bu vidanın tipik kullanım alanlarıdır.
+
+Seçimde iki ölçü önemlidir: diş çapı (M4, M5, M6) karşı parçadaki dişe, boy ise bağlanan parçaların toplam kalınlığına göre belirlenir.
+
+YHB Kol Vidası\'nı uygun somunlarla birlikte tek teklifte alabilirsiniz. KOÇİST, İstanbul ve Trakya\'ya kendi araçlarıyla teslim eder; Çatalca showroomumuz numune için açık.',
+		'specs' => 'Norm: DIN 965
+Baş: Yıldız yuvalı havşa baş (YHB)
+Diş: Metrik
+Çap: M4 / M5 / M6
+Boy: 10–50 mm',
+		'sizes' => 'Diş|Boy (mm)
+M4|15, 25, 30, 35, 40, 50
+M5|10, 15, 20, 25, 30, 35, 45, 50
+M6|10, 15, 20, 25, 30, 35, 45',
+		'image' => 0,
+		'seo_title' => 'YHB Kol Vidası DIN 965, M4–M6 Metrik | KOÇİST',
+		'seo_description' => 'YHB Kol Vidası: DIN 965 metrik dişli yıldız havşa baş, M4, M5, M6 çap ve 10–50 mm boy. Kol, menteşe ve aksesuar montajı için teklif alın.',
+	),
+	array(
+		'slug' => 'kabin-vidasi',
+		'title' => 'Kabin Vidası',
+		'group' => 'vidalar',
+		'short' => 'Kalın gövdeli Kabin Vidası: 6,3x50 mm, küçük silindirik baş, sivri uç; 100 adetlik kutu, 3.000 adetlik koli.',
+		'body' => 'Kabin Vidası, 6,3 mm çaplı, küçük silindirik başlı ve sivri uçlu bir vidadır. Kalın gövdesi ve iri dişi ahşap ve levha malzemede güçlü tutuş sağlar; küçük başı ise parçanın içine gömülerek dışarıdan belli olmaz.
+
+Sertel tablosunda tek ebat bulunur: 6,3x50 mm. Kutuda 100 adet, kolide 3.000 adet vardır. Tek ebat olması, seri imalat yapan atölyelerin stok yönetimini de kolaylaştırır.
+
+Kabin, modüler yapı ve iç mekân bölme elemanlarında, kasa ve çerçeve gibi başın görünmemesi istenen ahşap bağlantılarda kullanılır. Montajda uygun bits ucu ile vidalama makinesinde düşük devirde başlamak başın yuvasını korur.
+
+Kabin Vidası için kutu ya da koli bazında teklif hazırlıyoruz. KOÇİST teslimatı İstanbul ve Trakya\'da kendi araçlarıyla yapar; Tel: 0212 648 19 19.',
+		'specs' => 'Ebat: 6,3x50 mm
+Baş: Küçük silindirik baş
+Uç: Sivri
+Paketleme: Kutu 100 adet, koli 3.000 adet',
+		'sizes' => 'Ürün|Kutu/adet|Koli/adet
+6,3x50|100|3.000',
+		'image' => 0,
+		'seo_title' => 'Kabin Vidası 6,3x50 mm, Gizli Başlı Vida | KOÇİST',
+		'seo_description' => 'Kabin Vidası: 6,3x50 mm, küçük silindirik baş, sivri uç; 100 adetlik kutu ve 3.000 adetlik koli. Kabin ve modüler yapı montajı için teklif alın.',
+	),
+	array(
+		'slug' => 'agraf-vidasi',
+		'title' => 'Agraf Vidası',
+		'group' => 'vidalar',
+		'short' => 'Geniş başlı Agraf Vidası: 4,2 mm çap, 13–25 mm boy, yıldız yuva, sivri uç; kutu ve koli adetli 5 ebat.',
+		'body' => 'Agraf Vidası, 4,2 mm çaplı, geniş yuvarlak başlı ve sivri uçlu kısa boylu bir vidadır. Geniş baş bağlanan parçayı büyük bir yüzeyde bastırır; kısa boy ise ince levha, sac ve plastik parçaları arkadaki katmana taşmadan bağlamaya uygundur.
+
+Sertel tablosunda beş boy vardır: 13, 16, 19, 22 ve 25 mm. Kutu içeriği 500 ile 1.000 adet, koli içeriği 5.000 ile 12.000 adet arasında değişir.
+
+Bağlantı parçası, klips ve tutucuların ahşap ya da ince sac yüzeye sabitlenmesi, kaplama aksesuarları ve hafif montaj işleri bu vidanın tipik kullanım alanlarıdır. Yıldız yuvalı baş, uygun bits uçla vidalama makinesinde hızlı çalışmayı sağlar.
+
+KOÇİST, Agraf Vidası\'nı kutu ve koli bazında ekonomik fiyatla sunar. Siparişinizi İstanbul ve Trakya\'ya kendi araçlarımızla ulaştırıyor, Çatalca showroomumuzda numune gösteriyoruz.',
+		'specs' => 'Çap: 4,2 mm
+Boy: 13–25 mm (5 boy)
+Baş: Yıldız yuvalı geniş yuvarlak baş
+Uç: Sivri
+Paketleme: Kutu 500–1.000, koli 5.000–12.000 adet',
+		'sizes' => 'Ürün|Kutu/adet|Koli/adet
+4,2x13|1.000|12.000
+4,2x16|500|5.000
+4,2x19|750|9.000
+4,2x22|1.000|10.000
+4,2x25|500|6.000',
+		'image' => 0,
+		'seo_title' => 'Agraf Vidası 4,2 mm, 13–25 mm Boy | KOÇİST',
+		'seo_description' => 'Agraf Vidası: 4,2 mm çap, 13–25 mm boy, geniş yıldız baş ve sivri uç; kutu ve koli adetli tablo. Klips ve bağlantı parçaları için teklif alın.',
+	),
+	array(
+		'slug' => 'arkalik-vidasi',
+		'title' => 'Arkalık Vidası',
+		'group' => 'vidalar',
+		'short' => 'Dolap arkalığını sabitleyen Arkalık Vidası: 3,5x25 mm, sivri uç, yıldız baş; 1.000 adetlik kutu, 16.000 adetlik koli.',
+		'body' => 'Arkalık Vidası, mobilyada dolap ve kitaplık arkalığını gövdeye sabitlemek için kullanılan 3,5 mm çaplı, sivri uçlu ve yıldız yuvalı başlı vidadır. Arkalıkta kullanılan ince sunta ve MDF levhayı geniş başıyla bastırır, gövdeye ise kısa boyuyla taşmadan tutunur.
+
+Sertel tablosunda tek ebat bulunur: 3,5x25 mm. Kutuda 1.000 adet, kolide 16.000 adet vardır; seri üretim yapan mobilya atölyeleri için koli paket ekonomik bir seçenektir.
+
+Gardırop, mutfak dolabı, kitaplık ve vestiyer arkalıkları, çekmece tabanları ve ince levha kaplamalar tipik uygulamalardır. Vidalar kenardan eşit aralıklarla atıldığında arkalık gövdeyi gönyesinde tutar ve dolabın yamulmasını önler.
+
+Arkalık Vidası\'nı sunta vidası ve mobilya zımbalarıyla aynı teklifte alabilirsiniz. KOÇİST, İstanbul ve Trakya\'ya kendi araçlarıyla teslim eder; WhatsApp: 0549 648 19 19.',
+		'specs' => 'Ebat: 3,5x25 mm
+Baş: Yıldız yuvalı baş
+Uç: Sivri
+Paketleme: Kutu 1.000 adet, koli 16.000 adet',
+		'sizes' => 'Ürün|Kutu/adet|Koli/adet
+3,5x25|1.000|16.000',
+		'image' => 0,
+		'seo_title' => 'Arkalık Vidası 3,5x25 mm, Mobilya Arkalık Vidası | KOÇİST',
+		'seo_description' => 'Arkalık Vidası: 3,5x25 mm, sivri uç, yıldız baş; 1.000 adetlik kutu ve 16.000 adetlik koli. Dolap ve kitaplık arkalığı için KOÇİST\'ten teklif.',
+	),
+	array(
+		'slug' => '6-kalite-celik-somun-din-934',
+		'title' => '6 Kalite Çelik Somun DIN 934',
+		'group' => 'somunlar',
+		'short' => 'Genel montajın ekonomik bağlantısı 6 Kalite Çelik Somun DIN 934: ISO 4032 altıköşe, metrik, 6.8 ve altı cıvatalarla.',
+		'body' => '6 Kalite Çelik Somun DIN 934, metrik dişli altıköşe çelik somundur ve ISO 4032 ile karşılık gelir. Kalite sınıfı 6, somunun taşıyabileceği yükü tanımlar; bu somun 6.8 ve daha düşük sınıftaki cıvatalarla eşleştirilir.
+
+Yükün orta seviyede kaldığı genel montajlar için ekonomik bir çözümdür: ahşap konstrüksiyonda cıvatalı bağlantılar, raf ve dolap sistemleri, korkuluk, kapı-bahçe aksesuarları ve hafif makine kapakları tipik kullanım alanlarıdır.
+
+Somun seçiminde ilk adım cıvatanın diş ölçüsüdür (M6, M8, M10 gibi). İkinci adım, cıvata başında yazan sınıfa bakmaktır; yüksek sınıf cıvatayla 6 kalite somun kullanılmaz, o durumda 8 ya da 10 kalite gerekir.
+
+KOÇİST, 6 Kalite Çelik Somun DIN 934\'ü koli bazında ekonomik fiyatla sunar; ölçünüzü iletin, teklifi hazırlayalım. İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyoruz.',
+		'specs' => 'Standart: DIN 934 / ISO 4032
+Kalite sınıfı: 6
+Tip: Altıköşe somun
+Diş: Metrik
+Uyumlu cıvata: 6.8 ve altı sınıflar',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => '6 Kalite Çelik Somun DIN 934 / ISO 4032 | KOÇİST',
+		'seo_description' => '6 Kalite Çelik Somun DIN 934: ISO 4032 metrik altıköşe somun, 6.8 ve altı cıvatalarla genel montaj için. Ölçünüzü iletin, koli bazında teklif alın.',
+	),
+	array(
+		'slug' => '8-kalite-celik-somun-din-934',
+		'title' => '8 Kalite Çelik Somun DIN 934',
+		'group' => 'somunlar',
+		'short' => 'Makine ve konstrüksiyonun standart somunu 8 Kalite Çelik Somun DIN 934: ISO 4032 altıköşe, 8.8 cıvatanın eşi.',
+		'body' => '8 Kalite Çelik Somun DIN 934, sanayide en sık kullanılan altıköşe somun sınıfıdır. Metrik dişlidir, ISO 4032 ile karşılık gelir ve piyasada en yaygın cıvata sınıfı olan 8.8 ile eşleştirilir. Bu eşleşme, bağlantının cıvata kopmadan önce somun dişinin sıyrılmamasını sağlar.
+
+Makine şasesi ve gövde bağlantıları, çelik konstrüksiyon, palet çakım hattı ve forklift ataşmanları, tarım makineleri ve endüstriyel raf sistemleri bu somunun yaygın kullanım alanlarıdır.
+
+Bakım atölyelerinde 8 kalite somunu stokta tutmak işi kolaylaştırır: 8.8 ve daha düşük sınıftaki tüm cıvatalarla güvenle kullanılabilir.
+
+8 Kalite Çelik Somun DIN 934 için ölçü bazında koli fiyatı veriyoruz. KOÇİST, İstanbul ve Trakya\'daki işletmelere kendi araçlarıyla teslim eder; Tel: 0212 648 19 19.',
+		'specs' => 'Standart: DIN 934 / ISO 4032
+Kalite sınıfı: 8
+Tip: Altıköşe somun
+Diş: Metrik
+Uyumlu cıvata: 8.8 ve altı sınıflar',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => '8 Kalite Çelik Somun DIN 934, 8.8 Cıvataya | KOÇİST',
+		'seo_description' => '8 Kalite Çelik Somun DIN 934: ISO 4032 metrik altıköşe, 8.8 cıvatalarla eşleşir; makine ve çelik konstrüksiyon için. Koli bazında teklif alın.',
+	),
+	array(
+		'slug' => '10-kalite-celik-somun-din-934',
+		'title' => '10 Kalite Çelik Somun DIN 934',
+		'group' => 'somunlar',
+		'short' => 'Yüksek dayanımlı bağlantılar için 10 Kalite Çelik Somun DIN 934: ISO 4032 altıköşe, 10.9 cıvatalarla eşleşir.',
+		'body' => '10 Kalite Çelik Somun DIN 934, yüksek dayanım gerektiren bağlantılar için üretilen metrik altıköşe somundur ve ISO 4032 ile karşılık gelir. 10.9 sınıfı cıvatalarla eşleştirilir; yüksek sıkma kuvveti altında dişlerin sıyrılmasına karşı dayanıklıdır.
+
+İş makinesi ve kamyon şasesi, kaldırma ekipmanı, ağır çelik konstrüksiyon birleşimleri, pres ve kalıp bağlantıları gibi yükün ve titreşimin yüksek olduğu yerlerde tercih edilir.
+
+10.9 cıvata kullanılan bir bağlantıda daha düşük sınıf somun kullanmak bağlantının en zayıf halkasını somun yapar. Bu yüzden ağır hizmet bağlantılarında cıvata ve somun sınıfının birlikte planlanması gerekir.
+
+KOÇİST, 10 Kalite Çelik Somun DIN 934\'ü koli bazında ekonomik fiyatla sunar. Siparişlerinizi İstanbul ve Trakya\'ya kendi araçlarımızla ulaştırıyoruz; WhatsApp: 0549 648 19 19.',
+		'specs' => 'Standart: DIN 934 / ISO 4032
+Kalite sınıfı: 10
+Tip: Altıköşe somun
+Diş: Metrik
+Uyumlu cıvata: 10.9 ve altı sınıflar',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => '10 Kalite Çelik Somun DIN 934, 10.9 Cıvataya | KOÇİST',
+		'seo_description' => '10 Kalite Çelik Somun DIN 934: ISO 4032 metrik altıköşe, 10.9 cıvatalarla ağır hizmet bağlantıları için. KOÇİST\'ten koli bazında hızlı teklif alın.',
+	),
+	array(
+		'slug' => '6-kalite-flansli-somun-din-6923',
+		'title' => '6 Kalite Flanşlı Somun DIN 6923',
+		'group' => 'somunlar',
+		'short' => 'Pul gerektirmeyen 6 Kalite Flanşlı Somun DIN 6923: ISO 4161, geniş tırtıllı flanş, sac ve ince profil bağlantıları için.',
+		'body' => '6 Kalite Flanşlı Somun DIN 6923, alt kısmı pul gibi genişleyen metrik altıköşe somundur ve ISO 4161 ile karşılık gelir. Flanş, sıkma kuvvetini geniş bir alana yayar; ince sacda ve büyütülmüş deliklerde ayrı pul takma ihtiyacını ortadan kaldırır.
+
+Flanşın alt yüzündeki tırtıllar bağlanan yüzeye tutunur ve somunun kendiliğinden geri dönmesini zorlaştırır. Bu sayede montaj hem daha hızlı hem daha az parçayla yapılır.
+
+Sac dolap ve pano, havalandırma kanalı, hafif çelik raf, ince profil bağlantıları ve 6.8 ve altı sınıftaki cıvatalarla yapılan genel montajlar bu somunun tipik kullanım alanlarıdır.
+
+6 Kalite Flanşlı Somun DIN 6923 için ölçünüzü iletin; KOÇİST koli bazında ekonomik fiyatla teklif hazırlar ve İstanbul–Trakya\'ya kendi araçlarıyla teslim eder.',
+		'specs' => 'Standart: DIN 6923 / ISO 4161
+Kalite sınıfı: 6
+Tip: Flanşlı altıköşe somun, tırtıllı flanş
+Diş: Metrik
+Uyumlu cıvata: 6.8 ve altı sınıflar',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => '6 Kalite Flanşlı Somun DIN 6923 / ISO 4161 | KOÇİST',
+		'seo_description' => '6 Kalite Flanşlı Somun DIN 6923: ISO 4161, tırtıllı geniş flanş, pul gerektirmez; sac ve ince profil montajı için. Koli bazında teklif alın.',
+	),
+	array(
+		'slug' => '8-kalite-flansli-somun-din-6923',
+		'title' => '8 Kalite Flanşlı Somun DIN 6923',
+		'group' => 'somunlar',
+		'short' => 'Titreşime dayanıklı 8 Kalite Flanşlı Somun DIN 6923: tırtıllı flanş, ISO 4161, 8.8 cıvatalarla makine ve araç montajı.',
+		'body' => '8 Kalite Flanşlı Somun DIN 6923, geniş flanşı ve 8 kalite dayanımıyla makine ve araç montajında kullanılan metrik somundur; ISO 4161 ile karşılık gelir. Tırtıllı flanş yüzeye tutunarak titreşimli ortamda gevşemeye karşı ek direnç sağlar.
+
+8.8 sınıfı cıvatalarla eşleşir. Ayrı pul ve yaylı rondela kullanılan bağlantılarda tek parça çözüm sunduğu için seri montaj hatlarında işçiliği ve parça sayısını azaltır.
+
+Araç üstü ekipman, römork ve kasa bağlantıları, konveyör ve palet hattı makineleri, endüstriyel raf ve çelik sac konstrüksiyonlar bu somunun yaygın kullanıldığı yerlerdir.
+
+KOÇİST\'ten 8 Kalite Flanşlı Somun DIN 6923 alırken uyumlu cıvataları ve pnömatik somun sökme tabancalarını da aynı teklifte isteyebilirsiniz. İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyoruz.',
+		'specs' => 'Standart: DIN 6923 / ISO 4161
+Kalite sınıfı: 8
+Tip: Flanşlı altıköşe somun, tırtıllı flanş
+Diş: Metrik
+Uyumlu cıvata: 8.8 ve altı sınıflar',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => '8 Kalite Flanşlı Somun DIN 6923, Tırtıllı | KOÇİST',
+		'seo_description' => '8 Kalite Flanşlı Somun DIN 6923: ISO 4161, tırtıllı flanş, 8.8 cıvatalarla titreşimli makine ve araç montajı için. KOÇİST\'ten koli teklifi alın.',
+	),
+	array(
+		'slug' => '6-kalite-fiberli-somun-din-985',
+		'title' => '6 Kalite Fiberli Somun DIN 985',
+		'group' => 'somunlar',
+		'short' => 'Kendiliğinden gevşemeyen 6 Kalite Fiberli Somun DIN 985: naylon halkalı, ISO 10511, TS 1026/9; genel montaj için.',
+		'body' => '6 Kalite Fiberli Somun DIN 985, iç kısmında naylon (fiber) bir halka bulunan kendinden emniyetli altıköşe somundur. Standart karşılıkları ISO 10511 ve TS 1026/9\'dur. Halka cıvata dişini sararak sürtünme yaratır; somun titreşim altında kendiliğinden gevşemez, kontra somun ya da yaylı rondelaya gerek kalmaz.
+
+6 kalite sınıfı, 6.8 ve altındaki cıvatalarla yapılan genel montajlara uygundur. Bisiklet ve tekerlekli ekipman, mobilya mekanizmaları, el arabası ve transpalet tekerleği, fan ve motor kapakları tipik uygulamalardır.
+
+Naylon halkalı yapı nedeniyle somun anahtar ile sıkılır ve sökülür; sık sökülüp takılan bağlantılarda halkanın tutuşu zamanla azalır, bu yüzden bakımda yenisiyle değiştirmek iyi bir alışkanlıktır.
+
+6 Kalite Fiberli Somun DIN 985 için koli bazında teklif veriyoruz. KOÇİST, İstanbul ve Trakya\'ya kendi araçlarıyla teslim eder; Tel: 0212 648 19 19.',
+		'specs' => 'Standart: DIN 985 / ISO 10511 / TS 1026/9
+Kalite sınıfı: 6
+Tip: Naylon (fiber) halkalı emniyet somunu
+Diş: Metrik
+Uyumlu cıvata: 6.8 ve altı sınıflar',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => '6 Kalite Fiberli Somun DIN 985 / ISO 10511 | KOÇİST',
+		'seo_description' => '6 Kalite Fiberli Somun DIN 985: naylon halkalı emniyet somunu, ISO 10511 ve TS 1026/9; titreşimde gevşemez. Genel montaj için koli bazında teklif.',
+	),
+	array(
+		'slug' => '8-kalite-fiberli-somun-din-985',
+		'title' => '8 Kalite Fiberli Somun DIN 985',
+		'group' => 'somunlar',
+		'short' => 'Titreşimli makineler için 8 Kalite Fiberli Somun DIN 985: naylon halkalı emniyet somunu, ISO 10511, 8.8 cıvatalarla.',
+		'body' => '8 Kalite Fiberli Somun DIN 985, naylon halkalı emniyet somununun yüksek dayanımlı sınıfıdır. ISO 10511 ve TS 1026/9 ile karşılık gelir ve 8.8 sınıfı cıvatalarla eşleştirilir. Hem yüksek sıkma kuvveti hem de titreşime karşı kilitlenme gereken bağlantılarda kullanılır.
+
+Kompresör, jeneratör ve pompa gövdeleri, tarım makineleri, titreşimli elek ve konveyörler, palet çakım makinelerinin hareketli parçaları bu somunun tipik kullanım alanlarıdır. Makine çalıştıkça gevşeyen bağlantı arıza ve duruş demektir; fiberli somun bu riski azaltır.
+
+Bakım planında fiberli somunların sökülen bağlantılarda yenisiyle değiştirilmesi, halkanın kilitleme gücünü korur.
+
+KOÇİST, 8 Kalite Fiberli Somun DIN 985\'i bakım atölyeleri ve imalatçılar için koli bazında ekonomik fiyatla sunar. İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyoruz; WhatsApp: 0549 648 19 19.',
+		'specs' => 'Standart: DIN 985 / ISO 10511 / TS 1026/9
+Kalite sınıfı: 8
+Tip: Naylon (fiber) halkalı emniyet somunu
+Diş: Metrik
+Uyumlu cıvata: 8.8 ve altı sınıflar',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => '8 Kalite Fiberli Somun DIN 985, Emniyet Somunu | KOÇİST',
+		'seo_description' => '8 Kalite Fiberli Somun DIN 985: naylon halkalı, ISO 10511, 8.8 cıvatalarla titreşimli makinelerde gevşemeyi önler. KOÇİST\'ten koli bazında teklif.',
+	),
+	array(
+		'slug' => '8-kalite-fiberli-flansli-somun-din-6926',
+		'title' => '8 Kalite Fiberli Flanşlı Somun DIN 6926',
+		'group' => 'somunlar',
+		'short' => 'Flanş ve naylon halkayı birleştiren 8 Kalite Fiberli Flanşlı Somun DIN 6926: pulsuz, kendinden emniyetli bağlantı.',
+		'body' => '8 Kalite Fiberli Flanşlı Somun DIN 6926, iki özelliği tek parçada toplar: pul gibi genişleyen bir flanş ve içte naylon emniyet halkası. Flanş sıkma kuvvetini geniş alana yayar, halka ise titreşim altında somunun gevşemesini engeller. Böylece pul, yaylı rondela ve kontra somun gerektiren bir bağlantı tek parçayla kurulur.
+
+8 kalite sınıfıyla 8.8 cıvatalarla eşleşir. Araç ve römork, iş makinesi aksesuarları, titreşimli sac gövdeler, fan ve motor bağlantıları ile seri montaj hatları bu somunun en çok tercih edildiği yerlerdir.
+
+Daha az parça, daha hızlı montaj ve daha güvenli bağlantı isteyen imalatçılar için ekonomik bir tercihtir; özellikle ince sac üzerinde yapılan titreşimli bağlantılarda avantajı belirgindir.
+
+8 Kalite Fiberli Flanşlı Somun DIN 6926 için ölçü bazında koli teklifi hazırlıyoruz. KOÇİST, İstanbul ve Trakya\'ya kendi araçlarıyla teslim eder; Çatalca showroomumuz açık.',
+		'specs' => 'Standart: DIN 6926
+Kalite sınıfı: 8
+Tip: Flanşlı, naylon (fiber) halkalı emniyet somunu
+Diş: Metrik
+Uyumlu cıvata: 8.8 ve altı sınıflar',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => '8 Kalite Fiberli Flanşlı Somun DIN 6926 | KOÇİST',
+		'seo_description' => '8 Kalite Fiberli Flanşlı Somun DIN 6926: flanş ve naylon halka tek parçada, pul ve kontra somun gerektirmez. Titreşimli montaj için koli teklifi alın.',
+	),
+	array(
+		'slug' => 'ph-bits-uc',
+		'title' => 'PH Bits Uç',
+		'group' => 'bits-uclar',
+		'short' => 'Yıldız yuvalı vidaların ucu PH Bits Uç: Phillips profil, SE_CE markası, Sertel CNC üretimi, 300 mm\'ye kadar boy.',
+		'body' => 'PH Bits Uç, Phillips (PH) yıldız yuvalı vidalar için kullanılan değiştirilebilir vidalama ucudur. Konik kanatlı profili vida başına merkezlenerek oturur; alçı levha vidası, YHB ve YSB matkap uçlu vidalar gibi Phillips yuvalı vidalar bu uçla sıkılır.
+
+Sertel, 2024 yılında 60 takım CNC bits uç makinesiyle kendi üretimine başlamıştır; uçlar SE_CE markasıyla satılır. PH serisi 300 mm\'ye kadar boyda üretilir. Uzun boylar derindeki vidalara ulaşmak, dar köşelerde çalışmak ve şeritli vidalama tabancalarında doğru boyu tutturmak için kullanılır.
+
+Uç ölçüsü vida başındaki yuvanın büyüklüğüne göre seçilir; yuvaya tam oturan uç hem vidanın başını hem de ucun ömrünü korur.
+
+KOÇİST, PH Bits Uç\'u vidalarla birlikte tek teklifte sunar; ihtiyacınız olan ölçü ve boyu iletin. İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyoruz.',
+		'specs' => 'Uç profili: PH (Phillips)
+Boy: 300 mm\'ye kadar
+Marka: SE_CE
+Üretim: Sertel CNC bits hattı',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => 'PH Bits Uç, 300 mm\'ye Kadar Boy, SE_CE | KOÇİST',
+		'seo_description' => 'PH Bits Uç: Phillips yıldız profil, Sertel CNC üretimi SE_CE markası, 300 mm\'ye kadar boy. Alçı levha ve matkap uçlu vidalar için KOÇİST\'ten teklif.',
+	),
+	array(
+		'slug' => 'pz-bits-uc',
+		'title' => 'PZ Bits Uç',
+		'group' => 'bits-uclar',
+		'short' => 'Pozidriv yuvalı vidalar için PZ Bits Uç: kaymayı azaltan profil, SE_CE markası, 300 mm\'ye kadar boy seçeneği.',
+		'body' => 'PZ Bits Uç, Pozidriv (PZ) yuvalı vidalar için tasarlanmış vidalama ucudur. PZ yuvasında yıldızın ana kanatlarının arasında ince ek çizgiler bulunur; PZ uç bu çizgilere de oturduğu için vida başını daha geniş yüzeyden kavrar ve yüksek torkta kayma riski azalır.
+
+Mobilya ve ahşap montajında kullanılan birçok vida PZ yuvalıdır. PZ yuvalı vidada PH uç kullanılırsa uç yuvadan kayar, vida başı bozulur ve uç çabuk aşınır; bu yüzden uç, vida başındaki işarete göre seçilmelidir.
+
+Sertel\'in CNC hattında üretilen ve SE_CE markasıyla sunulan PZ serisi 300 mm\'ye kadar boy seçeneğiyle gelir.
+
+PZ Bits Uç için ölçü ve boyunuzu iletin; KOÇİST sunta vidası ve mobilya bağlantı ürünleriyle birlikte teklif hazırlar ve İstanbul–Trakya\'ya kendi araçlarıyla teslim eder.',
+		'specs' => 'Uç profili: PZ (Pozidriv)
+Boy: 300 mm\'ye kadar
+Marka: SE_CE
+Üretim: Sertel CNC bits hattı',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => 'PZ Bits Uç, Pozidriv Vidalama Ucu, SE_CE | KOÇİST',
+		'seo_description' => 'PZ Bits Uç: Pozidriv profil, vida başını geniş yüzeyden kavrar, 300 mm\'ye kadar boy, SE_CE markası. Mobilya ve ahşap montajı için KOÇİST\'ten teklif.',
+	),
+	array(
+		'slug' => 'torx-bits-uc',
+		'title' => 'Torx Bits Uç',
+		'group' => 'bits-uclar',
+		'short' => 'Yüksek torkta kaymayan Torx Bits Uç: altı kollu yıldız profil, SE_CE markası, Sertel CNC üretimi, 50 mm\'ye kadar boy.',
+		'body' => 'Torx Bits Uç, altı kollu yıldız biçimli (Torx) yuvaya sahip vidalar için kullanılan vidalama ucudur. Profilin dik yan yüzeyleri kuvveti yuvaya düz aktarır; uç yüksek torkta bile yuvadan dışarı itilmez. Bu sayede uzun ve kalın vidalar vida başı bozulmadan sıkılır.
+
+Buldeks gibi kasa vidaları, terasta ve cephede kullanılan özel ahşap vidaları ve makine bağlantıları Torx yuvanın yaygın olduğu alanlardır. Uç ölçüsü yuvanın numarasıyla birebir eşleşmelidir.
+
+Sertel\'in 2024\'te kurduğu CNC hattında üretilen Torx serisi SE_CE markasıyla sunulur ve 50 mm\'ye kadar boyda üretilir.
+
+KOÇİST, Torx Bits Uç\'u Buldeks Vida ve diğer Torx yuvalı vidalarla aynı teklifte sunar. İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyoruz; Tel: 0212 648 19 19.',
+		'specs' => 'Uç profili: Torx (altı kollu yıldız)
+Boy: 50 mm\'ye kadar
+Marka: SE_CE
+Üretim: Sertel CNC bits hattı',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => 'Torx Bits Uç, Yüksek Torkta Kaymaz, SE_CE | KOÇİST',
+		'seo_description' => 'Torx Bits Uç: altı kollu yıldız profil, yüksek torkta kaymaz, 50 mm\'ye kadar boy, SE_CE markası. Buldeks ve Torx vidalar için KOÇİST\'ten teklif alın.',
+	),
+	array(
+		'slug' => 'allen-bits-uc',
+		'title' => 'Allen Bits Uç',
+		'group' => 'bits-uclar',
+		'short' => 'İç altıköşe (imbus) yuvalar için Allen Bits Uç: SE_CE markası, Sertel CNC üretimi, 50 mm\'ye kadar boy.',
+		'body' => 'Allen Bits Uç, iç altıköşe (imbus) yuvalı cıvata ve vidaları vidalama makinesiyle sıkmak için kullanılan altıköşe profilli uçtur. El tipi alyan anahtarının yaptığı işi makineyle, çok daha hızlı yapar.
+
+Mobilya bağlantı cıvataları, metal raf ve aksesuar montajı, makine kapakları ve imbus başlı bağlantı elemanları bu ucun tipik kullanım alanlarıdır. Uç ölçüsü yuvanın anahtar ağzı ölçüsüyle aynı olmalıdır; boşluklu oturan uç yuvanın köşelerini yuvarlar.
+
+Sertel\'in CNC hattında üretilen Allen serisi SE_CE markasıyla satılır ve 50 mm\'ye kadar boyda üretilir.
+
+KOÇİST, Allen Bits Uç\'u diğer bits serileriyle birlikte tek teklifte sunar. İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyor, Çatalca showroomumuzda ürün gösteriyoruz.',
+		'specs' => 'Uç profili: Allen (iç altıköşe / imbus)
+Boy: 50 mm\'ye kadar
+Marka: SE_CE
+Üretim: Sertel CNC bits hattı',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => 'Allen Bits Uç, İmbus Vidalama Ucu, SE_CE | KOÇİST',
+		'seo_description' => 'Allen Bits Uç: iç altıköşe (imbus) yuvalar için, 50 mm\'ye kadar boy, Sertel CNC üretimi SE_CE markası. Mobilya ve makine montajı için teklif alın.',
+	),
+	array(
+		'slug' => 'duz-bits-uc',
+		'title' => 'Düz Bits Uç',
+		'group' => 'bits-uclar',
+		'short' => 'Düz yuvalı vidalar için Düz Bits Uç: SE_CE markası, Sertel CNC üretimi, 50 mm\'ye kadar boy seçeneği.',
+		'body' => 'Düz Bits Uç, tek çizgi biçimindeki düz (yarıklı) yuvaya sahip vidalar için kullanılan vidalama ucudur. Eski tip mobilya vidaları, elektrik tesisatı klemensleri, pirinç ve dekoratif vidalar ile bazı aksesuar bağlantıları hâlâ düz yuvalıdır.
+
+Uç genişliği ve kalınlığı yuvaya tam oturmalıdır: dar uç yuvayı köşelerinden bozar, kalın uç ise yuvaya girmez. Düz yuvada uç kenara kaymaya yatkın olduğu için düşük devirde ve vidaya dik çalışmak iyi sonuç verir.
+
+Sertel\'in CNC hattında üretilen düz bits serisi SE_CE markasıyla sunulur ve 50 mm\'ye kadar boyda üretilir.
+
+KOÇİST\'ten Düz Bits Uç\'u diğer bits ve vida ürünleriyle aynı siparişte alabilirsiniz. İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyoruz; WhatsApp: 0549 648 19 19.',
+		'specs' => 'Uç profili: Düz (yarıklı)
+Boy: 50 mm\'ye kadar
+Marka: SE_CE
+Üretim: Sertel CNC bits hattı',
+		'sizes' => '',
+		'image' => 0,
+		'seo_title' => 'Düz Bits Uç, Yarıklı Vida Ucu, SE_CE | KOÇİST',
+		'seo_description' => 'Düz Bits Uç: düz (yarıklı) yuvalı vidalar için, 50 mm\'ye kadar boy, Sertel CNC üretimi SE_CE markası. Bits ve vida siparişiniz için teklif alın.',
+	),
 );

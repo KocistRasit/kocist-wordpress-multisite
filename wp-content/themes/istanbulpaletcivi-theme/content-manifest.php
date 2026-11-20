@@ -178,7 +178,7 @@ return array(
 							'default' => array(
 								array( 'label' => 'Anasayfa', 'url' => '/' ),
 								array( 'label' => 'Hakkımızda', 'url' => '/hakkimizda/' ),
-								array( 'label' => 'Palet Çivileri', 'url' => '/palet-civileri/' ),
+								array( 'label' => 'Ürünler', 'url' => '/urunler/' ),
 								array( 'label' => 'Blog ve Haberler', 'url' => '/haberler-blog/' ),
 								array( 'label' => 'SSS', 'url' => '/sss/' ),
 								array( 'label' => 'İletişim', 'url' => '/iletisim/' ),
@@ -317,11 +317,11 @@ return array(
 		),
 
 		/* ---------------------------------------------------------- *
-		 * Palet Civileri (urunler sayfasi)
+		 * Urunler (urun gruplari sayfasi; eski adres /palet-civileri/ 301)
 		 * ---------------------------------------------------------- */
 		'products' => array(
-			'label'      => 'Palet Çivileri',
-			'path'       => '/palet-civileri/',
+			'label'      => 'Ürünler',
+			'path'       => '/urunler/',
 			'seo_source' => array(
 				'title'       => 'head.title',
 				'description' => 'head.lead',
@@ -330,8 +330,8 @@ return array(
 				'head' => array(
 					'label'  => 'Sayfa Başı',
 					'fields' => array(
-						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'İstanbul palet çivileri' ),
-						'lead'  => array( 'label' => 'Alt Metin', 'type' => 'textarea', 'default' => 'Rulo, şerit ve dökme palet çivileri; beton ve ince iş çivileri. Palet, sandık ve kafes üretiminden mobilya ve şantiyeye; aralarındaki fark, nasıl ve neye çakıldıkları.' ),
+						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Ürünler' ),
+						'lead'  => array( 'label' => 'Alt Metin', 'type' => 'textarea', 'default' => 'Palet çivileri, beton ve ince iş çivileri, vidalar, somunlar, bits uçlar, çivi ve zımba tabancaları, tel ürünleri ve pnömatik aletler; her grupta ölçü tablosu ve hızlı teklif.' ),
 					),
 				),
 				'help' => array(
@@ -644,6 +644,69 @@ return array(
 			)
 		),
 
+		'vida' => $product_page(
+			'Ürün: Vidalar',
+			'/civiler/vidalar/',
+			array(
+				'name'  => 'Vidalar',
+				'short' => 'Sunta, matkap uçlu, trapez, panel, alçı levha, beton ve şeritli vidalar; 20 tip, kutu ve koli bazında.',
+				'tool'  => 'Bağlayacağınız iki malzemeyi ve kalınlıklarını söyleyin; vida tipini, çapı ve boyu tablodan birlikte seçelim.',
+			),
+			array(
+				'lead' => 'Mobilya atölyesinden çatı ve cepheye, alçı levhadan konteyner imalatına kadar her bağlantı için doğru vida.',
+				'body' => 'Vida seçimi üç soruya dayanır: neyi neye bağlıyorsunuz, alt malzeme ne kalınlıkta ve baş yüzeyde nasıl kalmalı. Ahşap ve yonga levhada sivri uçlu sunta vidası, sacda kendi deliğini açan YHB, YSB ve pulbaş matkap uçlu vidalar, çatı ve cephede contalı pullu trapez ve panel vidaları, alçı levhada sık ya da seyrek dişli vidalar kullanılır. Pencere kasası için buldeks, betona sabitleme için beton vidası, seri montaj için şeritli Duraspin vidalar da bu gruptadır. KOÇİST, Sertel Vida Metal bayisi olarak bu vidaları kutu ve koli bazında ekonomik fiyatla sunar; İstanbul ve Trakya\'ya kendi araçlarıyla teslim eder. Çatalca showroomumuzda numuneleri görebilirsiniz.',
+				'uses' => array( 'Mobilya ve dolap montajı', 'Çatı ve cephe sac kaplaması', 'Alçı levha bölme duvar ve asma tavan', 'Pencere ve kapı kasası montajı', 'Konteyner, prefabrik ve kabin imalatı' ),
+			),
+			array(
+				array( 'question' => 'Matkap uçlu vida ile sivri uçlu vida arasındaki fark nedir?', 'answer' => 'Matkap uçlu vidanın ucu küçük bir matkap gibi çalışır; sacda ön delik açmadan kendi deliğini açar ve ardından dişini çeker. Sivri uçlu vida ise ahşap, yonga levha ve ince sac gibi daha yumuşak malzemelere doğrudan girer.' ),
+				array( 'question' => 'Trapez ve panel vidasında delme kapasitesi ne demektir?', 'answer' => 'Delme kapasitesi, vidanın ucunun ön delik olmadan geçebildiği toplam sac ve profil kalınlığıdır. Sertel tablosunda trapez vidaları 4, 6 ve 12 mm, panel vidaları 6 ve 12 mm kapasiteyle ayrılır; seçim taşıyıcı profilin kalınlığına göre yapılır.' ),
+				array( 'question' => 'Alçı levhada sık diş mi seyrek diş mi kullanılır?', 'answer' => 'Metal profile yapılan montajda sık dişli vida, ahşap karkasa yapılan montajda seyrek dişli vida tercih edilir. Kalın profilde matkap uçlu (MUV) tip ön delik gerektirmeden çalışır.' ),
+				array( 'question' => 'Vidaları hangi paketlerde alabilirim?', 'answer' => 'Her ürün sayfasındaki tabloda kutu ve koli adedi ebat ebat yazılıdır. KOÇİST kutu ve koli bazında, karışık ebatlı siparişlerde de teklif hazırlar; İstanbul ve Trakya\'ya kendi araçlarımızla teslim ederiz.' ),
+			)
+		),
+
+		'somun' => $product_page(
+			'Ürün: Somunlar',
+			'/civiler/somunlar/',
+			array(
+				'name'  => 'Somunlar',
+				'short' => 'DIN 934 altıköşe, DIN 6923 flanşlı, DIN 985 fiberli ve DIN 6926 fiberli flanşlı metrik çelik somunlar; 6, 8 ve 10 kalite.',
+				'tool'  => 'Cıvatanızın diş ölçüsünü (M8, M10 gibi) ve sınıfını iletin; uygun somun tipini ve kaliteyi birlikte eşleştirelim.',
+			),
+			array(
+				'lead' => 'Makine bakımından çelik konstrüksiyona, titreşimli bağlantıdan ağır yük bağlantısına kadar metrik çelik somunlar.',
+				'body' => 'Somun seçiminde iki karar vardır: tip ve kalite sınıfı. Düz altıköşe somun (DIN 934 / ISO 4032) genel bağlantılar içindir. Flanşlı somun (DIN 6923 / ISO 4161) geniş tabanıyla yükü yüzeye yayar ve ayrı pul ihtiyacını azaltır. Fiberli somun (DIN 985 / ISO 10511) içindeki naylon halka sayesinde titreşimde gevşemeye direnir; DIN 6926 ise flanş ile naylon halkayı tek parçada birleştirir. Kalite sınıfı (6, 8, 10) somunun dayanımını gösterir ve cıvatanın sınıfıyla eşleştirilir. KOÇİST, Sertel Vida Metal bayisi olarak bu somunları koli bazında ekonomik fiyatla sunar; İstanbul ve Trakya\'ya kendi araçlarıyla teslim eder.',
+				'uses' => array( 'Makine ve ekipman montajı', 'Çelik konstrüksiyon ve raf sistemleri', 'Titreşimli bağlantılar (fiberli somun)', 'Palet ve ambalaj hattı bakımı', 'Araç üstü ve tarım ekipmanı bağlantıları' ),
+			),
+			array(
+				array( 'question' => 'Somunun kalite sınıfı neye göre seçilir?', 'answer' => 'Somunun kalite sınıfı, kullandığınız cıvatanın sınıf numarasındaki ilk rakama eşit ya da ondan yüksek olmalıdır. 6.8 cıvatada 6, 8.8 cıvatada 8, 10.9 cıvatada 10 kalite somun kullanılır.' ),
+				array( 'question' => 'Fiberli somun ne işe yarar?', 'answer' => 'Fiberli somunun içinde naylon bir halka bulunur. Halka cıvata dişini sararak sürtünme yaratır ve titreşim altında somunun kendiliğinden gevşemesini önler.' ),
+				array( 'question' => 'Flanşlı somunun avantajı nedir?', 'answer' => 'Flanşlı somunun alt kısmı pul gibi genişler. Sıkma kuvvetini daha geniş alana dağıtır, ince sacda ezilmeyi azaltır ve ayrı pul takma işini ortadan kaldırır.' ),
+				array( 'question' => 'DIN 934 ile ISO 4032 aynı somun mu?', 'answer' => 'İkisi de metrik altıköşe somunu tanımlar ve piyasada birbirinin karşılığı olarak kullanılır. ISO 4032 bazı ölçülerde anahtar ağzı ve somun yüksekliğinde küçük farklar getirir.' ),
+			)
+		),
+
+		'bits' => $product_page(
+			'Ürün: Bits Uçlar',
+			'/civiler/bits-uclar/',
+			array(
+				'name'  => 'Bits Uçlar',
+				'short' => 'PH, PZ, Torx, Allen ve düz bits uçlar; Sertel\'in CNC hattında SE_CE markasıyla üretilir.',
+				'tool'  => 'Vidanızın baş yuvasını (PH, PZ, Torx, Allen ya da düz) ve ölçüsünü söyleyin; uygun ucu ve boyu birlikte seçelim.',
+			),
+			array(
+				'lead' => 'Vidalama makinesinde vida başını bozmadan, kaymadan çalışan doğru uç: PH, PZ, Torx, Allen ve düz seriler.',
+				'body' => 'Bits uç, vidalama makinesine ya da uç tutucuya takılan ve vidanın baş yuvasına oturan değiştirilebilir uçtur. Yanlış uç vida başını bozar, makineyi zorlar ve işi yavaşlatır; bu yüzden uç tipi vidanın yuvasıyla birebir eşleşmelidir. Sertel, 2024 yılında 60 takım CNC bits uç makinesiyle kendi üretimine başlamış ve uçları SE_CE markasıyla piyasaya sunmuştur. PH ve PZ serileri 300 mm\'ye, Torx, Allen ve düz uçlar 50 mm\'ye kadar boyda üretilir; talebe göre farklı ölçü ve uç seçenekleri de yapılabilir. KOÇİST bu uçları vidalarla birlikte tek teklifte sunar ve İstanbul–Trakya\'ya kendi araçlarıyla teslim eder.',
+				'uses' => array( 'Alçı levha ve tavan montajı (PH)', 'Mobilya ve ahşap montajı (PZ)', 'Torx yuvalı kasa ve ahşap vidaları', 'İmbus yuvalı bağlantılar (Allen)', 'Düz yuvalı vida ve tesisat işleri' ),
+			),
+			array(
+				array( 'question' => 'PH ile PZ ucu arasındaki fark nedir?', 'answer' => 'PH (Phillips) uçta yıldızın kanatları koniktir. PZ (Pozidriv) uçta ana kanatların arasında ek çizgiler bulunur ve uç vida başını daha geniş yüzeyden kavrar. PZ yuvalı vidada PH uç kullanılırsa uç kayar ve vida başı bozulur.' ),
+				array( 'question' => 'Uzun bits uç ne zaman gerekir?', 'answer' => 'Derindeki vidalara ulaşmak, dar köşelerde çalışmak ya da şeritli vidalama tabancalarında doğru boyu tutturmak için uzun uç kullanılır. Sertel PH ve PZ serisini 300 mm\'ye kadar üretir.' ),
+				array( 'question' => 'Bits uç hangi makinelere takılır?', 'answer' => 'Altıköşe saplı bits uçlar şarjlı vidalama makinelerine, darbeli tornavidalara, şeritli vidalama tabancalarına ve uç tutuculara takılır.' ),
+				array( 'question' => 'Özel ölçüde bits uç yaptırabilir miyim?', 'answer' => 'Sertel, pazarın talebine göre farklı ölçü, boy ve uç seçenekleriyle üretim yaptığını belirtir. İhtiyacınızı ilettiğinizde KOÇİST üzerinden teklif hazırlarız.' ),
+			)
+		),
+
 		/* ---------------------------------------------------------- *
 		 * Hakkimizda
 		 * ---------------------------------------------------------- */
@@ -865,8 +928,8 @@ return array(
 					'label'  => 'Sayfa Metinleri',
 					'fields' => array(
 						'title'  => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Bu sayfa bulunamadı' ),
-						'lead'   => array( 'label' => 'Açıklama', 'type' => 'textarea', 'default' => 'Aradığınız adres taşınmış ya da kaldırılmış olabilir. Çivi tiplerine göz atın ya da bizi arayın.' ),
-						'button' => array( 'label' => 'Düğme Metni', 'type' => 'text', 'default' => 'Palet çivileri' ),
+						'lead'   => array( 'label' => 'Açıklama', 'type' => 'textarea', 'default' => 'Aradığınız adres taşınmış ya da kaldırılmış olabilir. Ürün gruplarına göz atın ya da bizi arayın.' ),
+						'button' => array( 'label' => 'Düğme Metni', 'type' => 'text', 'default' => 'Tüm ürünler' ),
 					),
 				),
 			),
