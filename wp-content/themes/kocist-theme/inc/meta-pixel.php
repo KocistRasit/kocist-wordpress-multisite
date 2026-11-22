@@ -2,8 +2,8 @@
 /**
  * Meta (Facebook/Instagram) reklam pikseli.
  *
- * Piksel: Koçist Grup işletmesindeki "Koçist Teknoloji'nin Pikseli" (veri kümesi
- * 1670790346292450).
+ * Piksel: Koçist Grup işletmesindeki "Kocist Pixel" (reklam hesabı 35728494, veri kümesi
+ * 1133311336164594).
  *
  * Çerez onayı: piksel betiği (fbevents.js) yalnızca ziyaretçi çerez çubuğunda
  * "Kabul et" demişse yüklenir (localStorage k-cerez = kabul). Onay yoksa Meta'ya
@@ -21,7 +21,7 @@
  * Kişisel veri (ad, telefon, e-posta) piksele gönderilmez.
  */
 
-const KOCIST_META_PIXEL_ID = '1670790346292450';
+const KOCIST_META_PIXEL_ID = '1133311336164594';
 
 add_action( 'wp_head', 'kocist_meta_pixel_head', 100 );
 function kocist_meta_pixel_head(): void {
