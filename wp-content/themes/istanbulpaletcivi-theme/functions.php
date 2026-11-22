@@ -592,6 +592,26 @@ function pc_redirect_product_parent(): void {
 	}
 }
 
+/**
+ * /civiler/ 301 ile Urunler sayfasina gittigi icin site haritasinda olmaz
+ * (haritada yalnizca 200 donen, kendi canonical'i olan adresler bulunur).
+ * Alt sayfalari (/civiler/<tip>/, /civiler/<urun>/) etkilenmez.
+ */
+add_filter( 'wp_sitemaps_posts_query_args', 'pc_sitemap_skip_product_parent', 20, 2 );
+function pc_sitemap_skip_product_parent( array $args, string $post_type ): array {
+	if ( 'page' !== $post_type ) {
+		return $args;
+	}
+
+	$parent = get_page_by_path( 'civiler', OBJECT, 'page' );
+
+	if ( $parent ) {
+		$args['post__not_in'] = array_merge( (array) ( $args['post__not_in'] ?? array() ), array( (int) $parent->ID ) );
+	}
+
+	return $args;
+}
+
 /* ====================================================================== *
  * Iletisim
  * ====================================================================== */
