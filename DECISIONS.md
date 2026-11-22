@@ -2385,3 +2385,17 @@ soru-cevap.
   tabloda yoktur", "teknik tablo yayımlanmamıştır", "Ürün görseli kaynak sayfada
   mevcuttur"); doğrulanmamış "en çok dönen / sürekli bulunur" ifadesi çıkarıldı; EPAL
   çivi sayısı 78–81 yerine EPAL 1 için 78.
+
+## İstanbul Palet Çivi: /civiler/ site haritasından çıktı (tema 0.4.3, 22 Kasım 2026)
+
+**Sorun:** `/civiler/` WordPress sayfası (ürün ve tip sayfalarının üst klasörü)
+`pc_redirect_product_parent` ile 301 verip `/urunler/` adresine gidiyor, ama WordPress
+çekirdek site haritasında (`wp-sitemap-posts-page-1.xml`) duruyordu. Ahrefs bunu
+"yönlendiren adres site haritasında" hatası olarak raporladı.
+
+**Çözüm:** Temada `wp_sitemaps_posts_query_args` süzgeciyle `civiler` sayfası
+`post__not_in` listesine eklenir. Sayfa silinmez ya da taslağa alınmaz; alt sayfaların
+(`/civiler/<tip>/`, `/civiler/<urun>/`) adresleri bu sayfaya bağlı olduğu için yerinde
+kalması gerekir. Eklentideki `'seo' => false` mekanizması kullanılmadı: o yalnızca
+manifestteki sayfalara işler, `/civiler/` ise manifestte değil, `inc/setup.php` içinde
+açılıyor.
