@@ -1066,6 +1066,17 @@ function nwcs_seo_org_data(): array {
 		)
 	);
 
+	// Diger adlar (alternateName): panelde virgulle ayrilir. Firma adinin
+	// kendisi ve tekrarlar yazilmaz.
+	$org['alternate_names'] = array_values(
+		array_unique(
+			array_filter(
+				array_map( 'nwcs_seo_clean', explode( ',', (string) nwcs_field( NWCS_SEO_SITE_PAGE, 'org', 'alternate_names' ) ) ),
+				static fn( string $name ): bool => '' !== $name && $name !== $org['name']
+			)
+		)
+	);
+
 	return $org;
 }
 
@@ -1091,6 +1102,7 @@ function nwcs_seo_graph( array $context ): array {
 			'@type'       => $is_local ? array( 'Organization', 'LocalBusiness' ) : 'Organization',
 			'@id'         => $org_id,
 			'name'        => $org['name'],
+			'alternateName' => $org['alternate_names'],
 			'legalName'   => $org['legal_name'],
 			'foundingDate' => $org['founding_date'],
 			'description' => $org['description'],
@@ -1171,13 +1183,17 @@ function nwcs_seo_graph( array $context ): array {
 
 	$graph = array(
 		$business,
-		array(
-			'@type'      => 'WebSite',
-			'@id'        => $site_id,
-			'url'        => $home,
-			'name'       => $org['name'],
-			'inLanguage' => $language,
-			'publisher'  => array( '@id' => $org_id ),
+		array_filter(
+			array(
+				'@type'         => 'WebSite',
+				'@id'           => $site_id,
+				'url'           => $home,
+				'name'          => $org['name'],
+				// Kisa adlar: Google site adini secerken bunlari tercih sirasiyla dener.
+				'alternateName' => $org['alternate_names'],
+				'inLanguage'    => $language,
+				'publisher'     => array( '@id' => $org_id ),
+			)
 		),
 	);
 
