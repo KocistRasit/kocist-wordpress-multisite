@@ -1376,14 +1376,18 @@ function nwcs_seo_breadcrumbs( array $context ): array {
  * Fiyat, puan ve yorum uydurulmaz; fiyat yoksa 'offers' hic yazilmaz.
  */
 function nwcs_seo_product( array $context, string $org_id, string $page_id ): array {
+	$specs      = nwcs_seo_product_specs( $context['page_key'], $context['properties'] );
 	$properties = array_map(
 		static fn( array $pair ): array => array(
 			'@type' => 'PropertyValue',
 			'name'  => $pair['name'],
 			'value' => $pair['value'],
 		),
-		nwcs_seo_product_specs( $context['page_key'], $context['properties'] )
+		$specs
 	);
+	// Bayi urunu: sartnamede baska bir marka yaziyorsa (Marka: Izopak) sema da
+	// onu soyler ve uretici olarak firma yazilmaz; satici Offer.seller'da kalir.
+	$brand = nwcs_seo_spec_brand( $specs );
 
 	return array_filter(
 		array(
@@ -1393,8 +1397,8 @@ function nwcs_seo_product( array $context, string $org_id, string $page_id ): ar
 			'description'        => $context['description'],
 			'image'              => $context['image']['url'] ?? '',
 			'url'                => $context['url'],
-			'brand'              => nwcs_seo_brand(),
-			'manufacturer'       => array( '@id' => $org_id ),
+			'brand'              => nwcs_seo_brand( $brand ),
+			'manufacturer'       => '' !== $brand ? array() : array( '@id' => $org_id ),
 			'mainEntityOfPage'   => array( '@id' => $page_id ),
 			'additionalProperty' => $properties,
 			'sku'                => (string) ( $context['sku'] ?? '' ),
@@ -1452,12 +1456,40 @@ function nwcs_seo_merchant_offer_fields(): array {
 /**
  * Marka: Google 'brand' icin Brand ya da Organization turu ister; yerel
  * isletme dugumune @id baglantisi Satici girislerinde hata veriyordu.
+ * Ad verilmezse sitenin kendi adi yazilir.
  */
-function nwcs_seo_brand(): array {
+function nwcs_seo_brand( string $name = '' ): array {
 	return array(
 		'@type' => 'Brand',
-		'name'  => nwcs_seo_site_name(),
+		'name'  => '' !== $name ? $name : nwcs_seo_site_name(),
 	);
+}
+
+/**
+ * Bayi urununun markasi: sartnamedeki "Marka" satiri (Marka: Izopak).
+ * Satir yoksa ya da firmanin kendi adini tasiyorsa ("Kocist") bos doner;
+ * o zaman marka da uretici de firmanin kendisidir.
+ *
+ * @param array<int, array{name:string, value:string}> $specs
+ */
+function nwcs_seo_spec_brand( array $specs ): string {
+	$words = static function ( string $text ): array {
+		$text = function_exists( 'nwcs_search_fold' ) ? nwcs_search_fold( $text ) : mb_strtolower( $text, 'UTF-8' );
+
+		return preg_split( '/[^\p{L}\p{N}]+/u', $text, -1, PREG_SPLIT_NO_EMPTY ) ?: array();
+	};
+
+	foreach ( $specs as $spec ) {
+		if ( ! in_array( implode( ' ', $words( (string) ( $spec['name'] ?? '' ) ) ), array( 'marka', 'brand' ), true ) ) {
+			continue;
+		}
+
+		$brand = (string) ( $spec['value'] ?? '' );
+
+		return array_diff( $words( $brand ), $words( nwcs_seo_site_name() ) ) ? $brand : '';
+	}
+
+	return '';
 }
 
 /**
