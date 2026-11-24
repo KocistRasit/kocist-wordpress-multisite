@@ -342,28 +342,6 @@
 	margin-top: 22px;
 }
 
-/* ---------- Kategorinin sorulari (urunlerin altinda, #sss) ----------
- * Soru-cevap cizimi /sss/ sayfasiyla ayni (faq.css: .k-sss__item); burada
- * yalnizca bolumun basligi ve araligi. Urun sayfasindaki "Tüm sorular" capayla
- * gelince baslik yapisik menunun altinda kalmasin. */
-.k-catfaq {
-	margin-top: 48px;
-	padding-top: 26px;
-	border-top: 2px solid var(--forest);
-	scroll-margin-top: 110px;
-}
-
-.k-catfaq__title {
-	margin: 0 0 4px;
-	font-size: clamp(22px, 2.4vw, 28px);
-	font-weight: 800;
-	line-height: 1.15;
-	letter-spacing: -.01em;
-	color: var(--forest);
-}
-
-.k-catfaq .k-sss__item:last-child { border-bottom: 1px solid var(--line); }
-
 /* ---------- Tum kategoriler (raf) ---------- */
 .k-shelf__row {
 	display: grid;
