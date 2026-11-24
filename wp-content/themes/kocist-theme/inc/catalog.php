@@ -932,6 +932,14 @@ function kocist_catalog_seo_pages( array $pages ): array {
 		return $pages;
 	}
 
+	// Konum yolu (BreadcrumbList): sayfada gorunen yolla ayni ust sayfalar.
+	// Ana sayfayi ve sayfanin kendisini eklenti yazar; aradakiler bildirilir.
+	$steps = static fn( array $trail ): array => array_map(
+		static fn( array $step ): array => array( 'name' => (string) $step['name'], 'url' => (string) $step['url'] ),
+		array_values( $trail )
+	);
+	$product_trails = array();
+
 	$lastmod = kocist_catalog_lastmod();
 	$current = kocist_is_catalog_request() ? kocist_catalog_current() : null;
 	$showing = static fn( string $group, string $sub = '' ): bool => null !== $current
@@ -969,6 +977,7 @@ function kocist_catalog_seo_pages( array $pages ): array {
 			'items'       => $showing( $group['slug'] ) ? kocist_catalog_item_list( $group['slug'] ) : array(),
 			'sitemap'     => true,
 			'lastmod'     => $lastmod[ $group['slug'] ] ?? '',
+			'trail'       => $steps( array_slice( kocist_catalog_trail( $group['slug'] ), 1, -1 ) ),
 		);
 
 		foreach ( $group['subs'] as $sub ) {
@@ -986,6 +995,7 @@ function kocist_catalog_seo_pages( array $pages ): array {
 				'items'       => $showing( $group['slug'], $sub['slug'] ) ? kocist_catalog_item_list( $group['slug'], $sub['slug'] ) : array(),
 				'sitemap'     => true,
 				'lastmod'     => $lastmod[ $group['slug'] . '/' . $sub['slug'] ] ?? '',
+				'trail'       => $steps( array_slice( kocist_catalog_trail( $group['slug'], $sub['slug'] ), 1, -1 ) ),
 			);
 
 			if ( $custom['image'] ) {
@@ -1004,7 +1014,12 @@ function kocist_catalog_seo_pages( array $pages ): array {
 
 		$image     = kocist_product_image( $product );
 		$meta_desc = trim( (string) ( $product['meta_desc'] ?? '' ) );
-		$pages[]   = array(
+		// Urun sayfasindaki yol: Kategoriler > grup > kategori (ayni kategorideki urunler icin bir kez hesaplanir).
+		$place     = (string) ( $product['group'] ?? '' ) . '/' . (string) ( $product['sub'] ?? '' );
+
+		$product_trails[ $place ] ??= $steps( array_slice( kocist_catalog_trail( (string) ( $product['group'] ?? '' ), (string) ( $product['sub'] ?? '' ) ), 1 ) );
+
+		$pages[] = array(
 			'url'          => $product['url'],
 			'name'         => $product['title'],
 			// Havuzdaki meta baslik oldugu gibi; bossa eklenti "ad – site" uretir.
@@ -1026,8 +1041,20 @@ function kocist_catalog_seo_pages( array $pages ): array {
 			'properties'   => array_map( static fn( array $pair ): array => array( 'name' => $pair[0], 'value' => $pair[1] ), kocist_product_table_specs( $product ) ),
 			// Urun videosu: Product'a VideoObject olarak eklenir (sayfadaki galeriyle ayni video).
 			'video'        => (array) ( $product['video'] ?? array() ),
+			'trail'        => $product_trails[ $place ],
 		);
 	}
 
 	return $pages;
+}
+
+/**
+ * JSON-LD konum yolunda ana sayfanin adi, sayfadaki yol gostergesiyle ayni
+ * (Tüm Sayfalar › Ortak Metinler › "Yol Göstergesi: Ana Sayfa").
+ */
+add_filter( 'nwcs_seo_home_crumb', 'kocist_seo_home_crumb' );
+function kocist_seo_home_crumb( $name ): string {
+	$crumb = trim( (string) nwcs_field( 'global', 'texts', 'home_crumb' ) );
+
+	return '' !== $crumb ? $crumb : (string) $name;
 }

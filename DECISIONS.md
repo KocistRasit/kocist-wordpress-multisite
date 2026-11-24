@@ -2399,3 +2399,22 @@ soru-cevap.
 kalması gerekir. Eklentideki `'seo' => false` mekanizması kullanılmadı: o yalnızca
 manifestteki sayfalara işler, `/civiler/` ise manifestte değil, `inc/setup.php` içinde
 açılıyor.
+
+## Koçist: JSON-LD konum yolu sayfadaki yolla aynı (24 Kasım 2026)
+
+**Sorun:** `BreadcrumbList` üst sayfaları adres yolundan buluyordu. Ürün adresi
+`/urun/<slug>/` olduğu için ürün sayfasında yol "Anasayfa › Ürün" kalıyor, alt
+kategoride grup basamağı (Dekorasyon, Ambalaj…) çıkmıyordu; sayfada görünen yol ise
+"Ana Sayfa › Kategoriler › Dekorasyon › Köpek Kulübeleri › Ürün". Adlar da farklıydı
+("Anasayfa" / "Ana Sayfa", "Ürün kategorileri" / "Kategoriler"). Google hata saymıyor,
+ama işaret ziyaretçinin gördüğü yolu anlatmıyordu.
+
+**Çözüm:**
+- **Eklenti:** `nwcs_seo_extra_pages` girdisine isteğe bağlı `trail` anahtarı (üst
+  sayfalar: ad + adres, ana sayfa ve sayfanın kendisi hariç). Verilirse
+  `nwcs_seo_breadcrumbs()` onu yazar, verilmezse eskisi gibi adres yolundan bulur.
+  Ana sayfanın adı `nwcs_seo_home_crumb` süzgeciyle değiştirilebilir; süzgeç yoksa
+  "Anasayfa" kalır. `trail` bildirmeyen temalarda çıktı değişmez.
+- **Koçist teması:** grup, alt kategori ve ürün sayfaları `trail` değerini sayfadaki
+  yolu basan `kocist_catalog_trail()` fonksiyonundan alır; ana sayfa adı paneldeki
+  "Yol Göstergesi: Ana Sayfa" metnidir. Blog yazılarında yol zaten tamdı, dokunulmadı.
