@@ -220,6 +220,7 @@ function nwcs_seo_site_page( array $defaults ): array {
 				'fields' => array(
 					'name'        => $field( 'name', 'Firma adı', 'text', 'Aramalarda görünen kısa ad. Örn. İstanbul Paletçi' ),
 					'legal_name'  => $field( 'legal_name', 'Resmî unvan', 'text', 'Ağdaki bütün sitelerde birebir aynı yazılmalı.' ),
+					'alternate_names' => $field( 'alternate_names', 'Diğer adlar', 'text', 'Firmanın bilinen kısa adları, virgülle ayrılır. Örn. Koçist, Koçist Grup. Arama motorlarına bu adların da aynı firma olduğunu söyler; boşsa şemaya eklenmez.' ),
 					'founding_date' => $field( 'founding_date', 'Kuruluş yılı', 'text', 'Bu firmanın (tüzel kişiliğin) kuruluş yılı, dört hane: 2010. Ailenin daha eski geçmişi buraya değil, kurumsal metne yazılır. Boşsa şemaya eklenmez.' ),
 					'description' => $field( 'description', 'Firma tanımı', 'textarea', 'Bir iki cümle: ne üretiyorsunuz, nerede, kime. Yapay zekâ aramaları bu cümleyi alıntılar.' ),
 					'logo'        => $field( 'logo', 'Logo', 'image' ),
