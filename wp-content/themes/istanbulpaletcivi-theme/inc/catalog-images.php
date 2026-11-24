@@ -6,16 +6,17 @@
  * secenegine yazar. Panelde urun icin gorsel secilmisse o kazanir; bu esleme
  * yalnizca gorseli bos urunlerde devreye girer (pc_catalog_image).
  *
- * Calisma: yonetici panele girdiginde (admin_init), istek basina en fazla
- * PC_CATALOG_IMG_BATCH gorsel; bitince 'pc_catalog_images_done' = surum.
+ * Calisma: arka planda WP-Cron (inc/setup.php: pc_bg_maintenance) ya da
+ * yonetici panele girdiginde; istek basina en fazla PC_CATALOG_IMG_BATCH gorsel
+ * ya da ~20 saniye; bitince 'pc_catalog_images_done' = surum.
  * Indirme basarisiz olan adres bir sonraki girisde yeniden denenir (en fazla
  * 3 deneme). Veritabani tasimasi gerektirmez; cPanel Git deploy yeterli.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-const PC_CATALOG_IMG_VERSION = '1';
-const PC_CATALOG_IMG_BATCH   = 6;
+const PC_CATALOG_IMG_VERSION = '3';
+const PC_CATALOG_IMG_BATCH   = 40;
 
 /**
  * @return array<string, int> slug (ya da 'tip:<anahtar>') -> ek kimligi
@@ -42,11 +43,24 @@ function pc_catalog_images_maybe_fetch(): void {
 		return;
 	}
 
-	if ( PC_CATALOG_IMG_VERSION === (string) get_option( 'pc_catalog_images_done' ) || get_transient( 'pc_catalog_images_lock' ) ) {
-		return;
+	pc_catalog_images_fetch();
+}
+
+/**
+ * Bir parti gorsel indirir (en fazla ~20 saniye). Hepsi bittiyse true.
+ * Yetki kontrolu cagirandadir (admin_init ya da WP-Cron).
+ */
+function pc_catalog_images_fetch(): bool {
+	if ( PC_CATALOG_IMG_VERSION === (string) get_option( 'pc_catalog_images_done' ) ) {
+		return true;
+	}
+
+	if ( get_transient( 'pc_catalog_images_lock' ) ) {
+		return false;
 	}
 
 	set_transient( 'pc_catalog_images_lock', 1, 2 * MINUTE_IN_SECONDS );
+	$started = microtime( true );
 
 	$sources = pc_catalog_image_sources();
 	$map     = pc_catalog_image_map();
@@ -81,7 +95,7 @@ function pc_catalog_images_maybe_fetch(): void {
 			continue;
 		}
 
-		if ( $done >= PC_CATALOG_IMG_BATCH ) {
+		if ( $done >= PC_CATALOG_IMG_BATCH || microtime( true ) - $started > 20 ) {
 			++$pending;
 			continue;
 		}
@@ -104,14 +118,32 @@ function pc_catalog_images_maybe_fetch(): void {
 		$by_url[ $url ] = (int) $id;
 	}
 
+	// Tip sayfalarinin kart gorseli alani bossa indirilen gorseli alana yaz:
+	// paylasim gorseli (og:image) ve panel onizlemesi de gercek fotografi gorur.
+	if ( function_exists( 'nwcs_update_field' ) ) {
+		foreach ( $map as $slug => $id ) {
+			if ( ! $id || ! str_starts_with( (string) $slug, 'tip:' ) ) {
+				continue;
+			}
+
+			$key = substr( (string) $slug, 4 );
+
+			if ( isset( pc_manifest()['pages'][ $key ] ) && (int) nwcs_field( $key, 'card', 'image', 0 ) === 0 ) {
+				nwcs_update_field( $key, 'card', 'image', (int) $id );
+			}
+		}
+	}
+
 	update_option( 'pc_catalog_images', $map, false );
 	update_option( 'pc_catalog_images_tries', $tries, false );
 
 	if ( 0 === $pending ) {
-		update_option( 'pc_catalog_images_done', PC_CATALOG_IMG_VERSION, false );
+		update_option( 'pc_catalog_images_done', PC_CATALOG_IMG_VERSION, true );
 	}
 
 	delete_transient( 'pc_catalog_images_lock' );
+
+	return 0 === $pending;
 }
 
 /**

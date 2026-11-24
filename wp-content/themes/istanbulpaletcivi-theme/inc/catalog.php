@@ -52,12 +52,85 @@ function pc_catalog(): array {
 			'image'           => (int) ( $row['image'] ?? 0 ),
 			'seo_title'       => trim( (string) ( $row['seo_title'] ?? '' ) ),
 			'seo_description' => trim( (string) ( $row['seo_description'] ?? '' ) ),
+			'faq'             => (string) ( $row['faq'] ?? '' ),
 			'path'            => $path,
 			'url'             => pc_link( $path ),
 		);
 	}
 
 	return $items;
+}
+
+/**
+ * Urunun soru-cevaplari: bloklar bos satirla ayrilir; blogun ilk satiri soru,
+ * kalani cevap. Sorusu ya da cevabi bos blok atlanir (FAQPage kurali).
+ *
+ * @return array<int, array{question:string, answer:string}>
+ */
+function pc_catalog_faq( array $item ): array {
+	$faq = array();
+
+	foreach ( preg_split( '/\R\s*\R/u', trim( str_replace( "\r", '', (string) ( $item['faq'] ?? '' ) ) ) ) ?: array() as $block ) {
+		$lines    = array_values( array_filter( array_map( 'trim', explode( "\n", (string) $block ) ), 'strlen' ) );
+		$question = (string) array_shift( $lines );
+		$answer   = trim( implode( ' ', $lines ) );
+
+		if ( '' !== $question && '' !== $answer ) {
+			$faq[] = array(
+				'question' => $question,
+				'answer'   => $answer,
+			);
+		}
+	}
+
+	return $faq;
+}
+
+/*
+ * Soru-cevap isareti (FAQPage): eklenti urun ve tip sayfalarinda soru yazmaz
+ * (fiyatsiz urun Service olarak isaretlenir). Sayfada gorunen sorular, SSS
+ * sayfasindaki yapiyla ayni bicimde sayfa dugumune eklenir: WebPage +
+ * FAQPage, mainEntity = Question listesi. Ayri bir JSON-LD blogu basilmaz.
+ */
+add_filter( 'nwcs_seo_graph', 'pc_catalog_faq_graph', 20, 2 );
+function pc_catalog_faq_graph( array $graph, array $context ): array {
+	$faq  = array();
+	$item = function_exists( 'pc_fallback_item' ) ? pc_fallback_item() : array();
+
+	if ( $item ) {
+		$faq = pc_catalog_faq( $item );
+	} elseif ( '' !== pc_current_product_key() && function_exists( 'nwcs_faq_rows' ) ) {
+		$faq = nwcs_faq_rows( pc_current_product_key(), 'faq', 'items' );
+	}
+
+	if ( ! $faq ) {
+		return $graph;
+	}
+
+	foreach ( $graph as $i => $node ) {
+		$id    = (string) ( $node['@id'] ?? '' );
+		$types = (array) ( $node['@type'] ?? array() );
+
+		if ( ! str_ends_with( $id, '#webpage' ) || in_array( 'FAQPage', $types, true ) ) {
+			continue;
+		}
+
+		$graph[ $i ]['@type']      = array_values( array_unique( array_merge( $types, array( 'FAQPage' ) ) ) );
+		$graph[ $i ]['mainEntity'] = array_map(
+			static fn( array $qa ): array => array(
+				'@type'          => 'Question',
+				'name'           => wp_strip_all_tags( $qa['question'] ),
+				'acceptedAnswer' => array(
+					'@type' => 'Answer',
+					'text'  => wp_strip_all_tags( $qa['answer'] ),
+				),
+			),
+			$faq
+		);
+		break;
+	}
+
+	return $graph;
 }
 
 /**
@@ -218,6 +291,46 @@ function pc_fallback_item( ?array $set = null ): array {
 	return $item;
 }
 
+/**
+ * Istekteki /civiler/<adres>/ urununun adres adi; katalogda yoksa bos.
+ */
+function pc_catalog_request_slug(): string {
+	$home = trim( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ), '/' );
+	$path = trim( (string) wp_parse_url( add_query_arg( array() ), PHP_URL_PATH ), '/' );
+
+	if ( '' !== $home && str_starts_with( $path, $home . '/' ) ) {
+		$path = substr( $path, strlen( $home ) + 1 );
+	}
+
+	if ( ! preg_match( '#^civiler/([^/]+)$#', $path, $match ) ) {
+		return '';
+	}
+
+	$slug = sanitize_title( rawurldecode( $match[1] ) );
+
+	return pc_catalog_item( $slug ) ? $slug : '';
+}
+
+/*
+ * Kalici baglanti /%postname%/ iken WordPress iki parcali adresi
+ * ("[^/]+/([^/]+)/?$") ek dosyasi (attachment) olarak da okur. Urun gorseli
+ * urun adiyla indirildigi icin eki de ayni adi tasir (sunta-vidasi): istek
+ * eke gider, ek sayfalari kapali oldugundan WordPress gorsel dosyasina
+ * yonlendirir. Katalog urunu adresinde ek eslesmesi iptal edilir; istek 404
+ * olur ve asagidaki tespit urun sayfasini cizer. Gercek tip sayfalari
+ * (/civiler/vidalar/) sayfa kuraliyla once eslestigi icin etkilenmez.
+ */
+add_filter( 'request', 'pc_catalog_request_vars' );
+function pc_catalog_request_vars( array $vars ): array {
+	if ( empty( $vars['attachment'] ) ) {
+		return $vars;
+	}
+
+	$slug = pc_catalog_request_slug();
+
+	return '' === $slug ? $vars : array( 'pagename' => 'civiler/' . $slug );
+}
+
 /*
  * Tespit 'wp' aksiyonunun basinda: SEO eklentisi sayfa bilgisini (baslik,
  * aciklama, canonical, Product verisi) bu aksiyonda hesaplayip sakliyor.
@@ -228,18 +341,8 @@ function pc_catalog_detect(): void {
 		return;
 	}
 
-	$home = trim( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ), '/' );
-	$path = trim( (string) wp_parse_url( add_query_arg( array() ), PHP_URL_PATH ), '/' );
-
-	if ( '' !== $home && str_starts_with( $path, $home . '/' ) ) {
-		$path = substr( $path, strlen( $home ) + 1 );
-	}
-
-	if ( ! preg_match( '#^civiler/([^/]+)$#', $path, $match ) ) {
-		return;
-	}
-
-	$item = pc_catalog_item( sanitize_title( rawurldecode( $match[1] ) ) );
+	$slug = pc_catalog_request_slug();
+	$item = '' === $slug ? array() : pc_catalog_item( $slug );
 
 	if ( ! $item ) {
 		return;

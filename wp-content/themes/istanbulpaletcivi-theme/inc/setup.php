@@ -22,11 +22,14 @@
  * manifeste sonradan eklenen civi tipi sayfalari (/civiler/<tip>/) acilir ve
  * eski sitenin /service/... adresleri yonlendirme listesine eklenir (yoksa).
  * Cesit sayfalari WordPress sayfasi degildir; yedek cizimle 200 doner.
+ *
+ * Surum 4: Civi Tabancalari tipi (/civiler/civi-tabancalari/) ve Sertel
+ * tabanca modelleri katalogda; kurulu sitede yalnizca yeni tip sayfasi acilir.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-const PC_SETUP_VERSION = '3';
+const PC_SETUP_VERSION = '5';
 
 add_action( 'after_switch_theme', 'pc_setup_site' );
 add_action( 'admin_init', 'pc_maybe_setup_site' );
@@ -38,6 +41,14 @@ function pc_maybe_setup_site(): void {
 		return;
 	}
 
+	pc_setup_run();
+}
+
+/**
+ * Kurulumu ya da surum yukseltmesini calistirir (yetki kontrolu cagirandadir:
+ * admin_init'te yonetici, arka planda WP-Cron).
+ */
+function pc_setup_run(): void {
 	$installed = (string) get_option( 'pc_setup_version' );
 
 	if ( PC_SETUP_VERSION === $installed ) {
@@ -51,11 +62,41 @@ function pc_maybe_setup_site(): void {
 		pc_setup_page( 'sss', 'Sık Sorulan Sorular' );
 		pc_setup_product_pages();
 		pc_setup_merge_redirects();
+		pc_setup_footer_label();
+		pc_setup_products_page_rename();
 		update_option( 'pc_setup_version', PC_SETUP_VERSION );
 		return;
 	}
 
 	pc_setup_site();
+}
+
+/*
+ * Arka plan bakimi: tema guncellenince (cPanel Git deploy) yoneticinin bu
+ * sitenin paneline girmesi beklenmez. Surum ya da katalog gorselleri eksikse
+ * ilk ziyarette tek seferlik bir WP-Cron gorevi kurulur; gorev kurulum
+ * yukseltmesini calistirir ve gorselleri parca parca indirir (bitene kadar
+ * kendini yeniden kurar). Ziyaretci hicbir sey beklemez: gorev wp-cron.php
+ * isteginde calisir.
+ */
+add_action( 'init', 'pc_schedule_maintenance', 20 );
+function pc_schedule_maintenance(): void {
+	$need = PC_SETUP_VERSION !== (string) get_option( 'pc_setup_version' )
+		|| ( defined( 'PC_CATALOG_IMG_VERSION' ) && PC_CATALOG_IMG_VERSION !== (string) get_option( 'pc_catalog_images_done' ) );
+
+	if ( $need && ! wp_next_scheduled( 'pc_bg_maintenance' ) ) {
+		wp_schedule_single_event( time(), 'pc_bg_maintenance' );
+	}
+}
+
+add_action( 'pc_bg_maintenance', 'pc_bg_maintenance' );
+function pc_bg_maintenance(): void {
+	pc_setup_run();
+
+	if ( function_exists( 'pc_catalog_images_fetch' ) && ! pc_catalog_images_fetch() ) {
+		// Indirilecek gorsel kaldi: bir dakika sonra devam.
+		wp_schedule_single_event( time() + MINUTE_IN_SECONDS, 'pc_bg_maintenance' );
+	}
 }
 
 function pc_setup_site(): void {
@@ -73,7 +114,7 @@ function pc_setup_site(): void {
 	$blog  = pc_setup_page( 'haberler-blog', 'Blog ve Haberler' );
 
 	pc_setup_page( 'hakkimizda', 'Hakkımızda' );
-	pc_setup_page( 'palet-civileri', 'Palet Çivileri' );
+	pc_setup_page( 'urunler', 'Ürünler' );
 	pc_setup_page( 'iletisim', 'İletişim' );
 	pc_setup_page( 'sss', 'Sık Sorulan Sorular' );
 
@@ -112,6 +153,92 @@ function pc_setup_site(): void {
 	flush_rewrite_rules( false );
 	update_option( 'pc_setup_version', PC_SETUP_VERSION );
 	delete_transient( 'pc_setup_lock' );
+}
+
+/**
+ * Urunler sayfasi /palet-civileri/ -> /urunler/ (Kasim 2026). Sayfanin adresi
+ * ve basligi degisir; panelde eski varsayilanlarla kaydedilmis menu ogesi,
+ * sayfa basligi ve alt metin yenilerine cevrilir (elle degistirilmis metne
+ * dokunulmaz). Eski adres yonlendirme listesinde /urunler/'e 301 olur.
+ */
+function pc_setup_products_page_rename(): void {
+	$old = get_page_by_path( 'palet-civileri' );
+
+	if ( $old && ! get_page_by_path( 'urunler' ) ) {
+		wp_update_post(
+			array(
+				'ID'         => (int) $old->ID,
+				'post_name'  => 'urunler',
+				'post_title' => 'Ürünler',
+			)
+		);
+	} elseif ( ! $old ) {
+		pc_setup_page( 'urunler', 'Ürünler' );
+	}
+
+	if ( function_exists( 'nwcs_update_field' ) ) {
+		$menu = nwcs_raw( 'global', 'header', 'menu' );
+
+		if ( is_array( $menu ) ) {
+			$changed = false;
+
+			foreach ( $menu as $i => $row ) {
+				if ( is_array( $row ) && in_array( rtrim( (string) ( $row['url'] ?? '' ), '/' ), array( '/palet-civileri', 'https://istanbulpaletcivi.com/palet-civileri' ), true ) ) {
+					$menu[ $i ]['url'] = '/urunler/';
+
+					if ( 'Palet Çivileri' === trim( (string) ( $row['label'] ?? '' ) ) ) {
+						$menu[ $i ]['label'] = 'Ürünler';
+					}
+
+					$changed = true;
+				}
+			}
+
+			if ( $changed ) {
+				nwcs_update_field( 'global', 'header', 'menu', array_values( $menu ) );
+			}
+		}
+
+		if ( 'Palet çivileri' === trim( (string) nwcs_raw( 'notfound', 'head', 'button' ) ) ) {
+			nwcs_update_field( 'notfound', 'head', 'button', 'Tüm ürünler' );
+		}
+
+		if ( 'İstanbul palet çivileri' === trim( (string) nwcs_raw( 'products', 'head', 'title' ) ) ) {
+			nwcs_update_field( 'products', 'head', 'title', 'Ürünler' );
+		}
+
+		if ( 'Rulo, şerit ve dökme palet çivileri; beton ve ince iş çivileri. Palet, sandık ve kafes üretiminden mobilya ve şantiyeye; aralarındaki fark, nasıl ve neye çakıldıkları.' === trim( (string) nwcs_raw( 'products', 'head', 'lead' ) ) ) {
+			nwcs_update_field( 'products', 'head', 'lead', 'Palet çivileri, beton ve ince iş çivileri, vidalar, somunlar, bits uçlar, çivi ve zımba tabancaları, tel ürünleri ve pnömatik aletler; her grupta ölçü tablosu ve hızlı teklif.' );
+		}
+	}
+
+	// Kayitli yonlendirme listesinde /service/* hedefi eski adresteyse guncelle
+	// (zincirleme 301 olmasin). Eksik /palet-civileri/ satiri merge ile eklenir.
+	$redirects = (string) get_option( 'nwcs_redirects', '' );
+	$updated   = (string) preg_replace( '#^(/service/\*\s+)/palet-civileri/#mu', '$1/urunler/', $redirects );
+
+	if ( $updated !== $redirects ) {
+		update_option( 'nwcs_redirects', $updated, false );
+	}
+
+	pc_setup_merge_redirects();
+	flush_rewrite_rules( false );
+}
+
+/**
+ * Alt bilgideki grup baglantisi panelde eski varsayilanla ("kocist.com.tr")
+ * kaydedilmisse yeni metne cevrilir; elle yazilmis farkli metne dokunulmaz.
+ */
+function pc_setup_footer_label(): void {
+	if ( ! function_exists( 'nwcs_update_field' ) ) {
+		return;
+	}
+
+	$label = trim( (string) nwcs_field( 'global', 'footer', 'external_label' ) );
+
+	if ( in_array( strtolower( $label ), array( 'kocist.com.tr', 'www.kocist.com.tr', 'https://kocist.com.tr' ), true ) ) {
+		nwcs_update_field( 'global', 'footer', 'external_label', 'Bir Koçist Grup şirketidir' );
+	}
 }
 
 /**
@@ -284,7 +411,14 @@ function pc_setup_redirects(): string {
 			'/service/rulo-palet-civiler/   /civiler/rulo-palet-civiler/',
 			'/service/tele-dizili-civiler/  /civiler/tele-dizili-civiler/',
 			'/service/dokme-civiler/        /civiler/dokme-civiler/',
-			'/service/*                     /palet-civileri/',
+			'/service/*                     /urunler/',
+			'',
+			'# Urunler sayfasinin eski adresi (Kasim 2026)',
+			'/palet-civileri/               /urunler/',
+			'/ürünler/                      /urunler/',
+			'',
+			'# Toplu brad sayfasi GA sayfalarina bolundu (Kasim 2026)',
+			'/civiler/brad-civi/            /civiler/18-ga-brad-civi/',
 			'',
 			'# Eski site haritalari',
 			'/sitemap_index.xml         /wp-sitemap.xml',

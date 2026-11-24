@@ -140,7 +140,7 @@ if ( ! ( function_exists( 'nwcs_is_preview' ) && nwcs_is_preview() ) ) {
 
 <?php // Cerez tercihi cubugu (assets/css/base.css). Secim tarayicida saklanir; secim yapilana kadar analiz kodlari veri gondermez (header.php). ?>
 <div class="k-cerez" data-k-cerez-bar role="region" aria-label="Çerez tercihi" hidden>
-	<p class="k-cerez__text">Ziyaret istatistikleri için Google Analytics ve Yandex Metrika çerezlerini onayınızla kullanıyoruz. <a href="<?php echo esc_url( home_url( '/cerez-politikasi/' ) ); ?>">Çerez Politikası</a></p>
+	<p class="k-cerez__text">Ziyaret istatistikleri için Google Analytics ve Yandex Metrika, reklam ölçümü için Meta pikseli çerezlerini onayınızla kullanıyoruz. <a href="<?php echo esc_url( home_url( '/cerez-politikasi/' ) ); ?>">Çerez Politikası</a></p>
 	<div class="k-cerez__actions">
 		<button type="button" class="k-cerez__btn" data-k-cerez="red">Reddet</button>
 		<button type="button" class="k-cerez__btn k-cerez__btn--ok" data-k-cerez="kabul">Kabul et</button>
@@ -163,6 +163,7 @@ if ( ! ( function_exists( 'nwcs_is_preview' ) && nwcs_is_preview() ) ) {
 			// Bu sayfanin ziyareti de sayilsin; Metrika sonraki sayfadan itibaren calisir.
 			window['ga-disable-G-FD940LV5SP'] = false;
 			if (typeof window.gtag === 'function') { window.gtag('config', 'G-FD940LV5SP'); }
+			if (typeof window.kocistPixelLoad === 'function') { window.kocistPixelLoad(); }
 		}
 	});
 })();

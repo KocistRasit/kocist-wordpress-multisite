@@ -2262,6 +2262,163 @@ kopya olmasın, SEO/GEO/AEO rakip analizine göre yazılsın; site yayına alın
 - Yapılmadı: Sertel tabanca (19 model) ve zımba teli (16 kalem) sayfaları; teknik
   sayfalar taranmadı, doğrulanmadan yazılmadı.
 
+## İstanbul Palet Çivi: Sertel'in tüm ürün grupları (tema 0.3.0, 20 Kasım 2026)
+
+Kullanıcı kararı: serteltools.com/urunler/ altındaki bütün ürünler girilsin, metinler
+kopya olmasın, alt bilgide "Bir Koçist Grup şirketidir" → kocist.com.tr bağlantısı olsun.
+
+- **12 ürün grubu (tip sayfası):** önceki 5 çivi tipine Çivi Tabancaları (Sertel rulo
+  mağazin, 19), Zımba Telleri (12), Ahşap ve Mobilya Tabancaları (47), Tel Ürünleri (4),
+  Şantiye Grubu (13), Pnömatik Ürünler (16), Mekanik Tabancalar (18) eklendi. Katalog
+  152 ürün (`content/catalog.php`, `max` 300). Her grupta 3–4 soru-cevap.
+- **Site içi tekrar yok:** Sertel'de iki kategoride geçen ürünler tek sayfa: NK çivi ve
+  gazlı (GP) beton çivisi Beton Çivileri'nde kaldı (Şantiye kopyası yok; NK "barutlu
+  tabanca çivisi" olarak düzeltildi). Toplu "Brad Çivi" sayfası 16/18/21/23 GA
+  sayfalarına bölündü (İnce İş Çivileri); `/civiler/brad-civi/` → 18 GA (301).
+- **Doğrulanmamış bilgi yok:** teknik değerler Sertel tablo görsellerinden okundu;
+  okunamayan 17 tablo tarayıcıda tek tek okundu. Kaynakta çelişkili değerler (ör. mini
+  somun sökmede "69 kg tork", paslanmaz klipste "sıcak daldırma galvaniz") sitede
+  gösterilmez. Kesin stok iddiaları ("sürekli stoktadır") kaldırıldı.
+- **Ana sayfa:** ilk 3 tip büyük satır, diğerleri kart ızgarası (`template-parts/type-card.php`).
+- **Arka plan bakımı:** kurulum yükseltmesi ve katalog görselleri artık WP-Cron ile
+  (`pc_bg_maintenance`) çalışır; yöneticinin yeni alan adında panele girmesi gerekmez.
+  Görseller ~20 sn'lik partilerle iner, bitene kadar görev kendini yeniden kurar.
+  Elle tetikleme: `https://istanbulpaletcivi.com/wp-cron.php`.
+- Alt bilgi grup bağlantısı varsayılanı "Bir Koçist Grup şirketidir" (kocist.com.tr).
+
+## İstanbul Palet Çivi: vida, somun ve bits uç grupları (tema 0.4.0, 20 Kasım 2026)
+
+Kullanıcı sorusu: "serteltools.com/urunler/ altındaki tüm ürünler eklendi mi?" 0.3.0'da
+Vida, Somunlar ve Bits Uçlar grupları eksikti; bu sürümde eklendi.
+
+- **3 yeni tip sayfası:** `/civiler/vidalar/` (20 ürün), `/civiler/somunlar/` (8),
+  `/civiler/bits-uclar/` (5). Katalog 185 ürün. Her tipte 4 soru-cevap.
+- **Kaynak:** Sertel vida sayfalarında açıklama metni yok, yalnızca ölçü tablosu görseli
+  var; 18 tablo tarayıcıda tek tek okundu. Metinler bu tablolardan ve genel norm
+  bilgisinden (DIN 7505, DIN 7504 K/N/P, DIN 965, DIN 934/ISO 4032, DIN 6923/ISO 4161,
+  DIN 985/ISO 10511, DIN 6926) özgün yazıldı.
+- **MDF Vidası ve Hi-Low Vida:** Sertel listesinde adları var, sayfası, tablosu ve
+  fotoğrafı yok. Sayfaları genel tanımla yazıldı; ölçü tablosu yok, görsel olarak
+  Vidalar tip fotoğrafı kullanılır.
+- **Somunlar:** Sertel yalnızca tip, norm ve kalite sınıfını veriyor (ölçü listesi yok);
+  sayfalarda M ölçüsü yazılmadı. Somun-cıvata sınıf eşleşmesi (6/6.8, 8/8.8, 10/10.9)
+  norm bilgisidir.
+- **Bits uçlar:** Sertel'de ürün sayfası yok; PH, PZ, Torx, Allen, düz serileri için
+  birer sayfa. Boy sınırları (PH/PZ 300, diğerleri 50) Sertel metninden; birim mm
+  olarak yazıldı.
+- **Gösterilmeyen kaynak değeri:** sunta vidası 6x140 ve 6x150 koli adedi (50'lik kutuda
+  6.500, komşu ebatlarda 650) tutarsız olduğu için tabloda "–".
+- YHB Kol Vidası tablosundaki boş koli hücreleri ve son satırdaki "M5x50" (M6 grubunda)
+  kaynak hatası sayıldı; tabloda diş ve boy listesi verildi, koli adedi verilmedi.
+- `PC_SETUP_VERSION` 5 (yeni tip sayfaları arka planda oluşur), `PC_CATALOG_IMG_VERSION`
+  3 (yeni 34 görsel arka planda iner).
+- **Alt bilgi grup bağlantısı:** canlıda panel kaydı eski varsayılanı ("kocist.com.tr")
+  tuttuğu için 0.3.0'daki yeni varsayılan görünmüyordu. Kurulum 5 yükseltmesi
+  (`pc_setup_footer_label`) bu değeri "Bir Koçist Grup şirketidir" yapar; elle yazılmış
+  farklı bir metne dokunmaz.
+
+## İstanbul Palet Çivi: ürünler sayfası /urunler/ (tema 0.4.0, 20 Kasım 2026)
+
+Kullanıcı kararı: `/palet-civileri/` sayfası `/ürünler/` olsun.
+
+- Adres ASCII yazıldı: `/urunler/` (sitedeki diğer adresler gibi; `ü` tarayıcıda ve
+  paylaşımda `%C3%BC` olarak kodlanır). `/ürünler/` yazan da `/urunler/`'e 301 ile gelir.
+- Sayfa şablonu `page-urunler.php`; manifest `products.path` `/urunler/`, menü öğesi
+  "Ürünler". Sayfa başlığı "Ürünler" (ürün sayfalarındaki yol izinde de bu görünür),
+  alt metin 15 grubun tamamını anlatır; 404 düğmesi "Tüm ürünler".
+- Canlı site: kurulum 5 yükseltmesi (`pc_setup_products_page_rename`) mevcut sayfanın
+  adresini ve başlığını değiştirir; panelde eski varsayılanla kayıtlı menü, başlık, alt
+  metin ve 404 düğmesini yeniler (elle yazılmış metne dokunmaz). Yönlendirmeler:
+  `/palet-civileri/` → `/urunler/`, `/ürünler/` → `/urunler/`; kayıtlı `/service/*` hedefi
+  de `/urunler/` yapılır (zincirleme 301 olmasın).
+
+## İstanbul Palet Çivi: ürün adresi ile görsel eki çakışması (tema 0.4.1, 20 Kasım 2026)
+
+Canlı kontrolde bulundu: görseli indirilmiş ürünlerde `/civiler/<ürün>/` adresi görsel
+dosyasına yönleniyordu (ör. `/civiler/sunta-vidasi/` → `.../BKBR6415.jpg`).
+
+- **Neden:** kalıcı bağlantı `/%postname%/` iken WordPress iki parçalı adresi
+  (`[^/]+/([^/]+)/?$`) ek dosyası olarak da okur. Katalog görselleri ürün adıyla
+  indirildiği için ekin adres adı ürünle aynı (`sunta-vidasi`); istek eke gidiyor, ek
+  sayfaları kapalı olduğundan WordPress dosyaya yönlendiriyordu. Görsel inmeden önce
+  ek yoktu, sayfa çalışıyordu; bu yüzden ilk testlerde görünmedi.
+- **Çözüm:** `request` süzgeci (`pc_catalog_request_vars`): istek `/civiler/<katalog
+  ürünü>/` ise ek eşleşmesi iptal edilir, istek 404 olur ve mevcut tespit ürün
+  sayfasını çizer. Tip sayfaları sayfa kuralıyla önce eşleştiği için etkilenmez.
+  Eklerin adını değiştirmek gerekmez; ileride panelden ürün adıyla görsel yüklense de
+  çakışma olmaz.
+
+## İstanbul Palet Çivi: üst menüde ürün grupları açılır listesi (tema 0.4.1, 20 Kasım 2026)
+
+Kullanıcı kararı (Sertel menüsü örnek gösterildi): "Ürünler" altında ürün grupları alt
+alta açılsın.
+
+- Masaüstü: "Ürünler" bağlantısının üzerine gelince ya da klavyeyle odaklanınca 15 grup
+  tek sütunda açılır (lacivert panel, sarı üst çizgi, büyük harf; Türkçe `İ` için
+  `lang="tr"`). Altta satış için "Tüm ürünler" ve "WhatsApp'tan fiyat al" düğmeleri.
+  1366x768 dizüstünde üst şeritle birlikte ekrana sığar; daha küçük ekranda liste
+  kendi içinde kayar. Liste `pc_products()`'tan gelir; yeni tip eklenince menü de büyür.
+- Mobil menü: "Ürünler"in altında gruplar girintili alt alta.
+- SEO: her sayfadan 15 grup sayfasına iç bağlantı (tarayıcıya açık HTML, JavaScript yok).
+
+## İstanbul Palet Çivi: ürün sayfalarına soru-cevap ve FAQPage (tema 0.4.2, 20 Kasım 2026)
+
+Kullanıcı onayı (planlı iş, 13:50): ürün sayfalarına satış ve SEO/GEO/AEO odaklı
+soru-cevap.
+
+- **185 ürün × 2 soru-cevap (370):** katalog satırına `faq` alanı (panelde "Sık Sorulan
+  Sorular": ilk satır soru, altı cevap, sorular arası boş satır). Cevaplar ürünün kendi
+  tablosu ve teknik değerlerinden; ürünler arasında tekrar eden cümle yok (denetim
+  betiği: `sertel-civi/sss/build_faq.py` öncesi kontrol). Tek doğrulanmış dış bilgi:
+  EPAL 1 paletinde 78 çivi (epal-pallets.org).
+- **Sayfa:** ürün açıklamasının altında "{ürün} hakkında sık sorulanlar" bölümü
+  (`<details>`, tip sayfalarındaki SSS ile aynı görünüm); başlık panelden
+  (`products.shared.item_faq_title`).
+- **Şema:** eklenti fiyatsız ürünü `Service` olarak işaretliyor ve ürün/tip sayfasına
+  soru yazmıyor. Tema `nwcs_seo_graph` süzgeciyle (`pc_catalog_faq_graph`) sayfa
+  düğümünü SSS sayfasındaki gibi `["WebPage","FAQPage"]` + `mainEntity` yapar; ürün
+  sayfalarında katalog soruları, tip sayfalarında tip SSS'i. Ayrı JSON-LD bloğu yok.
+  (19 Kasım notundaki "Product şemalı sayfada FAQPage yazılmaz" kararı, sayfaların
+  artık Product değil Service olarak işaretlendiği için değişti.) Google SSS zengin
+  sonucunu çoğu site için göstermiyor; işaret AI aramaları ve Bing için.
+- **Metin temizliği:** ürün açıklamalarında kalan kaynak notları silindi ("kaynak
+  tabloda yoktur", "teknik tablo yayımlanmamıştır", "Ürün görseli kaynak sayfada
+  mevcuttur"); doğrulanmamış "en çok dönen / sürekli bulunur" ifadesi çıkarıldı; EPAL
+  çivi sayısı 78–81 yerine EPAL 1 için 78.
+
+## İstanbul Palet Çivi: /civiler/ site haritasından çıktı (tema 0.4.3, 22 Kasım 2026)
+
+**Sorun:** `/civiler/` WordPress sayfası (ürün ve tip sayfalarının üst klasörü)
+`pc_redirect_product_parent` ile 301 verip `/urunler/` adresine gidiyor, ama WordPress
+çekirdek site haritasında (`wp-sitemap-posts-page-1.xml`) duruyordu. Ahrefs bunu
+"yönlendiren adres site haritasında" hatası olarak raporladı.
+
+**Çözüm:** Temada `wp_sitemaps_posts_query_args` süzgeciyle `civiler` sayfası
+`post__not_in` listesine eklenir. Sayfa silinmez ya da taslağa alınmaz; alt sayfaların
+(`/civiler/<tip>/`, `/civiler/<urun>/`) adresleri bu sayfaya bağlı olduğu için yerinde
+kalması gerekir. Eklentideki `'seo' => false` mekanizması kullanılmadı: o yalnızca
+manifestteki sayfalara işler, `/civiler/` ise manifestte değil, `inc/setup.php` içinde
+açılıyor.
+
+## Koçist: JSON-LD konum yolu sayfadaki yolla aynı (24 Kasım 2026)
+
+**Sorun:** `BreadcrumbList` üst sayfaları adres yolundan buluyordu. Ürün adresi
+`/urun/<slug>/` olduğu için ürün sayfasında yol "Anasayfa › Ürün" kalıyor, alt
+kategoride grup basamağı (Dekorasyon, Ambalaj…) çıkmıyordu; sayfada görünen yol ise
+"Ana Sayfa › Kategoriler › Dekorasyon › Köpek Kulübeleri › Ürün". Adlar da farklıydı
+("Anasayfa" / "Ana Sayfa", "Ürün kategorileri" / "Kategoriler"). Google hata saymıyor,
+ama işaret ziyaretçinin gördüğü yolu anlatmıyordu.
+
+**Çözüm:**
+- **Eklenti:** `nwcs_seo_extra_pages` girdisine isteğe bağlı `trail` anahtarı (üst
+  sayfalar: ad + adres, ana sayfa ve sayfanın kendisi hariç). Verilirse
+  `nwcs_seo_breadcrumbs()` onu yazar, verilmezse eskisi gibi adres yolundan bulur.
+  Ana sayfanın adı `nwcs_seo_home_crumb` süzgeciyle değiştirilebilir; süzgeç yoksa
+  "Anasayfa" kalır. `trail` bildirmeyen temalarda çıktı değişmez.
+- **Koçist teması:** grup, alt kategori ve ürün sayfaları `trail` değerini sayfadaki
+  yolu basan `kocist_catalog_trail()` fonksiyonundan alır; ana sayfa adı paneldeki
+  "Yol Göstergesi: Ana Sayfa" metnidir. Blog yazılarında yol zaten tamdı, dokunulmadı.
+
 ## Koçist: ana sayfa giriş metni ve SSS, grup sayfası SSS (kocist-theme 0.9.5, NWCS 0.34.11, 20 Kasım 2026)
 
 Kullanıcı kararı: kocist.com.tr ana sayfasına panelden yazılan kısa giriş metni ve

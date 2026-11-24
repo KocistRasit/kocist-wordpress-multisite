@@ -178,7 +178,7 @@ return array(
 							'default' => array(
 								array( 'label' => 'Anasayfa', 'url' => '/' ),
 								array( 'label' => 'Hakkımızda', 'url' => '/hakkimizda/' ),
-								array( 'label' => 'Palet Çivileri', 'url' => '/palet-civileri/' ),
+								array( 'label' => 'Ürünler', 'url' => '/urunler/' ),
 								array( 'label' => 'Blog ve Haberler', 'url' => '/haberler-blog/' ),
 								array( 'label' => 'SSS', 'url' => '/sss/' ),
 								array( 'label' => 'İletişim', 'url' => '/iletisim/' ),
@@ -203,10 +203,10 @@ return array(
 						'mobile_url'     => array( 'label' => 'Cep Telefonu Bağlantısı', 'type' => 'url', 'default' => $mobile_url ),
 						'address'        => array( 'label' => 'Adres', 'type' => 'textarea', 'default' => $address ),
 						'copyright'      => array( 'label' => 'Telif Satırı', 'type' => 'text', 'default' => 'İstanbul Palet Çivi · Koçist Grup' ),
-						'external_label' => array( 'label' => 'Grup Bağlantısı Metni', 'type' => 'text', 'default' => 'kocist.com.tr' ),
+						'external_label' => array( 'label' => 'Grup Bağlantısı Metni', 'type' => 'text', 'default' => 'Bir Koçist Grup şirketidir', 'hint' => 'Sayfa altında kocist.com.tr adresine gider.' ),
 						'external_url'   => array( 'label' => 'Grup Bağlantısı', 'type' => 'url', 'default' => 'https://kocist.com.tr' ),
 						'pages_title'    => array( 'label' => 'Sayfalar Sütunu Başlığı', 'type' => 'text', 'default' => 'Sayfalar' ),
-						'products_title' => array( 'label' => 'Çiviler Sütunu Başlığı', 'type' => 'text', 'default' => 'Çiviler' ),
+						'products_title' => array( 'label' => 'Ürünler Sütunu Başlığı', 'type' => 'text', 'default' => 'Ürün grupları' ),
 						'contact_title'  => array( 'label' => 'İletişim Sütunu Başlığı', 'type' => 'text', 'default' => 'İletişim' ),
 						'call_label'     => array( 'label' => 'Mobil Alt Çubuk: Arama Düğmesi', 'type' => 'text', 'default' => 'Ara' ),
 						'wa_label'       => array( 'label' => 'Mobil Alt Çubuk: WhatsApp Düğmesi', 'type' => 'text', 'default' => 'WhatsApp' ),
@@ -317,11 +317,11 @@ return array(
 		),
 
 		/* ---------------------------------------------------------- *
-		 * Palet Civileri (urunler sayfasi)
+		 * Urunler (urun gruplari sayfasi; eski adres /palet-civileri/ 301)
 		 * ---------------------------------------------------------- */
 		'products' => array(
-			'label'      => 'Palet Çivileri',
-			'path'       => '/palet-civileri/',
+			'label'      => 'Ürünler',
+			'path'       => '/urunler/',
 			'seo_source' => array(
 				'title'       => 'head.title',
 				'description' => 'head.lead',
@@ -330,8 +330,8 @@ return array(
 				'head' => array(
 					'label'  => 'Sayfa Başı',
 					'fields' => array(
-						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'İstanbul palet çivileri' ),
-						'lead'  => array( 'label' => 'Alt Metin', 'type' => 'textarea', 'default' => 'Rulo, şerit ve dökme palet çivileri; beton ve ince iş çivileri. Palet, sandık ve kafes üretiminden mobilya ve şantiyeye; aralarındaki fark, nasıl ve neye çakıldıkları.' ),
+						'title' => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Ürünler' ),
+						'lead'  => array( 'label' => 'Alt Metin', 'type' => 'textarea', 'default' => 'Palet çivileri, beton ve ince iş çivileri, vidalar, somunlar, bits uçlar, çivi ve zımba tabancaları, tel ürünleri ve pnömatik aletler; her grupta ölçü tablosu ve hızlı teklif.' ),
 					),
 				),
 				'help' => array(
@@ -358,6 +358,7 @@ return array(
 						'items_lead'     => array( 'label' => 'Tip Sayfası: Ürün Listesi Alt Metni', 'type' => 'textarea', 'default' => 'Ölçü, gövde ve kaplamaya göre stoktaki seçenekler. Listede olmayan ölçüler için arayın.' ),
 						'faq_title'      => array( 'label' => 'Tip Sayfası: Soru-Cevap Başlığı', 'type' => 'text', 'default' => '{tip} hakkında sık sorulanlar', 'hint' => '{tip} yerine çivi tipinin adı yazılır.' ),
 						'siblings_title' => array( 'label' => 'Ürün Sayfası: Diğer Çeşitler Başlığı', 'type' => 'text', 'default' => 'Diğer {tip}', 'hint' => '{tip} yerine çivi tipinin adı yazılır.' ),
+						'item_faq_title' => array( 'label' => 'Ürün Sayfası: Soru-Cevap Başlığı', 'type' => 'text', 'default' => '{urun} hakkında sık sorulanlar', 'hint' => '{urun} yerine ürünün adı yazılır.' ),
 					),
 				),
 				'catalog' => array(
@@ -366,7 +367,7 @@ return array(
 						'items' => array(
 							'label'   => 'Ürünler',
 							'type'    => 'repeater',
-							'max'     => 120,
+							'max'     => 300,
 							'fields'  => array(
 								'slug'            => array( 'label' => 'Adres Adı (civiler/…)', 'type' => 'text' ),
 								'title'           => array( 'label' => 'Ürün Adı', 'type' => 'text' ),
@@ -378,6 +379,7 @@ return array(
 								'image'           => array( 'label' => 'Ürün Görseli', 'type' => 'image' ),
 								'seo_title'       => array( 'label' => 'Meta Başlık (≤60)', 'type' => 'text' ),
 								'seo_description' => array( 'label' => 'Meta Açıklama (≤160)', 'type' => 'textarea' ),
+								'faq'             => array( 'label' => 'Sık Sorulan Sorular', 'type' => 'textarea', 'hint' => 'İlk satır soru, altındaki satırlar cevap. Sorular arasında bir boş satır bırakın. Sayfada ve arama verisinde (FAQPage) görünür.' ),
 							),
 							'default' => (array) include __DIR__ . '/content/catalog.php',
 						),
@@ -461,18 +463,18 @@ return array(
 			'/civiler/beton-civileri/',
 			array(
 				'name'  => 'Beton Çivileri',
-				'short' => 'Sertleştirilmiş çelikten beton, tuğla ve sıva çivileri: elden çakılan çelik çivi, gazlı ve havalı tabanca serileri, tavan askı çivisi.',
-				'tool'  => 'Çekiçle, gazlı ya da havalı beton tabancasıyla çakılır',
+				'short' => 'Sertleştirilmiş çelikten beton, tuğla ve sıva çivileri: elden çakılan çelik çivi, gazlı ve barutlu tabanca serileri, tavan askı çivisi.',
+				'tool'  => 'Çekiçle, gazlı ya da barutlu tabancayla çakılır',
 			),
 			array(
 				'lead' => 'Beton çivisi, ısıl işlemle sertleştirilmiş çelikten üretilir; betona, tuğlaya ve sıvaya bükülmeden girer.',
-				'body' => 'Beton çivileri sertleştirilmiş çelikten üretilir; betona, tuğlaya ve sıvaya çekiç, havalı veya gazlı tabancayla çakılır. Sertel grubunda elden çakılan Çelik Beton Çivisi (3x30–5x100 mm), gazlı tabancalar için GP 2,9 plastiğe dizili seri, havalı tabancalar için NK serisi (22–72 mm) ve asma tavan için L tipi askı çivisi bulunur. Palet ve ambalaj tesislerinde beton zemine kızak ve çıta montajında, şantiyede kalıp ve alçıpan işlerinde kullanılır. KOÇİST poşet, kutu ve koli bazında ekonomik fiyat verir; İstanbul ve Trakya\'ya kendi araçlarımızla sevk eder, Çatalca showroomundan elden teslim eder.',
+				'body' => 'Beton çivileri sertleştirilmiş çelikten üretilir; betona, tuğlaya ve sıvaya çekiç, havalı veya gazlı tabancayla çakılır. Sertel grubunda elden çakılan Çelik Beton Çivisi (3x30–5x100 mm), gazlı tabancalar için GP 2,9 plastiğe dizili seri, barutlu tabancalar için NK serisi (22–72 mm) ve asma tavan için L tipi askı çivisi bulunur. Palet ve ambalaj tesislerinde beton zemine kızak ve çıta montajında, şantiyede kalıp ve alçıpan işlerinde kullanılır. KOÇİST poşet, kutu ve koli bazında ekonomik fiyat verir; İstanbul ve Trakya\'ya kendi araçlarımızla sevk eder, Çatalca showroomundan elden teslim eder.',
 				'uses' => array( 'Beton zemine kızak ve çıta montajı', 'Kalıp ve şantiye işleri', 'Alçıpan ve asma tavan askısı', 'Palet ve ambalaj tesisi zemin işleri', 'Elektrik ve tesisat kelepçeleri' ),
 			),
 			array(
 				array( 'question' => 'Beton çivisi normal çividen farkı ne?', 'answer' => 'Beton çivisi ısıl işlemle sertleştirilmiş çelikten yapılır; normal tel çivi yumuşak çeliktir ve betona çakılınca bükülür.' ),
 				array( 'question' => 'Gazlı tabanca çivisi hangi tabancada çalışır?', 'answer' => 'GP 2,9 mm plastiğe dizili seri, gaz kartuşuyla çalışan beton tabancalarında kullanılır; her kutu 1.000 çivi ve gaz içerir.' ),
-				array( 'question' => 'NK çivi nedir?', 'answer' => 'Havalı beton tabancalarında kullanılan, 5,6 mm kafalı dizili çivi tipidir; 22 mm\'den 72 mm\'ye kadar on boyu vardır.' ),
+				array( 'question' => 'NK çivi nedir?', 'answer' => 'Barutlu çivi çakma tabancalarında kullanılan, 5,6 mm kafalı çivi tipidir; 22 mm\'den 72 mm\'ye kadar on boyu vardır.' ),
 				array( 'question' => 'Çelik beton çivisi kolide kaç adet gelir?', 'answer' => '100\'lük poşetlerde; 3x30 mm kolide 100 poşet (10.000 adet), 4x40–60 mm kolide 50 poşet (5.000 adet), 5x80–100 mm kolide 25 poşet (2.500 adet).' ),
 			)
 		),
@@ -495,6 +497,215 @@ return array(
 				array( 'question' => 'Brad çivi ile pin çivi farkı ne?', 'answer' => 'Brad çivinin küçük bir başı vardır ve tutuş sağlar; pin çivi başsızdır, yalnızca tutkal kururken parçayı sabitler ve neredeyse iz bırakmaz.' ),
 				array( 'question' => 'ST çivi ile FST çivi farkı ne?', 'answer' => 'ST 2,2 mm çapında T başlı, betona ve sert zemine çakılan sertleştirilmiş çividir; FST 1,8 mm çapında daha ince olup lambiri ve süpürgelik gibi ince çıtalar içindir.' ),
 				array( 'question' => 'Ambalaj kutusu için hangi brad çivi?', 'answer' => 'Kontrplak ve ince tahta kutularda 16 GA T serisi 30–40 mm; MDF ve ince kaplama kapaklarda 18 GA F serisi 20–30 mm yaygındır.' ),
+			)
+		),
+
+		'tabanca' => $product_page(
+			'Ürün: Çivi Tabancaları',
+			'/civiler/civi-tabancalari/',
+			array(
+				'name'  => 'Çivi Tabancaları',
+				'short' => 'Rulo çivi tabancaları: 2,1–3,4 mm çivi için CN55, CN70, CN100 ve C38/130 sınıfı modeller, EPAL hattı, shingle çatı ve çivi sökme tabancası.',
+				'tool'  => '16° tel dizimli rulo çivilerle çalışır',
+			),
+			array(
+				'lead' => 'Rulo çivi tabancaları, bobin hâlinde dizilmiş çivileri basınçlı havayla çakan endüstriyel el aletleridir; tabanca ve çiviyi aynı yerden almak uyum sorununu ortadan kaldırır.',
+				'body' => 'Rulo çivi tabancaları, 16° tel dizimli bobin çivileri pnömatik basınçla çakan endüstriyel el aletleridir. KOÇİST, Sertel\'in AKD, NAIL ve MAX serilerini çivileriyle birlikte sunar: 2,1–2,5 mm ince çivi için CN55 sınıfı, 2,5–2,8 mm palet çivisi için CN70 sınıfı, 3,1–3,4 mm ağır hizmet için CN100 ve C38/130 sınıfı modeller ile shingle çatı ve çivi sökme tabancaları. Tabanca ve çiviyi aynı tedarikçiden almak uyum sorununu ortadan kaldırır. Teklif ve demo için Çatalca showroom: 0212 648 19 19.',
+				'uses' => array( 'Palet ve kasa üretim hattı', 'EPAL palet imalatı', 'Ahşap karkas ve çatı kaplaması', 'Shingle çatı uygulaması', 'Palet tamiri ve çivi sökme' ),
+			),
+			array(
+				array( 'question' => 'Rulo çivi tabancası hangi ebat çiviyi atar?', 'answer' => 'Model adındaki sayı üst boy sınırını gösterir: CN55 sınıfı 25–57 mm, CN70 sınıfı 45–70 mm, CN100 sınıfı 50–100 mm, C38/130 sınıfı 130 mm\'ye kadar; çap kabulü modele göre 2,1–3,4 mm arasında değişir.' ),
+				array( 'question' => 'Palet üretimi için hangi tabanca?', 'answer' => 'Standart 2,5x50–70 mm çivi kullanan hatlarda CN70 sınıfı; takozlu ağır paletlerde 2,8–3,1 mm çivi için CN100 veya C38 serisi tercih edilir.' ),
+				array( 'question' => 'Tabanca basıncı kaç bar olmalı?', 'answer' => 'Düz gövde çivide daha düşük, ring ve helikal gövdede daha yüksek basınç gerekir; ahşabın sertliğine göre ayarlanır, model kılavuzundaki aralık esas alınır.' ),
+				array( 'question' => 'Çivi sökme tabancası ne işe yarar?', 'answer' => 'NAIL NP gibi sökme tabancaları palet tamirinde çivileri ahşabı parçalamadan çıkarır; tamir atölyelerinde hız kazandırır.' ),
+			)
+		),
+
+		'zimba' => $product_page(
+			'Ürün: Zımba Telleri',
+			'/civiler/zimba-telleri/',
+			array(
+				'name'  => 'Zımba Telleri',
+				'short' => '80, 88, 90, 92, 97, P, 200 ve 300 serisi zımba telleri, koli kapama teli ve klipsler. Stoktan hızlı teslim.',
+				'tool'  => 'Tabancanızın seri kodunu ve işlediğiniz malzemenin kalınlığını iletin; uygun seri ve tel boyunu eşleştirelim.',
+			),
+			array(
+				'lead' => 'Döşemeden ahşap kasaya, koli kapamadan yatak imalatına kadar tabancanızın beklediği teli tek yerden alın.',
+				'body' => 'Zımba teli seçiminde üç değer belirleyicidir: seri (taç genişliği), kalınlık (GA) ve boy. KOÇİST, Sertel\'in 80, 88, 90, 92, 97, P, 200 ve 300 serisi tellerini, koli kapama telini ve CL kodlu klipsleri tedarik eder; 16–23 GA brad çiviler İnce İş Çivileri sayfasındadır. Koltuk döşemesi için 80 serisi, ahşap kasa ve iskelet için 90 ve 92 serisi, deri işleri için dar taçlı 97 serisi öne çıkar. Ekonomik fiyat ve hızlı teklif sunuyor, İstanbul ile Trakya\'ya kendi araçlarımızla sevkiyat yapıyoruz; Çatalca showroomumuzda teli tabancada deneyebilirsiniz.',
+				'uses' => array( 'Koltuk, kanepe ve sandalye döşemesi', 'Ahşap kasa, sandık ve meyve kasası birleştirme', 'Koli kapama ve karton ambalaj', 'Mobilya karkası, pervaz ve dekor çıtası', 'Yaylı yatak ve tel kafes montajı (klips)' ),
+			),
+			array(
+				array( 'question' => 'Hangi zımba telini almalıyım?', 'answer' => 'Tabancanın üzerinde yazan seri koduna bakın (ör. 8016, 9040, 9716). İlk iki rakam tel serisini gösterir: 80 serisi döşeme, 90 ve 92 serisi ahşap birleştirme, 97 serisi dar taçlı deri ve ince kumaş işleri içindir.' ),
+				array( 'question' => 'Kutu ve koli içeriğini nereden öğrenirim?', 'answer' => 'Her ürün sayfasındaki ölçü tablosunda dizi adedi, kutu içi adet ve koli başına kutu sayısı ayrı ayrı yazılıdır. Karışık boy siparişleri için de koli bazında teklif hazırlıyoruz.' ),
+				array( 'question' => 'Teslimat ne kadar sürer?', 'answer' => 'Stoktaki teller aynı gün hazırlanır. İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyoruz; Çatalca showroomumuzdan elden de alabilirsiniz.' ),
+			)
+		),
+
+		'mobilya' => $product_page(
+			'Ürün: Ahşap ve Mobilya Tabancaları',
+			'/civiler/mobilya-tabancalari/',
+			array(
+				'name'  => 'Ahşap & Mobilya Tabancaları',
+				'short' => 'Döşeme zımbaları, brad ve pin çivi tabancaları, koli kapama, ST/FST, zıvana ve C-ring tabancaları.',
+				'tool'  => 'Tabancayı kompresör hattına bağlayın, uygun tel veya çiviyi şarjöre yerleştirin, malzemeye dik tutup tetikleyin.',
+			),
+			array(
+				'lead' => 'Koltuk döşemesinden ahşap sandığa, çerçeve köşesinden yaylı yatağa kadar her iş için doğru tabanca ve uyumlu sarf malzemesi.',
+				'body' => 'Bu grupta AKD, AKDT, NAIL, TRUSTY ve RO-MA markalı havalı, elektrikli ve şarjlı tabancalar yer alır. 80 serisi döşeme zımbaları, 90–92–97 serisi dar taçlı modeller, 100 serisi ağır hizmet zımbaları, 16 ve 18 GA brad, 21–23 GA pin, ST ve FST çivi, zıvana ve V çivi, C-ring ve koli kapama tabancaları burada. KOÇİST her tabancayı uyumlu teli ya da çivisiyle tek teklifte, ekonomik fiyatla sunar. Stoktan hızlı teslim ve İstanbul–Trakya\'ya kendi araçlarımızla sevkiyat yapıyoruz; Çatalca showroomumuzda deneme imkânı var.',
+				'uses' => array( 'Koltuk, sandalye ve yatak başlığı döşemesi', 'Ahşap kasa, sandık ve palet üstü kaplama', 'Mobilya karkası, pervaz ve süpürgelik', 'Çerçeve ve panel köşe birleşimi', 'Koli kapama ve yaylı yatak imalatı' ),
+			),
+			array(
+				array( 'question' => 'Döşeme için hangi tabancayı seçmeliyim?', 'answer' => 'Genel döşeme için 80 serisi tel kullanan 8016 sınıfı tabancalar (NAIL 8016, AKD 8016BLN, TRUSTY MT8016) yaygındır. Deri ve ince kumaşta dar taçlı 97 serisi, kalın katmanlarda 22 mm\'ye çıkan AKD 8025 tercih edilir.' ),
+				array( 'question' => 'Brad tabancası mı, zımba tabancası mı?', 'answer' => 'Görünür yüzeyde küçük iz isteniyorsa brad, geniş tutuş ve hız gerekiyorsa zımba teli tercih edilir. NAIL F50/9040 gibi kombine modeller ikisini tek gövdede sunar.' ),
+				array( 'question' => 'Kompresörüm yoksa ne kullanabilirim?', 'answer' => 'AKD E80/25, EF18/35 ve 18/32 elektrikli; AKD DBAF50/40 ve B TC7 şarjlı modellerdir. Bu tabancalar hava hattı gerektirmez.' ),
+				array( 'question' => 'Tabancayı satın almadan deneyebilir miyim?', 'answer' => 'Evet. Çatalca showroomumuzda tabancayı kendi malzemeniz üzerinde deneyebilir, uygun tel ve çiviyi aynı anda seçebilirsiniz.' ),
+			)
+		),
+
+		'tel' => $product_page(
+			'Ürün: Tel Ürünleri',
+			'/civiler/tel-urunleri/',
+			array(
+				'name'  => 'Tel Ürünleri',
+				'short' => 'Tavlı tel, galvanizli tel, galvanizli dikiş teli ve balya teli. İnşaat, ambalaj ve geri dönüşüm için.',
+				'tool'  => 'İşinizi (demir bağlama, dikiş, balyalama) ve istediğiniz çapı söyleyin; uygun tel ve paketleme şeklini birlikte seçelim.',
+			),
+			array(
+				'lead' => 'Şantiyede demir bağlamaktan geri dönüşüm balyasına kadar, düşük karbonlu tel ürünleri KOÇİST\'te.',
+				'body' => 'Tel ürünlerinde çap, kaplama ve paketleme işin türüne göre değişir. Tavlı tel 0,9–4,0 mm aralığında yumuşak ve kolay bükülür, inşaatta demir bağlamada kullanılır. Galvanizli tel 0,9–5,0 mm çapla dış ortam bağlantılarına uygundur. Galvanizli dikiş teli 0,8–1,8 mm ile ambalaj makinelerini besler. Balya teli ise 1,60–4,00 mm çapta, yağlı yüzeyle geri dönüşüm preslerinde çalışır. KOÇİST bu tellerde ekonomik fiyat ve hızlı teklif sunar, stoktan teslim eder, İstanbul–Trakya\'ya kendi araçlarıyla sevkiyat yapar. Çatalca showroomumuzda örnekleri görebilirsiniz.',
+				'uses' => array( 'İnşaat demiri bağlama', 'Kereste demeti ve palet istifi bağlama', 'Koli ve karton dikişi', 'Geri dönüşüm balyalama', 'Çit, bahçe ve dış ortam bağlantıları' ),
+			),
+			array(
+				array( 'question' => 'Tavlı tel ile galvanizli tel arasındaki fark nedir?', 'answer' => 'Tavlı tel ısıl işlemle yumuşatılmıştır, elle kolay bükülür ve kapalı alanda ya da beton içinde kalacak bağlantılar için kullanılır. Galvanizli tel çinko kaplıdır ve dış ortamda paslanmaya karşı daha uzun dayanır.' ),
+				array( 'question' => 'Balya teli hangi preslerde kullanılır?', 'answer' => 'Karton, kâğıt, plastik ve metal hurdayı balyalayan geri dönüşüm preslerinde kullanılır. Pres markasını ve besleme sistemini ilettiğinizde uygun çap ve sarım tipini (çapraz veya düz) birlikte seçeriz.' ),
+				array( 'question' => 'Dikiş teli hangi paketlemede geliyor?', 'answer' => 'Galvanizli dikiş teli rozet veya küçük bağ olarak paketlenir. Rozet sarım, koli dikiş makinesine düzgün beslenir.' ),
+				array( 'question' => 'Tel ürünlerini ton bazında alabilir miyim?', 'answer' => 'Evet. Bağ, rulo ve ton bazında ekonomik fiyatla teklif hazırlıyor, İstanbul ve Trakya\'ya kendi araçlarımızla teslim ediyoruz.' ),
+			)
+		),
+
+		'santiye' => $product_page(
+			'Ürün: Şantiye Grubu',
+			'/civiler/santiye-grubu/',
+			array(
+				'name'  => 'Şantiye Grubu',
+				'short' => 'Gazlı, havalı ve barutlu çivi çakma tabancaları, mantolama dübeli, beton çivisi ve şerit vidalama tabancaları.',
+				'tool'  => 'Tabancaya uygun çiviyi ve enerji kaynağını (gaz tüpü, hava hattı veya kapsül) takın, yüzeye dik bastırıp tetikleyin.',
+			),
+			array(
+				'lead' => 'Betona, çeliğe ve tavana sabitleme işlerinde gazlı, havalı ve barutlu tabancalar ile uyumlu çivi ve dübeller.',
+				'body' => 'Şantiye grubu, ahşabı, sacı ve profili betona sabitleyen tabancaları ve sarf malzemelerini kapsar. Gazlı modeller hortumsuz çalışır, havalı modeller kompresör hattına bağlanır, barutlu modeller ise elektriğin olmadığı zor şantiye koşullarında kapsülle çalışır. Plastiğe dizili beton çivisi, NK çivi ve mantolama dübelleri tabancaların sarf tarafını oluşturur; şerit vidalama tabancaları alçı levha ve mobilya montajını hızlandırır. KOÇİST ekonomik fiyat ve hızlı teklif sunar, stoktan teslim eder, İstanbul–Trakya şantiyelerine kendi araçlarıyla ulaşır. Çatalca showroomumuzda deneme yapabilirsiniz.',
+				'uses' => array( 'Alçı levha ve asma tavan karkası', 'Betona ahşap lata, kızak ve kalıp çıtası', 'Mantolama ve dış cephe yalıtımı', 'Çelik profil ve sac sabitleme', 'Alçı levha ve mobilya montajında seri vidalama' ),
+			),
+			array(
+				array( 'question' => 'Gazlı, havalı ve barutlu tabanca arasındaki fark nedir?', 'answer' => 'Gazlı tabanca gaz tüpü ve batarya ile hortumsuz çalışır. Havalı tabanca kompresör hattına bağlanır ve atış başına sarf maliyeti düşüktür. Barutlu tabanca kapsülle çalışır, elektrik ve hava gerektirmez, ağır bağlantılar için uygundur.' ),
+				array( 'question' => 'Gazlı tabanca hangi çiviyi kullanır?', 'answer' => 'AKD T30/38 N1, NAIL GSN40 ve GP100 plastiğe dizili 15–40 mm çivi kullanır. KOÇİST\'teki GP 2,9 ve GP 2,7 serisi beton çivileri 20–38 mm boylarda, kutuda gazıyla birlikte gelir.' ),
+				array( 'question' => 'Mantolama dübelinin boyu nasıl seçilir?', 'answer' => 'Dübel kodu yalıtım levhası kalınlığına göre seçilir. İnce levhada ID30–ID50, kalın levhada ID70–ID90 kullanılır; NAIL GSN 40 D tabancası dübeli tek atışta çakar.' ),
+				array( 'question' => 'Asma tavan askısı için hangi tabanca uygun?', 'answer' => 'AKD GP3000 Barutlu Asma Tavan Tabancası 5 adet 50 cm uzatma ile yerden çalışmayı sağlar. Sertel görseline göre C35 betonda 250 kg, C50 betonda 320 kg taşıma kapasitesi verir.' ),
+			)
+		),
+
+		'pnomatik' => $product_page(
+			'Ürün: Pnömatik Ürünler',
+			'/civiler/pnomatik-urunler/',
+			array(
+				'name'  => 'Pnömatik Ürünler',
+				'short' => '1/2″, 3/4″ ve 1″ somun sökme tabancaları ve setleri, havalı matkap, cırcır, döner zımpara, ped ve bağlantı parçaları.',
+				'tool'  => 'Aleti stoper ile kompresör hattına bağlayın, basıncı tabloda yazan değere ayarlayın ve uygun lokma ya da pedi takın.',
+			),
+			array(
+				'lead' => 'Forklift ve kamyon bakımından ahşap yüzey hazırlığına kadar, kompresörünüzle çalışan güçlü el aletleri.',
+				'body' => 'Pnömatik ürünler grubu, palet ve kereste işletmelerinin bakım atölyesine yöneliktir. 660 Nm\'den 3.200 Nm\'ye uzanan somun sökme tabancaları binek araçtan iş makinesine kadar her teker ve şaseyi karşılar. Lokmalı setler sahaya hazır gelir. Havalı matkap, cırcır motoru ve 5–6 inç döner zımparalar ise atölyenin günlük işlerini üstlenir. Zımpara pedleri ile stoper ve rekor grubu hattı tamamlar. KOÇİST ekonomik fiyat ve hızlı teklif sunar, stoktan teslim eder, İstanbul–Trakya\'ya kendi araçlarıyla sevkiyat yapar. Çatalca showroomumuzda aletleri görebilirsiniz.',
+				'uses' => array( 'Forklift, kamyon ve iş makinesi teker bakımı', 'Palet çakım hattı makine bakımı', 'Ahşap yüzey zımparalama', 'Delme ve vida sökme-takma', 'Kompresör hattı kurulumu' ),
+			),
+			array(
+				array( 'question' => 'Hangi soket karesini seçmeliyim?', 'answer' => 'Binek ve hafif ticari araçlar için 1/2 inç, kamyonet ve kamyon için 3/4 inç, tır, otobüs ve iş makinesi için 1 inç soketli tabancalar uygundur.' ),
+				array( 'question' => 'İkiz çekiç ne avantaj sağlar?', 'answer' => 'İkiz çekiç mekanizmasında iki çekiç dengeli vurur; titreşim azalır ve uzun kullanımda bilek daha az yorulur. TT121B ve TT131B bu yapıdadır.' ),
+				array( 'question' => 'Set mi almalıyım, tabanca mı?', 'answer' => 'Lokmanız yoksa set (TT120B, TT130B, TT340B, TT988A) daha ekonomiktir. Set içinde tabanca, lokmalar, alyan, nipel, rekor ve taşıma çantası birlikte gelir.' ),
+				array( 'question' => 'Kompresörüm bu aletleri çalıştırır mı?', 'answer' => 'Her ürün sayfasında hava basıncı ve varsa hava tüketimi yazılıdır. Kompresörünüzün değerlerini ilettiğinizde uygun aleti birlikte seçeriz.' ),
+			)
+		),
+
+		'mekanik' => $product_page(
+			'Ürün: Mekanik Tabancalar',
+			'/civiler/mekanik-tabancalar/',
+			array(
+				'name'  => 'Mekanik Tabancalar',
+				'short' => 'Elle kullanılan zımba tabancaları, sıcak hava ve mum (sıcak silikon) tabancaları, hava hattı rekor ve stoperleri.',
+				'tool'  => 'Mekanik zımbaya uygun teli yerleştirip gövdeyi sıkın; mum tabancasını ısıtıp silikonu noktasal uygulayın.',
+			),
+			array(
+				'lead' => 'Kompresör ve elektrik gerektirmeyen zımbalardan atölyenin sıcak hava ve silikon ihtiyacına kadar günlük işlerin el aletleri.',
+				'body' => 'Mekanik tabancalar grubu, atölyenin hızlı ve pratik işlerini üstlenen el aletlerini bir araya getirir. AKD AT827 M, AT-916 ve AT-911 mekanik zımbalar hava ya da elektrik istemez. 2000 W sıcak hava tabancaları şirink ambalaj ve boya sökmede, 60–220 W mum tabancaları ambalaj ve döşeme detaylarında kullanılır. 8 mm ve 5x8 rekor, stoper ve nipeller ise hava hattını tamamlar. KOÇİST bu ürünlerde ekonomik fiyat ve hızlı teklif verir, stoktan teslim eder, İstanbul–Trakya\'ya kendi araçlarıyla taşır. Çatalca showroomumuzda inceleyebilirsiniz.',
+				'uses' => array( 'Afiş, kumaş ve astar sabitleme (mekanik zımba)', 'Şirink ambalaj ve boya sökme (sıcak hava)', 'Kutu içi sabitleme ve dekor (mum tabancası)', 'Kompresör hattı kurulumu ve onarımı', 'Saha ve showroom işleri' ),
+			),
+			array(
+				array( 'question' => 'Mekanik zımba hangi teli kullanır?', 'answer' => 'AKD AT827 M ve AT-916 sayfalarında uygun teller AKD 13, Arrow JT-21 ve Rapid No 53 olarak verilir. KOÇİST\'teki 200 Serisi (53) 23 GA Zımba Teli bu tabancalarla kullanılır.' ),
+				array( 'question' => 'Mum tabancasında watt neyi değiştirir?', 'answer' => 'Watt arttıkça silikon daha hızlı erir ve akış kesintisiz olur. 60 W hassas ve küçük işler, 80–100 W günlük atölye işi, 220 W uzun hatlar ve büyük yüzeyler içindir.' ),
+				array( 'question' => 'Sıcak hava tabancası ambalajda nasıl kullanılır?', 'answer' => 'Şirink naylon ürünün üzerine geçirilir ve sıcak hava ile ısıtılarak daraltılır. Böylece ürün sıkı ve nemden korunan bir ambalaja kavuşur.' ),
+				array( 'question' => '5x8 hortum ne demek?', 'answer' => 'İç çapı 5 mm, dış çapı 8 mm olan hava hortumudur. Zımba ve çivi tabancalarını besleyen hatlarda yaygındır; rekor ve stoperler bu ölçüye göre seçilir.' ),
+			)
+		),
+
+		'vida' => $product_page(
+			'Ürün: Vidalar',
+			'/civiler/vidalar/',
+			array(
+				'name'  => 'Vidalar',
+				'short' => 'Sunta, matkap uçlu, trapez, panel, alçı levha, beton ve şeritli vidalar; 20 tip, kutu ve koli bazında.',
+				'tool'  => 'Bağlayacağınız iki malzemeyi ve kalınlıklarını söyleyin; vida tipini, çapı ve boyu tablodan birlikte seçelim.',
+			),
+			array(
+				'lead' => 'Mobilya atölyesinden çatı ve cepheye, alçı levhadan konteyner imalatına kadar her bağlantı için doğru vida.',
+				'body' => 'Vida seçimi üç soruya dayanır: neyi neye bağlıyorsunuz, alt malzeme ne kalınlıkta ve baş yüzeyde nasıl kalmalı. Ahşap ve yonga levhada sivri uçlu sunta vidası, sacda kendi deliğini açan YHB, YSB ve pulbaş matkap uçlu vidalar, çatı ve cephede contalı pullu trapez ve panel vidaları, alçı levhada sık ya da seyrek dişli vidalar kullanılır. Pencere kasası için buldeks, betona sabitleme için beton vidası, seri montaj için şeritli Duraspin vidalar da bu gruptadır. KOÇİST, Sertel Vida Metal bayisi olarak bu vidaları kutu ve koli bazında ekonomik fiyatla sunar; İstanbul ve Trakya\'ya kendi araçlarıyla teslim eder. Çatalca showroomumuzda numuneleri görebilirsiniz.',
+				'uses' => array( 'Mobilya ve dolap montajı', 'Çatı ve cephe sac kaplaması', 'Alçı levha bölme duvar ve asma tavan', 'Pencere ve kapı kasası montajı', 'Konteyner, prefabrik ve kabin imalatı' ),
+			),
+			array(
+				array( 'question' => 'Matkap uçlu vida ile sivri uçlu vida arasındaki fark nedir?', 'answer' => 'Matkap uçlu vidanın ucu küçük bir matkap gibi çalışır; sacda ön delik açmadan kendi deliğini açar ve ardından dişini çeker. Sivri uçlu vida ise ahşap, yonga levha ve ince sac gibi daha yumuşak malzemelere doğrudan girer.' ),
+				array( 'question' => 'Trapez ve panel vidasında delme kapasitesi ne demektir?', 'answer' => 'Delme kapasitesi, vidanın ucunun ön delik olmadan geçebildiği toplam sac ve profil kalınlığıdır. Sertel tablosunda trapez vidaları 4, 6 ve 12 mm, panel vidaları 6 ve 12 mm kapasiteyle ayrılır; seçim taşıyıcı profilin kalınlığına göre yapılır.' ),
+				array( 'question' => 'Alçı levhada sık diş mi seyrek diş mi kullanılır?', 'answer' => 'Metal profile yapılan montajda sık dişli vida, ahşap karkasa yapılan montajda seyrek dişli vida tercih edilir. Kalın profilde matkap uçlu (MUV) tip ön delik gerektirmeden çalışır.' ),
+				array( 'question' => 'Vidaları hangi paketlerde alabilirim?', 'answer' => 'Her ürün sayfasındaki tabloda kutu ve koli adedi ebat ebat yazılıdır. KOÇİST kutu ve koli bazında, karışık ebatlı siparişlerde de teklif hazırlar; İstanbul ve Trakya\'ya kendi araçlarımızla teslim ederiz.' ),
+			)
+		),
+
+		'somun' => $product_page(
+			'Ürün: Somunlar',
+			'/civiler/somunlar/',
+			array(
+				'name'  => 'Somunlar',
+				'short' => 'DIN 934 altıköşe, DIN 6923 flanşlı, DIN 985 fiberli ve DIN 6926 fiberli flanşlı metrik çelik somunlar; 6, 8 ve 10 kalite.',
+				'tool'  => 'Cıvatanızın diş ölçüsünü (M8, M10 gibi) ve sınıfını iletin; uygun somun tipini ve kaliteyi birlikte eşleştirelim.',
+			),
+			array(
+				'lead' => 'Makine bakımından çelik konstrüksiyona, titreşimli bağlantıdan ağır yük bağlantısına kadar metrik çelik somunlar.',
+				'body' => 'Somun seçiminde iki karar vardır: tip ve kalite sınıfı. Düz altıköşe somun (DIN 934 / ISO 4032) genel bağlantılar içindir. Flanşlı somun (DIN 6923 / ISO 4161) geniş tabanıyla yükü yüzeye yayar ve ayrı pul ihtiyacını azaltır. Fiberli somun (DIN 985 / ISO 10511) içindeki naylon halka sayesinde titreşimde gevşemeye direnir; DIN 6926 ise flanş ile naylon halkayı tek parçada birleştirir. Kalite sınıfı (6, 8, 10) somunun dayanımını gösterir ve cıvatanın sınıfıyla eşleştirilir. KOÇİST, Sertel Vida Metal bayisi olarak bu somunları koli bazında ekonomik fiyatla sunar; İstanbul ve Trakya\'ya kendi araçlarıyla teslim eder.',
+				'uses' => array( 'Makine ve ekipman montajı', 'Çelik konstrüksiyon ve raf sistemleri', 'Titreşimli bağlantılar (fiberli somun)', 'Palet ve ambalaj hattı bakımı', 'Araç üstü ve tarım ekipmanı bağlantıları' ),
+			),
+			array(
+				array( 'question' => 'Somunun kalite sınıfı neye göre seçilir?', 'answer' => 'Somunun kalite sınıfı, kullandığınız cıvatanın sınıf numarasındaki ilk rakama eşit ya da ondan yüksek olmalıdır. 6.8 cıvatada 6, 8.8 cıvatada 8, 10.9 cıvatada 10 kalite somun kullanılır.' ),
+				array( 'question' => 'Fiberli somun ne işe yarar?', 'answer' => 'Fiberli somunun içinde naylon bir halka bulunur. Halka cıvata dişini sararak sürtünme yaratır ve titreşim altında somunun kendiliğinden gevşemesini önler.' ),
+				array( 'question' => 'Flanşlı somunun avantajı nedir?', 'answer' => 'Flanşlı somunun alt kısmı pul gibi genişler. Sıkma kuvvetini daha geniş alana dağıtır, ince sacda ezilmeyi azaltır ve ayrı pul takma işini ortadan kaldırır.' ),
+				array( 'question' => 'DIN 934 ile ISO 4032 aynı somun mu?', 'answer' => 'İkisi de metrik altıköşe somunu tanımlar ve piyasada birbirinin karşılığı olarak kullanılır. ISO 4032 bazı ölçülerde anahtar ağzı ve somun yüksekliğinde küçük farklar getirir.' ),
+			)
+		),
+
+		'bits' => $product_page(
+			'Ürün: Bits Uçlar',
+			'/civiler/bits-uclar/',
+			array(
+				'name'  => 'Bits Uçlar',
+				'short' => 'PH, PZ, Torx, Allen ve düz bits uçlar; Sertel\'in CNC hattında SE_CE markasıyla üretilir.',
+				'tool'  => 'Vidanızın baş yuvasını (PH, PZ, Torx, Allen ya da düz) ve ölçüsünü söyleyin; uygun ucu ve boyu birlikte seçelim.',
+			),
+			array(
+				'lead' => 'Vidalama makinesinde vida başını bozmadan, kaymadan çalışan doğru uç: PH, PZ, Torx, Allen ve düz seriler.',
+				'body' => 'Bits uç, vidalama makinesine ya da uç tutucuya takılan ve vidanın baş yuvasına oturan değiştirilebilir uçtur. Yanlış uç vida başını bozar, makineyi zorlar ve işi yavaşlatır; bu yüzden uç tipi vidanın yuvasıyla birebir eşleşmelidir. Sertel, 2024 yılında 60 takım CNC bits uç makinesiyle kendi üretimine başlamış ve uçları SE_CE markasıyla piyasaya sunmuştur. PH ve PZ serileri 300 mm\'ye, Torx, Allen ve düz uçlar 50 mm\'ye kadar boyda üretilir; talebe göre farklı ölçü ve uç seçenekleri de yapılabilir. KOÇİST bu uçları vidalarla birlikte tek teklifte sunar ve İstanbul–Trakya\'ya kendi araçlarıyla teslim eder.',
+				'uses' => array( 'Alçı levha ve tavan montajı (PH)', 'Mobilya ve ahşap montajı (PZ)', 'Torx yuvalı kasa ve ahşap vidaları', 'İmbus yuvalı bağlantılar (Allen)', 'Düz yuvalı vida ve tesisat işleri' ),
+			),
+			array(
+				array( 'question' => 'PH ile PZ ucu arasındaki fark nedir?', 'answer' => 'PH (Phillips) uçta yıldızın kanatları koniktir. PZ (Pozidriv) uçta ana kanatların arasında ek çizgiler bulunur ve uç vida başını daha geniş yüzeyden kavrar. PZ yuvalı vidada PH uç kullanılırsa uç kayar ve vida başı bozulur.' ),
+				array( 'question' => 'Uzun bits uç ne zaman gerekir?', 'answer' => 'Derindeki vidalara ulaşmak, dar köşelerde çalışmak ya da şeritli vidalama tabancalarında doğru boyu tutturmak için uzun uç kullanılır. Sertel PH ve PZ serisini 300 mm\'ye kadar üretir.' ),
+				array( 'question' => 'Bits uç hangi makinelere takılır?', 'answer' => 'Altıköşe saplı bits uçlar şarjlı vidalama makinelerine, darbeli tornavidalara, şeritli vidalama tabancalarına ve uç tutuculara takılır.' ),
+				array( 'question' => 'Özel ölçüde bits uç yaptırabilir miyim?', 'answer' => 'Sertel, pazarın talebine göre farklı ölçü, boy ve uç seçenekleriyle üretim yaptığını belirtir. İhtiyacınızı ilettiğinizde KOÇİST üzerinden teklif hazırlarız.' ),
 			)
 		),
 
@@ -719,8 +930,8 @@ return array(
 					'label'  => 'Sayfa Metinleri',
 					'fields' => array(
 						'title'  => array( 'label' => 'Başlık', 'type' => 'text', 'default' => 'Bu sayfa bulunamadı' ),
-						'lead'   => array( 'label' => 'Açıklama', 'type' => 'textarea', 'default' => 'Aradığınız adres taşınmış ya da kaldırılmış olabilir. Çivi tiplerine göz atın ya da bizi arayın.' ),
-						'button' => array( 'label' => 'Düğme Metni', 'type' => 'text', 'default' => 'Palet çivileri' ),
+						'lead'   => array( 'label' => 'Açıklama', 'type' => 'textarea', 'default' => 'Aradığınız adres taşınmış ya da kaldırılmış olabilir. Ürün gruplarına göz atın ya da bizi arayın.' ),
+						'button' => array( 'label' => 'Düğme Metni', 'type' => 'text', 'default' => 'Tüm ürünler' ),
 					),
 				),
 			),

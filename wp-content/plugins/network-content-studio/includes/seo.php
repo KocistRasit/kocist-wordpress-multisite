@@ -615,6 +615,7 @@ function nwcs_seo_share_image_for_page( string $page_key, ?array $manifest = nul
  *           'vat_included' => false,        // istege bagli: fiyat KDV haric ("+ KDV"); verilmezse KDV bilgisi yazilmaz
  *           'lastmod'     => '2026-10-26 09:00:00', // istege bagli: son degisiklik (GMT); site haritasina yazilir
  *           'video'       => $product['video'], // istege bagli: nwcs_video_by_id(); Product'a VideoObject eklenir
+ *           'trail'       => array( array( 'name' => 'Kategoriler', 'url' => '…/kategoriler/' ) ), // istege bagli: konum yolundaki ust sayfalar, sayfadaki sirayla (ana sayfa ve bu sayfa haric); verilmezse ustler adres yolundan bulunur
  *       );
  *       return $pages;
  *   } );
@@ -835,6 +836,8 @@ function nwcs_seo_context_extra( string $path, string $site, array $base ): arra
 			'video'        => is_array( $page['video'] ?? null ) ? $page['video'] : array(),
 			// CollectionPage: sayfada listelenen ogeler (url, name) -> ItemList.
 			'items'        => array_values( array_filter( (array) ( $page['items'] ?? array() ), static fn( $item ): bool => is_array( $item ) && ! empty( $item['url'] ) ) ),
+			// Konum yolundaki ust sayfalar (BreadcrumbList); bossa adres yolundan bulunur.
+			'trail'        => nwcs_seo_trail_steps( (array) ( $page['trail'] ?? array() ) ),
 		) + $base;
 	}
 
@@ -1066,6 +1069,17 @@ function nwcs_seo_org_data(): array {
 		)
 	);
 
+	// Diger adlar (alternateName): panelde virgulle ayrilir. Firma adinin
+	// kendisi ve tekrarlar yazilmaz.
+	$org['alternate_names'] = array_values(
+		array_unique(
+			array_filter(
+				array_map( 'nwcs_seo_clean', explode( ',', (string) nwcs_field( NWCS_SEO_SITE_PAGE, 'org', 'alternate_names' ) ) ),
+				static fn( string $name ): bool => '' !== $name && $name !== $org['name']
+			)
+		)
+	);
+
 	return $org;
 }
 
@@ -1091,6 +1105,7 @@ function nwcs_seo_graph( array $context ): array {
 			'@type'       => $is_local ? array( 'Organization', 'LocalBusiness' ) : 'Organization',
 			'@id'         => $org_id,
 			'name'        => $org['name'],
+			'alternateName' => $org['alternate_names'],
 			'legalName'   => $org['legal_name'],
 			'foundingDate' => $org['founding_date'],
 			'description' => $org['description'],
@@ -1171,13 +1186,17 @@ function nwcs_seo_graph( array $context ): array {
 
 	$graph = array(
 		$business,
-		array(
-			'@type'      => 'WebSite',
-			'@id'        => $site_id,
-			'url'        => $home,
-			'name'       => $org['name'],
-			'inLanguage' => $language,
-			'publisher'  => array( '@id' => $org_id ),
+		array_filter(
+			array(
+				'@type'         => 'WebSite',
+				'@id'           => $site_id,
+				'url'           => $home,
+				'name'          => $org['name'],
+				// Kisa adlar: Google site adini secerken bunlari tercih sirasiyla dener.
+				'alternateName' => $org['alternate_names'],
+				'inLanguage'    => $language,
+				'publisher'     => array( '@id' => $org_id ),
+			)
 		),
 	);
 
@@ -1320,18 +1339,37 @@ function nwcs_seo_item_list( array $items ): array {
 /**
  * Konum yolu: Anasayfa > ust sayfalar > bu sayfa.
  *
+ * Ust sayfalari tema bildirdiyse ('trail', bkz. nwcs_seo_extra_pages) onlar
+ * yazilir: kategori ve urun sayfalarinda sayfada gorunen yol. Bildirmediyse
+ * ustler adres yolundan bulunur. Ana sayfanin adi 'nwcs_seo_home_crumb'
+ * suzgeciyle sayfadaki yol gostergesine esitlenebilir.
+ *
  * @return array<int, array{name:string, url:string}>
  */
 function nwcs_seo_breadcrumbs( array $context ): array {
-	$crumbs = array(
+	$home_name = nwcs_seo_clean( (string) apply_filters( 'nwcs_seo_home_crumb', 'Anasayfa' ) );
+	$crumbs    = array(
 		array(
-			'name' => 'Anasayfa',
+			'name' => '' !== $home_name ? $home_name : 'Anasayfa',
 			'url'  => home_url( '/' ),
 		),
 	);
 
 	if ( 'page' === $context['kind'] && 'home' === $context['page_key'] ) {
 		return $crumbs;
+	}
+
+	if ( ! empty( $context['trail'] ) ) {
+		return array_merge(
+			$crumbs,
+			$context['trail'],
+			array(
+				array(
+					'name' => $context['name'],
+					'url'  => $context['url'],
+				),
+			)
+		);
 	}
 
 	$path_of = static fn( string $url ): string => untrailingslashit( (string) wp_parse_url( $url, PHP_URL_PATH ) );
@@ -1377,18 +1415,45 @@ function nwcs_seo_breadcrumbs( array $context ): array {
 }
 
 /**
+ * Temanin bildirdigi konum yolu adimlari: adi ve adresi olanlar, verilen sirayla.
+ *
+ * @return array<int, array{name:string, url:string}>
+ */
+function nwcs_seo_trail_steps( array $steps ): array {
+	$trail = array();
+
+	foreach ( $steps as $step ) {
+		$name = is_array( $step ) ? nwcs_seo_clean( (string) ( $step['name'] ?? '' ) ) : '';
+		$url  = is_array( $step ) ? trim( (string) ( $step['url'] ?? '' ) ) : '';
+
+		if ( '' !== $name && '' !== $url ) {
+			$trail[] = array(
+				'name' => $name,
+				'url'  => $url,
+			);
+		}
+	}
+
+	return $trail;
+}
+
+/**
  * Urun sayfasi: ad, aciklama, gorsel ve sartname satirlari.
  * Fiyat, puan ve yorum uydurulmaz; fiyat yoksa 'offers' hic yazilmaz.
  */
 function nwcs_seo_product( array $context, string $org_id, string $page_id ): array {
+	$specs      = nwcs_seo_product_specs( $context['page_key'], $context['properties'] );
 	$properties = array_map(
 		static fn( array $pair ): array => array(
 			'@type' => 'PropertyValue',
 			'name'  => $pair['name'],
 			'value' => $pair['value'],
 		),
-		nwcs_seo_product_specs( $context['page_key'], $context['properties'] )
+		$specs
 	);
+	// Bayi urunu: sartnamede baska bir marka yaziyorsa (Marka: Izopak) sema da
+	// onu soyler ve uretici olarak firma yazilmaz; satici Offer.seller'da kalir.
+	$brand = nwcs_seo_spec_brand( $specs );
 
 	return array_filter(
 		array(
@@ -1398,8 +1463,8 @@ function nwcs_seo_product( array $context, string $org_id, string $page_id ): ar
 			'description'        => $context['description'],
 			'image'              => $context['image']['url'] ?? '',
 			'url'                => $context['url'],
-			'brand'              => nwcs_seo_brand(),
-			'manufacturer'       => array( '@id' => $org_id ),
+			'brand'              => nwcs_seo_brand( $brand ),
+			'manufacturer'       => '' !== $brand ? array() : array( '@id' => $org_id ),
 			'mainEntityOfPage'   => array( '@id' => $page_id ),
 			'additionalProperty' => $properties,
 			'sku'                => (string) ( $context['sku'] ?? '' ),
@@ -1457,12 +1522,40 @@ function nwcs_seo_merchant_offer_fields(): array {
 /**
  * Marka: Google 'brand' icin Brand ya da Organization turu ister; yerel
  * isletme dugumune @id baglantisi Satici girislerinde hata veriyordu.
+ * Ad verilmezse sitenin kendi adi yazilir.
  */
-function nwcs_seo_brand(): array {
+function nwcs_seo_brand( string $name = '' ): array {
 	return array(
 		'@type' => 'Brand',
-		'name'  => nwcs_seo_site_name(),
+		'name'  => '' !== $name ? $name : nwcs_seo_site_name(),
 	);
+}
+
+/**
+ * Bayi urununun markasi: sartnamedeki "Marka" satiri (Marka: Izopak).
+ * Satir yoksa ya da firmanin kendi adini tasiyorsa ("Kocist") bos doner;
+ * o zaman marka da uretici de firmanin kendisidir.
+ *
+ * @param array<int, array{name:string, value:string}> $specs
+ */
+function nwcs_seo_spec_brand( array $specs ): string {
+	$words = static function ( string $text ): array {
+		$text = function_exists( 'nwcs_search_fold' ) ? nwcs_search_fold( $text ) : mb_strtolower( $text, 'UTF-8' );
+
+		return preg_split( '/[^\p{L}\p{N}]+/u', $text, -1, PREG_SPLIT_NO_EMPTY ) ?: array();
+	};
+
+	foreach ( $specs as $spec ) {
+		if ( ! in_array( implode( ' ', $words( (string) ( $spec['name'] ?? '' ) ) ), array( 'marka', 'brand' ), true ) ) {
+			continue;
+		}
+
+		$brand = (string) ( $spec['value'] ?? '' );
+
+		return array_diff( $words( $brand ), $words( nwcs_seo_site_name() ) ) ? $brand : '';
+	}
+
+	return '';
 }
 
 /**
