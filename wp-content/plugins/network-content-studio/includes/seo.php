@@ -615,6 +615,7 @@ function nwcs_seo_share_image_for_page( string $page_key, ?array $manifest = nul
  *           'vat_included' => false,        // istege bagli: fiyat KDV haric ("+ KDV"); verilmezse KDV bilgisi yazilmaz
  *           'lastmod'     => '2026-10-26 09:00:00', // istege bagli: son degisiklik (GMT); site haritasina yazilir
  *           'video'       => $product['video'], // istege bagli: nwcs_video_by_id(); Product'a VideoObject eklenir
+ *           'trail'       => array( array( 'name' => 'Kategoriler', 'url' => '…/kategoriler/' ) ), // istege bagli: konum yolundaki ust sayfalar, sayfadaki sirayla (ana sayfa ve bu sayfa haric); verilmezse ustler adres yolundan bulunur
  *       );
  *       return $pages;
  *   } );
@@ -835,6 +836,8 @@ function nwcs_seo_context_extra( string $path, string $site, array $base ): arra
 			'video'        => is_array( $page['video'] ?? null ) ? $page['video'] : array(),
 			// CollectionPage: sayfada listelenen ogeler (url, name) -> ItemList.
 			'items'        => array_values( array_filter( (array) ( $page['items'] ?? array() ), static fn( $item ): bool => is_array( $item ) && ! empty( $item['url'] ) ) ),
+			// Konum yolundaki ust sayfalar (BreadcrumbList); bossa adres yolundan bulunur.
+			'trail'        => nwcs_seo_trail_steps( (array) ( $page['trail'] ?? array() ) ),
 		) + $base;
 	}
 
@@ -1315,18 +1318,37 @@ function nwcs_seo_item_list( array $items ): array {
 /**
  * Konum yolu: Anasayfa > ust sayfalar > bu sayfa.
  *
+ * Ust sayfalari tema bildirdiyse ('trail', bkz. nwcs_seo_extra_pages) onlar
+ * yazilir: kategori ve urun sayfalarinda sayfada gorunen yol. Bildirmediyse
+ * ustler adres yolundan bulunur. Ana sayfanin adi 'nwcs_seo_home_crumb'
+ * suzgeciyle sayfadaki yol gostergesine esitlenebilir.
+ *
  * @return array<int, array{name:string, url:string}>
  */
 function nwcs_seo_breadcrumbs( array $context ): array {
-	$crumbs = array(
+	$home_name = nwcs_seo_clean( (string) apply_filters( 'nwcs_seo_home_crumb', 'Anasayfa' ) );
+	$crumbs    = array(
 		array(
-			'name' => 'Anasayfa',
+			'name' => '' !== $home_name ? $home_name : 'Anasayfa',
 			'url'  => home_url( '/' ),
 		),
 	);
 
 	if ( 'page' === $context['kind'] && 'home' === $context['page_key'] ) {
 		return $crumbs;
+	}
+
+	if ( ! empty( $context['trail'] ) ) {
+		return array_merge(
+			$crumbs,
+			$context['trail'],
+			array(
+				array(
+					'name' => $context['name'],
+					'url'  => $context['url'],
+				),
+			)
+		);
 	}
 
 	$path_of = static fn( string $url ): string => untrailingslashit( (string) wp_parse_url( $url, PHP_URL_PATH ) );
@@ -1369,6 +1391,29 @@ function nwcs_seo_breadcrumbs( array $context ): array {
 			),
 		)
 	);
+}
+
+/**
+ * Temanin bildirdigi konum yolu adimlari: adi ve adresi olanlar, verilen sirayla.
+ *
+ * @return array<int, array{name:string, url:string}>
+ */
+function nwcs_seo_trail_steps( array $steps ): array {
+	$trail = array();
+
+	foreach ( $steps as $step ) {
+		$name = is_array( $step ) ? nwcs_seo_clean( (string) ( $step['name'] ?? '' ) ) : '';
+		$url  = is_array( $step ) ? trim( (string) ( $step['url'] ?? '' ) ) : '';
+
+		if ( '' !== $name && '' !== $url ) {
+			$trail[] = array(
+				'name' => $name,
+				'url'  => $url,
+			);
+		}
+	}
+
+	return $trail;
 }
 
 /**
