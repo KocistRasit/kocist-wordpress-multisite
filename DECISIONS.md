@@ -2461,3 +2461,7 @@ birbirinin kopyası olmasın.
   kereste grubuna, Koçist kereste grup sayfası sorusundan istanbulkeresteci.com'a
   birer bağlantı. Organization şemasında İstanbul Keresteci'nin `parentOrganization`
   değeri zaten Koçist'ti; değişmedi.
+- **Düzeltme (istanbul-keresteci-theme 1.1.7):** Ana sayfa "Hakkımızda" metni, Hakkımızda
+  sayfası, depo sayfası, SSS cevapları ve ürün açıklaması `ik_paragraphs()` ile
+  basılıyordu ve bağlantı yazımını işlemiyordu (metin `esc_html` ile kaçıyordu). Artık
+  `ik_inline_html()` kullanıyor; kaçış aynı, yalnızca `[yazı](adres)` bağlantı oluyor.
