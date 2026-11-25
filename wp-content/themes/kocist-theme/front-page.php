@@ -29,6 +29,7 @@ if ( $home_faq ) :
 					'rows'       => $home_faq,
 					'title'      => (string) nwcs_field( 'home', 'faq', 'title' ),
 					'title_edit' => array( 'home', 'faq', 'title' ),
+					'links'      => true,
 					'row_attr'   => static function ( array $row, string $field ): void {
 						nwcs_edit_attr( 'home', 'faq', 'items', (int) $row['_row'], $field );
 					},

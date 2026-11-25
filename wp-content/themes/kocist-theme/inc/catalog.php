@@ -860,9 +860,10 @@ function kocist_catalog_index_vars(): array {
  */
 add_filter( 'nwcs_seo_field_text', 'kocist_seo_field_text', 10, 4 );
 function kocist_seo_field_text( string $text, string $page, string $component, string $field ): string {
-	// Ana sayfa giris metni otomatik aciklamaya girebilir: [yazi](/adres/) -> yazi.
-	if ( 'home' === $page && 'intro' === $component && 'text' === $field ) {
-		return trim( kocist_strip_inline_links( $text ) );
+	// Satir ici baglanti yazilabilen metinler (ana sayfa giris metni, ana
+	// sayfa ve grup sorulari) otomatik aciklamaya girebilir: [yazi](/adres/) -> yazi.
+	if ( str_contains( $text, '](' ) ) {
+		$text = trim( kocist_strip_inline_links( $text ) );
 	}
 
 	if ( 'kategoriler' !== $page || 'index' !== $component || 'lead' !== $field ) {

@@ -1111,20 +1111,26 @@ function kocist_paragraphs( $text, string $class = '', bool $links = false ): st
 }
 
 /*
- * Satir ici baglanti: [yazi](/adres/). Panel kayitta etiketleri attigi icin
- * HTML <a> yazilamaz; istanbul-keresteci-theme'deki (ik_inline_html) bicim.
- * Yalnizca "/" ile baslayan site ici adres ("//" ve dis adres kabul edilmez).
+ * Satir ici baglanti: [yazi](/adres/) ya da [yazi](https://site/adres/).
+ * Panel kayitta etiketleri attigi icin HTML <a> yazilamaz;
+ * istanbul-keresteci-theme'deki (ik_inline_html) bicim. "/" ile baslayan
+ * adres site icidir ("//" kabul edilmez); tam adres yalnizca https:// ile
+ * (grup sitelerine baglanti icin, orn. istanbulkeresteci.com).
  */
-const KOCIST_INLINE_LINK = '~\[([^\]\n]+)\]\((/(?!/)[^()\s]*)\)~u';
+const KOCIST_INLINE_LINK = '~\[([^\]\n]+)\]\(((?:/(?!/)|https://)[^()\s]*)\)~u';
 
 /**
- * Metni kacirir, [yazi](/adres/) kaliplarini <a> yapar (adres kocist_link ile
- * alt siteye baglanir).
+ * Metni kacirir, [yazi](/adres/) kaliplarini <a> yapar. Site ici adres
+ * kocist_link ile alt siteye baglanir; https:// adres oldugu gibi kalir.
  */
 function kocist_inline_html( string $text ): string {
 	return (string) preg_replace_callback(
 		KOCIST_INLINE_LINK,
-		static fn( array $m ): string => sprintf( '<a href="%s">%s</a>', esc_url( kocist_link( html_entity_decode( $m[2], ENT_QUOTES, 'UTF-8' ) ) ), $m[1] ),
+		static function ( array $m ): string {
+			$url = html_entity_decode( $m[2], ENT_QUOTES, 'UTF-8' );
+
+			return sprintf( '<a href="%s">%s</a>', esc_url( str_starts_with( $url, '/' ) ? kocist_link( $url ) : $url ), $m[1] );
+		},
 		esc_html( $text )
 	);
 }
@@ -1183,7 +1189,7 @@ function kocist_seo_page_faq( array $faq, array $context ): array {
 	}
 
 	return array_map(
-		static fn( array $row ): array => array( 'question' => $row['question'], 'answer' => $row['answer'] ),
+		static fn( array $row ): array => array( 'question' => $row['question'], 'answer' => kocist_strip_inline_links( $row['answer'] ) ),
 		kocist_page_faq_rows( kocist_current_faq_page() )
 	);
 }

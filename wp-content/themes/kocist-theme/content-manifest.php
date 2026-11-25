@@ -86,7 +86,7 @@ $kocist_catalog = array(
 						'label'   => 'Soru ve Cevaplar',
 						'type'    => 'repeater',
 						'max'     => 10,
-						'hint'    => 'Ürünlerin altında görünür ve arama verisine (FAQPage) aynen yazılır. Sorusu ya da cevabı boş satır görünmez. Bölüm başlığı Kategoriler › Grup ve Kategori Sayfaları’ndadır.',
+						'hint'    => 'Ürünlerin altında görünür ve arama verisine (FAQPage) aynen yazılır. Sorusu ya da cevabı boş satır görünmez. Cevapta bağlantı: [bağlantı yazısı](/kategoriler/kereste/) ya da [bağlantı yazısı](https://istanbulkeresteci.com/). Bölüm başlığı Kategoriler › Grup ve Kategori Sayfaları’ndadır.',
 						'fields'  => array(
 							'question' => array( 'label' => 'Soru', 'type' => 'text' ),
 							'answer'   => array( 'label' => 'Cevap', 'type' => 'textarea' ),
@@ -755,7 +755,7 @@ $manifest_data = array(
 							'label'   => 'Soru ve Cevaplar',
 							'type'    => 'repeater',
 							'max'     => 10,
-							'hint'    => 'Sayfanın en altında görünür ve arama verisine (FAQPage) aynen yazılır. Sorusu ya da cevabı boş satır görünmez.',
+							'hint'    => 'Sayfanın en altında görünür ve arama verisine (FAQPage) aynen yazılır. Sorusu ya da cevabı boş satır görünmez. Cevapta bağlantı: [bağlantı yazısı](/belgelerimiz/) ya da [bağlantı yazısı](https://istanbulkeresteci.com/).',
 							'fields'  => array(
 								'question' => array( 'label' => 'Soru', 'type' => 'text' ),
 								'answer'   => array( 'label' => 'Cevap', 'type' => 'textarea' ),

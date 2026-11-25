@@ -10,6 +10,8 @@
  *     title:      string,
  *     title_edit: array  basligin nwcs_edit_attr argumanlari,
  *     row_attr:   callable(array $row, string $field): void  onizlemede satirin tiklama hedefi,
+ *     links:      bool  cevapta [yazi](/adres/) baglanti olsun mu (ana sayfa ve grup sorulari;
+ *                 kategori sorulari eklentiden duz metin gelir),
  * }
  */
 
@@ -34,7 +36,7 @@ $qa_open = function_exists( 'nwcs_is_preview' ) && nwcs_is_preview();
 					<span class="k-sss__icon" aria-hidden="true"></span>
 				</summary>
 				<div class="k-sss__a" <?php $qa_attr( $qa_row, 'answer' ); ?>>
-					<?php echo kocist_paragraphs( $qa_row['answer'] ); // phpcs:ignore WordPress.Security.EscapingOutput -- kocist_paragraphs kacisli. ?>
+					<?php echo kocist_paragraphs( $qa_row['answer'], '', ! empty( $args['links'] ) ); // phpcs:ignore WordPress.Security.EscapingOutput -- kocist_paragraphs kacisli. ?>
 				</div>
 			</details>
 		<?php endforeach; ?>

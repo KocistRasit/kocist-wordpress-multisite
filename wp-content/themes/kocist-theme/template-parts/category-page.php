@@ -220,8 +220,10 @@ else :
 				$faq_attr = static function () use ( $faq_slug ): void {
 					nwcs_cat_faq_attr( $faq_slug );
 				};
+				$faq_links = false;
 			} else {
-				$faq_rows = kocist_page_faq_rows( $page_key );
+				$faq_rows  = kocist_page_faq_rows( $page_key );
+				$faq_links = true;
 				$faq_attr = static function ( array $row, string $field ) use ( $page_key ): void {
 					nwcs_edit_attr( $page_key, 'faq', 'items', (int) $row['_row'], $field );
 				};
@@ -234,6 +236,7 @@ else :
 					'title'      => (string) nwcs_field( 'kategoriler', 'texts', 'faq_title' ),
 					'title_edit' => array( 'kategoriler', 'texts', 'faq_title' ),
 					'row_attr'   => $faq_attr,
+					'links'      => $faq_links,
 				)
 			);
 			?>

@@ -417,7 +417,7 @@ function ik_seo_product_pages( array $pages ): array {
 			'url'         => $product['url'],
 			'name'        => '' !== $seo_title ? $seo_title : $product['title'],
 			'title'       => '' !== $seo_title ? '' : ik_product_seo_title( $product['title'] ),
-			'description' => '' !== $seo_description ? $seo_description : ( '' !== trim( $product['short'] ) ? $product['short'] : $product['body'] ),
+			'description' => '' !== $seo_description ? $seo_description : ik_strip_inline_links( '' !== trim( $product['short'] ) ? $product['short'] : $product['body'] ),
 			'image'       => $seo_image ? $seo_image : $image,
 			'type'        => 'Product',
 			'properties'  => array_map(
@@ -916,17 +916,44 @@ function ik_rich_html( string $text ): string {
 	return implode( "\n", $html );
 }
 
+/*
+ * Satir ici baglanti: [yazi](/adres/) ya da [yazi](https://site/adres/).
+ * "/" ile baslayan adres site icidir ("//" kabul edilmez); tam adres yalnizca
+ * https:// ile (grup sitelerine baglanti icin, orn. kocist.com.tr).
+ */
+const IK_INLINE_LINK = '~\[([^\]\n]+)\]\(((?:/(?!/)|https://)[^()\s]*)\)~u';
+
 /**
- * Satir ici metin: kacislanir, [yazi](/adres/) bicimindeki site ici
- * baglantilar <a> olur. Yalnizca "/" ile baslayan adresler (dis adres ve
- * "//" kabul edilmez); baslik ve metin kisimlari zaten kacislanmis olur.
+ * Satir ici metin: kacislanir, [yazi](/adres/) kaliplari <a> olur. Site ici
+ * adres ik_link ile alt siteye baglanir, https:// adres oldugu gibi kalir;
+ * baslik ve metin kisimlari zaten kacislanmis olur.
  */
 function ik_inline_html( string $text ): string {
 	return (string) preg_replace_callback(
-		'~\[([^\]\n]+)\]\((/(?!/)[^()\s]*)\)~u',
-		static fn( array $m ): string => sprintf( '<a href="%s">%s</a>', esc_url( ik_link( html_entity_decode( $m[2], ENT_QUOTES, 'UTF-8' ) ) ), $m[1] ),
+		IK_INLINE_LINK,
+		static function ( array $m ): string {
+			$url = html_entity_decode( $m[2], ENT_QUOTES, 'UTF-8' );
+
+			return sprintf( '<a href="%s">%s</a>', esc_url( str_starts_with( $url, '/' ) ? ik_link( $url ) : $url ), $m[1] );
+		},
 		esc_html( $text )
 	);
+}
+
+/**
+ * Duz metin karsiligi (arama aciklamasi, llms.txt): [yazi](/adres/) -> yazi.
+ */
+function ik_strip_inline_links( string $text ): string {
+	return (string) preg_replace( IK_INLINE_LINK, '$1', $text );
+}
+
+/*
+ * Eklenti sayfa aciklamasini bos birakildiginda metin alanlarindan turetir
+ * (lead, text, body...). Baglanti yazimi orada ham gorunmesin.
+ */
+add_filter( 'nwcs_seo_field_text', 'ik_seo_field_text', 10, 4 );
+function ik_seo_field_text( string $text, string $page = '', string $component = '', string $field = '' ): string {
+	return str_contains( $text, '](' ) ? trim( ik_strip_inline_links( $text ) ) : $text;
 }
 
 function ik_paragraphs( string $text, string $class = '' ): void {
