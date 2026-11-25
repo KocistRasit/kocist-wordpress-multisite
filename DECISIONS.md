@@ -2441,3 +2441,23 @@ varsayılan boş: boşken sayfa ve arama verisi önceki gibi.
 - **Grup sayfası SEO:** `grp-<grup>` sayfalarının "Arama ve Paylaşım" (`seo`:
   `title`, `description`, `image`, `share_product`) bileşeni zaten vardı (eklenti her
   katalog sayfasına ekler; `kocist_catalog_seo_custom`); değişiklik gerekmedi.
+
+## Grup siteleri: metin içinden birbirine bağlantı (kocist-theme 0.9.6, istanbul-keresteci-theme 1.1.6, 25 Kasım 2026)
+
+Kullanıcı kararı: kocist.com.tr ile istanbulkeresteci.com kereste aramalarında ve yapay
+zekâ cevaplarında ard arda çıksın; iki site birbirine bağlantı versin, içerikler
+birbirinin kopyası olmasın.
+
+- **Satır içi bağlantı:** `[yazı](/adres/)` yanında artık `[yazı](https://site/adres/)`
+  de bağlantı olur (`kocist_inline_html`, `ik_inline_html`). Tam adres yalnızca
+  `https://` ile; `//`, `http://`, `javascript:` vb. düz metin kalır. Site içi adres
+  önceki gibi alt siteye bağlanır.
+- **Koçist:** ana sayfa ve grup sayfası sorularının cevaplarında bağlantı yazılabilir
+  (`sections/qa.php` `links` argümanı); kategori soruları eklentiden düz metin gelir,
+  değişmedi. FAQPage cevabına bağlantı sözdizimi değil düz yazı gider.
+- **Arama açıklaması:** otomatik açıklamaya giren metinlerde bağlantı sözdizimi atılır
+  (iki temada `nwcs_seo_field_text`; İstanbul Keresteci'de ürün açıklaması yedeği de).
+- **İçerik (panel):** İstanbul Keresteci ana sayfa ve Hakkımızda metninden Koçist
+  kereste grubuna, Koçist kereste grup sayfası sorusundan istanbulkeresteci.com'a
+  birer bağlantı. Organization şemasında İstanbul Keresteci'nin `parentOrganization`
+  değeri zaten Koçist'ti; değişmedi.
