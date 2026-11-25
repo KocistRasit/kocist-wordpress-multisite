@@ -956,12 +956,16 @@ function ik_seo_field_text( string $text, string $page = '', string $component =
 	return str_contains( $text, '](' ) ? trim( ik_strip_inline_links( $text ) ) : $text;
 }
 
+/**
+ * Bos satirla ayrilmis metni paragraf basar; [yazi](/adres/) ve
+ * [yazi](https://...) satir ici baglanti olur (ik_inline_html, metin kacisli).
+ */
 function ik_paragraphs( string $text, string $class = '' ): void {
 	foreach ( preg_split( '/\R\s*\R/u', trim( $text ) ) as $block ) {
 		$block = trim( $block );
 
 		if ( '' !== $block ) {
-			printf( '<p%s>%s</p>', $class ? ' class="' . esc_attr( $class ) . '"' : '', nl2br( esc_html( $block ) ) );
+			printf( '<p%s>%s</p>', $class ? ' class="' . esc_attr( $class ) . '"' : '', nl2br( ik_inline_html( $block ) ) );
 		}
 	}
 }
