@@ -1450,7 +1450,7 @@ $manifest_data = array(
 				'whatsapp' => array(
 					'label'  => 'WhatsApp ve Teklif (ürünlerden)',
 					'fields' => array(
-						'wa_kereste'    => array( 'label' => 'WhatsApp Numarası: Kereste ürünleri', 'type' => 'text', 'default' => '0532 374 98 32' ),
+						'wa_kereste'    => array( 'label' => 'WhatsApp Numarası: Kereste ürünleri', 'type' => 'text', 'default' => '0538 609 48 62' ),
 						'wa_ambalaj'    => array( 'label' => 'WhatsApp Numarası: Ambalaj ürünleri', 'type' => 'text', 'default' => '0532 374 98 32' ),
 						'wa_hirdavat'   => array( 'label' => 'WhatsApp Numarası: Hırdavat ürünleri', 'type' => 'text', 'default' => '0532 374 98 32' ),
 						'wa_dekorasyon' => array( 'label' => 'WhatsApp Numarası: Dekorasyon ürünleri', 'type' => 'text', 'default' => '0549 648 19 19' ),

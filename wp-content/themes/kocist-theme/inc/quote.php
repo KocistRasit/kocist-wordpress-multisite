@@ -153,12 +153,13 @@ function kocist_wa_default_message(): string {
 /**
  * Urun grubunun WhatsApp numarasi (wa.me rakamlari); tanimsizsa bos.
  *
- * Kereste, ambalaj ve hirdavat bir hatta, dekorasyon ayri hatta gider.
+ * Her bolum kendi hattina gider: kereste 0538, ambalaj ve hirdavat 0532,
+ * dekorasyon 0549 (Google Isletme Profillerindeki WhatsApp numaralari).
  * Anahtarlar sabit grup anahtaridir, menude gorunen ad degil.
  */
 function kocist_group_wa_digits( string $group ): string {
 	$fields = array(
-		'kereste'    => array( 'wa_kereste', '0532 374 98 32' ),
+		'kereste'    => array( 'wa_kereste', '0538 609 48 62' ),
 		'ambalaj'    => array( 'wa_ambalaj', '0532 374 98 32' ),
 		'hirdavat'   => array( 'wa_hirdavat', '0532 374 98 32' ),
 		'dekorasyon' => array( 'wa_dekorasyon', '0549 648 19 19' ),

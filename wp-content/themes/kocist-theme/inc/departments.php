@@ -10,9 +10,14 @@
  *
  * Nerede basilir:
  * - Ana sayfa ve Iletisim: uc bolumun tamami.
- * - Grup sayfasi (/kategoriler/ambalaj/ vb.): yalniz o bolum; sayfanin
- *   "about" alani bolume baglanir.
+ * - Grup ve alt kategori sayfasi (/kategoriler/ambalaj/, /kategoriler/
+ *   kereste/ahsap-kalas/ vb.): yalniz o bolum; sayfanin "about" alani
+ *   bolume baglanir.
  * - Her sayfada ana firma dugumu "department" ile bolumlere baglanir.
+ *
+ * Bolum sayfalarinda (grup, alt kategori ve bolumun urunleri) ust serit ve
+ * sayfa altindaki telefonlar ile WhatsApp bolumun kendi hattidir
+ * (kocist_contact_phones, kocist_department_wa_url).
  *
  * Bilgiler Google Isletme Profili'ndeki degerlerle birebir ayni tutulur.
  * Profilde ad, adres, telefon ya da saat degisirse burasi da guncellenir.
@@ -76,6 +81,107 @@ function kocist_departments(): array {
 			'hours'   => $hours,
 		),
 	);
+}
+
+/* ------------------------------------------------------------------ */
+/* Sayfanin bolumu ve bolumun hatlari                                   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Bu sayfanin bolumu: /kategoriler/<bolum>/... ya da bolumun urun sayfasi
+ * (/urun/...). Bolume ait degilse (ana sayfa, kurumsal, hirdavat...) bos.
+ */
+function kocist_current_department(): string {
+	static $key = null;
+
+	if ( null !== $key ) {
+		return $key;
+	}
+
+	// Sorgu cozulmeden bolum bilinemez; sonuc da saklanmaz.
+	if ( ! did_action( 'wp' ) ) {
+		return '';
+	}
+
+	$group = '';
+
+	if ( get_query_var( 'kocist_catalog' ) ) {
+		$group = sanitize_title( (string) get_query_var( 'kocist_group' ) );
+	} elseif ( '' !== (string) get_query_var( 'nwcs_product' ) && function_exists( 'nwcs_site_product_by_slug' ) ) {
+		$product = nwcs_site_product_by_slug( sanitize_title( (string) get_query_var( 'nwcs_product' ) ) );
+		$group   = is_array( $product ) ? (string) ( $product['group'] ?? '' ) : '';
+	}
+
+	$key = isset( kocist_departments()[ $group ] ) ? $group : '';
+
+	return $key;
+}
+
+/**
+ * +90 532 374 98 32 -> 0532 374 98 32
+ */
+function kocist_phone_local( string $intl ): string {
+	return (string) preg_replace( '/^\+90\s*/', '0', trim( $intl ) );
+}
+
+/**
+ * Ust serit ve sayfa altindaki telefonlar.
+ *
+ * Bolum sayfasinda bolumun kendi hatlari: Google Isletme Profili'ndeki
+ * birincil ve ek numara, ayni sirayla. Haritadan urun sayfasina gelen kisi
+ * profilde gordugu numarayi gorur. Diger sayfalarda paneldeki genel hatlar.
+ *
+ * @param string $component Panel bileseni: 'topbar' ya da 'footer'.
+ * @return array<int, array{label:string, url:string, field:string}> field: onizlemede
+ *         tiklaninca acilan panel alani; bolum hattinda bos (numara bu dosyada).
+ */
+function kocist_contact_phones( string $component ): array {
+	$lines = array();
+	$key   = kocist_current_department();
+
+	if ( '' !== $key ) {
+		$dept = kocist_departments()[ $key ];
+
+		foreach ( array( (string) $dept['phone'], (string) ( $dept['phone2'] ?? '' ) ) as $intl ) {
+			if ( '' !== $intl ) {
+				$lines[] = array(
+					'label' => kocist_phone_local( $intl ),
+					'url'   => 'tel:' . preg_replace( '/[^\d+]/', '', $intl ),
+					'field' => '',
+				);
+			}
+		}
+
+		return $lines;
+	}
+
+	foreach ( array( 'phone', 'mobile' ) as $name ) {
+		$label = trim( (string) nwcs_field( 'global', $component, $name . '_label' ) );
+
+		if ( '' !== $label ) {
+			$lines[] = array(
+				'label' => $label,
+				'url'   => kocist_link( nwcs_field( 'global', $component, $name . '_url' ) ),
+				'field' => $name . '_label',
+			);
+		}
+	}
+
+	return $lines;
+}
+
+/**
+ * Bolum sayfasinda WhatsApp baglantisi bolumun birincil hattina gider
+ * (uc profilde de WhatsApp birincil numaradir). Diger baglantilar aynen doner.
+ */
+function kocist_department_wa_url( string $url ): string {
+	$key = kocist_current_department();
+
+	if ( '' === $key || ! function_exists( 'kocist_is_whatsapp_url' ) || ! kocist_is_whatsapp_url( $url ) ) {
+		return $url;
+	}
+
+	return 'https://wa.me/' . preg_replace( '/\D/', '', (string) kocist_departments()[ $key ]['phone'] );
 }
 
 /**
@@ -162,7 +268,7 @@ function kocist_seo_departments( array $graph, array $context = array() ): array
 
 	if ( '' === $path || 'iletisim' === $path ) {
 		$print = array_keys( $depts );
-	} elseif ( preg_match( '#^kategoriler/(ambalaj|dekorasyon|kereste)$#', $path, $m ) ) {
+	} elseif ( preg_match( '#^kategoriler/(ambalaj|dekorasyon|kereste)(/[^/]+)?$#', $path, $m ) ) {
 		$print = array( $m[1] );
 	}
 
