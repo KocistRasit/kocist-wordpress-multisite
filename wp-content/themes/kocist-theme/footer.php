@@ -29,6 +29,11 @@ if ( ! ( function_exists( 'nwcs_is_preview' ) && nwcs_is_preview() ) ) {
 			return '' !== $url && '#' !== $url && ! kocist_is_dead_anchor( $url );
 		}
 	);
+
+	// Bolum sayfasinda WhatsApp simgesi bolumun hattina gider.
+	foreach ( $social as $social_key => $social_item ) {
+		$social[ $social_key ]['url'] = kocist_department_wa_url( (string) ( $social_item['url'] ?? '' ) );
+	}
 }
 ?>
 </main>
@@ -115,10 +120,9 @@ if ( ! ( function_exists( 'nwcs_is_preview' ) && nwcs_is_preview() ) ) {
 							<span aria-hidden="true">→</span>
 						</a>
 					</li>
-					<li><a href="<?php echo esc_url( kocist_link( nwcs_field( 'global', 'footer', 'phone_url' ) ) ); ?>" <?php nwcs_edit_attr( 'global', 'footer', 'phone_label' ); ?>><?php echo esc_html( nwcs_field( 'global', 'footer', 'phone_label' ) ); ?></a></li>
-					<?php if ( '' !== trim( (string) nwcs_field( 'global', 'footer', 'mobile_label' ) ) ) : ?>
-						<li><a href="<?php echo esc_url( kocist_link( nwcs_field( 'global', 'footer', 'mobile_url' ) ) ); ?>" <?php nwcs_edit_attr( 'global', 'footer', 'mobile_label' ); ?>><?php echo esc_html( nwcs_field( 'global', 'footer', 'mobile_label' ) ); ?></a></li>
-					<?php endif; ?>
+					<?php foreach ( kocist_contact_phones( 'footer' ) as $footer_phone ) : ?>
+						<li><a href="<?php echo esc_url( $footer_phone['url'] ); ?>" <?php if ( '' !== $footer_phone['field'] ) { nwcs_edit_attr( 'global', 'footer', $footer_phone['field'] ); } ?>><?php echo esc_html( $footer_phone['label'] ); ?></a></li>
+					<?php endforeach; ?>
 					<li><a href="<?php echo esc_url( kocist_link( nwcs_field( 'global', 'footer', 'email_url' ) ) ); ?>" <?php nwcs_edit_attr( 'global', 'footer', 'email_label' ); ?>><?php echo esc_html( nwcs_field( 'global', 'footer', 'email_label' ) ); ?></a></li>
 				</ul>
 			</div>

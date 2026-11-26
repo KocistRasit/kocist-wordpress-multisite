@@ -60,15 +60,13 @@ $has_basket = kocist_page_ready( 'teklif-sepeti' );
 		</div>
 
 		<div class="k-topbar__meta">
-			<a class="k-topbar__item" href="<?php echo esc_url( kocist_link( nwcs_field( 'global', 'topbar', 'phone_url' ) ) ); ?>" <?php nwcs_edit_attr( 'global', 'topbar', 'phone_label' ); ?>>
-				<?php nwcs_the_icon( nwcs_field( 'global', 'topbar', 'phone_icon' ), 'k-icon', 15 ); ?>
-				<?php echo esc_html( nwcs_field( 'global', 'topbar', 'phone_label' ) ); ?>
-			</a>
-			<?php if ( '' !== trim( (string) nwcs_field( 'global', 'topbar', 'mobile_label' ) ) ) : ?>
-				<a class="k-topbar__item" href="<?php echo esc_url( kocist_link( nwcs_field( 'global', 'topbar', 'mobile_url' ) ) ); ?>" <?php nwcs_edit_attr( 'global', 'topbar', 'mobile_label' ); ?>>
-					<?php echo esc_html( nwcs_field( 'global', 'topbar', 'mobile_label' ) ); ?>
+			<?php // Bolum sayfasinda bolumun hatlari (inc/departments.php), digerlerinde paneldeki genel hatlar. ?>
+			<?php foreach ( kocist_contact_phones( 'topbar' ) as $topbar_phone_index => $topbar_phone ) : ?>
+				<a class="k-topbar__item" href="<?php echo esc_url( $topbar_phone['url'] ); ?>" <?php if ( '' !== $topbar_phone['field'] ) { nwcs_edit_attr( 'global', 'topbar', $topbar_phone['field'] ); } ?>>
+					<?php if ( 0 === $topbar_phone_index ) { nwcs_the_icon( nwcs_field( 'global', 'topbar', 'phone_icon' ), 'k-icon', 15 ); } ?>
+					<?php echo esc_html( $topbar_phone['label'] ); ?>
 				</a>
-			<?php endif; ?>
+			<?php endforeach; ?>
 			<a class="k-topbar__item" href="<?php echo esc_url( kocist_link( nwcs_field( 'global', 'topbar', 'email_url' ) ) ); ?>" <?php nwcs_edit_attr( 'global', 'topbar', 'email_label' ); ?>>
 				<?php nwcs_the_icon( nwcs_field( 'global', 'topbar', 'email_icon' ), 'k-icon', 15 ); ?>
 				<?php echo esc_html( nwcs_field( 'global', 'topbar', 'email_label' ) ); ?>
