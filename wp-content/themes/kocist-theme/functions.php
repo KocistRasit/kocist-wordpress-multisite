@@ -49,6 +49,7 @@ require_once __DIR__ . '/inc/form.php';
 require_once __DIR__ . '/inc/search.php';
 require_once __DIR__ . '/inc/basket.php';
 require_once __DIR__ . '/inc/meta-pixel.php';
+require_once __DIR__ . '/inc/departments.php';
 
 add_action( 'after_setup_theme', 'kocist_setup' );
 function kocist_setup(): void {
