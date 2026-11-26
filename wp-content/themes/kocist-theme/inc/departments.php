@@ -108,8 +108,14 @@ function kocist_current_department(): string {
 	if ( get_query_var( 'kocist_catalog' ) ) {
 		$group = sanitize_title( (string) get_query_var( 'kocist_group' ) );
 	} elseif ( '' !== (string) get_query_var( 'nwcs_product' ) && function_exists( 'nwcs_site_product_by_slug' ) ) {
+		// Havuz urununde grup alani yok; grubu urunun kategori agacindaki yeri verir
+		// (kocist_catalog_products ile ayni kaynak).
 		$product = nwcs_site_product_by_slug( sanitize_title( (string) get_query_var( 'nwcs_product' ) ) );
-		$group   = is_array( $product ) ? (string) ( $product['group'] ?? '' ) : '';
+
+		if ( is_array( $product ) && function_exists( 'nwcs_product_place' ) ) {
+			$place = nwcs_product_place( $product, get_current_blog_id() );
+			$group = (string) ( $place['parent'] ?? '' );
+		}
 	}
 
 	$key = isset( kocist_departments()[ $group ] ) ? $group : '';
